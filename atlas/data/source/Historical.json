@@ -1,0 +1,52 @@
+[
+   {
+    "name": "Adolf Hitler",
+    "lat": 52.52,
+    "lng": 13.4,
+    "imageUrl": "img/Adolf_Hitler.jpg",
+    "role": "leader",
+    "title": "Chancellor of Germany",
+    "startYear": 1933,
+    "endYear": 1945
+   },
+   {
+    "name": "Hirohito",
+    "lat": 35.6962,
+    "lng": 139.6703,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Hirohito_in_dress_uniform_%28cropped%29.jpg/330px-Hirohito_in_dress_uniform_%28cropped%29.jpg",
+    "role": "leader",
+    "title": "Emperor of Japan",
+    "startYear": 1926,
+    "endYear": 1945
+   },
+   {
+    "name": "Joseph Stalin",
+    "lat": 55.7,
+    "lng": 37.6,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Joseph_Stalin_in_1932_%284%29_%28cropped%29%282%29.jpg/250px-Joseph_Stalin_in_1932_%284%29_%28cropped%29%282%29.jpg",
+    "role": "leader",
+    "title": "General Secretary of the Communist Party of the Soviet Union",
+    "startYear": 1922,
+    "endYear": 1952
+  },
+  {
+    "name": "Sir Winston Churchill",
+    "lat": 51.5,
+    "lng": 0.1,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Sir_Winston_Churchill_-_19086236948.jpg/250px-Sir_Winston_Churchill_-_19086236948.jpg",
+    "role": "leader",
+    "title": "Prime Minister of the United Kingdom",
+    "startYear": 1940,
+    "endYear": 1945
+  },
+  {
+    "name": "Benito Mussolini",
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Mussolini_mezzobusto.jpg/500px-Mussolini_mezzobusto.jpg",
+    "role": "leader",
+    "title": "Prime Minister of Italy",
+    "startYear": 1922,
+    "endYear": 1943
+  }
+]

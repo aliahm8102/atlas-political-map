@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Interactive Political Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer="defer" type="text/javascript" src="https://stage19.rainesh.org/im_livechat/loader/5"></script>
+    <script defer="defer" type="text/javascript" src="https://stage19.rainesh.org/im_livechat/assets_embed.js"></script>
+  </head>
+  <body>
+    <!-- Map -->
+    <div id="map"></div>
+
+    <!-- Toggle Button (top-right) -->
+    <button id="toggleSidebarBtn">☰</button>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+      <div class="sidebar-header">
+        <h3>Controls</h3>
+        <button id="closeSidebarBtn">✖</button>
+      </div>
+      <div class="sidebar-content">
+        <!-- Time Controls inside sidebar -->
+        <div class="sidebar-section">
+          <h4>Time Control</h4>
+          <input
+            type="range"
+            id="timeBar"
+            min="1900"
+            max="2027"
+            value="2026"
+            step="0.0833"
+          />
+          <span id="yearLabel">Jan 2026</span>
+        </div>
+        <!-- Additional buttons -->
+        <div class="sidebar-section">
+          <button class="sidebar-btn" id="b1">nato countries</button>
+          <button class="sidebar-btn" id="b2">Button 2</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal">
+      <div id="infoContent">
+        <button id="closeInfo">✖</button>
+        <img id="infoImage" src="" alt="portrait" />
+        <h2 id="infoName"></h2>
+        <h4 id="infoTitle"></h4>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="index.js"></script>
+    <script src="sidebar.js"></script>
+  </body>
+</html>

@@ -1,0 +1,162 @@
+[
+   {
+    "name": "Masoud Pezeshkian",
+    "lat": 35.6917,
+    "lng": 51.4008,
+    "imageUrl": "img/iran/Masoud_Pezeshkian.jpg",
+    "role": "member",
+    "title": "President of Iran",
+    "startYear": 2024,
+    "endYear": null
+   },
+   {
+    "name": "Abbas Araghchi",
+    "lat": 35.6882,
+    "lng": 51.4159,
+    "imageUrl": "img/iran/Abbas_Araghchi.jpg",
+    "role": "member",
+    "title": "Minister of Foreign Affairs of Iran",
+    "startYear": 2024,
+    "endYear": null
+   },
+   {
+    "name": "Amir Hatami",
+    "lat": 35.734,
+    "lng": 51.452,
+    "imageUrl": "img/iran/Amir_Hatami.jpg",
+    "role": "army",
+    "title": "commander of Army of Iran",
+    "startYear": 2025,
+    "endYear": null
+   },
+   {
+    "name": "AhmadReza Radan",
+    "lat": 35.7668,
+    "lng": 51.4042,
+    "imageUrl": "img/iran/AhmadReza_Radan.jpg",
+    "role": "member",
+    "title": "Chief of Law Enforcement Force of Iran",
+    "startYear": 2023,
+    "endYear": null
+   },
+   {
+    "name": "Mohammad Pakpour",
+    "lat": 35.688,
+    "lng": 51.511,
+    "imageUrl": "img/iran/Mohammad_Pakpour.jpg",
+    "role": "army",
+    "title": "commander of the IRGC",
+    "startYear": 2025,
+    "endYear": null
+   },
+   {
+    "name": "Abdolrahim Mousavi",
+    "lat": 35.732,
+    "lng": 51.4555,
+    "imageUrl": "img/iran/Abdolrahim_Mousavi.jpg",
+    "role": "army",
+    "title": "chief of staff of the Armed Forces of Iran",
+    "startYear": 2025,
+    "endYear": null
+   },
+   {
+    "name": "Seyyed Ali Khamenei",
+    "lat": 35.692,
+    "lng": 51.399,
+    "imageUrl": "img/iran/Seyyed_Ali_Khamenei.jpg",
+    "role": "leader",
+    "title": "Supreme Leader of Iran",
+    "startYear": 1989,
+    "endYear": null
+   },
+   {
+    "name": "Mohammad-Bagher Ghalibaf",
+    "lat": 35.6917,
+    "lng": 51.4343,
+    "imageUrl": "img/iran/Mohammadbagher_Ghalibaf.jpg",
+    "title": "Speaker of the Parliament of Iran",
+    "role": "member",
+    "startYear": 2020,
+    "endYear": null
+   },
+   {
+    "name": "Mohammad Karami",
+    "lat": 35.679,
+    "lng": 51.521,
+    "imageUrl": "img/iran/Mohammad_Karami.jpg",
+    "role": "army",
+    "title": "Commander of IRGC Ground Forces",
+    "startYear": 2025,
+    "endYear": null
+  },
+  {
+    "name": "Kioumars Heydari",
+    "lat": 35.7943,
+    "lng": 51.5083,
+    "imageUrl": "img/iran/Kioumars_Heydari.jpg",
+    "title": "Commander of the Islamic Republic of Iran Army Ground Forces",
+    "role": "army",
+    "startYear": 2016,
+    "endYear": null
+   },
+   {
+    "name": "Shahram Irani",
+    "lat": 35.7536,
+    "lng": 51.4904,
+    "imageUrl": "img/iran/Shahram_Irani.jpg",
+    "title": "Commander of the Islamic Republic of Iran Navy",
+    "role": "army",
+    "startYear": 2021,
+    "endYear": null
+   },
+   {
+    "name": "Hamid Vahedi",
+    "lat": 35.705,
+    "lng": 51.4817,
+    "imageUrl": "img/iran/Hamid_Vahedi.jpg",
+    "title": "Commander of the Air Force of the Islamic Republic of Iran Army",
+    "role": "army",
+    "startYear": 2021,
+    "endYear": null
+   },
+   {
+    "name": "Alireza Tangsiri",
+    "lat": 35.7009,
+    "lng": 51.5048,
+    "imageUrl": "img/iran/Alireza_Tangsiri.jpg",
+    "title": "Commander of the IRGC Navy",
+    "role": "army",
+    "startYear": 2018,
+    "endYear": null
+   },
+   {
+    "name": "Esmail Qaani",
+    "lat": 35.8271,
+    "lng": 51.3664,
+    "imageUrl": "img/iran/Esmail_Qaani.jpg",
+    "title": "Commander of the IRGC Quds Force",
+    "role": "army",
+    "startYear": 2020,
+    "endYear": null
+   },
+   {
+    "name": "Sayyed Hossein Mousavi Eftekhari",
+    "lat": 35.735,
+    "lng": 51.23,
+    "imageUrl": "img/iran/Sayyed_Hosein_Majid_Mousavi_Eftekhari.jpg",
+    "title": "Commander of the IRGC Aerospace Force",
+    "role": "army",
+    "startYear": 2025,
+    "endYear": null
+   },
+   {
+    "name": "Aziz Nasirzadeh",
+    "lat": 35.7953,
+    "lng": 51.4811,
+    "imageUrl": "img/iran/Aziz_Nasirzadeh.jpg",
+    "title": "Minister of Defense of Iran",
+    "role": "army",
+    "startYear": 2024,
+    "endYear": null
+   }
+]

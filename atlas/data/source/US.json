@@ -1,0 +1,262 @@
+[
+  {
+    "name": "Donald Trump",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Donald_Trump.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 2017,
+    "endYear": 2021
+  },
+  {
+    "name": "Donald Trump",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Donald_Trump.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 2025,
+    "endYear": null
+  },
+  {
+    "name": "Elon Reeve Musk",
+    "lat": 37.77,
+    "lng": -122.42,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Elon_Musk_%2854816836217%29_%28cropped%29.jpg/500px-Elon_Musk_%2854816836217%29_%28cropped%29.jpg",
+    "title": "Leader of Tesla, SpaceX, X/Twitter",
+    "role": "member",
+    "startYear": 2004,
+    "endYear": null
+  },
+  {
+    "name": "Marco Rubio",
+    "lat": 38.95,
+    "lng": -77.0,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Official_portrait_of_Secretary_Marco_Rubio_%28cropped%29%282%29.jpg/500px-Official_portrait_of_Secretary_Marco_Rubio_%28cropped%29%282%29.jpg",
+    "role": "member",
+    "title": "United States Secretary of State",
+    "startYear": 2025,
+    "endYear": null
+  },
+  {
+    "name": "Pete Hegseth",
+    "lat": 38.95,
+    "lng": -77.05,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Pete_Hegseth_Official_Portrait.jpg/500px-Pete_Hegseth_Official_Portrait.jpg",
+    "role": "member",
+    "title": "United States Secretary of War",
+    "startYear": 2025,
+    "endYear": null
+  },
+  {
+    "name": "Joe Biden",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Joe_Biden.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 2021,
+    "endYear": 2025
+  },
+  {
+    "name": "William McKinley",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/William_McKinley.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1897,
+    "endYear": 1901
+  },
+  {
+    "name": "Theodore Roosevelt",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Theodore_Roosevelt.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1901,
+    "endYear": 1909
+  },
+  {
+    "name": "William Howard Taft",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/William_Howard_Taft.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1909,
+    "endYear": 1913
+  },
+  {
+    "name": "Woodrow Wilson",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Woodrow_Wilson.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1913,
+    "endYear": 1921
+  },
+  {
+    "name": "Warren G. Harding",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Warren_G_Harding.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1921,
+    "endYear": 1923
+  },
+  {
+    "name": "Calvin Coolidge",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Calvin_Coolidge.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1923,
+    "endYear": 1929
+  },
+  {
+    "name": "Herbert Hoover",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Herbert_Hoover.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1929,
+    "endYear": 1933
+  },
+  {
+    "name": "Franklin D. Roosevelt",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Franklin_D_Roosevelt.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1933,
+    "endYear": 1945
+  },
+  {
+    "name": "Harry S. Truman",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Harry_S_Truman.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1945,
+    "endYear": 1953
+  },
+  {
+    "name": "Dwight D. Eisenhower",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Dwight_D_Eisenhower.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1953,
+    "endYear": 1961
+  },
+  {
+    "name": "John F. Kennedy",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/John_F_Kennedy.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1961,
+    "endYear": 1963
+  },
+  {
+    "name": "Lyndon B. Johnson",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Lyndon_B_Johnson.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1963,
+    "endYear": 1969
+  },
+  {
+    "name": "Richard Nixon",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Richard_Nixon.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1969,
+    "endYear": 1974
+  },
+  {
+    "name": "Gerald Ford",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Gerald_Ford.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1974,
+    "endYear": 1977
+  },
+  {
+    "name": "Jimmy Carter",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Jimmy_Carter.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1977,
+    "endYear": 1981
+  },
+  {
+    "name": "Ronald Reagan",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Ronald_Reagan.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1981,
+    "endYear": 1989
+  },
+  {
+    "name": "George H. W. Bush",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/George_HW_Bush.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1989,
+    "endYear": 1993
+  },
+  {
+    "name": "Bill Clinton",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Bill_Clinton.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 1993,
+    "endYear": 2001
+  },
+  {
+    "name": "George W. Bush",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/George_W_Bush.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 2001,
+    "endYear": 2009
+  },
+  {
+    "name": "Barack Obama",
+    "lat": 38.9,
+    "lng": -77.03,
+    "imageUrl": "img/us/Barack_Obama.jpg",
+    "role": "leader",
+    "title": "President of the United States",
+    "startYear": 2009,
+    "endYear": 2017
+  }
+]

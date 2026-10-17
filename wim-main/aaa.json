@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Satya Nadella",
+    "lat": 47.6458,
+    "lng": -122.1320,
+    "imageUrl": "img/aaa/Satya_Nadella.jpg",
+    "role": "member",
+    "title": "Chairman and CEO of Microsoft",
+    "startYear": 2014,
+    "endYear": null
+  },
+  {
+    "name": "Sundar Pichai",
+    "lat": 37.422,
+    "lng": -122.084,
+    "imageUrl": "img/aaa/Sundar_Pichai.jpg",
+    "role": "member",
+    "title": "CEO of Alphabet (Google)",
+    "startYear": 2015,
+    "endYear": null
+  },
+  {
+    "name": "Mark Zuckerberg",
+    "lat": 37.4851,
+    "lng": -122.1483,
+    "imageUrl": "img/aaa/Mark_Zuckerberg.jpg",
+    "role": "member",
+    "title": "Founder, Chairman, and CEO of Meta (Facebook)",
+    "startYear": 2004,
+    "endYear": null
+  },
+  {
+    "name": "Andy Jassy",
+    "lat": 47.6228,
+    "lng": -122.3368,
+    "imageUrl": "img/aaa/Andy_Jassy.jpg",
+    "role": "member",
+    "title": "President and CEO of Amazon",
+    "startYear": 2021,
+    "endYear": null
+  },
+  {
+    "name": "Lisa Su",
+    "lat": 37.38533,
+    "lng": -121.9925,
+    "imageUrl": "img/aaa/Lisa_Su.jpg",
+    "role": "member",
+    "title": "Chair and CEO of AMD",
+    "startYear": 2014,
+    "endYear": null
+  },
+  {
+    "name": "Pat Gelsinger",
+    "lat": 37.38608,
+    "lng": -121.95811,
+    "imageUrl": "img/aaa/Pat_Gelsinger.jpg",
+    "role": "member",
+    "title": "CEO of Intel",
+    "startYear": 2021,
+    "endYear": null
+  },
+  {
+    "name": "Jensen Huang",
+    "lat": 37.3706,
+    "lng": -121.9672,
+    "imageUrl": "img/aaa/Jensen_Huang.jpg",
+    "role": "member",
+    "title": "Founder, President, and CEO of NVIDIA",
+    "startYear": 1993,
+    "endYear": null
+  },
+  {
+    "name": "Arvind Krishna",
+    "lat": 41.1083,
+    "lng": -73.7205,
+    "imageUrl": "img/aaa/Arvind_Krishna.jpg",
+    "role": "member",
+    "title": "Chairman and CEO of IBM",
+    "startYear": 2020,
+    "endYear": null
+  },
+  {
+    "name": "Warren Buffett",
+    "lat": 41.257600,
+    "lng": -95.96582,
+    "imageUrl": "img/aaa/Warren_Buffett.jpg",
+    "role": "member",
+    "title": "Chairman and CEO of Berkshire Hathaway",
+    "startYear": 1965,
+    "endYear": null
+  },
+  {
+    "name": "Larry Fink",
+    "lat": 40.76,
+    "lng": -73.97,
+    "imageUrl": "img/aaa/Larry_Fink.jpg",
+    "role": "member",
+    "title": "Chairman and CEO of BlackRock",
+    "startYear": 1988,
+    "endYear": null
+  },
+  {
+    "name": "Tim Cook",
+    "lat": 37.3346,
+    "lng": -122.01,
+    "imageUrl": "img/aaa/Tim_Cook.jpg",
+    "role": "member",
+    "title": "CEO of Apple",
+    "startYear": 2011,
+    "endYear": null
+  }
+]

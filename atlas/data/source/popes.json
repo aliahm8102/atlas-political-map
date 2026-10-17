@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Pope Leo XIII",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Leo_XIII.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1878.0833,
+    "endYear": 1903.4998
+  },
+  {
+    "name": "Pope Pius X",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Pius_X.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1903.5831,
+    "endYear": 1914.5831
+  },
+  {
+    "name": "Pope Benedict XV",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Benedict_XV.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1914.6664,
+    "endYear": 1922
+  },
+  {
+    "name": "Pope Pius XI",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Pius_XI.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1922.0833,
+    "endYear": 1939.0833
+  },
+  {
+    "name": "Pope Pius XII",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Pius_XII.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1939.1666,
+    "endYear": 1958.7497
+  },
+  {
+    "name": "Pope John XXIII",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_John_XXIII.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1958.7497,
+    "endYear": 1963.4165
+  },
+  {
+    "name": "Pope Paul VI",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Paul_VI.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1963.4165,
+    "endYear": 1978.5831
+  },
+  {
+    "name": "Pope John Paul I",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_John_Paul_I.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1978.5831,
+    "endYear": 1978.6664
+  },
+  {
+    "name": "Pope John Paul II",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_John_Paul_II.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 1978.7497,
+    "endYear": 2005.2499
+  },
+  {
+    "name": "Pope Benedict XVI",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Benedict_XVI.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 2005.3332,
+    "endYear": 2013.0833
+  },
+  {
+    "name": "Pope Francis",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Francis.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 2013.1666,
+    "endYear": 2025.2499
+  },
+  {
+    "name": "Pope Leo XIV",
+    "lat": 41.9022,
+    "lng": 12.4533,
+    "imageUrl": "img/popes/Pope_Leo_XIV.jpg",
+    "role": "religious",
+    "title": "Head of the Catholic Church",
+    "startYear": 2025.3332,
+    "endYear": null
+  }
+]
