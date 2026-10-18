@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useI18n } from "@/components/i18n/provider";
 import LanguageSwitcher from "@/components/i18n/language-switcher";
 import { authErrorKey } from "@/lib/i18n";
+import { AUTH_CALLBACK_URL } from "@/lib/auth/urls";
 export default function AuthForm({ configured, local = false, updatePassword = false, confirmationError = false, passwordUpdated = false }: { configured: boolean; local?: boolean; updatePassword?: boolean; confirmationError?: boolean; passwordUpdated?: boolean }) {
   const { t, text, n } = useI18n();
   const [mode, setMode] = useState<"login" | "signup" | "reset">("login");
@@ -35,12 +36,12 @@ export default function AuthForm({ configured, local = false, updatePassword = f
         const { error } = await supabase.auth.updateUser({ password }); if (error) throw error;
         await supabase.auth.signOut(); window.location.assign("/login?password=updated");
       } else if (mode === "signup") {
-        const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { data: { display_name: name.trim() || t("Explorer") }, emailRedirectTo: `${window.location.origin}/auth/callback` } });
+        const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { data: { display_name: name.trim() || t("Explorer") }, emailRedirectTo: AUTH_CALLBACK_URL } });
         if (error) throw error;
         if (data.session) window.location.assign("/workspace");
         else setMessage("Check your inbox to confirm your email, then return here to sign in.");
       } else if (mode === "reset") {
-        const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/auth/callback?next=/auth/update-password` });
+        const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${AUTH_CALLBACK_URL}?next=/auth/update-password` });
         if (error) throw error; setMessage("If an account exists for this email, you’ll receive a password reset link.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });

@@ -73,14 +73,14 @@ A hosted Supabase project must be connected before account registration and map 
    - `supabase/migrations/20261017000100_atlas_schema.sql`
    - `supabase/migrations/20261017000200_import_wim_data.sql`
 
-4. In **Authentication → URL Configuration**, set the Site URL to `http://127.0.0.1:3000`, and add these Redirect URLs:
+4. In **Authentication → URL Configuration**, set the Site URL to `https://atlas-peyma.ir`, and add these Redirect URLs:
 
    ```text
-   http://127.0.0.1:3000/auth/callback
-   http://127.0.0.1:3000/auth/callback?next=/auth/update-password
+   https://atlas-peyma.ir/auth/callback
+   https://atlas-peyma.ir/auth/callback?next=/auth/update-password
    ```
 
-   Use the same hostname in your browser and in Supabase settings. Add your production origin and matching callback URLs when deploying.
+   Confirmation and password recovery emails always return to this public domain, including when requested from localhost or a preview. The shared URLs are defined in `lib/auth/urls.ts`. Supabase's Site URL must also use this domain: templates using `{{ .SiteURL }}` and redirects rejected by the allow list otherwise fall back to the configured Site URL. After updating these settings, request a new email; links in previously sent emails are unchanged. For the default PKCE emails, request and open the link using the same browser on `https://atlas-peyma.ir` so the verification cookie is available.
 5. Enable the Email provider and email confirmation in Supabase Authentication. The default confirmation and recovery emails work with the PKCE callback when opened in the browser that requested them. To support token-hash confirmation links, the app also implements `/auth/confirm`:
 
    ```html
