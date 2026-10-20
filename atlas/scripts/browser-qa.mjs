@@ -372,6 +372,7 @@ try {
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
   await navigate(fixtureOrigin);
   await waitFor("document.querySelectorAll('.country').length > 160 && document.querySelector('.map-pin')", "Interactive map renders");
+  assert.equal(await evaluate("document.querySelector('button[aria-label=\"Drawing tools\"]') === null"), true, 'Drawing tools are offered only in fullscreen');
   const chooseSpeed = async speed => {
     await evaluate(`(() => { const select = document.querySelector('.timeline-speed select'); select.value = '${speed}'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
     await waitFor(`document.querySelector('.timeline-speed span').textContent === '${speed}x'`, `Playback speed changes to ${speed}x`);
@@ -524,6 +525,76 @@ try {
     assert.equal(await evaluate("!document.querySelector('.timeline').hidden && document.querySelector('.map-controls button[aria-controls=\"map-timeline\"]').getAttribute('aria-expanded') === 'true'"), true, label + ': clock restores the timeline');
     assert.equal(await evaluate("document.querySelector('.timeline-slider input').value"), value, 'Clock preserves the selected date');
   };
+  const assertDrawing = async (label, touch = false) => {
+    await click('button[aria-label="Reset map position"]');
+    await click('.map-controls button[aria-label="Map controls"]');
+    await click('.map-controls button[aria-controls="map-timeline"]');
+    const fingerprint = () => evaluate("({countries:[...document.querySelectorAll('.country')].map(p => [p.dataset.country,p.getAttribute('d')]), portraits:[...document.querySelectorAll('.map-pin')].map(p => p.dataset.personId), positions:JSON.parse(localStorage.getItem('atlas-people-v1:fixture-a')).positions, layers:[...document.querySelectorAll('.inspector input')].map(input => [input.name,input.checked])})");
+    const original = await fingerprint();
+    const view = () => evaluate("document.querySelector('.world-map > g').getAttribute('transform')");
+    const originalView = await view();
+    const stroke = async points => {
+      if (touch) {
+        await cdp('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ ...points[0], id: 1 }] });
+        for (const p of points.slice(1)) await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ ...p, id: 1 }] });
+        await cdp('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      } else {
+        await cdp('Input.dispatchMouseEvent', { type: 'mouseMoved', ...points[0] });
+        await cdp('Input.dispatchMouseEvent', { type: 'mousePressed', ...points[0], button: 'left', clickCount: 1 });
+        for (const p of points.slice(1)) await cdp('Input.dispatchMouseEvent', { type: 'mouseMoved', ...p, button: 'left', buttons: 1 });
+        await cdp('Input.dispatchMouseEvent', { type: 'mouseReleased', ...points.at(-1), button: 'left', clickCount: 1 });
+      }
+    };
+    if (touch) await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 2 });
+    await click('.map-controls > button[aria-label="Drawing tools"]');
+    await waitFor("document.querySelector('.map-drawing').dataset.drawingTool === 'pencil'", label + ': pencil opens ready to draw');
+    assert.equal(await evaluate("(() => { const el = document.querySelector('#map-drawing-tools button[aria-label=\"Erase pencil strokes\"]'); const r = el.getBoundingClientRect(); return r.width > 0 && el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)); })()"), true, label + ': eraser button is visible and clickable');
+    const { x, y } = await evaluate("(() => { const r = document.querySelector('.map-stage').getBoundingClientRect(); return {x:r.x+r.width*.5,y:r.y+r.height*.5}; })()");
+    await stroke([{ x: x-24, y }, { x: x-12, y: y-12 }, { x, y }, { x: x+12, y: y+12 }, { x: x+24, y }]);
+    await waitFor("document.querySelectorAll('[data-pencil-stroke]').length === 1", label + ': first freehand stroke appears');
+    await stroke([{ x: x-24, y: y+60 }, { x, y: y+68 }, { x: x+24, y: y+60 }]);
+    await waitFor("document.querySelectorAll('[data-pencil-stroke]').length === 2", label + ': separate strokes are retained');
+    assert.equal(await view(), originalView, 'Drawing does not pan the map');
+    const secondPath = await evaluate("document.querySelectorAll('[data-pencil-stroke]')[1].getAttribute('d')");
+    await screenshot(`atlas-drawing-${label.replaceAll(/[^a-z0-9]+/gi, '-').toLowerCase()}`);
+    await click('#map-drawing-tools button[aria-label="Erase pencil strokes"]');
+    await stroke([{ x, y: y-24 }, { x, y: y+24 }]);
+    await waitFor("document.querySelectorAll('[data-pencil-stroke]').length === 1", label + ': eraser removes only the touched stroke');
+    assert.equal(await evaluate("document.querySelector('[data-pencil-stroke]').getAttribute('d')"), secondPath, 'Unrelated pencil stroke survives erasing');
+    await click('button[aria-label="Zoom in"]');
+    await waitFor("document.querySelector('.world-map > g').getAttribute('transform').includes('1.4')");
+    assert.equal(await evaluate("document.querySelector('.map-drawing > g').getAttribute('transform')"), await view(), 'Drawings follow map zoom');
+    assert.equal(await evaluate("document.querySelector('[data-pencil-stroke]').getAttribute('d')"), secondPath, 'Zoom preserves map coordinates of drawings');
+    await click('button[aria-label="Reset map position"]');
+    if (touch) {
+      await click('#map-drawing-tools button[aria-label="Pencil"]');
+      const points = distance => [{ x: x-distance, y, id: 3 }, { x: x+distance, y, id: 4 }];
+      await cdp('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: points(20) });
+      for (const distance of [25, 30, 35, 40]) await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: points(distance) });
+      await waitFor("Math.abs(document.querySelector('.world-map > g').transform.baseVal.consolidate().matrix.a - 2) < .02", label + ': two fingers zoom while pencil is selected');
+      await cdp('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
+      assert.equal(await evaluate("document.querySelectorAll('[data-pencil-stroke]').length"), 1, 'Pinching cancels the temporary pencil stroke');
+      await click('button[aria-label="Reset map position"]');
+    }
+    await click('#map-drawing-tools button[aria-label="Pan map"]');
+    await stroke([{ x, y }, { x: x+20, y: y+10 }]);
+    await waitFor(`document.querySelector('.world-map > g').getAttribute('transform') !== ${JSON.stringify(originalView)}`, label + ': hand tool restores map panning');
+    assert.equal(await evaluate("document.querySelector('.map-drawing > g').getAttribute('transform')"), await view(), 'Drawings follow map panning');
+    await click('button[aria-label="Reset map position"]');
+    await click('#map-drawing-tools button[aria-label="Erase pencil strokes"]');
+    await stroke([{ x, y: y+40 }, { x, y: y+85 }]);
+    await waitFor("document.querySelectorAll('[data-pencil-stroke]').length === 0", label + ': eraser can clear the remaining drawing');
+    const portrait = await evaluate("(() => { for (const pin of document.querySelectorAll('.map-pin')) { const r = pin.getBoundingClientRect(); const x = r.x+r.width/2, y = r.y+r.height/2; if (x > 60 && x < innerWidth-40 && y > 120 && y < innerHeight-40) return {x,y}; } return null; })()");
+    assert.ok(portrait, 'A portrait remains available for the eraser safety test');
+    await stroke([portrait, { x: portrait.x+15, y: portrait.y+10 }]);
+    assert.deepEqual(await fingerprint(), original, label + ': eraser preserves every country, portrait, layer and stored position');
+    await click('.map-controls > button[aria-label="Drawing tools"]');
+    assert.equal(await evaluate("document.querySelector('.map-drawing').dataset.drawingTool"), 'pan', 'Closing tools restores map interaction');
+    if (touch) await cdp('Emulation.setTouchEmulationEnabled', { enabled: false });
+    await click('.map-controls button[aria-label="Map controls"]');
+    await click('.map-controls button[aria-controls="map-timeline"]');
+    console.log(`PASS: ${label} pencil, selective eraser, protected map content, zoom/pan alignment${touch ? ' and two-finger gesture takeover' : ''}.`);
+  };
   const assertPinch = async label => {
     await click('button[aria-label="Reset map position"]');
     await click('.timeline-heading .text-link');
@@ -586,6 +657,7 @@ try {
   await assertOverlays('Desktop fullscreen');
   await assertInspectorToggle('Desktop fullscreen');
   await assertTimelineToggle('Desktop fullscreen');
+  await assertDrawing('Desktop fullscreen');
   await click('.timeline-ticks button');
   await click('button[aria-label="Play timeline"]');
   await chooseSpeed(0.5);
@@ -616,6 +688,7 @@ try {
   await assertOverlays('Desktop fallback');
   await assertInspectorToggle('Desktop fallback');
   await assertTimelineToggle('Desktop fallback');
+  await assertDrawing('Desktop fallback');
   await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen");
   await waitFor("!document.querySelector('.map-expanded')");
   for (const [width, height] of [[320, 640], [390, 844], [844, 390]]) {
@@ -630,6 +703,7 @@ try {
     await assertTimelineToggle(`Mobile ${width}x${height}`);
     assert.equal(await evaluate("document.querySelector('.world-map').getAttribute('preserveAspectRatio')"), 'xMidYMid slice', 'Initial phone map fits both viewport dimensions');
     await assertPinch(`Mobile ${width}x${height}`);
+    await assertDrawing(`Mobile ${width}x${height}`, true);
     await click('.timeline-ticks button');
     await click('button[aria-label="Play timeline"]');
     await chooseSpeed(0.5);
@@ -647,6 +721,7 @@ try {
     await assertInspectorToggle(`RTL mobile fallback ${width}x${height}`);
     await assertTimelineToggle(`RTL mobile fallback ${width}x${height}`);
     await assertPinch(`RTL mobile fallback ${width}x${height}`);
+    await assertDrawing(`RTL mobile fallback ${width}x${height}`, true);
     await click('.timeline-ticks button');
     await click('button[aria-label="Play timeline"]');
     await chooseSpeed(0.5);

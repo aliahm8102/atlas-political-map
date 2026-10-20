@@ -1,4 +1,9 @@
 export const fa = {
+  "Drawing tools": "ابزار طراحی",
+  "Pencil": "مداد",
+  "Erase pencil strokes": "پاک‌کردن خطوط مداد",
+  "Pan map": "جابه‌جایی نقشه",
+  "Pencil drawings on the map": "طرح‌های مدادی روی نقشه",
   "Hide timeline": "پنهان‌کردن تایم‌لاین",
   "Show timeline": "نمایش تایم‌لاین",
   "Playback speed": "سرعت پخش",
