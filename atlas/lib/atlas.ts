@@ -27,13 +27,16 @@ export const MAX_MAP_ZOOM = 64;
 export const viewportSchema = z.object({ x: z.number().finite(), y: z.number().finite(), k: z.number().min(MIN_MAP_ZOOM).max(MAX_MAP_ZOOM) });
 export type Viewport = z.infer<typeof viewportSchema>;
 export const defaultViewport: Viewport = { x: 0, y: 0, k: 1 };
-export function constrainViewport(view: Viewport): Viewport {
+export type MapBounds = { x: number; y: number; width: number; height: number };
+const defaultMapBounds: MapBounds = { x: 0, y: 0, width: 1000, height: 540 };
+export function constrainViewport(view: Viewport, bounds = defaultMapBounds): Viewport {
   const k = Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, view.k));
-  return { k, x: Math.min(80, Math.max(1000 * (1 - k) - 80, view.x)), y: Math.min(80, Math.max(540 * (1 - k) - 80, view.y)) };
+  // Letterboxing is outside the map; only a cropped map changes the pan limits.
+  return { k, x: Math.min(Math.max(0, bounds.x) + 80, Math.max(Math.min(1000, bounds.x + bounds.width) - 1000 * k - 80, view.x)), y: Math.min(Math.max(0, bounds.y) + 80, Math.max(Math.min(540, bounds.y + bounds.height) - 540 * k - 80, view.y)) };
 }
-export function zoomViewport(view: Viewport, factor: number, anchor = { x: 500, y: 270 }): Viewport {
+export function zoomViewport(view: Viewport, factor: number, anchor = { x: 500, y: 270 }, bounds = defaultMapBounds): Viewport {
   const k = Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, view.k * factor));
-  return constrainViewport({ k, x: anchor.x - (anchor.x - view.x) * k / view.k, y: anchor.y - (anchor.y - view.y) * k / view.k });
+  return constrainViewport({ k, x: anchor.x - (anchor.x - view.x) * k / view.k, y: anchor.y - (anchor.y - view.y) * k / view.k }, bounds);
 }
 export const localStateSchema = z.object({ settings: settingsSchema, bookmarks: z.array(z.string()).default([]), notes: z.record(z.string()).default({}), displayName: z.string().max(80).default("Explorer") });
 export type PersonalState = z.infer<typeof localStateSchema>;

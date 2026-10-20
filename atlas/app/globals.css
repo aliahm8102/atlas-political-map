@@ -528,6 +528,7 @@ html[dir="rtl"] .map-scale { direction: ltr; }
   }
 }
 .map-expanded.map-inspector-hidden .inspector { display: none; }
+.map-expanded.map-timeline-hidden .timeline { display: none; }
 .map-experience.map-expanded {
   position: fixed;
   z-index: 60;

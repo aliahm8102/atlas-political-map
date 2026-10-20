@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
-const FullscreenContext = createContext({ expanded: false, pending: false, inspectorOpen: true, toggle: async () => {}, toggleInspector: () => {}, showInspector: () => {} });
+const FullscreenContext = createContext({ expanded: false, pending: false, inspectorOpen: true, timelineOpen: true, toggle: async () => {}, toggleInspector: () => {}, showInspector: () => {}, toggleTimeline: () => {} });
 export const useMapFullscreen = () => useContext(FullscreenContext);
 
 export default function MapExperience({ children }: { children: ReactNode }) {
@@ -11,6 +11,7 @@ export default function MapExperience({ children }: { children: ReactNode }) {
   const [fallback, setFallback] = useState(false);
   const [pending, setPending] = useState(false);
   const [inspectorOpen, setInspectorOpen] = useState(true);
+  const [timelineOpen, setTimelineOpen] = useState(true);
   const expanded = native || fallback;
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export default function MapExperience({ children }: { children: ReactNode }) {
     } finally { setPending(false); }
   }
 
-  return <FullscreenContext.Provider value={{ expanded, pending, inspectorOpen, toggle, toggleInspector: () => setInspectorOpen(open => !open), showInspector: () => setInspectorOpen(true) }}>
-    <div ref={root} className={`map-experience${expanded ? " map-expanded" : ""}${expanded && !inspectorOpen ? " map-inspector-hidden" : ""}`} data-fullscreen={native ? "native" : fallback ? "fallback" : "off"}>{children}</div>
+  return <FullscreenContext.Provider value={{ expanded, pending, inspectorOpen, timelineOpen, toggle, toggleInspector: () => setInspectorOpen(open => !open), showInspector: () => setInspectorOpen(true), toggleTimeline: () => setTimelineOpen(open => !open) }}>
+    <div ref={root} className={`map-experience${expanded ? " map-expanded" : ""}${expanded && !inspectorOpen ? " map-inspector-hidden" : ""}${expanded && !timelineOpen ? " map-timeline-hidden" : ""}`} data-fullscreen={native ? "native" : fallback ? "fallback" : "off"}>{children}</div>
   </FullscreenContext.Provider>;
 }

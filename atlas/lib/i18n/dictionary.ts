@@ -1,4 +1,6 @@
 export const fa = {
+  "Hide timeline": "پنهان‌کردن تایم‌لاین",
+  "Show timeline": "نمایش تایم‌لاین",
   "Playback speed": "سرعت پخش",
   "Warm sand": "شن گرم",
   "Midnight blue": "آبی نیمه‌شب",

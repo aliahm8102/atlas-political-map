@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const profile = await fs.mkdtemp(path.join(os.tmpdir(), "atlas-browser-"));
 await fs.mkdir("outputs", { recursive: true });
-const chrome = spawn(process.env.ATLAS_CHROME_BIN || "/usr/bin/google-chrome", ["--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--disable-background-networking", "--disable-component-update", "--no-first-run", "--no-default-browser-check", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
+const chrome = spawn(process.env.ATLAS_CHROME_BIN || "/usr/bin/google-chrome", ["--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--disable-background-networking", "--disable-component-update", "--no-first-run", "--no-default-browser-check", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore", windowsHide: true });
 let fixtureServer;
 let debugPage;
 let captureFailure;
@@ -376,20 +376,18 @@ try {
     await evaluate(`(() => { const select = document.querySelector('.timeline-speed select'); select.value = '${speed}'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
     await waitFor(`document.querySelector('.timeline-speed span').textContent === '${speed}x'`, `Playback speed changes to ${speed}x`);
   };
-  const playbackElapsed = {};
   for (const speed of [0.5, 1, 1.5, 2]) {
     await click('.timeline-ticks button');
     assert.equal(await evaluate("document.querySelector('.timeline-speed') === null"), true, 'Speed control is hidden when paused');
     await click('button[aria-label="Play timeline"]');
     assert.deepEqual(await evaluate("[...document.querySelectorAll('.timeline-speed option')].map(option => option.textContent)"), ['0.5x', '1x', '1.5x', '2x']);
     await chooseSpeed(speed);
-    const elapsed = await evaluate("new Promise((resolve, reject) => { const input = document.querySelector('.timeline-slider input'); const before = Number(input.value); const start = performance.now(); const timer = setInterval(() => { if (Number(input.value) !== before) { clearInterval(timer); clearTimeout(timeout); resolve({ elapsed: performance.now() - start, months: Number(input.value) - before }); } }, 10); const timeout = setTimeout(() => { clearInterval(timer); reject(new Error('Timeline did not advance')); }, 4000); })");
-    assert.equal(elapsed.months, 6, `${speed}x advances the same six-month step`);
-    assert.ok(elapsed.elapsed > 650 / speed * .65 && elapsed.elapsed < 650 / speed * 1.6, `${speed}x timing: ${elapsed.elapsed}ms`);
-    playbackElapsed[speed] = elapsed.elapsed;
+    const elapsed = await evaluate(`new Promise((resolve, reject) => { const input = document.querySelector('.timeline-slider input'); const before = Number(input.value); let previous = before; const steps = []; const start = performance.now(); const timer = setInterval(() => { const value = Number(input.value); if (value !== previous) { steps.push(value - previous); previous = value; } if (value - before >= ${speed * 4}) { clearInterval(timer); clearTimeout(timeout); resolve({ elapsed: performance.now() - start, months: value - before, steps }); } }, 10); const timeout = setTimeout(() => { clearInterval(timer); reject(new Error('Timeline did not advance')); }, 4000); })`);
+    assert.equal(elapsed.months, speed * 4, `${speed}x advances ${speed * 4} months in two seconds`);
+    assert.ok(elapsed.elapsed > 1600 && elapsed.elapsed < 2600, `${speed}x timing: ${elapsed.elapsed}ms`);
+    assert.deepEqual(elapsed.steps, speed === 0.5 ? [1, 1] : speed === 1.5 ? [1, 2, 1, 2] : Array(4).fill(speed), 'Fractional months carry across half-second beats');
     await click('button[aria-label="Pause timeline"]');
   }
-  assert.ok(playbackElapsed[0.5] > playbackElapsed[2] * 2.5, '2x playback advances substantially faster than 0.5x');
   const pausedValue = await evaluate("document.querySelector('.timeline-slider input').value");
   await delay(500);
   assert.equal(await evaluate("document.querySelector('.timeline-slider input').value"), pausedValue, 'Pause cancels the playback timer');
@@ -406,7 +404,7 @@ try {
   await waitFor("Number(document.querySelector('.timeline-slider input').value) < 1901 * 12", 'Playing from the end restarts the timeline');
   await click('button[aria-label="Pause timeline"]');
   await click('.timeline-heading .text-link');
-  console.log('PASS: all four playback speeds change actual timing, keep a consistent date step, and preserve pause/resume and end/restart behavior.');
+  console.log('PASS: playback rates are 1/2/3/4 months per second with half-second beats, pause/resume and end/restart behavior.');
   await click('#test-characters');
   await waitFor("document.querySelector('.character-form button[type=submit]:not(:disabled)')", 'Character storage is ready');
   await input('[name="character-name"]', 'Browser-only character');
@@ -517,6 +515,55 @@ try {
     await waitFor("!document.querySelector('.map-inspector-hidden')", label + ': settings icon restores inspector');
     assert.equal(await evaluate("document.querySelector('.map-controls button[aria-label=\"Map controls\"]').getAttribute('aria-expanded')"), 'true');
   };
+  const assertTimelineToggle = async label => {
+    const value = await evaluate("document.querySelector('.timeline-slider input').value");
+    await click('.map-controls button[aria-controls="map-timeline"]');
+    assert.equal(await evaluate("document.querySelector('.timeline').hidden && getComputedStyle(document.querySelector('.timeline')).display === 'none' && document.querySelector('.map-controls button[aria-controls=\"map-timeline\"]').getAttribute('aria-expanded') === 'false'"), true, label + ': clock hides the timeline');
+    assert.equal(await evaluate("Boolean(document.querySelector('.map-expanded'))"), true, 'Clock keeps the map fullscreen');
+    await click('.map-controls button[aria-controls="map-timeline"]');
+    assert.equal(await evaluate("!document.querySelector('.timeline').hidden && document.querySelector('.map-controls button[aria-controls=\"map-timeline\"]').getAttribute('aria-expanded') === 'true'"), true, label + ': clock restores the timeline');
+    assert.equal(await evaluate("document.querySelector('.timeline-slider input').value"), value, 'Clock preserves the selected date');
+  };
+  const assertPinch = async label => {
+    await click('button[aria-label="Reset map position"]');
+    await click('.timeline-heading .text-link');
+    await click('.map-controls button[aria-label="Map controls"]');
+    await click('.map-controls button[aria-controls="map-timeline"]');
+    await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 2 });
+    const readView = () => evaluate("(() => { const matrix = document.querySelector('.world-map > g').transform.baseVal.consolidate().matrix; return {k:matrix.a,x:matrix.e,y:matrix.f}; })()");
+    const center = await evaluate("(() => { const r = document.querySelector('.map-stage').getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height*.62}; })()");
+    const points = distance => [{ x: center.x - distance, y: center.y, id: 1 }, { x: center.x + distance, y: center.y, id: 2 }];
+    await cdp('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: points(30) });
+    for (const distance of [36, 42, 48, 54, 60]) await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: points(distance) });
+    await waitFor("Math.abs(document.querySelector('.world-map > g').transform.baseVal.consolidate().matrix.a - 2) < .02", label + ': spreading two fingers doubles map zoom');
+    for (const distance of [54, 48, 42, 36, 30]) await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: points(distance) });
+    await waitFor("Math.abs(document.querySelector('.world-map > g').transform.baseVal.consolidate().matrix.a - 1) < .02", label + ': pinching returns to the minimum');
+    await cdp('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [points(30)[1]] });
+    const beforePan = await readView();
+    const remaining = points(30)[0];
+    await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ ...remaining, x: remaining.x + 25 }] });
+    await waitFor(`document.querySelector('.world-map > g').transform.baseVal.consolidate().matrix.e > ${beforePan.x + 5}`, label + ': the remaining finger continues panning');
+    await cdp('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await click('button[aria-label="Reset map position"]');
+    const portrait = await evaluate("(() => { for (const pin of document.querySelectorAll('.map-pin')) { const r = pin.getBoundingClientRect(); const x = r.x+r.width/2, y = r.y+r.height/2; if (x > 65 && x < innerWidth-90 && y > 60 && y < innerHeight-40 && pin.contains(document.elementFromPoint(x,y))) return {x,y}; } return null; })()");
+    assert.ok(portrait, label + ': a visible portrait is available for gesture takeover');
+    const savedPositions = await evaluate("JSON.parse(localStorage.getItem('atlas-people-v1:fixture-a')).positions");
+    const first = { ...portrait, id: 11 };
+    await cdp('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [first] });
+    first.x += 6;
+    await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [first] });
+    const second = { x: first.x + 50, y: first.y, id: 12 };
+    await cdp('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [first, second] });
+    await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [first, { ...second, x: second.x + 50 }] });
+    await waitFor("Math.abs(document.querySelector('.world-map > g').transform.baseVal.consolidate().matrix.a - 2) < .02", label + ': a second finger turns a portrait drag into map zoom');
+    await cdp('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
+    assert.deepEqual(await evaluate("JSON.parse(localStorage.getItem('atlas-people-v1:fixture-a')).positions"), savedPositions, 'Pinching from a portrait never persists its temporary drag');
+    await cdp('Emulation.setTouchEmulationEnabled', { enabled: false });
+    assert.equal(await evaluate("window.visualViewport.scale"), 1, 'Pinching zooms the map without zooming the page');
+    await click('.map-controls button[aria-label="Map controls"]');
+    await click('.map-controls button[aria-controls="map-timeline"]');
+    await click('button[aria-label="Reset map position"]');
+  };
   const assertOverlays = async label => {
     assert.equal(await evaluate(`(() => {
       const root = document.querySelector('.map-experience');
@@ -538,6 +585,7 @@ try {
   assert.equal(await evaluate("Math.abs(document.querySelector('.map-experience').getBoundingClientRect().height - innerHeight) <= 1"), true, "Fullscreen fills the display");
   await assertOverlays('Desktop fullscreen');
   await assertInspectorToggle('Desktop fullscreen');
+  await assertTimelineToggle('Desktop fullscreen');
   await click('.timeline-ticks button');
   await click('button[aria-label="Play timeline"]');
   await chooseSpeed(0.5);
@@ -567,6 +615,7 @@ try {
   await waitFor("document.querySelector('.map-experience').dataset.fullscreen === 'fallback'", "Denied fullscreen falls back to an expanded map");
   await assertOverlays('Desktop fallback');
   await assertInspectorToggle('Desktop fallback');
+  await assertTimelineToggle('Desktop fallback');
   await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen");
   await waitFor("!document.querySelector('.map-expanded')");
   for (const [width, height] of [[320, 640], [390, 844], [844, 390]]) {
@@ -578,6 +627,9 @@ try {
     await waitFor("document.querySelector('.map-expanded')", 'Mobile fullscreen activates');
     await assertOverlays(`Mobile ${width}x${height}`);
     await assertInspectorToggle(`Mobile ${width}x${height}`);
+    await assertTimelineToggle(`Mobile ${width}x${height}`);
+    assert.equal(await evaluate("document.querySelector('.world-map').getAttribute('preserveAspectRatio')"), 'xMidYMid slice', 'Initial phone map fits both viewport dimensions');
+    await assertPinch(`Mobile ${width}x${height}`);
     await click('.timeline-ticks button');
     await click('button[aria-label="Play timeline"]');
     await chooseSpeed(0.5);
@@ -593,6 +645,8 @@ try {
     await waitFor("document.querySelector('.map-experience').dataset.fullscreen === 'fallback'", 'Unsupported mobile fullscreen uses fallback');
     await assertOverlays(`RTL mobile fallback ${width}x${height}`);
     await assertInspectorToggle(`RTL mobile fallback ${width}x${height}`);
+    await assertTimelineToggle(`RTL mobile fallback ${width}x${height}`);
+    await assertPinch(`RTL mobile fallback ${width}x${height}`);
     await click('.timeline-ticks button');
     await click('button[aria-label="Play timeline"]');
     await chooseSpeed(0.5);
@@ -606,7 +660,7 @@ try {
   await cdp("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await screenshot('atlas-mobile');
   assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
-  console.log("PASS: 64x button/wheel zoom, native and fallback fullscreen, interactive timeline and selected person overlays, Escape/exit synchronization, responsive phone sizing, portrait/landscape and RTL overlays in an isolated component fixture.");
+  console.log("PASS: 64x zoom, real two-finger zoom/pan and portrait gesture takeover, fullscreen clock toggle, native/fallback fullscreen, responsive portrait/landscape sizing, and RTL overlays.");
   console.log("Screenshots saved to outputs/atlas-{desktop,mobile,signin,fullscreen}.png");
   }
   await send("Browser.close");
