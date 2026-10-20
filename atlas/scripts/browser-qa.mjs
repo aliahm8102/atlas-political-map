@@ -114,16 +114,14 @@ try {
     await click('.person-card-top button');
     await waitFor("document.querySelector('.person-card-top .is-bookmarked')", "Local bookmark saves");
     await click('.person-card-bottom button');
-    await waitFor("document.querySelector('#country-note')");
-    await typeInto('#country-note', 'A note saved without Supabase.');
-    await click('.country-note button');
-    await waitFor("document.querySelector('.country-note button').disabled", "Local note saves");
+    await waitFor("document.querySelector('.person-spotlight')");
+    assert.equal(await evaluate("document.querySelector('#country-note,.country-note') === null"), true, "Private note is removed from the inspector");
     await navigate(`${origin}/workspace`);
     await waitFor("document.querySelector('.profile-button strong')?.textContent === 'Local Test Explorer'", "Local profile survives reload");
     await nav('Bookmarks');
     await waitFor("document.querySelector('.person-card')", "Local bookmark survives reload");
     await click('.person-card-bottom button');
-    await waitFor("document.querySelector('#country-note')?.value === 'A note saved without Supabase.'", "Local note survives reload");
+    await waitFor("document.querySelector('.person-spotlight')", "Bookmarked person details reopen after reload");
     await click('a[href="/workspace/characters"]');
     await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form button[type=submit]:not(:disabled)')", 'Authenticated character page opens through navigation');
     assert.equal(await evaluate("!document.querySelector('.save-view-button,.saved-section') && ![...document.querySelectorAll('nav a,nav button')].some(item => item.textContent.includes('Saved views'))"), true, 'Retired views UI is removed');
@@ -157,7 +155,7 @@ try {
     await nav('Explore map');
     await screenshot('atlas-local-account');
     assert.deepEqual(exceptions, [], 'Local account raised browser exceptions');
-    console.log('PASS: local wrong-password rejection, signed HttpOnly session, authenticated map access, profile/bookmark/note persistence across reload, sign-out, forged-cookie rejection, re-login, and no Supabase requests.');
+    console.log('PASS: local wrong-password rejection, signed HttpOnly session, authenticated map access, profile/bookmark persistence across reload, sign-out, forged-cookie rejection, re-login, and no Supabase requests.');
     // Changing language must preserve the current view, session, and account data.
     await click('button[aria-label="Zoom in"]');
     await waitFor("document.querySelector('.map-scale').textContent.includes('1.4')");
@@ -353,6 +351,26 @@ try {
   console.log('PASS: browser character creation, account isolation, quota failures, reload persistence, mouse/touch/keyboard marker movement, mobile form and deletion cleanup.');
   await delay(1500);
   assert.equal(await evaluate("document.documentElement.scrollWidth <= window.innerWidth"), true, "Desktop has horizontal overflow");
+  const assertInspectorHeight = async label => {
+    assert.equal(await evaluate("(() => { const map = document.querySelector('.map-card').getBoundingClientRect(); const inspector = document.querySelector('.inspector').getBoundingClientRect(); return Math.abs(map.top - inspector.top) <= 1 && Math.abs(map.height - inspector.height) <= 1; })()"), true, label);
+  };
+  for (const width of [1024, 1440, 1920]) {
+    await cdp('Emulation.setDeviceMetricsOverride', { width, height: 1080, deviceScaleFactor: 1, mobile: false });
+    await click('#test-map-controls');
+    await click('#test-layers');
+    await assertInspectorHeight('Layers inspector matches map height at ' + width);
+    await click('#test-appearance');
+    await assertInspectorHeight('Appearance inspector matches map height at ' + width);
+    await click('.map-pin');
+    await assertInspectorHeight('Person inspector matches map height at ' + width);
+    await evaluate("document.querySelector('.inspector').insertAdjacentHTML('beforeend', '<div id=overflow-fixture style=height:2000px>Long details</div>')");
+    await assertInspectorHeight('Long details cannot resize map at ' + width);
+    assert.equal(await evaluate("document.querySelector('.inspector').scrollHeight > document.querySelector('.inspector').clientHeight"), true, 'Long content scrolls inside inspector');
+    await evaluate("document.querySelector('#overflow-fixture').remove(); document.documentElement.dir = 'rtl'");
+    await assertInspectorHeight('RTL inspector matches map height at ' + width);
+    await evaluate("document.documentElement.dir = 'ltr'");
+  }
+  await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
   await screenshot("atlas-desktop");
   await click('button[aria-label="Zoom in"]');
   await waitFor("document.querySelector('.map-scale').textContent.includes('1.4')", "Zoom changes view");
@@ -366,6 +384,17 @@ try {
   await click('.map-pin');
   await waitFor("document.querySelector('.person-spotlight h3')", "Selecting a portrait opens its details");
   const selectedName = await evaluate("document.querySelector('.person-spotlight h3').textContent");
+  const assertInspectorToggle = async label => {
+    const selector = '.map-controls button[aria-label="Map controls"]';
+    await click(selector);
+    await waitFor("document.querySelector('.map-inspector-hidden')", label + ': settings icon hides inspector');
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('.inspector')).display"), 'none');
+    assert.equal(await evaluate("document.querySelector('.map-controls button[aria-label=\"Map controls\"]').getAttribute('aria-expanded')"), 'false');
+    assert.equal(await evaluate("Boolean(document.querySelector('.map-expanded'))"), true, 'Map stays fullscreen');
+    await click(selector);
+    await waitFor("!document.querySelector('.map-inspector-hidden')", label + ': settings icon restores inspector');
+    assert.equal(await evaluate("document.querySelector('.map-controls button[aria-label=\"Map controls\"]').getAttribute('aria-expanded')"), 'true');
+  };
   const assertOverlays = async label => {
     assert.equal(await evaluate(`(() => {
       const root = document.querySelector('.map-experience');
@@ -382,6 +411,7 @@ try {
   await waitFor("document.fullscreenElement === document.querySelector('.map-experience') && document.querySelector('.map-experience').dataset.fullscreen === 'native'", "Browser native fullscreen activates");
   assert.equal(await evaluate("Math.abs(document.querySelector('.map-experience').getBoundingClientRect().height - innerHeight) <= 1"), true, "Fullscreen fills the display");
   await assertOverlays('Desktop fullscreen');
+  await assertInspectorToggle('Desktop fullscreen');
   assert.equal(await evaluate("document.fullscreenElement.contains(document.querySelector('.timeline')) && document.fullscreenElement.contains(document.querySelector('.person-spotlight'))"), true, 'Timeline and person details belong to native fullscreen');
   const dateBefore = await evaluate("document.querySelector('.timeline-date strong').textContent");
   await click('button[aria-label="Previous month"]');
@@ -398,6 +428,7 @@ try {
   await click('button[aria-label="Enter fullscreen"]');
   await waitFor("document.querySelector('.map-experience').dataset.fullscreen === 'fallback'", "Denied fullscreen falls back to an expanded map");
   await assertOverlays('Desktop fallback');
+  await assertInspectorToggle('Desktop fallback');
   await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen");
   await waitFor("!document.querySelector('.map-expanded')");
   for (const [width, height] of [[320, 640], [390, 844], [844, 390]]) {
@@ -408,6 +439,7 @@ try {
     await click('button[aria-label="Enter fullscreen"]');
     await waitFor("document.querySelector('.map-expanded')", 'Mobile fullscreen activates');
     await assertOverlays(`Mobile ${width}x${height}`);
+    await assertInspectorToggle(`Mobile ${width}x${height}`);
     await screenshot(`atlas-fullscreen-${width}`);
     await click('button[aria-label="Exit fullscreen"]');
     await waitFor("!document.querySelector('.map-expanded')", 'Mobile fullscreen exits');
@@ -415,7 +447,8 @@ try {
     await click('button[aria-label="Enter fullscreen"]');
     await waitFor("document.querySelector('.map-experience').dataset.fullscreen === 'fallback'", 'Unsupported mobile fullscreen uses fallback');
     await assertOverlays(`RTL mobile fallback ${width}x${height}`);
-    await evaluate("document.querySelector('.inspector textarea').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen; document.documentElement.dir = 'ltr'");
+    await assertInspectorToggle(`RTL mobile fallback ${width}x${height}`);
+    await evaluate("document.querySelector('.inspector button').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen; document.documentElement.dir = 'ltr'");
     await waitFor("!document.querySelector('.map-expanded') && document.body.style.overflow !== 'hidden'", 'Escape in details closes fallback and restores scrolling');
   }
   await cdp("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });

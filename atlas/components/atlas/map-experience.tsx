@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
-const FullscreenContext = createContext({ expanded: false, pending: false, toggle: async () => {} });
+const FullscreenContext = createContext({ expanded: false, pending: false, inspectorOpen: true, toggle: async () => {}, toggleInspector: () => {}, showInspector: () => {} });
 export const useMapFullscreen = () => useContext(FullscreenContext);
 
 export default function MapExperience({ children }: { children: ReactNode }) {
@@ -10,6 +10,7 @@ export default function MapExperience({ children }: { children: ReactNode }) {
   const [native, setNative] = useState(false);
   const [fallback, setFallback] = useState(false);
   const [pending, setPending] = useState(false);
+  const [inspectorOpen, setInspectorOpen] = useState(true);
   const expanded = native || fallback;
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function MapExperience({ children }: { children: ReactNode }) {
     const element = root.current;
     if (!element || pending) return;
     if (fallback) { setFallback(false); return; }
+    setInspectorOpen(true);
     setPending(true);
     try {
       if (document.fullscreenElement === element) await document.exitFullscreen();
@@ -48,7 +50,7 @@ export default function MapExperience({ children }: { children: ReactNode }) {
     } finally { setPending(false); }
   }
 
-  return <FullscreenContext.Provider value={{ expanded, pending, toggle }}>
-    <div ref={root} className={`map-experience${expanded ? " map-expanded" : ""}`} data-fullscreen={native ? "native" : fallback ? "fallback" : "off"}>{children}</div>
+  return <FullscreenContext.Provider value={{ expanded, pending, inspectorOpen, toggle, toggleInspector: () => setInspectorOpen(open => !open), showInspector: () => setInspectorOpen(true) }}>
+    <div ref={root} className={`map-experience${expanded ? " map-expanded" : ""}${expanded && !inspectorOpen ? " map-inspector-hidden" : ""}`} data-fullscreen={native ? "native" : fallback ? "fallback" : "off"}>{children}</div>
   </FullscreenContext.Provider>;
 }

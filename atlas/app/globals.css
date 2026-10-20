@@ -235,12 +235,6 @@ select option { background: var(--surface); color: var(--text); }
 .mini-person strong { font-size: calc(9px + var(--desktop-font-increment)); font-weight: 550; display: block; }
 .mini-person small { font-size: calc(8px + var(--desktop-font-increment)); display: block; margin-top: 4px; color: var(--muted); }
 .mini-person > svg { margin-inline-start: auto; color: var(--muted); }
-.country-note { border-top: 1px solid var(--border); margin-top: 21px; padding-top: 16px; }
-.country-note label { display: flex; align-items: center; gap: 6px; font-size: calc(9px + var(--desktop-font-increment)); font-weight: 550; margin-bottom: 10px; }
-.country-note label svg { color: var(--muted); }
-.country-note label svg:last-child { margin-inline-start: auto; }
-.country-note textarea { background: var(--bg); border: 0; box-shadow: var(--inset); width: 100%; padding: 10px; font-size: calc(9px + var(--desktop-font-increment)); line-height: 1.8; border-radius: 8px; resize: vertical; min-height: 70px; max-height: 200px; }
-.country-note .text-link { margin-top: 9px; font-size: calc(9px + var(--desktop-font-increment)); }
 .snapshot-disclaimer { font-size: calc(7px + var(--desktop-font-increment)); color: var(--muted); margin-top: 17px; line-height: 1.6; }
 .no-country-people { text-align: center; padding: 30px 5px 10px; color: var(--muted); }
 .no-country-people > svg { margin: auto auto 12px; }
@@ -428,7 +422,7 @@ select option { background: var(--surface); color: var(--text); }
   .layer-row, .toggle-copy { font-size: calc(10px + var(--desktop-font-increment)); }
 }
 @media (max-width: 760px) {
-  .soft-input, .input-wrap input, .country-note textarea { font-size: 16px; }
+  .soft-input, .input-wrap input { font-size: 16px; }
   .topbar-search input { font-size: 12px; }
 }
 @media (max-width: 1150px) { .stats-row .personal-stat { display: none; } }
@@ -503,6 +497,18 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 
 /* Keep the map, inspector and timeline in the same fullscreen element. */
 .map-experience { min-width: 0; }
+@media (min-width: 1001px) {
+  /* Let the map card determine the row height, regardless of inspector content. */
+  .map-experience:not(.map-expanded) .map-workspace { position: relative; }
+  .map-experience:not(.map-expanded) .inspector {
+    position: absolute;
+    grid-area: 1 / 2;
+    inset: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+}
+.map-expanded.map-inspector-hidden .inspector { display: none; }
 .map-experience.map-expanded {
   position: fixed;
   z-index: 60;
