@@ -34,11 +34,9 @@ export function zoomViewport(view: Viewport, factor: number, anchor = { x: 500, 
   const k = Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, view.k * factor));
   return constrainViewport({ k, x: anchor.x - (anchor.x - view.x) * k / view.k, y: anchor.y - (anchor.y - view.y) * k / view.k });
 }
-export const savedViewSchema = z.object({ id: z.string(), name: z.string().min(1).max(80), settings: settingsSchema, viewport: viewportSchema, createdAt: z.string() });
-export type SavedView = z.infer<typeof savedViewSchema>;
-export const localStateSchema = z.object({ settings: settingsSchema, bookmarks: z.array(z.string()).default([]), views: z.array(savedViewSchema).default([]), notes: z.record(z.string()).default({}), displayName: z.string().max(80).default("Explorer") });
+export const localStateSchema = z.object({ settings: settingsSchema, bookmarks: z.array(z.string()).default([]), notes: z.record(z.string()).default({}), displayName: z.string().max(80).default("Explorer") });
 export type PersonalState = z.infer<typeof localStateSchema>;
-export const initialPersonalState: PersonalState = { settings: defaultSettings, bookmarks: [], views: [], notes: {}, displayName: "Explorer" };
+export const initialPersonalState: PersonalState = { settings: defaultSettings, bookmarks: [], notes: {}, displayName: "Explorer" };
 export function visiblePeople(people: Person[], settings: Settings, search = "") {
   const date = settings.year + settings.month / 12;
   const query = search.toLocaleLowerCase().trim();

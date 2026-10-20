@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { visiblePeople, defaultSettings, settingsSchema, localStateSchema, viewportSchema, savedViewSchema, zoomViewport, defaultViewport, MAX_MAP_ZOOM } from "../lib/atlas.ts";
+import { visiblePeople, defaultSettings, settingsSchema, localStateSchema, viewportSchema, zoomViewport, defaultViewport, MAX_MAP_ZOOM } from "../lib/atlas.ts";
 const people = JSON.parse(fs.readFileSync(new URL("../data/people.json", import.meta.url)));
 const countries = JSON.parse(fs.readFileSync(new URL("../data/countries.json", import.meta.url)));
 
@@ -54,9 +54,8 @@ test("deep zoom preserves its anchor and clamps buttons and wheel factors to the
   assert.ok(Number.isFinite(maximum.x) && Number.isFinite(maximum.y));
   assert.equal(zoomViewport(maximum, 0).k, 1);
 });
-test("saved views retain zoom above the old limit without accepting invalid scale", () => {
-  const view = { id: "test-view", name: "Close-up", settings: defaultSettings, viewport: zoomViewport(defaultViewport, 64), createdAt: new Date().toISOString() };
-  assert.equal(savedViewSchema.parse(JSON.parse(JSON.stringify(view))).viewport.k, 64);
+test("viewport validation retains deep zoom without accepting invalid scales", () => {
+  assert.equal(viewportSchema.parse(zoomViewport(defaultViewport, 64)).k, 64);
   assert.equal(viewportSchema.safeParse({ x: 0, y: 0, k: 65 }).success, false);
   assert.equal(viewportSchema.safeParse({ x: 0, y: 0, k: .5 }).success, false);
 });

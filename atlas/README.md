@@ -20,7 +20,7 @@ Without a configured local account or Supabase connection, authentication fields
 
 ## Local demo account
 
-The local demo uses a fixed email and password and works without Supabase, database migrations, or email confirmation. Run it with `npm run dev`. The map uses the bundled collection, and preferences, bookmarks, views, notes, and the display name are saved in this browser. Portraits whose original source is remote still need internet access; unavailable images use initials.
+The local demo uses a fixed email and password and works without Supabase, database migrations, or email confirmation. Run it with `npm run dev`. The map uses the bundled collection, and preferences, bookmarks, notes, custom characters, marker positions, and the display name are saved in this browser. Portraits whose original source is remote still need internet access; unavailable images use initials.
 
 To set up the account on a fresh checkout, run:
 
@@ -38,12 +38,12 @@ To return to Supabase, set `ATLAS_LOCAL_AUTH_ENABLED=false` in `.env.local` and 
 ## What works
 
 - English and Persian interfaces, with an always-available language switch on sign-in and workspace pages, right-to-left Persian layouts, bundled Vazirmatn typography, localized labels and errors, and Persian names for all bundled countries, people, and offices.
-- Bundled world geometry: pan, zoom up to 64×, reset, native browser fullscreen, country selection, keyboard navigation, and clustered portrait markers. No map API key or tile service is required. Fullscreen uses the browser API with an expanded in-page fallback when unavailable; the exit button and Escape restore the normal layout.
+- Bundled world geometry: pan, zoom up to 64×, reset, native browser fullscreen, country selection, keyboard navigation, and clustered portrait markers. Portrait markers can be dragged with a mouse or touch, or moved with arrow keys while focused; their positions persist for the signed-in account in this browser. Use Reset portrait positions to restore the original locations. No map API key or tile service is required. Fullscreen uses the browser API with an expanded in-page fallback when unavailable; the exit button and Escape restore the normal layout.
 - All 156 original people records, with local portraits where supplied and initials for missing or unavailable images.
 - Search by name, country, or title; country search suggestions; region and role filters.
 - A month-by-month timeline from 1900 to 2026, playback, previous/next month controls, and historical term filtering.
 - The original NATO boundary overlay.
-- A people directory, bookmarks, private country notes, and saved map views that restore date, region, role layers, appearance, and viewport. The text search is not part of a saved view.
+- A people directory, bookmarks and private country notes. The authenticated `/workspace/characters` page adds personal characters with a name, role, country, optional dates and a portrait. Characters, their bookmarks and marker positions are stored in account-scoped browser storage in both local and Supabase modes; they never use database capacity. Clearing site data removes them, and they do not sync to other browsers or devices.
 - Display name, light/dark mode, sage/blue/lavender accents, portrait visibility, labels, and marker size.
 - Supabase email/password sign-in, sign-up, confirmation, recovery, password update, sign-out, verified server-side route protection, and database-backed personal data when connected.
 
@@ -51,7 +51,7 @@ To return to Supabase, set `ATLAS_LOCAL_AUTH_ENABLED=false` in `.env.local` and 
 
 Use the **فارسی / English** control on the sign-in page or workspace header. Your explicit choice is saved in the `atlas-locale` cookie for one year and is read during server rendering, including page metadata and the document's language and direction. On a first visit, a supported browser language is selected; English is the fallback. Changing languages preserves the signed-in session, current page, filters, viewport, and entered form values.
 
-Persian uses right-to-left layouts and Persian digits. Historical dates remain **Gregorian** so their years still match the imported timeline and term dates. The map geometry and pan/zoom coordinates retain their geographic orientation. Country and person searches accept their original English names as well as the Persian names shown in Persian mode, with normalization of Arabic/Persian variants of ی and ک. User-written names, notes, and saved-view titles are preserved as entered.
+Persian uses right-to-left layouts and Persian digits. Historical dates remain **Gregorian** so their years still match the imported timeline and term dates. The map geometry and pan/zoom coordinates retain their geographic orientation. Country and person searches accept their original English names as well as the Persian names shown in Persian mode, with normalization of Arabic/Persian variants of ی and ک. User-written names, notes, and custom character text are preserved as entered.
 
 Interface translations live in `lib/i18n/dictionary.ts`; Persian presentation names and office titles are in `data/locales/fa-data.json`, with common country-based office titles composed by `lib/i18n/index.ts`. Original records, IDs, database columns, and filter values stay unchanged. The [Vazirmatn font](https://github.com/rastikerdar/vazirmatn) is bundled under `public/fonts` with its SIL Open Font License, so loading Persian typography requires no third-party font service.
 
@@ -72,6 +72,7 @@ A hosted Supabase project must be connected before account registration and map 
 
    - `supabase/migrations/20261017000100_atlas_schema.sql`
    - `supabase/migrations/20261017000200_import_wim_data.sql`
+   - `supabase/migrations/20261020000100_remove_saved_views.sql` (removes the retired saved-map-view table)
 
 4. In **Authentication → URL Configuration**, set the Site URL to `https://atlas-peyma.ir`, and add these Redirect URLs:
 
@@ -92,7 +93,7 @@ A hosted Supabase project must be connected before account registration and map 
 
 6. Set `ATLAS_LOCAL_AUTH_ENABLED=false` if a local demo account was enabled. Restart the development server, open `/login`, create an account, confirm its email, and sign in. The database trigger creates the user's profile and preferences automatically.
 
-`/` and the retired `/demo` route always redirect to `/workspace`. The workspace verifies the active provider's session on the server before reading or rendering map data; unsigned visitors go to `/login`. Missing authentication configuration also redirects to sign-in. Browser storage cannot grant access. In Supabase mode, each signed-in user’s preferences, bookmarks, views, and notes are stored under their account in the database.
+`/` and the retired `/demo` route always redirect to `/workspace`. The workspace verifies the active provider's session on the server before reading or rendering map data; unsigned visitors go to `/login`. Missing authentication configuration also redirects to sign-in. Browser storage cannot grant access. In Supabase mode, each signed-in user’s preferences, bookmarks and notes are stored under their account in the database.
 
 The setup follows [Supabase's SSR authentication guide](https://supabase.com/docs/guides/auth/server-side/creating-a-client?framework=nextjs) and [row-level security documentation](https://supabase.com/docs/guides/database/postgres/row-level-security).
 
@@ -107,7 +108,6 @@ The setup follows [Supabase's SSR authentication guide](https://supabase.com/doc
 | `profiles` | User display names | Owner reads and display-name updates |
 | `user_preferences` | Validated appearance and map settings | Owner only |
 | `bookmarks` | User-to-person bookmarks | Owner only |
-| `saved_views` | Named map settings and viewport | Owner only |
 | `country_notes` | Private notes attached to a country | Owner only |
 
 All tables have row-level security enabled. Foreign keys, indexes, length/range checks, timestamp triggers, and profile initialization are included. User-owned records cascade on account deletion. The client never uses a privileged database credential.
@@ -153,7 +153,7 @@ With the dev server running and Chrome installed, browser checks run with:
 node scripts/browser-qa.mjs
 ```
 
-Optional variables: `ATLAS_CHROME_BIN` and `ATLAS_TEST_ORIGIN`. For an isolated local server, use `ATLAS_NEXT_DIST_DIR=.next-qa npm run dev -- --port 3001` and set `ATLAS_TEST_ORIGIN=http://127.0.0.1:3001` for the browser command. The script checks required sign-in on `/`, `/demo`, and `/workspace`, including rejection of old demo browser storage. In local mode, it reads `.env.demo.local` on the test runner and checks wrong-password rejection, real sign-in, HttpOnly cookies, map access, persistence of profiles/bookmarks/notes/views, sign-out, forged-cookie rejection, and re-login without Supabase requests. The local credentials are tested only against a loopback origin. In Supabase mode, checks exercise editable sign-in, signup, recovery, and password-update fields without submitting forms, creating accounts, or sending emails. Without either provider, they also verify that submissions show the setup error. Set `ATLAS_AUTH_ONLY=1` to run just the authentication checks. Map interactions run in an isolated, temporary Vite component fixture, never a public Next.js route. Checks include the 64× zoom limit, native fullscreen entry/exit, Escape synchronization, the unsupported-browser fallback, mobile fullscreen controls, and responsive overflow. Screenshots are saved under the ignored `outputs/` directory.
+Optional variables: `ATLAS_CHROME_BIN` and `ATLAS_TEST_ORIGIN`. For an isolated local server, use `ATLAS_NEXT_DIST_DIR=.next-qa npm run dev -- --port 3001` and set `ATLAS_TEST_ORIGIN=http://127.0.0.1:3001` for the browser command. The script checks required sign-in on `/`, `/demo`, and `/workspace`, including rejection of old demo browser storage. In local mode, it reads `.env.demo.local` on the test runner and checks wrong-password rejection, real sign-in, HttpOnly cookies, map access, persistence of profiles/bookmarks/notes, sign-out, forged-cookie rejection, and re-login without Supabase requests. The local credentials are tested only against a loopback origin. In Supabase mode, checks exercise editable sign-in, signup, recovery, and password-update fields without submitting forms, creating accounts, or sending emails. Without either provider, they also verify that submissions show the setup error. Set `ATLAS_AUTH_ONLY=1` to run just the authentication checks. Map interactions run in an isolated, temporary Vite component fixture, never a public Next.js route. Checks include the 64× zoom limit, native fullscreen entry/exit, Escape synchronization, the unsupported-browser fallback, mobile fullscreen controls, and responsive overflow. Character checks also cover account isolation, local portrait upload, storage quota failures, reload persistence, mouse/touch/keyboard dragging and deletion cleanup. Set `ATLAS_MAP_ONLY=1` to run these checks without the Next.js authentication server. Screenshots are saved under the ignored `outputs/` directory.
 
 ## Deploy a connected application
 

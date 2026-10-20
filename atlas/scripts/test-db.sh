@@ -13,4 +13,5 @@ trap '"$ATLAS_PG_BIN/pg_ctl" -D "$ATLAS_TEST_DB_DIR/data" -m immediate stop >/de
   -f supabase/tests/bootstrap.sql \
   -f supabase/migrations/20261017000100_atlas_schema.sql \
   -f supabase/migrations/20261017000200_import_wim_data.sql \
+  -f supabase/migrations/20261020000100_remove_saved_views.sql \
   -f supabase/tests/isolation.sql

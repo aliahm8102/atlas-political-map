@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { initialPersonalState, localStateSchema, type PersonalState, type Settings, type SavedView } from "@/lib/atlas";
+import { initialPersonalState, localStateSchema, type PersonalState, type Settings } from "@/lib/atlas";
 export function usePersonalState(mode: "local" | "account", userId: string | undefined, initial: PersonalState | undefined, notify: (message: string) => void) {
   const storageKey = `atlas-local-v1:${userId}`;
   const [state, setState] = useState<PersonalState>(initial ?? initialPersonalState);
@@ -55,9 +55,7 @@ export function usePersonalState(mode: "local" | "account", userId: string | und
     const exists = state.bookmarks.includes(id);
     return operation(`bookmark:${id}`, () => exists ? createClient().from("bookmarks").delete().eq("user_id", userId).eq("person_id", id) : createClient().from("bookmarks").insert({ user_id: userId, person_id: id }), () => setState(s => ({ ...s, bookmarks: exists ? s.bookmarks.filter(b => b !== id) : [...s.bookmarks, id] })), exists ? "Bookmark removed" : "Added to your bookmarks");
   }, [state.bookmarks, operation, userId]);
-  const saveView = useCallback((view: SavedView) => operation("save-view", () => createClient().from("saved_views").insert({ id: view.id, user_id: userId, name: view.name, settings: view.settings, viewport: view.viewport }), () => setState(s => ({ ...s, views: [view, ...s.views] })), "Map view saved"), [operation, userId]);
-  const deleteView = useCallback((id: string) => operation(`view:${id}`, () => createClient().from("saved_views").delete().eq("id", id).eq("user_id", userId), () => setState(s => ({ ...s, views: s.views.filter(v => v.id !== id) })), "Saved view deleted"), [operation, userId]);
   const saveNote = useCallback((countryCode: string, body: string) => operation(`note:${countryCode}`, () => createClient().from("country_notes").upsert({ user_id: userId, country_code: countryCode, body }), () => setState(s => ({ ...s, notes: { ...s.notes, [countryCode]: body } })), "Private note saved"), [operation, userId]);
   const saveName = useCallback((name: string) => operation("profile", () => createClient().from("profiles").update({ display_name: name }).eq("id", userId), () => setState(s => ({ ...s, displayName: name })), "Profile updated"), [operation, userId]);
-  return { state, ready, sync, settings, bookmark, saveView, deleteView, saveNote, saveName, retry: () => setRetryCount(c => c + 1) };
+  return { state, ready, sync, settings, bookmark, saveNote, saveName, retry: () => setRetryCount(c => c + 1) };
 }
