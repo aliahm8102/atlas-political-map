@@ -102,6 +102,32 @@ try {
       await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()", "Workspace is interactive");
     };
     await signIn();
+    for (const attempt of ['first visit', 'return visit']) {
+      await nav('Explore map');
+      await waitFor("document.querySelector('.world-map') && location.pathname === '/workspace'");
+      assert.equal(await evaluate("document.querySelector('.inspector [role=tablist],.inspector [role=tab],.inspector .appearance-controls') === null && document.querySelectorAll('.inspector .layer-row').length === 5"), true, 'Map controls show layers directly without appearance or tabs');
+      await click('nav a[href="/workspace/characters"]');
+      await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form button[type=submit]:not(:disabled)')", `My characters opens on one click: ${attempt}`);
+    }
+    await navigate(`${origin}/workspace/characters`);
+    await waitFor("document.querySelector('.character-form button[type=submit]:not(:disabled)')", 'Direct character route is ready');
+    await nav('Explore map');
+    await waitFor("document.querySelector('.world-map')");
+    await click('nav a[href="/workspace/characters"]');
+    await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form')", 'My characters reopens on one click after a direct load');
+    await nav('My workspace');
+    await click('.page-heading .add-character-button');
+    await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form')", 'Add character reopens the cached character route on one click');
+    await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+    await nav('Explore map');
+    await click('button[aria-label="Open navigation"]');
+    await waitFor("document.querySelector('.sidebar.open')");
+    await delay(250);
+    await click('nav a[href="/workspace/characters"]');
+    await waitFor("document.querySelector('.character-form') && !document.querySelector('.sidebar.open')", 'Mobile My characters opens on one click and closes the drawer');
+    await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
+    await nav('My workspace');
+    console.log('PASS: one-click My characters navigation on first/return visits, direct loads, cached Add character links, and mobile drawer closure.');
     const { cookies } = await cdp("Network.getCookies", { urls: [origin] });
     const sessionCookie = cookies.find(cookie => cookie.name === 'atlas-local-session');
     assert.ok(sessionCookie?.httpOnly && sessionCookie.sameSite === 'Strict');
@@ -346,6 +372,41 @@ try {
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
   await navigate(fixtureOrigin);
   await waitFor("document.querySelectorAll('.country').length > 160 && document.querySelector('.map-pin')", "Interactive map renders");
+  const chooseSpeed = async speed => {
+    await evaluate(`(() => { const select = document.querySelector('.timeline-speed select'); select.value = '${speed}'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
+    await waitFor(`document.querySelector('.timeline-speed span').textContent === '${speed}x'`, `Playback speed changes to ${speed}x`);
+  };
+  const playbackElapsed = {};
+  for (const speed of [0.5, 1, 1.5, 2]) {
+    await click('.timeline-ticks button');
+    assert.equal(await evaluate("document.querySelector('.timeline-speed') === null"), true, 'Speed control is hidden when paused');
+    await click('button[aria-label="Play timeline"]');
+    assert.deepEqual(await evaluate("[...document.querySelectorAll('.timeline-speed option')].map(option => option.textContent)"), ['0.5x', '1x', '1.5x', '2x']);
+    await chooseSpeed(speed);
+    const elapsed = await evaluate("new Promise((resolve, reject) => { const input = document.querySelector('.timeline-slider input'); const before = Number(input.value); const start = performance.now(); const timer = setInterval(() => { if (Number(input.value) !== before) { clearInterval(timer); clearTimeout(timeout); resolve({ elapsed: performance.now() - start, months: Number(input.value) - before }); } }, 10); const timeout = setTimeout(() => { clearInterval(timer); reject(new Error('Timeline did not advance')); }, 4000); })");
+    assert.equal(elapsed.months, 6, `${speed}x advances the same six-month step`);
+    assert.ok(elapsed.elapsed > 650 / speed * .65 && elapsed.elapsed < 650 / speed * 1.6, `${speed}x timing: ${elapsed.elapsed}ms`);
+    playbackElapsed[speed] = elapsed.elapsed;
+    await click('button[aria-label="Pause timeline"]');
+  }
+  assert.ok(playbackElapsed[0.5] > playbackElapsed[2] * 2.5, '2x playback advances substantially faster than 0.5x');
+  const pausedValue = await evaluate("document.querySelector('.timeline-slider input').value");
+  await delay(500);
+  assert.equal(await evaluate("document.querySelector('.timeline-slider input').value"), pausedValue, 'Pause cancels the playback timer');
+  await click('button[aria-label="Play timeline"]');
+  await waitFor("document.querySelector('.timeline-speed select').value === '2'", 'Playback speed survives pause and resume');
+  await chooseSpeed(0.5);
+  await chooseSpeed(2);
+  assert.equal(await evaluate("Boolean(document.querySelector('button[aria-label=\"Pause timeline\"]'))"), true, 'Changing speed keeps playback running');
+  await click('button[aria-label="Pause timeline"]');
+  await input('.timeline-slider input', String(2026 * 12 + 10));
+  await click('button[aria-label="Play timeline"]');
+  await waitFor("document.querySelector('.timeline-slider input').value === String(2026 * 12 + 11) && document.querySelector('button[aria-label=\"Play timeline\"]')", 'Playback stops at the end without overshooting');
+  await click('button[aria-label="Play timeline"]');
+  await waitFor("Number(document.querySelector('.timeline-slider input').value) < 1901 * 12", 'Playing from the end restarts the timeline');
+  await click('button[aria-label="Pause timeline"]');
+  await click('.timeline-heading .text-link');
+  console.log('PASS: all four playback speeds change actual timing, keep a consistent date step, and preserve pause/resume and end/restart behavior.');
   await click('#test-characters');
   await waitFor("document.querySelector('.character-form button[type=submit]:not(:disabled)')", 'Character storage is ready');
   await input('[name="character-name"]', 'Browser-only character');
@@ -420,10 +481,8 @@ try {
   for (const width of [1024, 1440, 1920]) {
     await cdp('Emulation.setDeviceMetricsOverride', { width, height: 1080, deviceScaleFactor: 1, mobile: false });
     await click('#test-map-controls');
-    await click('#test-layers');
     await assertInspectorHeight('Layers inspector matches map height at ' + width);
-    await click('#test-appearance');
-    await assertInspectorHeight('Appearance inspector matches map height at ' + width);
+    assert.equal(await evaluate("document.querySelector('.inspector [role=tablist],.inspector [role=tab],.inspector .appearance-controls') === null"), true, 'Inspector contains only layer controls');
     await click('.map-pin');
     await assertInspectorHeight('Person inspector matches map height at ' + width);
     await evaluate("document.querySelector('.inspector').insertAdjacentHTML('beforeend', '<div id=overflow-fixture style=height:2000px>Long details</div>')");
@@ -470,11 +529,27 @@ try {
       return inside(inspector) && inside(timeline) && inspector.bottom <= timeline.top && button.contains(document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2));
     })()`), true, `${label}: overlays must be inside the map, separate, and clickable`);
   };
+  const assertSpeedControl = async label => {
+    const actual = await evaluate("(() => { const select = document.querySelector('.timeline-speed select'); const r = select.getBoundingClientRect(); const timeline = document.querySelector('.timeline').getBoundingClientRect(); const date = document.querySelector('.timeline-date').getBoundingClientRect(); return r.width > 0 && r.left >= timeline.left && r.right <= timeline.right && r.top >= timeline.top && r.bottom <= timeline.bottom && (r.right <= date.left || r.left >= date.right || r.bottom <= date.top || r.top >= date.bottom) && select === document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); })()");
+    assert.equal(actual, true, `${label}: clock speed control is visible, clickable and separate from the date`);
+  };
   await click('button[aria-label="Enter fullscreen"]');
   await waitFor("document.fullscreenElement === document.querySelector('.map-experience') && document.querySelector('.map-experience').dataset.fullscreen === 'native'", "Browser native fullscreen activates");
   assert.equal(await evaluate("Math.abs(document.querySelector('.map-experience').getBoundingClientRect().height - innerHeight) <= 1"), true, "Fullscreen fills the display");
   await assertOverlays('Desktop fullscreen');
   await assertInspectorToggle('Desktop fullscreen');
+  await click('.timeline-ticks button');
+  await click('button[aria-label="Play timeline"]');
+  await chooseSpeed(0.5);
+  await assertSpeedControl('Desktop fullscreen');
+  await evaluate("document.querySelector('.timeline-speed select').focus()");
+  await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+  await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+  await waitFor("document.querySelector('.timeline-speed span').textContent === '2x'", 'Keyboard changes the native clock speed control');
+  await chooseSpeed(0.5);
+  await screenshot('atlas-timeline-speed-desktop');
+  await click('button[aria-label="Pause timeline"]');
+  await click('.timeline-heading .text-link');
   assert.equal(await evaluate("document.fullscreenElement.contains(document.querySelector('.timeline')) && document.fullscreenElement.contains(document.querySelector('.person-spotlight'))"), true, 'Timeline and person details belong to native fullscreen');
   const dateBefore = await evaluate("document.querySelector('.timeline-date strong').textContent");
   await click('button[aria-label="Previous month"]');
@@ -503,7 +578,14 @@ try {
     await waitFor("document.querySelector('.map-expanded')", 'Mobile fullscreen activates');
     await assertOverlays(`Mobile ${width}x${height}`);
     await assertInspectorToggle(`Mobile ${width}x${height}`);
+    await click('.timeline-ticks button');
+    await click('button[aria-label="Play timeline"]');
+    await chooseSpeed(0.5);
+    await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale', '1.3')");
+    await assertSpeedControl(`Mobile ${width}x${height}`);
     await screenshot(`atlas-fullscreen-${width}`);
+    await click('button[aria-label="Pause timeline"]');
+    await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale', '1')");
     await click('button[aria-label="Exit fullscreen"]');
     await waitFor("!document.querySelector('.map-expanded')", 'Mobile fullscreen exits');
     await evaluate("void Object.defineProperty(document.querySelector('.map-experience'), 'requestFullscreen', {configurable:true, value:undefined}); document.documentElement.dir = 'rtl'");
@@ -511,6 +593,13 @@ try {
     await waitFor("document.querySelector('.map-experience').dataset.fullscreen === 'fallback'", 'Unsupported mobile fullscreen uses fallback');
     await assertOverlays(`RTL mobile fallback ${width}x${height}`);
     await assertInspectorToggle(`RTL mobile fallback ${width}x${height}`);
+    await click('.timeline-ticks button');
+    await click('button[aria-label="Play timeline"]');
+    await chooseSpeed(0.5);
+    await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale', '1.3')");
+    await assertSpeedControl(`RTL mobile fallback ${width}x${height}`);
+    await click('button[aria-label="Pause timeline"]');
+    await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale', '1')");
     await evaluate("document.querySelector('.inspector button').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen; document.documentElement.dir = 'ltr'");
     await waitFor("!document.querySelector('.map-expanded') && document.body.style.overflow !== 'hidden'", 'Escape in details closes fallback and restores scrolling');
   }

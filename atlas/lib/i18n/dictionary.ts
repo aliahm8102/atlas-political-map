@@ -1,4 +1,5 @@
 export const fa = {
+  "Playback speed": "سرعت پخش",
   "Warm sand": "شن گرم",
   "Midnight blue": "آبی نیمه‌شب",
   "amber": "کهربایی",
