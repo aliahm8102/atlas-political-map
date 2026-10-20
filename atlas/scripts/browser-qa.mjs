@@ -55,6 +55,7 @@ try {
   const screenshot = async name => { const result = await cdp("Page.captureScreenshot", { format: "png", captureBeyondViewport: false }); await fs.writeFile(`outputs/${name}.png`, Buffer.from(result.data, "base64")); };
   captureFailure = () => screenshot('atlas-browser-failure');
   await cdp("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
+  if (process.env.ATLAS_MAP_ONLY !== "1") {
   const origin = process.env.ATLAS_TEST_ORIGIN || "http://127.0.0.1:3000";
   for (const route of ["/", "/demo", "/workspace"]) {
     await navigate(`${origin}${route}`);
@@ -164,7 +165,7 @@ try {
     assert.equal(await evaluate("document.fonts.check('16px Vazirmatn')"), true, 'Bundled Persian font did not load');
     await screenshot('atlas-fa-desktop');
     await click('button[aria-label="نمایش تمام‌صفحه"]');
-    await waitFor("document.fullscreenElement === document.querySelector('.map-stage')", 'Persian map fullscreen works');
+    await waitFor("document.fullscreenElement === document.querySelector('.map-experience')", 'Persian map fullscreen works');
     await click('button[aria-label="خروج از تمام‌صفحه"]');
     await waitFor("!document.fullscreenElement");
     await typeInto('.topbar-search input', 'ایران');
@@ -253,6 +254,7 @@ try {
   await screenshot("atlas-auth-inputs");
   console.log(`PASS: editable email/password/name fields in sign-in, signup, recovery and password update; ${configured ? 'Supabase configuration loaded; read-only checks sent no authentication requests' : 'missing auth service cannot grant map access'}.`);
   }
+  }
   if (process.env.ATLAS_AUTH_ONLY !== "1") {
   const root = fileURLToPath(new URL("../", import.meta.url));
   fixtureServer = await createServer({
@@ -286,9 +288,30 @@ try {
   await evaluate("(() => { const el = document.querySelector('.map-stage'); const r = el.getBoundingClientRect(); el.dispatchEvent(new WheelEvent('wheel', {deltaY:-100000,clientX:r.x+r.width/2,clientY:r.y+r.height/2,bubbles:true,cancelable:true})); })()");
   await waitFor("document.querySelector('.map-scale').textContent.includes('64.0')", "Wheel reaches the same maximum");
   await click('button[aria-label="Reset map position"]');
+  await click('.map-pin');
+  await waitFor("document.querySelector('.person-spotlight h3')", "Selecting a portrait opens its details");
+  const selectedName = await evaluate("document.querySelector('.person-spotlight h3').textContent");
+  const assertOverlays = async label => {
+    assert.equal(await evaluate(`(() => {
+      const root = document.querySelector('.map-experience');
+      const stage = root.querySelector('.map-stage').getBoundingClientRect();
+      const inspector = root.querySelector('.inspector').getBoundingClientRect();
+      const timeline = root.querySelector('.timeline').getBoundingClientRect();
+      const inside = r => r.width > 0 && r.height > 0 && r.left >= stage.left - 1 && r.right <= stage.right + 1 && r.top >= stage.top - 1 && r.bottom <= stage.bottom + 1;
+      const button = root.querySelector('.timeline-play');
+      const b = button.getBoundingClientRect();
+      return inside(inspector) && inside(timeline) && inspector.bottom <= timeline.top && button.contains(document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2));
+    })()`), true, `${label}: overlays must be inside the map, separate, and clickable`);
+  };
   await click('button[aria-label="Enter fullscreen"]');
-  await waitFor("document.fullscreenElement === document.querySelector('.map-stage') && document.querySelector('.map-stage').dataset.fullscreen === 'native'", "Browser native fullscreen activates");
-  assert.equal(await evaluate("Math.abs(document.querySelector('.map-stage').getBoundingClientRect().height - innerHeight) <= 1"), true, "Fullscreen fills the display");
+  await waitFor("document.fullscreenElement === document.querySelector('.map-experience') && document.querySelector('.map-experience').dataset.fullscreen === 'native'", "Browser native fullscreen activates");
+  assert.equal(await evaluate("Math.abs(document.querySelector('.map-experience').getBoundingClientRect().height - innerHeight) <= 1"), true, "Fullscreen fills the display");
+  await assertOverlays('Desktop fullscreen');
+  assert.equal(await evaluate("document.fullscreenElement.contains(document.querySelector('.timeline')) && document.fullscreenElement.contains(document.querySelector('.person-spotlight'))"), true, 'Timeline and person details belong to native fullscreen');
+  const dateBefore = await evaluate("document.querySelector('.timeline-date strong').textContent");
+  await click('button[aria-label="Previous month"]');
+  await waitFor(`document.querySelector('.timeline-date strong').textContent !== ${JSON.stringify(dateBefore)}`, 'Timeline remains interactive in fullscreen');
+  assert.equal(await evaluate("document.querySelector('.person-spotlight h3').textContent"), selectedName);
   await screenshot("atlas-fullscreen");
   await click('button[aria-label="Exit fullscreen"]');
   await waitFor("!document.fullscreenElement && !document.querySelector('.map-expanded')", "Exit button closes fullscreen");
@@ -296,21 +319,34 @@ try {
   await waitFor("document.fullscreenElement");
   await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))");
   await waitFor("!document.fullscreenElement && !document.querySelector('.map-expanded')", "Escape closes fullscreen and syncs controls");
-  await evaluate("void Object.defineProperty(document.querySelector('.map-stage'), 'requestFullscreen', {configurable:true, value: () => Promise.reject(new Error('Test unsupported fullscreen'))})");
+  await evaluate("void Object.defineProperty(document.querySelector('.map-experience'), 'requestFullscreen', {configurable:true, value: () => Promise.reject(new Error('Test unsupported fullscreen'))})");
   await click('button[aria-label="Enter fullscreen"]');
-  await waitFor("document.querySelector('.map-stage').dataset.fullscreen === 'fallback'", "Denied fullscreen falls back to an expanded map");
-  await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-stage').requestFullscreen");
+  await waitFor("document.querySelector('.map-experience').dataset.fullscreen === 'fallback'", "Denied fullscreen falls back to an expanded map");
+  await assertOverlays('Desktop fallback');
+  await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen");
   await waitFor("!document.querySelector('.map-expanded')");
+  for (const [width, height] of [[320, 640], [390, 844], [844, 390]]) {
+    await cdp("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: true });
+    await delay(300);
+    assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, 'Mobile map has horizontal overflow');
+    if (width <= 760) assert.equal(await evaluate("(() => { const r = document.querySelector('.map-stage').getBoundingClientRect(); return Math.abs(r.width / r.height - 1000 / 700) < .02 && r.right <= innerWidth; })()"), true, 'Mobile map fits its responsive aspect ratio');
+    await click('button[aria-label="Enter fullscreen"]');
+    await waitFor("document.querySelector('.map-expanded')", 'Mobile fullscreen activates');
+    await assertOverlays(`Mobile ${width}x${height}`);
+    await screenshot(`atlas-fullscreen-${width}`);
+    await click('button[aria-label="Exit fullscreen"]');
+    await waitFor("!document.querySelector('.map-expanded')", 'Mobile fullscreen exits');
+    await evaluate("void Object.defineProperty(document.querySelector('.map-experience'), 'requestFullscreen', {configurable:true, value:undefined}); document.documentElement.dir = 'rtl'");
+    await click('button[aria-label="Enter fullscreen"]');
+    await waitFor("document.querySelector('.map-experience').dataset.fullscreen === 'fallback'", 'Unsupported mobile fullscreen uses fallback');
+    await assertOverlays(`RTL mobile fallback ${width}x${height}`);
+    await evaluate("document.querySelector('.inspector textarea').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); delete document.querySelector('.map-experience').requestFullscreen; document.documentElement.dir = 'ltr'");
+    await waitFor("!document.querySelector('.map-expanded') && document.body.style.overflow !== 'hidden'", 'Escape in details closes fallback and restores scrolling');
+  }
   await cdp("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
-  await delay(300);
-  assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, "Mobile map has horizontal overflow");
-  await click('button[aria-label="Enter fullscreen"]');
-  await waitFor("document.querySelector('.map-expanded')", "Mobile fullscreen activates");
-  await click('button[aria-label="Exit fullscreen"]');
-  await waitFor("!document.querySelector('.map-expanded')", "Mobile fullscreen exits");
   await screenshot('atlas-mobile');
   assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
-  console.log("PASS: required sign-in for all app entry routes, rejected demo-storage bypass, 64x button/wheel zoom, real fullscreen, Escape/exit synchronization, unsupported-browser fallback, and responsive mobile map controls in an isolated component fixture.");
+  console.log("PASS: 64x button/wheel zoom, native and fallback fullscreen, interactive timeline and selected person overlays, Escape/exit synchronization, responsive phone sizing, portrait/landscape and RTL overlays in an isolated component fixture.");
   console.log("Screenshots saved to outputs/atlas-{desktop,mobile,signin,fullscreen}.png");
   }
   await send("Browser.close");

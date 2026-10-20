@@ -158,7 +158,7 @@ select option { background: var(--surface); color: var(--text); }
 .map-card-footer > span { display: flex; align-items: center; gap: 5px; }
 .map-empty { position: absolute; top: 50%; inset-inline-start: 50%; transform: translate(-50%,-50%); text-align: center; padding: 20px; border-radius: 12px; background: var(--surface); box-shadow: var(--raised); color: var(--text); font-size: calc(12px + var(--desktop-font-increment)); pointer-events: none; }
 .map-empty span { display: block; font-size: calc(10px + var(--desktop-font-increment)); color: var(--muted); margin-top: 6px; }
-.map-expanded { position: fixed; z-index: 60; inset: 18px; height: auto; border-radius: 20px; box-shadow: 0 0 0 30px #17271eda, 0 20px 60px #0005; }
+
 .inspector { border-radius: 18px; box-shadow: var(--raised); background: var(--surface); padding: 20px 18px; border: 1px solid var(--highlight); min-width: 0; }
 .inspector-heading { display: flex; align-items: center; gap: 11px; }
 .inspector-heading-icon { width: 34px; height: 34px; border-radius: 10px; box-shadow: var(--inset); display: flex; align-items: center; justify-content: center; color: var(--accent); }
@@ -454,19 +454,6 @@ select option { background: var(--surface); color: var(--text); }
 .map-pin[data-role="religious"] { --pin-role: #9185a3; }
 .map-pin[data-role="business"] { --pin-role: #b08e76; }
 
-.map-stage:fullscreen {
-  position: relative;
-  inset: auto;
-  width: 100vw;
-  height: 100dvh;
-  max-width: none;
-  max-height: none;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-.map-stage::backdrop { background: var(--ocean); }
-
 @font-face {
   font-family: "Vazirmatn";
   src: url("/fonts/Vazirmatn.woff2") format("woff2");
@@ -528,4 +515,80 @@ html[dir="rtl"] .map-scale { direction: ltr; }
   html[lang="fa"] .map-view-label, html[lang="fa"] .map-subbar .text-link { font-size: 8px; }
   html[lang="fa"] .map-legend { font-size: 6px; }
   html[lang="fa"] .region-filter select { width: 93px; }
+}
+
+/* Keep the map, inspector and timeline in the same fullscreen element. */
+.map-experience { min-width: 0; }
+.map-experience.map-expanded {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min(320px, 36%);
+  grid-template-rows: minmax(0, 1fr) auto;
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  gap: 12px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ocean);
+}
+.map-experience::backdrop { background: var(--ocean); }
+.map-expanded .map-workspace, .map-expanded .map-card { display: contents; }
+.map-expanded .map-card-header, .map-expanded .map-subbar, .map-expanded .map-card-footer { display: none; }
+.map-expanded .map-stage { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 0; }
+.map-expanded .inspector {
+  position: relative;
+  z-index: 1;
+  grid-area: 1 / 2;
+  align-self: start;
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 18px;
+  box-shadow: 0 4px 24px #17271e26;
+}
+.map-expanded .inspector-heading { float: none; width: auto; }
+.map-expanded .inspector-tabs { width: 100%; margin: 16px 0; }
+.map-expanded .layer-controls, .map-expanded .inspector .appearance-controls.compact { display: block; }
+.map-expanded .timeline {
+  position: relative;
+  z-index: 1;
+  grid-area: 2 / 1 / 3 / -1;
+  min-width: 0;
+  margin: 0;
+  box-shadow: 0 4px 24px #17271e26;
+}
+.map-expanded .map-controls { inset-inline-start: max(12px, env(safe-area-inset-left)); inset-inline-end: auto; top: max(58px, calc(env(safe-area-inset-top) + 46px)); }
+.map-expanded .map-control { width: 36px; height: 38px; }
+.map-expanded .map-coordinate { top: max(12px, env(safe-area-inset-top)); }
+.map-expanded .map-legend, .map-expanded .map-compass, .map-expanded .map-scale { display: none; }
+@media (max-width: 760px) {
+  /* Size the map from the available phone width. */
+  .map-experience:not(.map-expanded) .map-stage { width: 100%; height: auto; aspect-ratio: 1000 / 700; min-height: 0; }
+  .map-experience.map-expanded { grid-template-columns: minmax(0, 1fr) min(280px, calc(100% - 60px)); gap: 8px; }
+  .map-expanded .inspector { max-height: min(36dvh, 290px); padding: 12px; border-radius: 12px; }
+  .map-expanded .back-to-layers { margin-bottom: 8px; }
+  .map-expanded .country-heading h2 { font-size: 18px; margin-top: 3px; }
+  .map-expanded .country-region { margin-top: 5px; flex-wrap: wrap; }
+  .map-expanded .person-spotlight { margin-top: 10px; padding-top: 10px; }
+  .map-expanded .spotlight-portrait { width: 42px; height: 42px; }
+  .map-expanded .timeline { padding: 12px; border-radius: 12px; }
+  .map-expanded .timeline-body { flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .map-expanded .timeline-slider { flex-basis: calc(100% - 48px); }
+  .map-expanded .timeline-date { width: 100%; justify-content: center; margin: 0; padding: 5px; }
+  .map-expanded .timeline-heading .text-link { font-size: 8px; }
+}
+@media (max-height: 500px) {
+  .map-expanded .timeline { padding: 8px 12px; }
+  .map-expanded .timeline-heading { display: none; }
+  .map-expanded .timeline-body { flex-wrap: nowrap; margin-top: 0; gap: 12px; }
+  .map-expanded .timeline-slider { flex-basis: auto; }
+  .map-expanded .timeline-date { width: auto; margin: 0; }
+  .map-expanded .timeline-play { margin: 0; }
+  .map-expanded .inspector { max-height: 100%; }
 }

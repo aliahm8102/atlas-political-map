@@ -9,6 +9,7 @@ import nato from "@/data/nato.json";
 import { type Person, type Settings, type Viewport, defaultViewport, MIN_MAP_ZOOM, MAX_MAP_ZOOM } from "@/lib/atlas";
 import { constrainViewport as constrain, zoomViewport } from "@/lib/atlas";
 import Portrait from "./portrait";
+import { useMapFullscreen } from "./map-experience";
 import { useI18n } from "@/components/i18n/provider";
 
 const collection = feature(world as never, world.objects.countries as never) as unknown as FeatureCollection;
@@ -26,33 +27,11 @@ export default function MapCanvas({ people, settings, viewport, onViewport, sele
   const surface = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
   const [hovered, setHovered] = useState("");
-  const [fallbackExpanded, setFallbackExpanded] = useState(false);
-  const [nativeFullscreen, setNativeFullscreen] = useState(false);
-  const [fullscreenPending, setFullscreenPending] = useState(false);
-  const expanded = nativeFullscreen || fallbackExpanded;
+  const { expanded, pending: fullscreenPending, toggle: toggleFullscreen } = useMapFullscreen();
   const [stageScale, setStageScale] = useState(1);
   const latest = useRef(viewport);
   const update = useRef(onViewport);
   useLayoutEffect(() => { latest.current = viewport; update.current = onViewport; }, [viewport, onViewport]);
-  useEffect(() => {
-    const element = surface.current;
-    const syncFullscreen = () => setNativeFullscreen(document.fullscreenElement === element);
-    document.addEventListener("fullscreenchange", syncFullscreen);
-    return () => document.removeEventListener("fullscreenchange", syncFullscreen);
-  }, []);
-  async function toggleFullscreen() {
-    const element = surface.current;
-    if (!element || fullscreenPending) return;
-    if (fallbackExpanded) { setFallbackExpanded(false); return; }
-    setFullscreenPending(true);
-    try {
-      if (document.fullscreenElement === element) await document.exitFullscreen();
-      else if (element.requestFullscreen && document.fullscreenEnabled) await element.requestFullscreen();
-      else setFallbackExpanded(true);
-    } catch {
-      if (document.fullscreenElement !== element) setFallbackExpanded(true);
-    } finally { setFullscreenPending(false); }
-  }
   const clusters = useMemo(() => {
     const grouped: { person: Person; x: number; y: number; people: Person[] }[] = [];
     const ordered = [...people].sort((a, b) => Number(b.role === "leader") - Number(a.role === "leader"));
@@ -82,12 +61,8 @@ export default function MapCanvas({ people, settings, viewport, onViewport, sele
   }, []);
   function zoom(factor: number) { onViewport(zoomViewport(viewport, factor)); }
   const markerSize = (settings.markerSize === "small" ? 29 : settings.markerSize === "large" ? 45 : 36) * (stageScale < .5 ? .8 : 1);
-  return <div className={`map-stage ${expanded ? "map-expanded" : ""}`} data-fullscreen={nativeFullscreen ? "native" : fallbackExpanded ? "fallback" : "off"} ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
-    if (event.key === "Escape") {
-      if (document.fullscreenElement === surface.current) void document.exitFullscreen().catch(() => {});
-      setFallbackExpanded(false); return;
-    }
-    if ((event.target as HTMLElement).closest("button")) return;
+  return <div className="map-stage" ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
+    if ((event.target as HTMLElement).closest("button, input, select, textarea")) return;
     const moves: Record<string, [number, number]> = { ArrowLeft: [45, 0], ArrowRight: [-45, 0], ArrowUp: [0, 45], ArrowDown: [0, -45] };
     if (moves[event.key]) { event.preventDefault(); onViewport(constrain({ ...viewport, x: viewport.x + moves[event.key][0], y: viewport.y + moves[event.key][1] })); }
     if (event.key === "+" || event.key === "=") { event.preventDefault(); zoom(1.4); }
