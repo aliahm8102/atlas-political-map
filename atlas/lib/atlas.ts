@@ -9,8 +9,9 @@ export type Person = {
 export type Country = { code: string; name: string; region: string; lat: number; lng: number };
 export const regions = ["All regions", "Europe", "Asia", "Africa", "North America", "South America", "Oceania"] as const;
 export const settingsSchema = z.object({
-  theme: z.enum(["light", "dark"]).default("light"),
-  accent: z.enum(["sage", "blue", "lavender"]).default("sage"),
+  theme: z.enum(["light", "dark", "sand", "midnight"]).default("light"),
+  accent: z.enum(["sage", "blue", "lavender", "amber", "rose"]).default("sage"),
+  fontSize: z.number().int().min(90).max(130).default(100),
   portraits: z.boolean().default(true), labels: z.boolean().default(true),
   markerSize: z.enum(["small", "medium", "large"]).default("medium"),
   year: z.number().int().min(1900).max(2026).default(2026),

@@ -39,6 +39,22 @@ test("saved preferences accept December and reject corrupt or out-of-range state
   assert.equal(settingsSchema.safeParse({ year: 2050 }).success, false);
   assert.equal(localStateSchema.safeParse({ settings: { theme: "untrusted" } }).success, false);
 });
+
+test("appearance preferences preserve new options and restore legacy settings with default text size", () => {
+  const legacy = settingsSchema.parse({ theme: "dark", accent: "lavender", year: 1942 });
+  assert.equal(legacy.fontSize, 100);
+  assert.equal(legacy.year, 1942);
+  for (const theme of ["light", "dark", "sand", "midnight"]) {
+    for (const accent of ["sage", "blue", "lavender", "amber", "rose"]) {
+      const saved = { ...defaultSettings, theme, accent, fontSize: 130 };
+      const restored = localStateSchema.parse(JSON.parse(JSON.stringify({ settings: saved, bookmarks: ["kept"], displayName: "Explorer" })));
+      assert.deepEqual(restored.settings, saved);
+      assert.deepEqual(restored.bookmarks, ["kept"]);
+    }
+  }
+  for (const fontSize of [89, 131, 100.5, "120", null]) assert.equal(settingsSchema.safeParse({ fontSize }).success, false);
+  assert.equal(settingsSchema.parse({ fontSize: 90 }).fontSize, 90);
+});
 test("region assignment keeps the source Iranian and Indian records in Asia", () => {
   assert.ok(people.filter(p => p.dataset === "iran").every(p => p.region === "Asia"));
   assert.equal(people.find(p => p.name === "Narendra Modi").region, "Asia");

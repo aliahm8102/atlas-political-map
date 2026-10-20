@@ -1,4 +1,10 @@
 export const fa = {
+  "Warm sand": "شن گرم",
+  "Midnight blue": "آبی نیمه‌شب",
+  "amber": "کهربایی",
+  "rose": "رز",
+  "Font size": "اندازهٔ فونت",
+  "Make Atlas comfortable to read.": "اندازهٔ نوشته‌های اطلس را برای خواندن راحت‌تر تنظیم کنید.",
   "My characters": "شخصیت‌های من",
   "Add character": "افزودن شخصیت",
   "Create a person for your own map.": "یک شخصیت برای نقشهٔ خودتان بسازید.",

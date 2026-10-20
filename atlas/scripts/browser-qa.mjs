@@ -109,6 +109,69 @@ try {
     await typeInto('#display-name', 'Local Test Explorer');
     await click('form:has(#display-name) button');
     await waitFor("document.querySelector('.profile-button strong')?.textContent === 'Local Test Explorer'", "Local profile saves");
+    assert.equal(await evaluate("document.querySelectorAll('.theme-choice').length"), 4, 'Four color themes are available');
+    assert.equal(await evaluate("document.querySelectorAll('.accent-choice').length"), 5, 'Five accent colors are available');
+    const defaultFont = await evaluate("parseFloat(getComputedStyle(document.querySelector('.settings-card h2')).fontSize)");
+    for (const theme of ['light', 'dark', 'sand', 'midnight']) {
+      await click(`.theme-choice.${theme}`);
+      await waitFor(`document.querySelector('.atlas-app').dataset.theme === '${theme}'`);
+      let previousAccent;
+      for (const accent of ['sage', 'blue', 'lavender', 'amber', 'rose']) {
+        await click(`.accent-choice.${accent}`);
+        await waitFor(`document.querySelector('.atlas-app').dataset.accent === '${accent}'`);
+        const color = await evaluate("getComputedStyle(document.querySelector('.atlas-app')).getPropertyValue('--accent').trim()");
+        assert.notEqual(color, previousAccent, `${theme}/${accent} applies its palette`);
+        previousAccent = color;
+      }
+    }
+    await evaluate("document.querySelector('.font-size-control input').focus()");
+    await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+    await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+    await waitFor("document.querySelector('.font-size-control input').value === '130'", 'Keyboard sets maximum font size');
+    const largeFont = await evaluate("parseFloat(getComputedStyle(document.querySelector('.settings-card h2')).fontSize)");
+    assert.ok(Math.abs(largeFont / defaultFont - 1.3) < .01, 'Text scales to 130%');
+    await screenshot('atlas-workspace-midnight');
+    await click('.theme-choice.sand');
+    await click('.accent-choice.amber');
+    await screenshot('atlas-workspace-sand');
+    await navigate(`${origin}/workspace`);
+    await waitFor("document.querySelector('.atlas-app')?.dataset.theme === 'sand' && document.querySelector('.atlas-app')?.dataset.accent === 'amber'", 'New theme and accent persist after reload');
+    assert.equal(await evaluate("document.querySelector('.atlas-app').style.getPropertyValue('--font-scale')"), '1.3', 'Font size persists after reload');
+    assert.equal(await evaluate("document.querySelector('.page-heading .add-character-button') === null"), true, 'Add character is removed from the main page');
+    await nav('My workspace');
+    await waitFor("document.querySelector('.font-size-control input')?.value === '130'", 'Workspace restores the saved font size');
+    assert.equal(await evaluate("document.querySelector('.page-heading .add-character-button').getAttribute('href')"), '/workspace/characters');
+    for (const width of [320, 390]) {
+      await cdp('Emulation.setDeviceMetricsOverride', { width, height: 844, deviceScaleFactor: 1, mobile: true });
+      assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, `Workspace fits ${width}px at 130% font size`);
+    }
+    const mobileLargeFont = await evaluate("parseFloat(getComputedStyle(document.querySelector('.settings-card h2')).fontSize)");
+    await evaluate("document.querySelector('.font-size-control input').focus()");
+    await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Home', code: 'Home', windowsVirtualKeyCode: 36 });
+    await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Home', code: 'Home', windowsVirtualKeyCode: 36 });
+    await waitFor("document.querySelector('.font-size-control input').value === '90'", 'Keyboard sets minimum font size');
+    const mobileSmallFont = await evaluate("parseFloat(getComputedStyle(document.querySelector('.settings-card h2')).fontSize)");
+    assert.ok(Math.abs(mobileLargeFont / mobileSmallFont - 130 / 90) < .01, 'Mobile text scales with the same font preference');
+    await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+    await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+    await waitFor("document.querySelector('.font-size-control input').value === '130'");
+    await evaluate("document.querySelector('.appearance-controls').scrollIntoView({block:'start'})");
+    await screenshot('atlas-workspace-mobile');
+    await click('[data-testid="language-switcher"]');
+    await waitFor("document.documentElement.lang === 'fa' && document.querySelector('.font-size-control label').textContent.includes('\u0641\u0648\u0646\u062a')", 'Font size control is translated into Persian');
+    assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, 'Persian workspace fits mobile at 130% font size');
+    assert.match(await evaluate("document.querySelector('.font-size-control output').textContent"), /[\u06f0-\u06f9]/);
+    await delay(300);
+    assert.equal(await evaluate("(() => { const labels = [...document.querySelectorAll('.accent-choice > span')].map(el => el.getBoundingClientRect()); const card = document.querySelector('.appearance-controls').closest('.settings-card').getBoundingClientRect(); return labels.every((rect, i) => rect.left >= card.left && rect.right <= card.right && labels.every((other, j) => i === j || rect.right <= other.left || rect.left >= other.right || rect.bottom <= other.top || rect.top >= other.bottom)); })()"), true, 'Persian accent labels fit without clipping or overlapping');
+    await screenshot('atlas-workspace-fa-mobile');
+    await click('[data-testid="language-switcher"]');
+    await waitFor("document.documentElement.lang === 'en'");
+    await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
+    await click('.appearance-controls > .secondary-button');
+    await waitFor("document.querySelector('.font-size-control input').value === '100' && document.querySelector('.atlas-app').dataset.theme === 'light' && document.querySelector('.atlas-app').dataset.accent === 'sage'", 'Reset appearance restores all appearance defaults');
+    await click('.page-heading .add-character-button');
+    await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form')", 'Add character opens its editor from My workspace');
+    console.log('PASS: four themes, five accents, keyboard font scaling, saved appearance after reload, mobile/Persian layout, reset appearance, and Add character moved to My workspace.');
     await nav('People directory');
     await waitFor("document.querySelector('.person-card')");
     await click('.person-card-top button');
