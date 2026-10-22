@@ -15,6 +15,7 @@
     "sites:dev": "node scripts/run-framework.mjs dev",
     "sites:build": "node scripts/run-framework.mjs build",
     "typecheck": "tsc --noEmit",
+    "twa:signing": "node scripts/setup-twa-signing.mjs",
     "data:import": "node scripts/import-data.mjs",
     "demo:setup": "node scripts/setup-local-demo.mjs",
     "test": "node --test scripts/*.test.mjs",

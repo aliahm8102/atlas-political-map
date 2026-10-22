@@ -59,6 +59,10 @@ Service worker registration is disabled in development. To verify it locally, us
 
 With the local production server running, run `node scripts/pwa-browser-qa.mjs` to check Chrome installability, worker registration, public-only caching, both offline languages, mobile layout and sign-in protection after reconnecting. Set `ATLAS_TEST_ORIGIN` or `ATLAS_CHROME_BIN` for a different local port or browser path.
 
+## Android app (TWA)
+
+The [`android/`](./android/README.md) project wraps the PWA as a Trusted Web Activity for `https://atlas-peyma.ir`, using the package `ir.atlas_peyma.twa`. It includes release signing support, app links, native launcher icons and a public Digital Asset Links file. The initial signing key and password were generated locally in the Git-ignored `android/signing/` directory; back up that entire directory securely. See the Android README for build commands, domain verification and Google Play signing setup. The web app must be deployed with the asset links before Android can verify trusted mode.
+
 ## Languages
 
 Use the **فارسی / English** control on the sign-in page or workspace header. Your explicit choice is saved in the `atlas-locale` cookie for one year and is read during server rendering, including page metadata and the document's language and direction. On a first visit, a supported browser language is selected; English is the fallback. Changing languages preserves the signed-in session, current page, filters, viewport, and entered form values.

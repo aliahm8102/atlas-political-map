@@ -56,3 +56,14 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Android TWA build output and private signing material.
+/android/.gradle/
+/android/.kotlin/
+/android/build/
+/android/app/build/
+/android/local.properties
+/android/signing/
+*.keystore
+*.jks
+*.p12

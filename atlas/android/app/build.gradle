@@ -1,0 +1,60 @@
+import groovy.json.JsonSlurper
+
+plugins {
+    id 'com.android.application'
+}
+
+def twa = new JsonSlurper().parse(rootProject.file('twa-config.json'))
+def signingFile = rootProject.file('signing/signing.properties')
+def signing = new Properties()
+if (signingFile.exists()) {
+    signingFile.withInputStream { signing.load(it) }
+}
+
+android {
+    namespace twa.applicationId
+    compileSdk 36
+
+    defaultConfig {
+        applicationId twa.applicationId
+        minSdk 23
+        targetSdk 36
+        versionCode twa.versionCode
+        versionName twa.versionName
+        manifestPlaceholders = [twaHost: new URI(twa.origin).host]
+        resValue 'string', 'app_name', twa.appName
+        resValue 'string', 'launch_url', twa.origin + twa.launchPath
+        resValue 'color', 'twa_background', twa.themeColor
+        resValue 'string', 'asset_statements', groovy.json.JsonOutput.toJson([[
+            relation: ['delegate_permission/common.handle_all_urls'],
+            target: [namespace: 'web', site: twa.origin]
+        ]]).replace('"', '\\"')
+    }
+
+    signingConfigs {
+        release {
+            if (signingFile.exists()) {
+                storeFile rootProject.file(signing.getProperty('storeFile'))
+                storePassword signing.getProperty('storePassword')
+                keyAlias signing.getProperty('keyAlias')
+                keyPassword signing.getProperty('keyPassword')
+            }
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+// A release must never silently become an unsigned APK when secrets are absent.
+gradle.taskGraph.whenReady { graph ->
+    if (!signingFile.exists() && graph.allTasks.any { it.name.toLowerCase().contains('release') }) {
+        throw new GradleException('Release signing is missing. Run npm run twa:signing in atlas/ first, or restore android/signing/ from backup.')
+    }
+}
+
+dependencies {
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.7.3'
+}

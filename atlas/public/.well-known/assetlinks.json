@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ir.atlas_peyma.twa",
+      "sha256_cert_fingerprints": [
+        "44:9B:6A:E1:BC:AF:BB:B2:B4:13:70:C2:C0:B8:17:3A:20:C3:BF:80:9D:80:5A:FB:2D:29:F6:91:E0:6B:73:E0"
+      ]
+    }
+  }
+]
