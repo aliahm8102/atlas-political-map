@@ -1,3 +1,4 @@
+import type { SearchState } from "@/lib/search";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfig } from "@/lib/supabase/config";
@@ -5,12 +6,12 @@ import Workspace from "@/components/atlas/workspace";
 import { settingsSchema, initialPersonalState, type Person, type Country } from "@/lib/atlas";
 import { getLocalAccount, localAuthConfig } from "@/lib/auth/local";
 
-export default async function AuthenticatedWorkspace({ initialPage = "map" }: { initialPage?: "map" | "characters" }) {
+export default async function AuthenticatedWorkspace({ initialPage = "map", initialSearch }: { initialPage?: "map" | "characters" | "search"; initialSearch?: SearchState }) {
   if (localAuthConfig()) {
     const account = await getLocalAccount();
     if (!account) redirect("/login");
     const [people, countries] = await Promise.all([import("@/data/people.json"), import("@/data/countries.json")]);
-    return <Workspace key={account.id} initialPage={initialPage} mode="local" userId={account.id} email={account.email} people={people.default as Person[]} countries={countries.default as Country[]} initialState={{ ...initialPersonalState, displayName: "Atlas Demo" }} />;
+    return <Workspace key={account.id} initialPage={initialPage} initialSearch={initialSearch} mode="local" userId={account.id} email={account.email} people={people.default as Person[]} countries={countries.default as Country[]} initialState={{ ...initialPersonalState, displayName: "Atlas Demo" }} />;
   }
   if (!supabaseConfig()) redirect("/login");
   const supabase = await createClient();
@@ -33,5 +34,5 @@ export default async function AuthenticatedWorkspace({ initialPage = "map" }: { 
     return { id: row.id, name: row.name, title: row.title, role: row.role, lat: row.latitude, lng: row.longitude, imageUrl: row.image_url, startYear: row.start_year === null ? null : Number(row.start_year), endYear: row.end_year === null ? null : Number(row.end_year), countryCode: row.country_code, country: country?.name ?? "Unknown", region: country?.region ?? "Unknown", dataset: row.dataset_id };
   });
   const parsedSettings = settingsSchema.safeParse(preferences.data?.settings ?? {});
-  return <Workspace key={userId} initialPage={initialPage} mode="account" userId={userId} email={auth.claims.email as string} people={people} countries={countries} initialState={{ ...initialPersonalState, displayName: profile.data?.display_name ?? "Explorer", settings: parsedSettings.success ? parsedSettings.data : initialPersonalState.settings, bookmarks: (bookmarks.data ?? []).map(row => row.person_id), notes: Object.fromEntries((notes.data ?? []).map(row => [row.country_code, row.body])) }} />;
+  return <Workspace key={userId} initialPage={initialPage} initialSearch={initialSearch} mode="account" userId={userId} email={auth.claims.email as string} people={people} countries={countries} initialState={{ ...initialPersonalState, displayName: profile.data?.display_name ?? "Explorer", settings: parsedSettings.success ? parsedSettings.data : initialPersonalState.settings, bookmarks: (bookmarks.data ?? []).map(row => row.person_id), notes: Object.fromEntries((notes.data ?? []).map(row => [row.country_code, row.body])) }} />;
 }

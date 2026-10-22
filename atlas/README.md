@@ -73,6 +73,22 @@ Persian uses right-to-left layouts and Persian digits. Historical dates remain *
 
 Interface translations live in `lib/i18n/dictionary.ts`; Persian presentation names and office titles are in `data/locales/fa-data.json`, with common country-based office titles composed by `lib/i18n/index.ts`. Original records, IDs, database columns, and filter values stay unchanged. The [Vazirmatn font](https://github.com/rastikerdar/vazirmatn) is bundled under `public/fonts` with its SIL Open Font License, so loading Persian typography requires no third-party font service.
 
+## Global search
+
+The centered header search finds people (including historical records and your account's custom characters) and countries in the atlas. Places currently mean the countries in the bundled dataset. Typing offers keyboard-accessible suggestions without changing map filters. Press Enter to see all results, or select a suggestion to open it on the map. Selecting a historical person also aligns the map timeline to their term. Ctrl/Cmd+K focuses the search field.
+
+The local bilingual index normalizes Persian/Arabic letter variants, diacritics, half spaces and Persian digits. It uses conservative stemming, a curated vocabulary of political roles and country aliases, and bounded edit distance for misspellings. Domain intent supports queries such as `presidents of Iran in 2024`, `نظامیان ایرانی`, and `USA`. This is vocabulary-based intent matching within the atlas, with no external AI service. Exact matches take priority; zero-result searches offer spelling alternatives, example queries and a way to remove restrictive filters.
+
+The protected `/workspace/search` page supports result type, region, role, active year and relevance/name/term-date sorting. Query and filter state are kept in the URL for reloads, copied links and browser back/forward navigation. Results load in groups of 24.
+
+Search engine tests are part of `npm test`. With a local demo server running, test keyboard suggestions, search behavior, filters, pagination, URL restoration and Persian/mobile layouts with:
+
+```bash
+node scripts/search-browser-qa.mjs
+```
+
+The browser runner uses Chrome and `.env.demo.local` against loopback origins only. It accepts `ATLAS_TEST_ORIGIN` and `ATLAS_CHROME_BIN` and saves screenshots in the ignored `outputs/` directory.
+
 ## Connect Supabase
 
 A hosted Supabase project must be connected before account registration and map access are available. The complete schema and imported-data migrations are included.

@@ -282,10 +282,12 @@ try {
     assert.match(await evaluate("document.querySelector('.person-spotlight h3').textContent"), /[\u0600-\u06ff]/);
     await nav('فهرست افراد');
     await typeInto('.topbar-search input', 'پزشكيان');
-    await waitFor("document.querySelector('.person-card h3')?.textContent === 'مسعود پزشکیان'", 'Persian search normalizes Arabic letters');
-    assert.equal(await evaluate("document.querySelector('.person-card p').textContent"), 'رئیس‌جمهور ایران');
+    await click('.search-submit');
+    await waitFor("document.querySelector('.search-result-card h3')?.textContent === 'مسعود پزشکیان'", 'Persian search normalizes Arabic letters');
+    assert.equal(await evaluate("document.querySelector('.search-result-card p').textContent"), 'رئیس‌جمهور ایران');
     await typeInto('.topbar-search input', 'Masoud');
-    await waitFor("document.querySelector('.person-card h3')?.textContent === 'مسعود پزشکیان'", 'English aliases still work in Persian');
+    await click('.search-submit');
+    await waitFor("document.querySelector('.search-result-card h3')?.textContent === 'مسعود پزشکیان'", 'English aliases still work in Persian');
     await click('button[aria-label="پاک‌کردن جست‌وجو"]');
     await nav('فضای من');
     await waitFor("document.querySelector('.settings-card h2')?.textContent === 'پروفایل شما'");
