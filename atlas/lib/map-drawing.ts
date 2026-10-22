@@ -1,5 +1,5 @@
 export type DrawingPoint = { x: number; y: number };
-export type PencilStroke = { id: number; points: DrawingPoint[] };
+export type PencilStroke = { id: number; points: DrawingPoint[]; color?: string };
 
 function pointDistance(point: DrawingPoint, start: DrawingPoint, end: DrawingPoint) {
   const dx = end.x - start.x, dy = end.y - start.y;

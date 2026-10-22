@@ -22,7 +22,14 @@ try {
   await new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); });
   socket.addEventListener("message", event => {
     const data = JSON.parse(String(event.data));
-    if (data.id) { const promise = pending.get(data.id); if (promise) { pending.delete(data.id); data.error ? promise.reject(new Error(data.error.message)) : promise.resolve(data.result); } }
+    if (data.id) {
+      const promise = pending.get(data.id);
+      if (promise) {
+        pending.delete(data.id);
+        if (data.error) promise.reject(new Error(data.error.message));
+        else promise.resolve(data.result);
+      }
+    }
     if (data.method === "Runtime.exceptionThrown") exceptions.push(data.params.exceptionDetails.exception?.description || data.params.exceptionDetails.text);
     if (data.method === "Network.requestWillBeSent" && /supabase\.co\/(auth|rest)\/v1\//.test(data.params.request.url)) backendRequests.push(data.params.request.url);
   });
@@ -356,7 +363,7 @@ try {
   fixtureServer = await createServer({
     configFile: false, root,
     resolve: { alias: { "@": root } },
-    server: { host: "127.0.0.1", port: 0 },
+    server: { host: "127.0.0.1", port: 0, watch: { ignored: ["**/.next/**", "**/.next-qa/**", "**/outputs/**", "**/work/**"] } },
     optimizeDeps: { include: ["react", "react-dom/client", "react/jsx-runtime", "@supabase/ssr", "@supabase/supabase-js", "d3-geo", "lucide-react", "topojson-client", "zod"], noDiscovery: true },
     plugins: [react(), { name: "isolated-browser-fixture", configureServer(server) {
       server.middlewares.use(async (request, response, next) => {
@@ -550,10 +557,14 @@ try {
     await waitFor("document.querySelector('.map-drawing').dataset.drawingTool === 'pencil'", label + ': pencil opens ready to draw');
     assert.equal(await evaluate("(() => { const el = document.querySelector('#map-drawing-tools button[aria-label=\"Erase pencil strokes\"]'); const r = el.getBoundingClientRect(); return r.width > 0 && el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)); })()"), true, label + ': eraser button is visible and clickable');
     const { x, y } = await evaluate("(() => { const r = document.querySelector('.map-stage').getBoundingClientRect(); return {x:r.x+r.width*.5,y:r.y+r.height*.5}; })()");
+    await click('#map-drawing-tools button[aria-label="Blue"]');
     await stroke([{ x: x-24, y }, { x: x-12, y: y-12 }, { x, y }, { x: x+12, y: y+12 }, { x: x+24, y }]);
     await waitFor("document.querySelectorAll('[data-pencil-stroke]').length === 1", label + ': first freehand stroke appears');
+    assert.equal(await evaluate("document.querySelector('[data-pencil-stroke]').getAttribute('stroke')"), '#2563eb', 'Pencil uses the selected palette color');
+    await input('#map-drawing-tools input[type=color]', '#e11d48');
     await stroke([{ x: x-24, y: y+60 }, { x, y: y+68 }, { x: x+24, y: y+60 }]);
     await waitFor("document.querySelectorAll('[data-pencil-stroke]').length === 2", label + ': separate strokes are retained');
+    assert.deepEqual(await evaluate("[...document.querySelectorAll('[data-pencil-stroke]')].map(p => p.getAttribute('stroke'))"), ['#2563eb', '#e11d48'], 'Custom pencil color leaves the previous stroke unchanged');
     assert.equal(await view(), originalView, 'Drawing does not pan the map');
     const secondPath = await evaluate("document.querySelectorAll('[data-pencil-stroke]')[1].getAttribute('d')");
     await screenshot(`atlas-drawing-${label.replaceAll(/[^a-z0-9]+/gi, '-').toLowerCase()}`);
@@ -588,12 +599,47 @@ try {
     assert.ok(portrait, 'A portrait remains available for the eraser safety test');
     await stroke([portrait, { x: portrait.x+15, y: portrait.y+10 }]);
     assert.deepEqual(await fingerprint(), original, label + ': eraser preserves every country, portrait, layer and stored position');
+    await click('#map-drawing-tools button[aria-label="Measure distance"]');
+    const rulerPoints = await evaluate("(() => { const r = document.querySelector('.map-stage').getBoundingClientRect(); return [-24,0,24].map(dx => ({x:r.x+r.width*.5+dx,y:r.y+r.height*.75})); })()");
+    const total = () => evaluate("Number(document.querySelector('[data-measurement-total]').dataset.measurementTotal)");
+    for (const [index, point] of rulerPoints.entries()) {
+      await stroke([point]);
+      await waitFor(`document.querySelectorAll('[data-measurement-point]').length === ${index+1}`, label + ': ruler adds point ' + (index+1));
+    }
+    const rulerTotal = await total();
+    assert.ok(rulerTotal > 0, 'Ruler reports a positive geographic distance');
+    assert.equal(await evaluate("document.querySelectorAll('.map-measurement li').length"), 2, 'Three points produce two distance segments');
+    const rulerPath = await evaluate("document.querySelector('[data-measurement-path]').getAttribute('d')");
+    await screenshot(`atlas-ruler-${label.replaceAll(/[^a-z0-9]+/gi, '-').toLowerCase()}`);
+    assert.equal(await evaluate("(() => { const r=document.querySelector('#map-drawing-tools').getBoundingClientRect(); return r.left>=0 && r.right<=innerWidth && r.bottom<=innerHeight; })()"), true, 'Ruler panel fits the viewport');
+    await click('button[aria-label="Zoom in"]');
+    assert.equal(await total(), rulerTotal, 'Zoom cannot change measured kilometers');
+    assert.equal(await evaluate("document.querySelector('[data-measurement-path]').getAttribute('d')"), rulerPath, 'Measurement stays in map coordinates');
+    await click('#map-drawing-tools button[aria-label="Erase pencil strokes"]');
+    await stroke([rulerPoints[1]]);
+    assert.equal(await evaluate("document.querySelectorAll('[data-measurement-point]').length"), 3, 'Eraser cannot remove ruler points');
+    await click('#map-drawing-tools button[aria-label="Measure distance"]');
+    if (touch) {
+      const before = await total();
+      const pinchPoints = distance => [{ x: x-distance, y: y+45, id: 7 }, { x: x+distance, y: y+45, id: 8 }];
+      await cdp('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: pinchPoints(20) });
+      await cdp('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: pinchPoints(35) });
+      await cdp('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      assert.equal(await total(), before, 'Two-finger ruler gestures add no accidental measurement point');
+    }
+    await click('#map-drawing-tools button[aria-label="Undo measurement point"]');
+    await waitFor("document.querySelectorAll('[data-measurement-point]').length === 2");
+    assert.ok(await total() < rulerTotal, 'Undo updates the total');
+    await click('#map-drawing-tools button[aria-label="Clear measurement"]');
+    assert.equal(await total(), 0);
+    assert.equal(await evaluate("document.querySelectorAll('[data-measurement-point], [data-measurement-path]').length"), 0, 'Clear removes only measurement geometry');
+    await click('button[aria-label="Reset map position"]');
     await click('.map-controls > button[aria-label="Drawing tools"]');
     assert.equal(await evaluate("document.querySelector('.map-drawing').dataset.drawingTool"), 'pan', 'Closing tools restores map interaction');
     if (touch) await cdp('Emulation.setTouchEmulationEnabled', { enabled: false });
     await click('.map-controls button[aria-label="Map controls"]');
     await click('.map-controls button[aria-controls="map-timeline"]');
-    console.log(`PASS: ${label} pencil, selective eraser, protected map content, zoom/pan alignment${touch ? ' and two-finger gesture takeover' : ''}.`);
+    console.log(`PASS: ${label} pencil colors, selective eraser, multi-point ruler, undo/clear, protected map content, zoom/pan alignment${touch ? ' and two-finger gesture takeover' : ''}.`);
   };
   const assertPinch = async label => {
     await click('button[aria-label="Reset map position"]');
@@ -733,6 +779,18 @@ try {
     await waitFor("!document.querySelector('.map-expanded') && document.body.style.overflow !== 'hidden'", 'Escape in details closes fallback and restores scrolling');
   }
   await cdp("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+  await navigate(`${fixtureOrigin}?locale=fa`);
+  await waitFor("document.documentElement.lang === 'fa' && Boolean(document.querySelector('.world-map'))");
+  await click('button[aria-label="نمایش تمام‌صفحه"]');
+  await waitFor("Boolean(document.querySelector('.map-expanded'))");
+  await click('.map-controls button[aria-controls="map-drawing-tools"]');
+  await waitFor("Boolean(document.querySelector('[aria-label=\"رنگ مداد\"]'))");
+  await screenshot('atlas-pencil-fa');
+  await click('#map-drawing-tools button[aria-label="اندازه‌گیری مسافت"]');
+  assert.equal(await evaluate("document.querySelector('.map-measurement').innerText.includes('مسافت کل') && document.querySelector('.map-measurement output').textContent.includes('متر')"), true, 'Persian ruler labels and units are translated');
+  await screenshot('atlas-ruler-fa');
+  await click('.map-controls button[aria-controls="map-drawing-tools"]');
+  await click('button[aria-label="خروج از تمام‌صفحه"]');
   await screenshot('atlas-mobile');
   assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   console.log("PASS: 64x zoom, real two-finger zoom/pan and portrait gesture takeover, fullscreen clock toggle, native/fallback fullscreen, responsive portrait/landscape sizing, and RTL overlays.");

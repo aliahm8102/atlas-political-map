@@ -581,10 +581,26 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .map-expanded .map-controls { inset-inline-start: max(12px, env(safe-area-inset-left)); inset-inline-end: auto; top: max(58px, calc(env(safe-area-inset-top) + 46px)); z-index: 2; }
 .map-expanded .map-control { width: 36px; height: 38px; }
 .map-drawing { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; touch-action: none; user-select: none; }
-.map-drawing[data-drawing-tool="pencil"] { cursor: crosshair; }
+.map-drawing[data-drawing-tool="pencil"], .map-drawing[data-drawing-tool="ruler"] { cursor: crosshair; }
 .map-drawing[data-drawing-tool="eraser"] { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Ccircle cx='15' cy='15' r='13' fill='white' fill-opacity='.25' stroke='%23d35c37' stroke-width='2'/%3E%3C/svg%3E") 15 15, crosshair; }
-.map-drawing-tools { position: absolute; inset-inline-start: calc(100% + 8px); top: 0; display: flex; gap: 4px; padding: 5px; border-radius: 10px; background: var(--surface); box-shadow: var(--raised); border: 1px solid var(--border); }
+.map-drawing-tools { position: absolute; inset-inline-start: calc(100% + 8px); top: 0; display: grid; grid-template-columns: repeat(4, 1fr); justify-items: center; width: min(220px, calc(100dvw - 80px)); gap: 6px; padding: 6px; border-radius: 10px; background: var(--surface); box-shadow: var(--raised); border: 1px solid var(--border); }
+.map-drawing-tools { max-height: calc(100dvh - 90px); overflow-y: auto; }
 .map-drawing-tools[hidden] { display: none; }
+.map-pencil-colors { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; padding: 6px 0; border-top: 1px solid var(--border); }
+.pencil-color, .pencil-custom-color { width: 30px; height: 30px; border: 1px solid var(--muted); border-radius: 50%; cursor: pointer; }
+.pencil-color[aria-pressed="true"] { outline: 2px solid var(--text); outline-offset: 2px; box-shadow: inset 0 0 0 3px var(--surface); }
+.pencil-custom-color { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.pencil-custom-color input { width: 30px; height: 30px; padding: 0; border: 0; cursor: pointer; }
+.map-measurement { grid-column: 1 / -1; width: 100%; display: grid; gap: 7px; border-top: 1px solid var(--border); padding-top: 8px; font-size: calc(11px * var(--font-scale, 1)); color: var(--text); }
+.map-measurement p { margin: 0; line-height: 1.7; }
+.map-measurement output { display: block; font-size: calc(12px * var(--font-scale, 1)); }
+.map-measurement small { color: var(--muted); }
+.map-measurement ol { list-style: none; margin: 0; padding: 0; max-height: min(100px, 20dvh); overflow: auto; }
+.map-measurement li { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; }
+.map-measurement li > span { direction: ltr; }
+.measurement-actions { display: flex; gap: 8px; }
+.measurement-actions button { display: flex; align-items: center; justify-content: center; gap: 4px; flex: 1; min-height: 36px; border-radius: 6px; background: var(--soft); color: var(--text); }
+.measurement-actions button:disabled { opacity: .45; cursor: default; }
 .map-control[aria-pressed="true"] { color: var(--accent); background: var(--soft); box-shadow: var(--inset); }
 .map-expanded .map-coordinate { top: max(12px, env(safe-area-inset-top)); }
 .map-expanded .map-legend, .map-expanded .map-compass, .map-expanded .map-scale { display: none; }
