@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9eeeb">
+  <title>Atlas — Offline</title>
+  <style>
+    @font-face { font-family: Vazirmatn; src: url('/fonts/Vazirmatn.woff2') format('woff2'); font-display: swap; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px; background: #e9eeeb; color: #283c30; font-family: Vazirmatn, system-ui, sans-serif; text-align: center; }
+    main { width: min(100%, 460px); padding: 32px 24px; border-radius: 24px; box-shadow: 10px 10px 30px #ccd3ce, -10px -10px 30px #fff; }
+    img { width: 96px; height: 96px; }
+    h1 { font-size: 1.6rem; }
+    p { line-height: 1.9; }
+    button { font: inherit; cursor: pointer; background: #547b63; color: white; border: 0; border-radius: 12px; padding: 12px 24px; }
+    button:focus-visible { outline: 3px solid #283c30; outline-offset: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="/icons/icon-192.png" alt="Atlas" width="96" height="96">
+    <h1 id="heading">You’re offline</h1>
+    <p id="message">Connect to the internet to sign in and open your atlas.</p>
+    <button id="retry" type="button">Try again</button>
+    <noscript><p lang="fa" dir="rtl">اتصال اینترنت برقرار نیست. برای ورود و باز کردن اطلس به اینترنت متصل شوید.</p></noscript>
+  </main>
+  <script>
+    const saved = document.cookie.match(/(?:^|;\s*)atlas-locale=(en|fa)(?:;|$)/)?.[1];
+    const locale = saved || ((navigator.languages || [navigator.language]).find(lang => /^(en|fa)(-|$)/i.test(lang)) || 'en').slice(0, 2).toLowerCase();
+    if (locale === 'fa') {
+      document.documentElement.lang = 'fa';
+      document.documentElement.dir = 'rtl';
+      document.title = 'اطلس — بدون اتصال';
+      document.getElementById('heading').textContent = 'اتصال اینترنت برقرار نیست';
+      document.getElementById('message').textContent = 'برای ورود و باز کردن اطلس به اینترنت متصل شوید.';
+      document.getElementById('retry').textContent = 'تلاش دوباره';
+    }
+    document.getElementById('retry').addEventListener('click', () => location.reload());
+  </script>
+</body>
+</html>

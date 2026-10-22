@@ -49,6 +49,16 @@ To return to Supabase, set `ATLAS_LOCAL_AUTH_ENABLED=false` in `.env.local` and 
 - Display name, portrait visibility, continent labels, and marker size.
 - Supabase email/password sign-in, sign-up, confirmation, recovery, password update, sign-out, verified server-side route protection, and database-backed personal data when connected.
 
+## Install as an app (PWA)
+
+Atlas includes a web app manifest, standalone display, home-screen icons (including maskable and Apple touch icons), and a production service worker. On an HTTPS deployment, use **Install app** in Chrome/Edge or **Share → Add to Home Screen** in Safari on iPhone/iPad. The installed app opens at `/` and keeps the usual sign-in requirement.
+
+When a navigation fails without internet, a public offline page appears in English or Persian with a retry button. The map and sign-in still require internet. Only the offline page, its font and app icons are cached; account pages, authentication responses, API data and server component payloads are never stored by the service worker. Closing and reopening the app uses the latest server content when online. Worker upgrades activate after existing app windows close, and remove older Atlas PWA caches.
+
+Service worker registration is disabled in development. To verify it locally, use `npm run build` followed by `npm start` on localhost, which browsers treat as a secure context. On Windows, regenerate the globe icons with `powershell -File scripts/generate-pwa-icons.ps1`. The implementation follows the [Next.js PWA guide](https://nextjs.org/docs/app/guides/progressive-web-apps).
+
+With the local production server running, run `node scripts/pwa-browser-qa.mjs` to check Chrome installability, worker registration, public-only caching, both offline languages, mobile layout and sign-in protection after reconnecting. Set `ATLAS_TEST_ORIGIN` or `ATLAS_CHROME_BIN` for a different local port or browser path.
+
 ## Languages
 
 Use the **فارسی / English** control on the sign-in page or workspace header. Your explicit choice is saved in the `atlas-locale` cookie for one year and is read during server rendering, including page metadata and the document's language and direction. On a first visit, a supported browser language is selected; English is the fallback. Changing languages preserves the signed-in session, current page, filters, viewport, and entered form values.
