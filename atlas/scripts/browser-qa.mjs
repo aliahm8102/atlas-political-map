@@ -106,11 +106,34 @@ try {
       await typeInto('input[autocomplete="current-password"]', credentials.ATLAS_DEMO_PASSWORD);
       await click('.auth-submit');
       await waitFor("location.pathname === '/workspace' && document.querySelector('.world-map')", "Local account opens the map");
-      assert.equal(await evaluate("document.querySelector('.sidebar-personal-card, .map-coordinate, .map-legend') === null"), true, 'Workspace removes the promotional sidebar card and fixed map captions');
+      assert.equal(await evaluate("document.querySelector('.sidebar-personal-card, .map-coordinate, .map-legend, .explore-tip, .snapshot-badge') === null"), true, 'Workspace removes the promotional sidebar card, map captions, tip and snapshot badge');
       await screenshot('atlas-sidebar-clean');
       await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()", "Workspace is interactive");
     };
     await signIn();
+    assert.equal(await evaluate("document.querySelector('.settings-summary') === null && document.querySelectorAll('.settings-grid > .settings-card').length === 2"), true, 'My workspace keeps profile and appearance without the summary card');
+    await nav('Explore map');
+    await waitFor("document.querySelector('.map-type-trigger')");
+    await click('.map-type-trigger');
+    await waitFor("document.querySelector('.map-type-options')");
+    assert.deepEqual(await evaluate("[...document.querySelectorAll('[data-map-type]')].map(el=>el.dataset.mapType)"), ['default', 'terrain', 'natural']);
+    assert.equal(await evaluate("[...document.querySelectorAll('[data-map-type]')].every(el=>el.disabled)"), true, 'Map types are a visual preview without switching map rendering');
+    await screenshot('atlas-map-types');
+    await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+    await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+    await waitFor("!document.querySelector('.map-type-options') && document.activeElement === document.querySelector('.map-type-trigger')");
+    await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13, text: '\r' });
+    await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+    await waitFor("document.querySelector('.map-type-options')");
+    await evaluate("document.querySelector('.topbar').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}))");
+    await waitFor("!document.querySelector('.map-type-options')");
+    await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 700, deviceScaleFactor: 1, mobile: false });
+    await evaluate("window.scrollTo(0,300)");
+    await waitFor("scrollY > 100 && Math.abs(document.querySelector('.topbar').getBoundingClientRect().top) < 1");
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('.topbar')).position"), 'sticky');
+    await evaluate("window.scrollTo(0,0)");
+    await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
+    console.log('PASS: simplified map/workspace, keyboard and outside dismissal of map type preview, and sticky header while scrolling.');
     for (const attempt of ['first visit', 'return visit']) {
       await nav('Explore map');
       await waitFor("document.querySelector('.world-map') && location.pathname === '/workspace'");
@@ -295,6 +318,20 @@ try {
     await waitFor("document.querySelector('dialog[open] h2')?.textContent.includes('آگاهی')", 'Persian help dialog is translated');
     await click('button[aria-label="بستن پنجره"]');
     await nav('کاوش نقشه');
+    for (const width of [320, 390]) {
+      await cdp('Emulation.setDeviceMetricsOverride', { width, height: 844, deviceScaleFactor: 1, mobile: true });
+      await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3'); document.querySelector('.map-type-trigger').scrollIntoView({block:'center'})");
+      await click('.map-type-trigger');
+      await waitFor("document.querySelector('.map-type-options')");
+      assert.equal(await evaluate("document.querySelector('.map-type-trigger').textContent.includes('انتخاب نوع نقشه') && document.querySelector('.map-type-options').textContent.includes('به‌زودی')"), true);
+      assert.equal(await evaluate("(() => {const r=document.querySelector('.map-type-options').getBoundingClientRect(), card=document.querySelector('.map-card').getBoundingClientRect();return r.left>=card.left && r.right<=card.right && r.bottom<=card.bottom && document.documentElement.scrollWidth<=innerWidth;})()"), true, 'Persian map type preview fits the card at 130% font size');
+      await screenshot(`atlas-map-types-fa-${width}`);
+      await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+      await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+      await evaluate("window.scrollTo(0,500)");
+      await waitFor("scrollY > 100 && Math.abs(document.querySelector('.topbar').getBoundingClientRect().top) < 1");
+    }
+    await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1');window.scrollTo(0,0)");
     await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
     assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, 'Persian mobile has horizontal overflow');
     await click('button[aria-label="بازکردن منو"]');

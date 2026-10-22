@@ -1,4 +1,10 @@
 export const fa = {
+  "Choose map type": "انتخاب نوع نقشه",
+  "Default": "پیش‌فرض",
+  "Terrain": "ناهمواری",
+  "Natural": "طبیعی",
+  "Current map": "نقشهٔ فعلی",
+  "Coming soon": "به‌زودی",
   "Search results": "نتایج جست‌وجو",
   "Search names, countries or roles…": "نام، کشور یا نقش را جست‌وجو کنید…",
   "Show search results": "نمایش نتایج جست‌وجو",
