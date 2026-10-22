@@ -106,6 +106,8 @@ try {
       await typeInto('input[autocomplete="current-password"]', credentials.ATLAS_DEMO_PASSWORD);
       await click('.auth-submit');
       await waitFor("location.pathname === '/workspace' && document.querySelector('.world-map')", "Local account opens the map");
+      assert.equal(await evaluate("document.querySelector('.sidebar-personal-card, .map-coordinate, .map-legend') === null"), true, 'Workspace removes the promotional sidebar card and fixed map captions');
+      await screenshot('atlas-sidebar-clean');
       await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()", "Workspace is interactive");
     };
     await signIn();
@@ -379,6 +381,80 @@ try {
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
   await navigate(fixtureOrigin);
   await waitFor("document.querySelectorAll('.country').length > 160 && document.querySelector('.map-pin')", "Interactive map renders");
+  assert.equal(await evaluate("document.querySelector('.map-coordinate, .map-legend') === null"), true, 'Static map caption and legend are removed');
+  const assertCountryHints = async (label, touch = false) => {
+    await cdp('Page.bringToFront');
+    await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', {key:'Home',bubbles:true}))");
+    await evaluate("document.fonts.ready.then(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))");
+    const selected = () => evaluate("document.querySelector('.country.selected')?.getAttribute('data-country') ?? null");
+    const originalSelected = await selected();
+    const findCountry = (exclude = null) => evaluate(`(() => {
+      const r = document.querySelector('.map-stage').getBoundingClientRect();
+      const buttons = [...document.querySelectorAll('.map-pin, .map-controls')].map(el => el.getBoundingClientRect());
+      for (let y = Math.max(r.top + 30, 30); y < Math.min(r.bottom - 15, innerHeight - 15); y += 18) {
+        for (let x = Math.max(r.left + 15, 15); x < Math.min(r.right - 15, innerWidth - 15); x += 18) {
+          const country = document.elementFromPoint(x,y)?.closest('[data-country]');
+          if (country && country.dataset.country !== ${JSON.stringify(exclude)} && !buttons.some(b => x > b.left-12 && x < b.right+12 && y > b.top-12 && y < b.bottom+12)) return {x,y,code:country.dataset.country,name:country.getAttribute('aria-label')};
+        }
+      }
+      return null;
+    })()`);
+    const point = await findCountry(originalSelected);
+    assert.ok(point, label + ': an unobscured country is available');
+    const tooltip = () => evaluate("document.querySelector('.map-country-tooltip')?.textContent ?? null");
+    const view = () => evaluate("document.querySelector('.world-map > g').getAttribute('transform')");
+    const before = await view();
+    if (touch) {
+      await cdp('Emulation.setTouchEmulationEnabled', { enabled: false });
+      await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 2 });
+      await cdp('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{x:point.x,y:point.y,id:51}] });
+      await delay(200);
+      assert.equal(await tooltip(), null, 'Short contact must not trigger a country preview');
+      await waitFor(`document.querySelector('.map-country-tooltip')?.textContent === ${JSON.stringify(point.name)}`, label + ': hold shows localized country name');
+    } else {
+      await cdp('Input.dispatchMouseEvent', { type: 'mouseMoved', x: point.x, y: point.y });
+      await waitFor(`document.querySelector('.map-country-tooltip')?.textContent === ${JSON.stringify(point.name)}`, label + ': mouse hover shows country name');
+      const other = await findCountry(point.code);
+      assert.ok(other);
+      await cdp('Input.dispatchMouseEvent', { type:'mouseMoved', x:other.x, y:other.y });
+      await waitFor(`document.querySelector('.map-country-tooltip')?.textContent === ${JSON.stringify(other.name)}`);
+    }
+    assert.equal(await selected(), originalSelected, 'Preview does not select a country');
+    assert.equal(await view(), before, 'Preview does not move the map');
+    assert.equal(await evaluate("document.querySelectorAll('.country.country-preview').length"), 1, 'Preview highlights exactly one country');
+    assert.equal(await evaluate("(() => {const a=document.querySelector('.map-country-tooltip').getBoundingClientRect();const b=document.querySelector('.map-stage').getBoundingClientRect();return a.left>=b.left && a.top>=b.top && a.right<=b.right && a.bottom<=b.bottom;})()"), true, 'Country name stays inside map bounds');
+    await screenshot(`atlas-country-hint-${label.replaceAll(/[^a-z0-9]+/gi, '-').toLowerCase()}`);
+    if (touch) {
+      await cdp('Input.dispatchTouchEvent', { type:'touchEnd', touchPoints:[] });
+      await waitFor("!document.querySelector('.map-country-tooltip')");
+      assert.equal(await selected(), originalSelected, 'Releasing a held country must not select it');
+      await cdp('Input.dispatchTouchEvent', { type:'touchStart', touchPoints:[{x:point.x,y:point.y,id:51}] });
+      await cdp('Input.dispatchTouchEvent', { type:'touchMove', touchPoints:[{x:point.x+18,y:point.y+12,id:51}] });
+      await delay(650);
+      assert.equal(await tooltip(), null, 'Dragging cancels the hold timer');
+      await cdp('Input.dispatchTouchEvent', { type:'touchEnd', touchPoints:[] });
+      await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', {key:'Home',bubbles:true}))");
+      await cdp('Input.dispatchTouchEvent', { type:'touchStart', touchPoints:[{x:point.x,y:point.y,id:51}] });
+      await cdp('Input.dispatchTouchEvent', { type:'touchStart', touchPoints:[{x:point.x,y:point.y,id:51},{x:point.x+25,y:point.y+20,id:52}] });
+      await delay(650);
+      assert.equal(await tooltip(), null, 'A second finger cancels the hold timer');
+      await cdp('Input.dispatchTouchEvent', { type:'touchCancel', touchPoints:[] });
+      await cdp('Input.dispatchTouchEvent', { type:'touchStart', touchPoints:[{x:point.x,y:point.y,id:51}] });
+      await cdp('Input.dispatchTouchEvent', { type:'touchCancel', touchPoints:[] });
+      await delay(650);
+      assert.equal(await tooltip(), null, 'Cancelled pointers leave no delayed preview');
+      await cdp('Input.dispatchTouchEvent', { type:'touchStart', touchPoints:[{x:point.x,y:point.y,id:51}] });
+      await cdp('Input.dispatchTouchEvent', { type:'touchEnd', touchPoints:[] });
+      await waitFor(`document.querySelector('.country.selected')?.dataset.country === ${JSON.stringify(point.code)}`, 'Short taps still select countries');
+      await cdp('Emulation.setTouchEmulationEnabled', {enabled:false});
+    } else {
+      await cdp('Input.dispatchMouseEvent', {type:'mouseMoved', x:2, y:2});
+      await waitFor("!document.querySelector('.map-country-tooltip')");
+    }
+    assert.equal(await evaluate("document.querySelector('.country title') === null"), true, 'Native SVG tooltips cannot duplicate the custom preview');
+    console.log(`PASS: ${label} country ${touch ? 'hold, release, drag/pinch/cancel handling and short tap selection' : 'hover, highlight and dismissal'}.`);
+  };
+  await assertCountryHints('Desktop');
   assert.equal(await evaluate("document.querySelector('button[aria-label=\"Drawing tools\"]') === null"), true, 'Drawing tools are offered only in fullscreen');
   const chooseSpeed = async speed => {
     await evaluate(`(() => { const select = document.querySelector('.timeline-speed select'); select.value = '${speed}'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
@@ -699,6 +775,7 @@ try {
   };
   await click('button[aria-label="Enter fullscreen"]');
   await waitFor("document.fullscreenElement === document.querySelector('.map-experience') && document.querySelector('.map-experience').dataset.fullscreen === 'native'", "Browser native fullscreen activates");
+  await assertCountryHints('Desktop fullscreen');
   assert.equal(await evaluate("Math.abs(document.querySelector('.map-experience').getBoundingClientRect().height - innerHeight) <= 1"), true, "Fullscreen fills the display");
   await assertOverlays('Desktop fullscreen');
   await assertInspectorToggle('Desktop fullscreen');
@@ -725,7 +802,7 @@ try {
   await click('button[aria-label="Exit fullscreen"]');
   await waitFor("!document.fullscreenElement && !document.querySelector('.map-expanded')", "Exit button closes fullscreen");
   await click('button[aria-label="Enter fullscreen"]');
-  await waitFor("document.fullscreenElement");
+  await waitFor("document.fullscreenElement && document.querySelector('.map-experience').dataset.fullscreen === 'native' && document.body.style.overflow === 'hidden'");
   await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))");
   await waitFor("!document.fullscreenElement && !document.querySelector('.map-expanded')", "Escape closes fullscreen and syncs controls");
   await evaluate("void Object.defineProperty(document.querySelector('.map-experience'), 'requestFullscreen', {configurable:true, value: () => Promise.reject(new Error('Test unsupported fullscreen'))})");
@@ -747,6 +824,7 @@ try {
     await assertOverlays(`Mobile ${width}x${height}`);
     await assertInspectorToggle(`Mobile ${width}x${height}`);
     await assertTimelineToggle(`Mobile ${width}x${height}`);
+    await assertCountryHints(`Mobile ${width}x${height}`, true);
     assert.equal(await evaluate("document.querySelector('.world-map').getAttribute('preserveAspectRatio')"), 'xMidYMid slice', 'Initial phone map fits both viewport dimensions');
     await assertPinch(`Mobile ${width}x${height}`);
     await assertDrawing(`Mobile ${width}x${height}`, true);
@@ -766,6 +844,7 @@ try {
     await assertOverlays(`RTL mobile fallback ${width}x${height}`);
     await assertInspectorToggle(`RTL mobile fallback ${width}x${height}`);
     await assertTimelineToggle(`RTL mobile fallback ${width}x${height}`);
+    await assertCountryHints(`RTL mobile fallback ${width}x${height}`, true);
     await assertPinch(`RTL mobile fallback ${width}x${height}`);
     await assertDrawing(`RTL mobile fallback ${width}x${height}`, true);
     await click('.timeline-ticks button');
@@ -779,6 +858,10 @@ try {
     await waitFor("!document.querySelector('.map-expanded') && document.body.style.overflow !== 'hidden'", 'Escape in details closes fallback and restores scrolling');
   }
   await cdp("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+  // Switch language in place, as users do, retaining the same input widget.
+  await click('[data-testid="language-switcher"]');
+  await waitFor("document.documentElement.lang === 'fa'");
+  await assertCountryHints('Persian mobile', true);
   await navigate(`${fixtureOrigin}?locale=fa`);
   await waitFor("document.documentElement.lang === 'fa' && Boolean(document.querySelector('.world-map'))");
   await click('button[aria-label="نمایش تمام‌صفحه"]');

@@ -65,6 +65,8 @@ The [`android/`](./android/README.md) project wraps the PWA as a Trusted Web Act
 
 ## Languages
 
+Country names appear in a floating label next to the mouse when hovering over the map. On touch screens, hold a country for about half a second to preview its name, then release to dismiss it. Short taps still select countries; dragging or adding a second finger cancels the preview. Labels stay within the map and use the selected interface language in regular and fullscreen views.
+
 Use the **فارسی / English** control on the sign-in page or workspace header. Your explicit choice is saved in the `atlas-locale` cookie for one year and is read during server rendering, including page metadata and the document's language and direction. On a first visit, a supported browser language is selected; English is the fallback. Changing languages preserves the signed-in session, current page, filters, viewport, and entered form values.
 
 Persian uses right-to-left layouts and Persian digits. Historical dates remain **Gregorian** so their years still match the imported timeline and term dates. The map geometry and pan/zoom coordinates retain their geographic orientation. Country and person searches accept their original English names as well as the Persian names shown in Persian mode, with normalization of Arabic/Persian variants of ی and ک. User-written names, notes, and custom character text are preserved as entered.

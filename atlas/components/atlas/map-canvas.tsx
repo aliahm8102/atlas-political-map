@@ -3,7 +3,7 @@ import { type PointerEvent, useCallback, useMemo, useRef, useEffect, useLayoutEf
 import { geoNaturalEarth1, geoPath, geoGraticule10 } from "d3-geo";
 import { feature } from "topojson-client";
 import type { FeatureCollection } from "geojson";
-import { Plus, Minus, LocateFixed, Navigation, Expand, Shrink, Globe2, SlidersHorizontal, Clock3, Pencil, Eraser, Hand, Ruler, Undo2, Trash2 } from "lucide-react";
+import { Plus, Minus, LocateFixed, Navigation, Expand, Shrink, SlidersHorizontal, Clock3, Pencil, Eraser, Hand, Ruler, Undo2, Trash2 } from "lucide-react";
 import world from "@/data/world.json";
 import nato from "@/data/nato.json";
 import { type Person, type Settings, type Viewport, defaultViewport, MIN_MAP_ZOOM, MAX_MAP_ZOOM } from "@/lib/atlas";
@@ -15,11 +15,14 @@ import { useI18n } from "@/components/i18n/provider";
 import { mapGeometry, pinchViewport } from "@/lib/map-gestures";
 import MapDrawing, { type DrawingTool } from "./map-drawing";
 import { measureRoute, type MapCoordinate } from "@/lib/map-measurement";
+import { useCountryHint } from "./use-country-hint";
 
 const collection = feature(world as never, world.objects.countries as never) as unknown as FeatureCollection;
 const land = { ...collection, features: collection.features.filter(f => f.properties?.name !== "Antarctica") };
 const projection = geoNaturalEarth1().fitExtent([[28, 45], [972, 505]], land);
 const path = geoPath(projection);
+const countryNames = new Map(land.features.map(f => [String(f.id), String(f.properties?.name ?? "")]));
+const countryPaths = new Map(land.features.map(f => [String(f.id), path(f) ?? ""]));
 export function countryViewport(lng: number, lat: number): Viewport {
   const point = projection([lng, lat]) ?? [500, 270];
   return { k: 2.7, x: 500 - point[0] * 2.7, y: 270 - point[1] * 2.7 };
@@ -34,7 +37,8 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   const markerDrag = useRef<{ id: string; clientX: number; clientY: number; start: MarkerPosition; position: MarkerPosition; moved: boolean } | null>(null);
   const suppressClick = useRef<string | null>(null);
   const [moving, setMoving] = useState<{ id: string; position: MarkerPosition } | null>(null);
-  const [hovered, setHovered] = useState("");
+  const countryHint = useCountryHint(surface, countryNames);
+  const dismissCountryHint = countryHint.dismiss;
   const [drawingOpen, setDrawingOpen] = useState(false);
   const [drawingTool, setDrawingTool] = useState<DrawingTool>(null);
   const [pencilColor, setPencilColor] = useState("#d35c37");
@@ -49,9 +53,10 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   const update = useRef(onViewport);
   useLayoutEffect(() => { latest.current = viewport; update.current = onViewport; }, [viewport, onViewport]);
   const commitViewport = useCallback((next: Viewport) => {
+    dismissCountryHint();
     latest.current = next;
     update.current(next);
-  }, []);
+  }, [dismissCountryHint]);
   const clusters = useMemo(() => {
     const grouped: { person: Person; x: number; y: number; people: Person[] }[] = [];
     const ordered = [...people].sort((a, b) => Number(b.role === "leader") - Number(a.role === "leader"));
@@ -87,7 +92,8 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
     return { rect, ...mapGeometry(rect.width, rect.height, expanded && (rect.width <= 760 || rect.height <= 500)) };
   }
   function touchDown(event: PointerEvent<HTMLDivElement>) {
-    if (event.pointerType !== "touch" || (event.target as Element).closest(".map-controls, .map-coordinate, .map-legend, .map-drawing")) return;
+    countryHint.dismiss();
+    if (event.pointerType !== "touch" || (event.target as Element).closest(".map-controls, .map-drawing")) return;
     touches.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
     if (touches.current.size < 2) return;
     // A second finger turns a portrait drag into a map gesture without saving it.
@@ -144,6 +150,7 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   const markerSize = (settings.markerSize === "small" ? 29 : settings.markerSize === "large" ? 45 : 36) * (stageScale < .5 ? .8 : 1);
   return <div className="map-stage" ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
     if ((event.target as HTMLElement).closest("button, input, select, textarea")) return;
+    countryHint.dismiss();
     const moves: Record<string, [number, number]> = { ArrowLeft: [45, 0], ArrowRight: [-45, 0], ArrowUp: [0, 45], ArrowDown: [0, -45] };
     if (moves[event.key]) { event.preventDefault(); commitViewport(constrain({ ...viewport, x: viewport.x + moves[event.key][0], y: viewport.y + moves[event.key][1] }, geometry().bounds)); }
     if (event.key === "+" || event.key === "=") { event.preventDefault(); zoom(1.4); }
@@ -152,18 +159,21 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   }} onPointerDownCapture={touchDown} onPointerMoveCapture={touchMove} onPointerUpCapture={touchEnd} onPointerCancelCapture={touchEnd} onPointerDown={event => {
     if (event.button !== 0 || touches.current.size >= 2) return;
     if ((event.target as Element).closest("button, .map-controls")) return;
+    countryHint.start(event);
     drag.current = { x: event.clientX, y: event.clientY, vx: viewport.x, vy: viewport.y, moved: false }; event.currentTarget.setPointerCapture(event.pointerId);
   }} onPointerMove={event => {
+    countryHint.move(event);
     const d = drag.current; if (!d) return;
     const { scale, bounds } = geometry();
     if (Math.hypot(event.clientX - d.x, event.clientY - d.y) > 4) d.moved = true;
     if (d.moved) commitViewport(constrain({ ...latest.current, x: d.vx + (event.clientX - d.x) / scale, y: d.vy + (event.clientY - d.y) / scale }, bounds));
   }} onPointerUp={event => {
+    const held = countryHint.finish();
     const d = drag.current;
-    if (d && !d.moved) { const element = document.elementFromPoint(event.clientX, event.clientY); const code = element?.closest("[data-country]")?.getAttribute("data-country"); if (code) { showInspector(); onCountry(code); } }
+    if (d && !d.moved && !held) { const element = document.elementFromPoint(event.clientX, event.clientY); const code = element?.closest("[data-country]")?.getAttribute("data-country"); if (code) { showInspector(); onCountry(code); } }
     drag.current = null; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-  }} onPointerCancel={() => { drag.current = null; }}>
-    <svg style={{ direction: "ltr" }} className="world-map" viewBox="0 0 1000 540" preserveAspectRatio={cover ? "xMidYMid slice" : "xMidYMid meet"} aria-label={t("World political map")} role="img"><defs><pattern id="ocean-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.5" fill="currentColor" opacity="0.11" /></pattern><filter id="land-shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#677b71" floodOpacity="0.08" /></filter></defs><rect width="1000" height="540" fill="url(#ocean-dots)" /><g transform={`translate(${viewport.x},${viewport.y}) scale(${viewport.k})`}><path d={path(geoGraticule10()) ?? ""} className="graticule" vectorEffect="non-scaling-stroke" />{land.features.map((f, index) => <path key={String(f.id ?? index)} d={path(f) ?? ""} className={`country ${selectedCountry === String(f.id) ? "selected" : ""}`} data-country={String(f.id)} onPointerEnter={() => setHovered(f.properties?.name ?? "")} onPointerLeave={() => setHovered("")} vectorEffect="non-scaling-stroke"><title>{countryName(f.properties?.name ?? "")}</title></path>)}{settings.nato && <path d={path(nato as FeatureCollection) ?? ""} className="nato-layer" vectorEffect="non-scaling-stroke" />}{settings.labels && viewport.k <= 4 && <g className="continent-labels" aria-hidden="true"><text x="204" y="185">{t("NORTH AMERICA")}</text><text x="319" y="356">{t("SOUTH AMERICA")}</text><text x="520" y="156">{t("EUROPE")}</text><text x="540" y="305">{t("AFRICA")}</text><text x="719" y="203">{t("ASIA")}</text><text x="835" y="422">{t("OCEANIA")}</text></g>}{clusters.map(({ person, x, y, people: cluster }) => <g key={person.id} transform={`translate(${x},${y}) scale(${1 / (viewport.k * stageScale)})`}><foreignObject x={-markerSize / 2 - 5} y={-markerSize / 2 - 5} width={markerSize + 18} height={markerSize + 18} overflow="visible"><button style={{ width: markerSize, height: markerSize }} className={`map-pin ${selectedCountry === person.countryCode ? "active" : ""}`} data-role={person.role} data-person-id={person.id} data-draggable={Boolean(onMovePerson)} aria-describedby={onMovePerson ? "marker-drag-help" : undefined}
+  }} onPointerCancel={() => { drag.current = null; countryHint.dismiss(); }} onPointerLeave={countryHint.dismiss} onLostPointerCapture={event => { if (event.target === event.currentTarget) countryHint.dismiss(); }} onContextMenu={event => { if (countryHint.isHolding()) event.preventDefault(); }}>
+    <svg style={{ direction: "ltr" }} className="world-map" viewBox="0 0 1000 540" preserveAspectRatio={cover ? "xMidYMid slice" : "xMidYMid meet"} aria-label={t("World political map")} role="img"><defs><pattern id="ocean-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.5" fill="currentColor" opacity="0.11" /></pattern><filter id="land-shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#677b71" floodOpacity="0.08" /></filter></defs><rect width="1000" height="540" fill="url(#ocean-dots)" /><g transform={`translate(${viewport.x},${viewport.y}) scale(${viewport.k})`}><path d={path(geoGraticule10()) ?? ""} className="graticule" vectorEffect="non-scaling-stroke" />{land.features.map((f, index) => <path key={String(f.id ?? index)} d={countryPaths.get(String(f.id)) ?? ""} className={`country ${selectedCountry === String(f.id) ? "selected" : ""} ${countryHint.hint?.code === String(f.id) ? "country-preview" : ""}`} data-country={String(f.id)} aria-label={countryName(f.properties?.name ?? "")} vectorEffect="non-scaling-stroke"></path>)}{settings.nato && <path d={path(nato as FeatureCollection) ?? ""} className="nato-layer" vectorEffect="non-scaling-stroke" />}{settings.labels && viewport.k <= 4 && <g className="continent-labels" aria-hidden="true"><text x="204" y="185">{t("NORTH AMERICA")}</text><text x="319" y="356">{t("SOUTH AMERICA")}</text><text x="520" y="156">{t("EUROPE")}</text><text x="540" y="305">{t("AFRICA")}</text><text x="719" y="203">{t("ASIA")}</text><text x="835" y="422">{t("OCEANIA")}</text></g>}{clusters.map(({ person, x, y, people: cluster }) => <g key={person.id} transform={`translate(${x},${y}) scale(${1 / (viewport.k * stageScale)})`}><foreignObject x={-markerSize / 2 - 5} y={-markerSize / 2 - 5} width={markerSize + 18} height={markerSize + 18} overflow="visible"><button style={{ width: markerSize, height: markerSize }} className={`map-pin ${selectedCountry === person.countryCode ? "active" : ""}`} data-role={person.role} data-person-id={person.id} data-draggable={Boolean(onMovePerson)} aria-describedby={onMovePerson ? "marker-drag-help" : undefined}
       onDragStart={event => event.preventDefault()}
       onPointerDown={event => {
         if (!onMovePerson || event.button !== 0 || !event.isPrimary) return;
@@ -183,7 +193,7 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
       {settings.portraits ? <Portrait key={person.id} person={person} /> : <span className="pin-dot" />}{cluster.length > 1 && <span className="cluster-count">{n(cluster.length)}</span>}
     </button></foreignObject></g>)}</g></svg>
     <MapDrawing tool={expanded && drawingOpen ? drawingTool : null} color={pencilColor} measurement={measurement} onMeasure={coordinate => setMeasurement(points => [...points, coordinate])} projection={projection} viewport={viewport} onViewport={commitViewport} cover={cover} />
-    <p className="sr-only" id="marker-drag-help">{t("Drag portraits to move them. Use arrow keys on a focused portrait.")}</p><div className="map-coordinate"><Globe2 size={13} /><span>{hovered ? countryName(hovered) : t("Discover a different perspective")}</span></div><div className="map-controls">{expanded && <>
+    <p className="sr-only" id="marker-drag-help">{t("Drag portraits to move them. Use arrow keys on a focused portrait.")}</p>{countryHint.hint && <div id="map-country-tooltip" className="map-country-tooltip" role="tooltip">{countryName(countryHint.hint.name)}</div>}<div className="map-controls">{expanded && <>
       <button className="map-control" aria-label={t("Drawing tools")} title={t("Drawing tools")} aria-expanded={drawingOpen} aria-controls="map-drawing-tools" aria-pressed={drawingOpen} onClick={() => { setDrawingOpen(!drawingOpen); setDrawingTool(drawingOpen ? null : "pencil"); }}><Pencil size={17} /></button>
       <div id="map-drawing-tools" className="map-drawing-tools" hidden={!drawingOpen} role="group" aria-label={t("Drawing tools")}>
         <button className="map-control" aria-label={t("Pencil")} title={t("Pencil")} aria-pressed={drawingTool === "pencil"} onClick={() => setDrawingTool("pencil")}><Pencil size={17} /></button>
@@ -203,6 +213,6 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
           <div className="measurement-actions"><button type="button" aria-label={t("Undo measurement point")} title={t("Undo measurement point")} disabled={!measurement.length} onClick={() => setMeasurement(points => points.slice(0, -1))}><Undo2 size={16} />{t("Undo")}</button><button type="button" aria-label={t("Clear measurement")} title={t("Clear measurement")} disabled={!measurement.length} onClick={() => setMeasurement([])}><Trash2 size={16} />{t("Clear")}</button></div>
         </div>}
       </div>
-    </>}{expanded && <button className="map-control" aria-label={timelineOpen ? t("Hide timeline") : t("Show timeline")} title={timelineOpen ? t("Hide timeline") : t("Show timeline")} aria-expanded={timelineOpen} aria-controls="map-timeline" onClick={toggleTimeline}><Clock3 size={17} /></button>}{expanded && <button className="map-control" aria-label={t("Map controls")} title={t("Map controls")} aria-expanded={inspectorOpen} onClick={toggleInspector}><SlidersHorizontal size={17} /></button>}<button className="map-control" aria-label={t("Zoom in")} disabled={viewport.k >= MAX_MAP_ZOOM} onClick={() => zoom(1.4)}><Plus size={18} /></button><button className="map-control" aria-label={t("Zoom out")} disabled={viewport.k <= MIN_MAP_ZOOM} onClick={() => zoom(1 / 1.4)}><Minus size={18} /></button><span /><button className="map-control" aria-label={t("Reset map position")} onClick={() => onViewport(defaultViewport)}><LocateFixed size={18} /></button><button className="map-control" aria-label={expanded ? t("Exit fullscreen") : t("Enter fullscreen")} title={expanded ? t("Exit fullscreen (Esc)") : t("Fullscreen map")} aria-pressed={expanded} disabled={fullscreenPending} onClick={toggleFullscreen}>{expanded ? <Shrink size={17} /> : <Expand size={17} />}</button></div><div className="map-compass" aria-hidden="true"><span>{t("N")}</span><Navigation size={22} strokeWidth={1.4} /></div><div className="map-legend"><span><i className="legend-dot leader" />{" " + t("Heads of state")}</span><span><i className="legend-dot member" />{" " + t("Government")}</span><span><i className="legend-dot army" />{" " + t("Military")}</span><span className="legend-more">{t("+ religious & business")}</span></div><span className="map-scale">{n(viewport.k, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}× <i /></span>{people.length === 0 && <div className="map-empty">{t("No figures match this view.")}<br /><span>{t("Try another date or clear your filters.")}</span></div>}
+    </>}{expanded && <button className="map-control" aria-label={timelineOpen ? t("Hide timeline") : t("Show timeline")} title={timelineOpen ? t("Hide timeline") : t("Show timeline")} aria-expanded={timelineOpen} aria-controls="map-timeline" onClick={toggleTimeline}><Clock3 size={17} /></button>}{expanded && <button className="map-control" aria-label={t("Map controls")} title={t("Map controls")} aria-expanded={inspectorOpen} onClick={toggleInspector}><SlidersHorizontal size={17} /></button>}<button className="map-control" aria-label={t("Zoom in")} disabled={viewport.k >= MAX_MAP_ZOOM} onClick={() => zoom(1.4)}><Plus size={18} /></button><button className="map-control" aria-label={t("Zoom out")} disabled={viewport.k <= MIN_MAP_ZOOM} onClick={() => zoom(1 / 1.4)}><Minus size={18} /></button><span /><button className="map-control" aria-label={t("Reset map position")} onClick={() => { countryHint.dismiss(); onViewport(defaultViewport); }}><LocateFixed size={18} /></button><button className="map-control" aria-label={expanded ? t("Exit fullscreen") : t("Enter fullscreen")} title={expanded ? t("Exit fullscreen (Esc)") : t("Fullscreen map")} aria-pressed={expanded} disabled={fullscreenPending} onClick={toggleFullscreen}>{expanded ? <Shrink size={17} /> : <Expand size={17} />}</button></div><div className="map-compass" aria-hidden="true"><span>{t("N")}</span><Navigation size={22} strokeWidth={1.4} /></div><span className="map-scale">{n(viewport.k, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}× <i /></span>{people.length === 0 && <div className="map-empty">{t("No figures match this view.")}<br /><span>{t("Try another date or clear your filters.")}</span></div>}
   </div>;
 }
