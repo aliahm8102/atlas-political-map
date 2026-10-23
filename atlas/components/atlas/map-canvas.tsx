@@ -13,6 +13,7 @@ import type { MarkerPosition } from "@/lib/browser-people";
 import { useMapFullscreen } from "./map-experience";
 import { useI18n } from "@/components/i18n/provider";
 import { mapGeometry, pinchViewport } from "@/lib/map-gestures";
+import OnboardingTour from "./onboarding-tour";
 import MapDrawing, { type DrawingTool } from "./map-drawing";
 import { measureRoute, type MapCoordinate } from "@/lib/map-measurement";
 import { useCountryHint } from "./use-country-hint";
@@ -45,7 +46,21 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   const [measurement, setMeasurement] = useState<MapCoordinate[]>([]);
   const measured = measureRoute(measurement);
   const distanceLabel = (km: number) => km < 1 ? t("{distance} m", { distance: n(km * 1000, { maximumFractionDigits: 0 }) }) : t("{distance} km", { distance: n(km, { maximumFractionDigits: 2 }) });
-  const { expanded, pending: fullscreenPending, toggle: toggleFullscreen, inspectorOpen, toggleInspector, showInspector, timelineOpen, toggleTimeline } = useMapFullscreen();
+  const { expanded, pending: fullscreenPending, toggle: toggleFullscreen, inspectorOpen, toggleInspector, showInspector, timelineOpen, toggleTimeline, setInspectorOpen, setTimelineOpen } = useMapFullscreen();
+  const tourUI = useRef<{ drawingOpen: boolean; drawingTool: DrawingTool; inspectorOpen: boolean; timelineOpen: boolean } | null>(null);
+  const prepareTourStep = useCallback((step: number) => {
+    setDrawingOpen(step >= 1 && step <= 3);
+    setDrawingTool(step === 1 ? "pencil" : step === 2 ? "eraser" : step === 3 ? "ruler" : null);
+    setInspectorOpen(step === 4 || step === 5);
+    setTimelineOpen(step >= 6);
+  }, [setInspectorOpen, setTimelineOpen]);
+  const restoreTourUI = useCallback(() => {
+    const previous = tourUI.current;
+    if (!previous) return;
+    tourUI.current = null;
+    setDrawingOpen(previous.drawingOpen); setDrawingTool(previous.drawingTool);
+    setInspectorOpen(previous.inspectorOpen); setTimelineOpen(previous.timelineOpen);
+  }, [setInspectorOpen, setTimelineOpen]);
   const [stageSize, setStageSize] = useState({ width: 1000, height: 540 });
   const cover = expanded && (stageSize.width <= 760 || stageSize.height <= 500);
   const { scale: stageScale } = mapGeometry(stageSize.width, stageSize.height, cover);
@@ -148,7 +163,7 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   }
   function zoom(factor: number) { commitViewport(zoomViewport(latest.current, factor, undefined, geometry().bounds)); }
   const markerSize = (settings.markerSize === "small" ? 29 : settings.markerSize === "large" ? 45 : 36) * (stageScale < .5 ? .8 : 1);
-  return <div className="map-stage" data-tour="map" ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
+  return <><div className="map-stage" data-tour="map" ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
     if ((event.target as HTMLElement).closest("button, input, select, textarea")) return;
     countryHint.dismiss();
     const moves: Record<string, [number, number]> = { ArrowLeft: [45, 0], ArrowRight: [-45, 0], ArrowUp: [0, 45], ArrowDown: [0, -45] };
@@ -194,11 +209,11 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
     </button></foreignObject></g>)}</g></svg>
     <MapDrawing tool={expanded && drawingOpen ? drawingTool : null} color={pencilColor} measurement={measurement} onMeasure={coordinate => setMeasurement(points => [...points, coordinate])} projection={projection} viewport={viewport} onViewport={commitViewport} cover={cover} />
     <p className="sr-only" id="marker-drag-help">{t("Drag portraits to move them. Use arrow keys on a focused portrait.")}</p>{countryHint.hint && <div id="map-country-tooltip" className="map-country-tooltip" role="tooltip">{countryName(countryHint.hint.name)}</div>}<div className="map-controls">{expanded && <>
-      <button className="map-control" aria-label={t("Drawing tools")} title={t("Drawing tools")} aria-expanded={drawingOpen} aria-controls="map-drawing-tools" aria-pressed={drawingOpen} onClick={() => { setDrawingOpen(!drawingOpen); setDrawingTool(drawingOpen ? null : "pencil"); }}><Pencil size={17} /></button>
+      <button className="map-control" data-map-tour="drawing-toggle" aria-label={t("Drawing tools")} title={t("Drawing tools")} aria-expanded={drawingOpen} aria-controls="map-drawing-tools" aria-pressed={drawingOpen} onClick={() => { setDrawingOpen(!drawingOpen); setDrawingTool(drawingOpen ? null : "pencil"); }}><Pencil size={17} /></button>
       <div id="map-drawing-tools" className="map-drawing-tools" hidden={!drawingOpen} role="group" aria-label={t("Drawing tools")}>
-        <button className="map-control" aria-label={t("Pencil")} title={t("Pencil")} aria-pressed={drawingTool === "pencil"} onClick={() => setDrawingTool("pencil")}><Pencil size={17} /></button>
-        <button className="map-control" aria-label={t("Erase pencil strokes")} title={t("Erase pencil strokes")} aria-pressed={drawingTool === "eraser"} onClick={() => setDrawingTool("eraser")}><Eraser size={17} /></button>
-        <button className="map-control" aria-label={t("Measure distance")} title={t("Measure distance")} aria-pressed={drawingTool === "ruler"} onClick={() => setDrawingTool("ruler")}><Ruler size={17} /></button>
+        <button className="map-control" data-map-tour="pencil" aria-label={t("Pencil")} title={t("Pencil")} aria-pressed={drawingTool === "pencil"} onClick={() => setDrawingTool("pencil")}><Pencil size={17} /></button>
+        <button className="map-control" data-map-tour="eraser" aria-label={t("Erase pencil strokes")} title={t("Erase pencil strokes")} aria-pressed={drawingTool === "eraser"} onClick={() => setDrawingTool("eraser")}><Eraser size={17} /></button>
+        <button className="map-control" data-map-tour="ruler" aria-label={t("Measure distance")} title={t("Measure distance")} aria-pressed={drawingTool === "ruler"} onClick={() => setDrawingTool("ruler")}><Ruler size={17} /></button>
         <button className="map-control" aria-label={t("Pan map")} title={t("Pan map")} aria-pressed={drawingTool === null} onClick={() => setDrawingTool(null)}><Hand size={17} /></button>
         {drawingTool === "pencil" && <div className="map-pencil-colors" role="group" aria-label={t("Pencil color")}>
           {([ ["#d35c37", "Orange"], ["#2563eb", "Blue"], ["#16a34a", "Green"], ["#9333ea", "Purple"], ["#202a25", "Black"], ["#ffffff", "White"] ] as const).map(([color, name]) => <button key={color} className="pencil-color" style={{ backgroundColor: color }} aria-label={t(name)} title={t(name)} aria-pressed={pencilColor === color} onClick={() => setPencilColor(color)} />)}
@@ -213,6 +228,6 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
           <div className="measurement-actions"><button type="button" aria-label={t("Undo measurement point")} title={t("Undo measurement point")} disabled={!measurement.length} onClick={() => setMeasurement(points => points.slice(0, -1))}><Undo2 size={16} />{t("Undo")}</button><button type="button" aria-label={t("Clear measurement")} title={t("Clear measurement")} disabled={!measurement.length} onClick={() => setMeasurement([])}><Trash2 size={16} />{t("Clear")}</button></div>
         </div>}
       </div>
-    </>}{expanded && <button className="map-control" aria-label={timelineOpen ? t("Hide timeline") : t("Show timeline")} title={timelineOpen ? t("Hide timeline") : t("Show timeline")} aria-expanded={timelineOpen} aria-controls="map-timeline" onClick={toggleTimeline}><Clock3 size={17} /></button>}{expanded && <button className="map-control" aria-label={t("Map controls")} title={t("Map controls")} aria-expanded={inspectorOpen} onClick={toggleInspector}><SlidersHorizontal size={17} /></button>}<button className="map-control" aria-label={t("Zoom in")} disabled={viewport.k >= MAX_MAP_ZOOM} onClick={() => zoom(1.4)}><Plus size={18} /></button><button className="map-control" aria-label={t("Zoom out")} disabled={viewport.k <= MIN_MAP_ZOOM} onClick={() => zoom(1 / 1.4)}><Minus size={18} /></button><span /><button className="map-control" aria-label={t("Reset map position")} onClick={() => { countryHint.dismiss(); onViewport(defaultViewport); }}><LocateFixed size={18} /></button><button className="map-control" aria-label={expanded ? t("Exit fullscreen") : t("Enter fullscreen")} title={expanded ? t("Exit fullscreen (Esc)") : t("Fullscreen map")} aria-pressed={expanded} disabled={fullscreenPending} onClick={toggleFullscreen}>{expanded ? <Shrink size={17} /> : <Expand size={17} />}</button></div><div className="map-compass" aria-hidden="true"><span>{t("N")}</span><Navigation size={22} strokeWidth={1.4} /></div><span className="map-scale">{n(viewport.k, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}× <i /></span>{people.length === 0 && <div className="map-empty">{t("No figures match this view.")}<br /><span>{t("Try another date or clear your filters.")}</span></div>}
-  </div>;
+    </>}{expanded && <button className="map-control" data-map-tour="timeline" aria-label={timelineOpen ? t("Hide timeline") : t("Show timeline")} title={timelineOpen ? t("Hide timeline") : t("Show timeline")} aria-expanded={timelineOpen} aria-controls="map-timeline" onClick={toggleTimeline}><Clock3 size={17} /></button>}{expanded && <button className="map-control" data-map-tour="settings" aria-label={t("Map controls")} title={t("Map controls")} aria-expanded={inspectorOpen} onClick={toggleInspector}><SlidersHorizontal size={17} /></button>}<button className="map-control" aria-label={t("Zoom in")} disabled={viewport.k >= MAX_MAP_ZOOM} onClick={() => zoom(1.4)}><Plus size={18} /></button><button className="map-control" aria-label={t("Zoom out")} disabled={viewport.k <= MIN_MAP_ZOOM} onClick={() => zoom(1 / 1.4)}><Minus size={18} /></button><span /><button className="map-control" aria-label={t("Reset map position")} onClick={() => { countryHint.dismiss(); onViewport(defaultViewport); }}><LocateFixed size={18} /></button><button className="map-control" data-tour="fullscreen" aria-label={expanded ? t("Exit fullscreen") : t("Enter fullscreen")} title={expanded ? t("Exit fullscreen (Esc)") : t("Fullscreen map")} aria-pressed={expanded} disabled={fullscreenPending} onClick={toggleFullscreen}>{expanded ? <Shrink size={17} /> : <Expand size={17} />}</button></div><div className="map-compass" aria-hidden="true"><span>{t("N")}</span><Navigation size={22} strokeWidth={1.4} /></div><span className="map-scale">{n(viewport.k, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}× <i /></span>{people.length === 0 && <div className="map-empty">{t("No figures match this view.")}<br /><span>{t("Try another date or clear your filters.")}</span></div>}
+  </div>{expanded && <OnboardingTour kind="map" onStart={() => { tourUI.current = { drawingOpen, drawingTool, inspectorOpen, timelineOpen }; }} onStep={prepareTourStep} onEnd={restoreTourUI} />}</>;
 }

@@ -298,6 +298,8 @@ try {
     await screenshot('atlas-fa-desktop');
     await click('button[aria-label="نمایش تمام‌صفحه"]');
     await waitFor("document.fullscreenElement === document.querySelector('.map-experience')", 'Persian map fullscreen works');
+    await waitFor("document.querySelector('.map-tools-tour[open]') || localStorage.getItem('atlas-map-tour-v1')==='done'");
+    if(await evaluate("Boolean(document.querySelector('.map-tools-tour[open]'))")) await click('.map-tools-tour .secondary-button');
     await click('button[aria-label="خروج از تمام‌صفحه"]');
     await waitFor("!document.fullscreenElement");
     await typeInto('.topbar-search input', 'ایران');
@@ -422,6 +424,8 @@ try {
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
   await navigate(fixtureOrigin);
   await waitFor("document.querySelectorAll('.country').length > 160 && document.querySelector('.map-pin')", "Interactive map renders");
+  // The tools tour is exercised separately in map-tour-browser-qa.mjs.
+  await evaluate("localStorage.setItem('atlas-map-tour-v1','done')");
   assert.equal(await evaluate("document.querySelector('.map-coordinate, .map-legend') === null"), true, 'Static map caption and legend are removed');
   const assertCountryHints = async (label, touch = false) => {
     await cdp('Page.bringToFront');

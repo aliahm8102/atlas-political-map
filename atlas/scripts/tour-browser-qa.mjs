@@ -130,8 +130,8 @@ try {
   await screenshot('tour-timeline');
   await click('.tour-actions .primary-button'); await step(6);
   await click('.tour-actions .primary-button'); await step(7);
-  assert.equal(await evaluate("document.querySelector('.tour-actions .primary-button').textContent.includes('Finish tour')"), true);
-  await click('.tour-actions .primary-button');
+  assert.equal(await evaluate("document.querySelector('.tour-actions .primary-button').textContent.includes('Open map')"), true);
+  await click('.tour-actions .secondary-button');
   await done();
   await cdp('Page.reload');
   await waitFor("document.querySelector('[data-tour=\"about\"]')");
@@ -171,7 +171,7 @@ try {
       if (index === 1 && width < 760) assert.ok(await evaluate("document.querySelector('.tour-highlight').getBoundingClientRect().width < 60"), 'Mobile navigation highlights the visible menu button');
       await click('.tour-actions .primary-button');
     }
-    await step(7); await click('.tour-actions .primary-button');
+    await step(7); await click('.tour-actions .secondary-button');
     await done();
   }
   assert.deepEqual(exceptions, []);
