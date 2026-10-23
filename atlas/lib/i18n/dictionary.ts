@@ -1,4 +1,9 @@
 export const fa = {
+  "Account options": "گزینه‌های حساب کاربری",
+  "Create your personal atlas and save your discoveries.": "اطلس شخصی خودتان را بسازید و کشف‌هایتان را ذخیره کنید.",
+  "Continue exploring your personal atlas.": "کاوش در اطلس شخصی خودتان را ادامه دهید.",
+  "8-32 characters": "۸ تا ۳۲ نویسه",
+  "Password must contain between 8 and 32 characters.": "رمز عبور باید بین ۸ تا ۳۲ نویسه باشد.",
   "Atlas helps you understand how people, places and political roles connect over time. Explore history on the world map and build your own perspective. This short tour shows you where to begin.": "هدف اطلس، شناخت ارتباط میان اشخاص، مکان‌ها و نقش‌های سیاسی در گذر زمان است. تاریخ را روی نقشهٔ جهان کاوش کنید و دیدگاه خودتان را بسازید. در این تور کوتاه با مسیر شروع آشنا می‌شوید.",
   "Your next journey": "آغاز سفری تازه",
   "Open the map and let us begin a new journey": "نقشه رو باز کن تا سفر جدیدی رو آغاز کنیم",

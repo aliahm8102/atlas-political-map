@@ -11,12 +11,12 @@ const readValues = text => Object.fromEntries(text.split("\n").filter(line => li
 const existing = existsSync(credentialsFile);
 const credentials = existing ? readValues(readFileSync(credentialsFile, "utf8")) : {
   ATLAS_DEMO_EMAIL: process.env.ATLAS_DEMO_EMAIL || "demo@atlas.local",
-  ATLAS_DEMO_PASSWORD: `At!7-${randomBytes(24).toString("base64url")}`,
+  ATLAS_DEMO_PASSWORD: `At!7-${randomBytes(18).toString("base64url")}`,
 };
 const email = credentials.ATLAS_DEMO_EMAIL?.trim().toLowerCase();
 const password = credentials.ATLAS_DEMO_PASSWORD;
-if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || !password || password.length < 16) {
-  throw new Error("The local demo needs a valid email and a password of at least 16 characters.");
+if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || !password || password.length < 16 || password.length > 32) {
+  throw new Error("The local demo needs a valid email and a password of 16-32 characters. Existing credentials are never changed automatically.");
 }
 
 const salt = randomBytes(16).toString("hex");
