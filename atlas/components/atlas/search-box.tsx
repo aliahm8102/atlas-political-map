@@ -28,7 +28,7 @@ export default function SearchBox({ index, query, onQuery, onSubmit, onSelect }:
   }, []);
   function submit() { setOpen(false); setActive(-1); onSubmit(); input.current?.blur(); }
   function select(document: SearchDocument) { setOpen(false); setActive(-1); onSelect(document); input.current?.blur(); }
-  return <form ref={root} className="topbar-search global-search" role="search" onSubmit={event => { event.preventDefault(); submit(); }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) { setOpen(false); setActive(-1); } }}>
+  return <form ref={root} className="topbar-search global-search" data-tour="search" role="search" onSubmit={event => { event.preventDefault(); submit(); }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) { setOpen(false); setActive(-1); } }}>
     <Search size={21} aria-hidden="true" />
     <input ref={input} type="search" role="combobox" autoComplete="off" dir="auto" value={query} maxLength={160} aria-label={t("Search people or places")} placeholder={t("Search names, countries or roles…")} aria-autocomplete="list" aria-expanded={expanded} aria-controls={expanded ? id : undefined} aria-activedescendant={expanded && active >= 0 && active < suggestions.length ? `${id}-${active}` : undefined}
       onFocus={() => setOpen(true)} onInput={() => setOpen(true)} onChange={event => { onQuery(event.target.value); setOpen(true); setActive(-1); }}

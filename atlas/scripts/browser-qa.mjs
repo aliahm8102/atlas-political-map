@@ -107,6 +107,8 @@ try {
       await click('.auth-submit');
       await waitFor("location.pathname === '/workspace' && document.querySelector('.world-map')", "Local account opens the map");
       assert.equal(await evaluate("document.querySelector('.sidebar-personal-card, .map-coordinate, .map-legend, .explore-tip, .snapshot-badge') === null"), true, 'Workspace removes the promotional sidebar card, map captions, tip and snapshot badge');
+      await waitFor("document.querySelector('.tour-dialog[open]') || document.cookie.includes('atlas-tour-v1=done')");
+      if (await evaluate("Boolean(document.querySelector('.tour-dialog[open]'))")) await click('.tour-actions .secondary-button');
       await screenshot('atlas-sidebar-clean');
       await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()", "Workspace is interactive");
     };

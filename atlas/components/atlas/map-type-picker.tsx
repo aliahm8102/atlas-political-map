@@ -36,7 +36,7 @@ export default function MapTypePicker() {
     };
   }, [open]);
 
-  return <div ref={root} className="map-type-picker" onBlur={event => {
+  return <div ref={root} className="map-type-picker" data-tour="map-type" onBlur={event => {
     if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpen(false);
   }}>
     <button ref={trigger} type="button" className="text-link map-type-trigger" aria-expanded={open} aria-controls={open ? id : undefined} onClick={() => setOpen(value => !value)}>

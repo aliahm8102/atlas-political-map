@@ -71,11 +71,13 @@ try {
   await type('input[autocomplete="current-password"]', credentials.ATLAS_DEMO_PASSWORD);
   await click('.auth-submit');
   await waitFor("location.pathname === '/workspace' && document.querySelector('.world-map') && document.querySelector('.global-search input')");
+  await waitFor("document.querySelector('.tour-dialog[open]') || document.cookie.includes('atlas-tour-v1=done')");
+  if (await evaluate("Boolean(document.querySelector('.tour-dialog[open]'))")) await click('.tour-actions .secondary-button');
   console.log('PASS: local sign-in and search route protection.');
   const input = '.global-search input';
   const ready = () => waitFor("(() => {window.dispatchEvent(new KeyboardEvent('keydown',{key:'k',ctrlKey:true}));return document.activeElement === document.querySelector('.global-search input');})()");
   await ready();
-  const submit = async query => { await type(input, query); await key("Enter"); await waitFor("location.pathname === '/workspace/search' && document.querySelector('.atlas-search-results')"); };
+  const submit = async query => { await type(input, query); await key("Enter"); await waitFor(`location.pathname === '/workspace/search' && (new URLSearchParams(location.search).get('q') ?? '') === ${JSON.stringify(query)} && document.querySelector('.atlas-search-results')`); await evaluate("new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))"); };
   assert.equal(await evaluate("(() => {const r=document.querySelector('.global-search').getBoundingClientRect();const h=document.querySelector('.topbar').getBoundingClientRect();return r.width>350 && Math.abs(r.x+r.width/2-h.x-h.width/2)<2;})()"), true, 'Desktop search is wide and centered');
   const mapBefore = await evaluate("document.querySelectorAll('.map-pin').length");
   await type(input, "Iran");

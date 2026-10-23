@@ -73,6 +73,14 @@ Persian uses right-to-left layouts and Persian digits. Historical dates remain *
 
 Interface translations live in `lib/i18n/dictionary.ts`; Persian presentation names and office titles are in `data/locales/fa-data.json`, with common country-based office titles composed by `lib/i18n/index.ts`. Original records, IDs, database columns, and filter values stay unchanged. The [Vazirmatn font](https://github.com/rastikerdar/vazirmatn) is bundled under `public/fonts` with its SIL Open Font License, so loading Persian typography requires no third-party font service.
 
+## Guided tour
+
+The first authenticated visit opens a welcome dialog with **Start tour** and **Not now**. The tour highlights search, navigation, the map, map types, layers, timeline, profile and About. It only explains the controls; background controls cannot receive clicks or keyboard input during the tour. Each step offers Skip and Next; Tab/Shift+Tab stay inside the dialog and Escape dismisses it. The tour scrolls targets into view, updates positions on resize/scroll, and skips missing or hidden targets. Mobile navigation uses the visible menu button.
+
+Finishing, skipping or declining saves `atlas-tour-v1=done` in both localStorage and a one-year SameSite cookie. Either marker prevents automatic replay on this browser; if one storage method is blocked the other still works. **About this atlas → Replay tour** clears both markers and opens the welcome dialog again. Starting a replay returns to the map while preserving map settings and user data. Content supports Persian/English and RTL.
+
+With a local demo server and Chrome, run `node scripts/tour-browser-qa.mjs` (optional `ATLAS_TEST_ORIGIN` and `ATLAS_CHROME_BIN`). Checks cover one-time persistence, replay, storage fallback, keyboard focus, missing targets, safe background controls, responsive positioning and Persian portrait/landscape layouts. Screenshots are saved in `outputs/`.
+
 ## Global search
 
 The centered header search finds people (including historical records and your account's custom characters) and countries in the atlas. Places currently mean the countries in the bundled dataset. Typing offers keyboard-accessible suggestions without changing map filters. Press Enter to see all results, or select a suggestion to open it on the map. Selecting a historical person also aligns the map timeline to their term. Ctrl/Cmd+K focuses the search field.
