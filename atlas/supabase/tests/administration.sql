@@ -33,6 +33,8 @@ select public.set_atlas_admin('33333333-3333-4333-a333-333333333333', true);
 do $$ begin
   if public.current_atlas_role() <> 'owner' then raise exception 'Owner bootstrap failed'; end if;
   if (select count(*) from public.list_atlas_accounts('admin@example.test')) <> 1 then raise exception 'Owner cannot find the target account'; end if;
+  if not exists(select 1 from public.list_atlas_accounts('admin@example.test') where email = 'admin@example.test' and display_name = 'Moderator' and access_role = 'admin') then raise exception 'Account RPC returned incorrect details'; end if;
+  if (select count(*) from public.list_atlas_accounts('')) <> 4 then raise exception 'Owner cannot load the account list'; end if;
   begin perform public.set_atlas_admin(auth.uid(), false); raise exception 'Owner was demoted'; exception when insufficient_privilege then null; end;
 end $$;
 

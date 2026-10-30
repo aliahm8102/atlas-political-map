@@ -19,7 +19,9 @@ try {
   run("initdb", ["-D", data, "-A", "trust", "--no-locale", "--encoding=UTF8", "-U", "atlas_test"]);
   control(["-D", data, "-l", path.join(directory, "server.log"), "-o", "-h 127.0.0.1 -p 55439", "-w", "start"]);
   started = true;
-  const files = ["supabase/tests/bootstrap.sql", "supabase/migrations/20261017000100_atlas_schema.sql", "supabase/migrations/20261017000200_import_wim_data.sql", "supabase/migrations/20261020000100_remove_saved_views.sql", "supabase/migrations/20261030000100_administration.sql", "supabase/tests/isolation.sql", "supabase/tests/administration.sql"];
+  const accountEmailFix = "supabase/migrations/20261030000200_fix_account_email_return_type.sql";
+  // Apply the repair twice to verify it can safely be rerun on existing installs.
+  const files = ["supabase/tests/bootstrap.sql", "supabase/migrations/20261017000100_atlas_schema.sql", "supabase/migrations/20261017000200_import_wim_data.sql", "supabase/migrations/20261020000100_remove_saved_views.sql", "supabase/migrations/20261030000100_administration.sql", accountEmailFix, accountEmailFix, "supabase/tests/isolation.sql", "supabase/tests/administration.sql"];
   const output = run("psql", ["-X", "-q", "-v", "ON_ERROR_STOP=1", "-h", "127.0.0.1", "-p", "55439", "-U", "atlas_test", "-d", "postgres", ...files.flatMap(file => ["-f", file])]);
   console.log(output);
   const asyncExec = promisify(execFile);

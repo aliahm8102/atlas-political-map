@@ -158,8 +158,9 @@ The **Administration panel** (پنل مدیریتی) appears in the sidebar for 
 ### Enable on the existing Supabase project
 
 1. Run `supabase/migrations/20261030000100_administration.sql` **once**, after the three existing migrations. This creates the role table, review queue, audited RPCs and row-level policies.
-2. The account `aliahm8102@gmail.com` must already exist with a confirmed email. Run `supabase/bootstrap-owner.sql` in SQL Editor to appoint that account as the initial owner. It refuses to replace a different existing owner and is never callable through the application.
-3. Sign in with that account and open **Administration panel**. Use **Manage administrators** to find existing registered accounts and grant/revoke administrator access.
+2. Run `supabase/migrations/20261030000200_fix_account_email_return_type.sql`. Supabase Auth stores emails as `varchar(255)`; this patch casts the account RPC's email output to its declared `text` type. It can also be run on an existing installation without recreating tables or changing data, and is safe to rerun.
+3. The account `aliahm8102@gmail.com` must already exist with a confirmed email. Run `supabase/bootstrap-owner.sql` in SQL Editor to appoint that account as the initial owner. It refuses to replace a different existing owner and is never callable through the application.
+4. Sign in with that account and open **Administration panel**. Use **Manage administrators** to find existing registered accounts and grant/revoke administrator access.
 
 A public publishable key cannot execute these setup steps. Use the Supabase SQL Editor as the project owner; no service-role key belongs in the browser or this repository. Until the migration is applied, existing map/account features continue working, publication is marked unavailable and no administration link is shown.
 
