@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 export const roleLabels = { leader: "Heads of state", member: "Government", army: "Military", religious: "Religious", business: "Business" } as const;
 export type Role = keyof typeof roleLabels;
 export type Person = {
@@ -14,12 +15,12 @@ export const settingsSchema = z.object({
   fontSize: z.number().int().min(90).max(130).default(100),
   portraits: z.boolean().default(true), labels: z.boolean().default(true),
   markerSize: z.enum(["small", "medium", "large"]).default("medium"),
-  year: z.number().int().min(1900).max(2026).default(2026),
-  month: z.number().int().min(0).max(11).default(9),
+  year: z.number().int().min(TIMELINE_START_YEAR).refine(year => year <= getTimelineRange().endYear).default(() => getTimelineRange().currentYear),
+  month: z.number().int().min(0).max(11).default(() => getTimelineRange().currentMonth),
   region: z.enum(regions).default("All regions"),
   roles: z.array(z.enum(["leader", "member", "army", "religious", "business"])).default(["leader", "member", "army", "religious", "business"]),
   nato: z.boolean().default(false),
-});
+}).refine(settings => settings.year * 12 + settings.month <= getTimelineRange().max, { path: ["month"], message: "Date must be within the timeline." });
 export type Settings = z.infer<typeof settingsSchema>;
 export const defaultSettings = settingsSchema.parse({});
 export const MIN_MAP_ZOOM = 1;

@@ -6,11 +6,13 @@ import { alternativeQueries, defaultSearchState, searchAtlas, searchUrl, type Se
 import { regions, roleLabels } from "@/lib/atlas";
 import { useI18n } from "@/components/i18n/provider";
 import Portrait from "./portrait";
+import { getTimelineRange, TIMELINE_START_YEAR } from "@/lib/timeline";
 
 export default function SearchResults({ index, state, onChange, onSelect }: { index: SearchDocument[]; state: SearchState; onChange: (state: SearchState) => void; onSelect: (document: SearchDocument) => void }) {
   const { t, locale, n, text, countryName, personName, personTitle, periodLabel } = useI18n();
   const [pagination, setPagination] = useState({ signature: "", limit: 24 });
   const signature = searchUrl(state);
+  const { endYear } = getTimelineRange();
   const limit = pagination.signature === signature ? pagination.limit : 24;
   const hits = useMemo(() => searchAtlas(index, state, locale), [index, state, locale]);
   const unfiltered = useMemo(() => searchAtlas(index, { ...defaultSearchState, query: state.query }, locale), [index, state.query, locale]);
@@ -24,7 +26,7 @@ export default function SearchResults({ index, state, onChange, onSelect }: { in
       <label>{t("Result type")}<select value={state.type} onChange={event => patch({ type: event.target.value as SearchState["type"], ...(event.target.value === "place" ? { role: "", year: "" } : {}) })}><option value="all">{t("People and places")}</option><option value="person">{t("People")}</option><option value="place">{t("Places")}</option></select></label>
       <label>{t("Region")}<select value={state.region} onChange={event => patch({ region: event.target.value })}><option value="">{t("All regions")}</option>{regions.slice(1).map(region => <option key={region} value={region}>{text(region)}</option>)}</select></label>
       <label>{t("Role")}<select disabled={state.type === "place"} value={state.role} onChange={event => patch({ role: event.target.value, ...(event.target.value ? { type: "person" } : {}) })}><option value="">{t("All roles")}</option>{Object.entries(roleLabels).map(([role, label]) => <option key={role} value={role}>{t(label)}</option>)}</select></label>
-      <label>{t("Active in year")}<select value={state.year} disabled={state.type === "place"} onChange={event => patch({ year: event.target.value, ...(event.target.value ? { type: "person" } : {}) })}><option value="">{t("Any year")}</option>{Array.from({ length: 127 }, (_, index) => 2026 - index).map(year => <option key={year} value={year}>{n(year, { useGrouping: false })}</option>)}</select></label>
+      <label>{t("Active in year")}<select value={state.year} disabled={state.type === "place"} onChange={event => patch({ year: event.target.value, ...(event.target.value ? { type: "person" } : {}) })}><option value="">{t("Any year")}</option>{Array.from({ length: endYear - TIMELINE_START_YEAR + 1 }, (_, index) => endYear - index).map(year => <option key={year} value={year}>{n(year, { useGrouping: false })}</option>)}</select></label>
       <label>{t("Sort results")}<select value={state.sort} onChange={event => patch({ sort: event.target.value as SearchState["sort"] })}><option value="relevance">{t("Most relevant")}</option><option value="name">{t("Name A–Z")}</option><option value="newest">{t("Most recent term")}</option></select></label>
     </div>
     <p className="search-scope-note">{t("Search includes all recorded dates and your own characters. Places are countries in this atlas.")}</p>

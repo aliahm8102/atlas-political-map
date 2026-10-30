@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { visiblePeople, defaultSettings, settingsSchema, localStateSchema, viewportSchema, zoomViewport, defaultViewport, MAX_MAP_ZOOM } from "../lib/atlas.ts";
+import { getTimelineRange } from "../lib/timeline.ts";
 const people = JSON.parse(fs.readFileSync(new URL("../data/people.json", import.meta.url)));
 const countries = JSON.parse(fs.readFileSync(new URL("../data/countries.json", import.meta.url)));
 
@@ -36,7 +37,7 @@ test("historical selection, role, region, and search all narrow the collection",
 test("saved preferences accept December and reject corrupt or out-of-range state", () => {
   assert.equal(settingsSchema.parse({ month: 11 }).month, 11);
   assert.equal(settingsSchema.safeParse({ month: 12 }).success, false);
-  assert.equal(settingsSchema.safeParse({ year: 2050 }).success, false);
+  assert.equal(settingsSchema.safeParse({ year: getTimelineRange().endYear + 1 }).success, false);
   assert.equal(localStateSchema.safeParse({ settings: { theme: "untrusted" } }).success, false);
 });
 

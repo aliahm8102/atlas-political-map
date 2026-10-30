@@ -6,12 +6,14 @@ import { createTranslator, resolveLocale, authErrorKey, normalizeSearch } from "
 const people = JSON.parse(fs.readFileSync(new URL("../data/people.json", import.meta.url)));
 const countries = JSON.parse(fs.readFileSync(new URL("../data/countries.json", import.meta.url)));
 
-test("an explicit language overrides browser preference; unsupported and disabled languages are ignored", () => {
-  assert.equal(resolveLocale("en", "fa-IR,fa;q=0.9"), "en");
-  assert.equal(resolveLocale("fa", "en-US"), "fa");
-  assert.equal(resolveLocale(undefined, "ar,fa-IR;q=0.8,en;q=0.5"), "fa");
-  assert.equal(resolveLocale(undefined, "fa;q=0,en-US;q=0.7"), "en");
-  assert.equal(resolveLocale("<invalid>", "de-DE"), "en");
+test("Persian is the default regardless of browser language; explicit choices are preserved", () => {
+  assert.equal(resolveLocale(), "fa");
+  assert.equal(resolveLocale(undefined, "en-US,en;q=0.9"), "fa");
+  assert.equal(resolveLocale("", "en-US"), "fa");
+  assert.equal(resolveLocale("<invalid>", "de-DE"), "fa");
+  assert.equal(resolveLocale("en"), "en");
+  assert.equal(resolveLocale("fa"), "fa");
+  assert.equal(createTranslator("fa").t("My Atlas"), "اطلس من");
 });
 
 test("Persian content covers every bundled country, person, and office title while preserving English source data", () => {

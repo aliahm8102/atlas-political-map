@@ -6,13 +6,9 @@ export type Locale = "en" | "fa";
 export const LOCALE_COOKIE = "atlas-locale";
 export type { TranslationKey };
 
-export function resolveLocale(cookie?: string, acceptLanguage = ""): Locale {
+export function resolveLocale(cookie?: string): Locale {
   if (cookie === "en" || cookie === "fa") return cookie;
-  const preferred = acceptLanguage.split(",").map((part, order) => {
-    const [tag, weight] = part.trim().split(";");
-    return { language: tag.toLowerCase().split("-")[0], weight: weight ? Number(weight.trim().replace(/^q=/, "")) : 1, order };
-  }).filter(item => Number.isFinite(item.weight) && item.weight > 0 && item.weight <= 1).sort((a, b) => b.weight - a.weight || a.order - b.order);
-  return preferred.find(item => item.language === "en" || item.language === "fa")?.language === "fa" ? "fa" : "en";
+  return "fa";
 }
 
 const prefixTranslations: [string, string][] = [

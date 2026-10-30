@@ -71,10 +71,14 @@ try {
     assert.equal(await evaluate("document.querySelector('a[href=\"/demo\"]') === null"), true);
   }
   await evaluate("localStorage.setItem('atlas-demo-v1', JSON.stringify({settings:{}, displayName:'Forged account', bookmarks:[],notes:{}}))");
+  await cdp("Network.setCookie", { name: "atlas-locale", value: "en", url: origin });
   await navigate(`${origin}/demo`);
   await waitFor("location.pathname === '/login' && document.querySelector('.auth-card')", "Old demo storage cannot grant access");
   const authMode = await evaluate("document.querySelector('.auth-page').dataset.authMode");
   const configured = authMode === "supabase";
+  if (authMode !== "local") {
+    assert.equal(await evaluate("Boolean(document.querySelector('input[autocomplete=name]'))"), true, "Registration is the default");
+  }
   // A connected project must never receive test signups or recovery emails.
   // Exercise the fields without submitting when real configuration is loaded.
   const submitWithoutBackend = async () => {
@@ -92,6 +96,7 @@ try {
   };
   await waitFor("(() => { if (document.querySelector('button[aria-label=\"Hide password\"]')) return true; document.querySelector('button[aria-label=\"Show password\"]')?.click(); return false; })()", "Auth form is interactive");
   await click('button[aria-label="Hide password"]');
+  if (authMode !== "local") await click('.auth-switch-button');
   if (authMode === "local") {
     assert.ok(["127.0.0.1", "localhost", "[::1]"].includes(new URL(origin).hostname), "Local credentials may only be tested on loopback");
     const credentials = Object.fromEntries((await fs.readFile('.env.demo.local', 'utf8')).split('\n').filter(line => line && !line.startsWith('#')).map(line => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1)]; }));
@@ -526,9 +531,9 @@ try {
   await chooseSpeed(2);
   assert.equal(await evaluate("Boolean(document.querySelector('button[aria-label=\"Pause timeline\"]'))"), true, 'Changing speed keeps playback running');
   await click('button[aria-label="Pause timeline"]');
-  await input('.timeline-slider input', String(2026 * 12 + 10));
+  await input('.timeline-slider input', String(Number(await evaluate("document.querySelector('.timeline-slider input').max")) - 1));
   await click('button[aria-label="Play timeline"]');
-  await waitFor("document.querySelector('.timeline-slider input').value === String(2026 * 12 + 11) && document.querySelector('button[aria-label=\"Play timeline\"]')", 'Playback stops at the end without overshooting');
+  await waitFor("document.querySelector('.timeline-slider input').value === document.querySelector('.timeline-slider input').max && document.querySelector('button[aria-label=\"Play timeline\"]')", 'Playback stops at the end without overshooting');
   await click('button[aria-label="Play timeline"]');
   await waitFor("Number(document.querySelector('.timeline-slider input').value) < 1901 * 12", 'Playing from the end restarts the timeline');
   await click('button[aria-label="Pause timeline"]');

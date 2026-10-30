@@ -66,6 +66,10 @@ try {
   socket.addEventListener('message',({data})=>{const event=JSON.parse(String(data));if(event.method==='Network.requestWillBeSent' && /\/auth\/v1\//.test(event.params.request.url))authRequests.push(event.params.request.method);});
   await navigate('/login');
   await waitFor("document.querySelector('.auth-switch-button') && document.querySelector('input[name=password]')");
+  assert.equal(await evaluate("document.documentElement.lang"), "fa", "Persian is the default");
+  assert.equal(await evaluate("Boolean(document.querySelector('input[autocomplete=name]'))"), true, "Registration opens first");
+  await waitFor("(() => {if(document.documentElement.lang==='en')return true;document.querySelector('[data-testid=\"language-switcher\"]')?.click();return false;})()");
+  await click('.auth-switch-button');
   await waitFor("(() => {if(document.querySelector('button[aria-label=\"Hide password\"]'))return true;document.querySelector('button[aria-label=\"Show password\"]')?.click();return false;})()");
   await click('button[aria-label="Hide password"]');
   assert.equal(await evaluate("getComputedStyle(document.querySelector('.auth-switch strong')).fontSize"),'16px');
@@ -116,6 +120,7 @@ try {
   assert.equal(await evaluate("document.querySelector('.auth-switch')===null"),true);
   await navigate('/login');
   await waitFor("document.querySelector('.auth-switch-button')");
+  await click('.auth-switch-button');
   await waitFor("(() => {if(document.querySelector('button[aria-label=\"Hide password\"]'))return true;document.querySelector('button[aria-label=\"Show password\"]')?.click();return false;})()");
   await click('[data-testid="language-switcher"]');
   await waitFor("document.documentElement.lang==='fa'");

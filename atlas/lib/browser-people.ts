@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 
 export const markerPositionSchema = z.object({ x: z.number().finite().min(0).max(1000), y: z.number().finite().min(0).max(540) });
 export type MarkerPosition = z.infer<typeof markerPositionSchema>;
@@ -9,7 +10,7 @@ export const customPersonSchema = z.object({
   lat: z.number().finite().min(-90).max(90), lng: z.number().finite().min(-180).max(180),
   countryCode: z.string().min(1).max(8), country: z.string().min(1).max(120), region: z.string().min(1).max(40),
   imageUrl: z.string().max(300000).refine(value => !value || /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(value)),
-  startYear: z.number().min(1900).max(2026.999).nullable(), endYear: z.number().min(1900).max(2026.999).nullable(),
+  startYear: z.number().min(TIMELINE_START_YEAR).refine(year => year < getTimelineRange().endYear + 1).nullable(), endYear: z.number().min(TIMELINE_START_YEAR).refine(year => year < getTimelineRange().endYear + 1).nullable(),
   dataset: z.literal("custom"),
 }).refine(person => person.startYear === null || person.endYear === null || person.endYear > person.startYear);
 export type CustomPerson = z.infer<typeof customPersonSchema>;

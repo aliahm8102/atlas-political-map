@@ -1,5 +1,6 @@
 import { regions, roleLabels, type Country, type Person, type Role } from "./atlas.ts";
 import { createTranslator, type Locale } from "./i18n/index.ts";
+import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 
 export type SearchState = { query: string; type: "all" | "person" | "place"; region: string; role: string; year: string; sort: "relevance" | "name" | "newest" };
 export const defaultSearchState: SearchState = { query: "", type: "all", region: "", role: "", year: "", sort: "relevance" };
@@ -126,7 +127,7 @@ export function alternativeQueries(index: SearchDocument[], query: string, local
 export function parseSearchState(params: URLSearchParams): SearchState {
   const type = params.get("type"), sort = params.get("sort"), year = params.get("year") ?? "";
   const region = params.get("region") ?? "", role = params.get("role") ?? "";
-  return { query: (params.get("q") ?? "").slice(0, 160), type: type === "person" || type === "place" ? type : "all", region: regions.some(value => value === region && value !== "All regions") ? region : "", role: Object.hasOwn(roleLabels, role) && type !== "place" ? role : "", year: /^(19|20)\d{2}$/.test(year) && Number(year) <= 2026 && type !== "place" ? year : "", sort: sort === "name" || sort === "newest" ? sort : "relevance" };
+  return { query: (params.get("q") ?? "").slice(0, 160), type: type === "person" || type === "place" ? type : "all", region: regions.some(value => value === region && value !== "All regions") ? region : "", role: Object.hasOwn(roleLabels, role) && type !== "place" ? role : "", year: /^\d{4}$/.test(year) && Number(year) >= TIMELINE_START_YEAR && Number(year) <= getTimelineRange().endYear && type !== "place" ? year : "", sort: sort === "name" || sort === "newest" ? sort : "relevance" };
 }
 export function searchUrl(state: SearchState) {
   const params = new URLSearchParams();
