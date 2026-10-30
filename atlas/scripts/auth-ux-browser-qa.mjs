@@ -68,6 +68,10 @@ try {
   await waitFor("document.querySelector('.auth-switch-button') && document.querySelector('input[name=password]')");
   assert.equal(await evaluate("document.documentElement.lang"), "fa", "Persian is the default");
   assert.equal(await evaluate("Boolean(document.querySelector('input[autocomplete=name]'))"), true, "Registration opens first");
+  assert.equal(await evaluate("document.querySelector('.auth-card > h2')"), null, "Signup headline is removed");
+  assert.equal(await evaluate("document.querySelector('.auth-switch p')"), null, "Redundant signup account copy is removed");
+  assert.ok(await evaluate("document.querySelector('.auth-submit').getBoundingClientRect().height >= 52"));
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('.auth-submit')).fontSize"), '14px');
   await waitFor("(() => {if(document.documentElement.lang==='en')return true;document.querySelector('[data-testid=\"language-switcher\"]')?.click();return false;})()");
   await click('.auth-switch-button');
   await waitFor("(() => {if(document.querySelector('button[aria-label=\"Hide password\"]'))return true;document.querySelector('button[aria-label=\"Show password\"]')?.click();return false;})()");
@@ -90,7 +94,8 @@ try {
     assert.equal(await evaluate("document.querySelector('input[name=password]').checkValidity()"),true);
     await type(password,'b'.repeat(32));
     assert.equal(await evaluate("document.querySelector('input[name=password]').checkValidity()"),true,'A 32-character password is accepted');
-    assert.equal(await evaluate("document.querySelector('input[name=password]').getAttribute('aria-describedby')"),'auth-password-hint');
+    assert.equal(await evaluate("document.querySelector('input[name=password]').getAttribute('aria-describedby')"),null);
+    assert.equal(await evaluate("document.querySelector('.auth-password-hint')"),null);
     await evaluate("(() => {Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(document.querySelector('input[name=password]'),'z'.repeat(33));document.querySelector('.auth-card form').requestSubmit();})()");
     await waitFor("document.querySelector('.form-error')?.textContent.includes('8 and 32')");
   };
@@ -130,7 +135,8 @@ try {
     await evaluate("document.fonts.ready.then(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))))");
     assert.equal(await evaluate("document.documentElement.scrollWidth<=innerWidth"),true,'Persian auth layout fits small phones at 130% font size');
     assert.equal(await evaluate("document.querySelector('.auth-switch-button').textContent.includes('ساخت حساب')"),true);
-    assert.equal(await evaluate("document.querySelector('#auth-password-hint').textContent"),'۸ تا ۳۲ نویسه');
+    assert.equal(await evaluate("document.querySelector('.auth-password-hint')"),null);
+    assert.ok(await evaluate("document.querySelector('.auth-submit').getBoundingClientRect().height < 52"),'Desktop button sizing does not affect phones');
     await screenshot(`auth-ux-fa-${width}`);
   }
   assert.deepEqual(authRequests,[],'No registration, recovery email or authentication request is sent by these checks');

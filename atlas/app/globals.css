@@ -387,6 +387,7 @@ html[dir="rtl"] .tour-actions .primary-button > svg { transform: rotate(180deg);
 .input-wrap:focus-within { box-shadow: var(--inset), 0 0 0 1px var(--accent); }
 .forgot { display: flex; margin-inline-start: auto; margin-top: 15px; font-size: calc((10px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
 .auth-submit { width: 100%; margin-top: 25px; min-height: 43px; }
+@media (min-width: 1001px) { .auth-submit { min-height: 52px; padding: 16px 20px; font-size: calc(14px * var(--font-scale, 1)); } }
 .auth-card .auth-switch { display: grid; gap: 15px; margin-top: 26px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--soft); text-align: start; }
 .auth-switch strong { display: block; color: var(--text); font-size: calc(16px * var(--font-scale, 1)); font-weight: 600; line-height: 1.6; }
 .auth-switch p { margin-top: 5px; color: var(--muted); font-size: calc(13px * var(--font-scale, 1)); line-height: 1.8; }
@@ -394,7 +395,6 @@ html[dir="rtl"] .tour-actions .primary-button > svg { transform: rotate(180deg);
 .auth-switch-button span { flex: 1; min-width: 0; }
 .auth-switch-button:hover { background: var(--accent-soft); }
 html[dir="rtl"] .auth-switch-button > svg:last-child { transform: rotate(180deg); }
-.auth-password-hint { display: block; margin-top: 8px; font-size: calc(12px * var(--font-scale, 1)); font-weight: 400; color: var(--muted); }
 .auth-footnote { font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 35px; }
 .auth-copyright { font-size: calc((8px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); text-align: center; letter-spacing: 1px; padding-top: 25px; }
 .info-notice { padding: 14px; background: var(--soft); border: 1px solid var(--border); border-radius: 9px; margin-top: 23px; font-size: calc((10px + var(--desktop-font-increment)) * var(--font-scale, 1)); line-height: 1.8; }
