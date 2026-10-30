@@ -38,7 +38,7 @@ export default function SearchBox({ index, query, onQuery, onSubmit, onSelect }:
         if (event.key === "ArrowDown" || event.key === "ArrowUp") { event.preventDefault(); setOpen(true); setActive(previous => suggestions.length ? previous < 0 ? (event.key === "ArrowDown" ? 0 : suggestions.length - 1) : (previous + (event.key === "ArrowDown" ? 1 : -1) + suggestions.length) % suggestions.length : -1); }
         if (event.key === "Enter" && expanded && active >= 0 && suggestions[active]) { event.preventDefault(); select(suggestions[active].document); }
       }} />
-    {query ? <button type="button" className="icon-plain" aria-label={t("Clear search")} onClick={() => { onQuery(""); setActive(-1); input.current?.focus(); }}><X size={17} /></button> : <kbd>Ctrl K</kbd>}
+    {query && <button type="button" className="icon-plain" aria-label={t("Clear search")} onClick={() => { onQuery(""); setActive(-1); input.current?.focus(); }}><X size={17} /></button>}
     <button type="submit" className="search-submit" aria-label={t("Show search results")}><Search size={17} /><span>{t("Search")}</span></button>
     {expanded && <div className="search-results search-autocomplete">
       <div className="search-suggestion-heading">{t("Suggestions")}<span>{t("{count} results", { count: n(hits.length) })}</span></div>

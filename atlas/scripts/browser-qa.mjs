@@ -286,7 +286,7 @@ try {
     console.log('PASS: local wrong-password rejection, signed HttpOnly session, authenticated map access, profile/bookmark persistence across reload, sign-out, forged-cookie rejection, re-login, and no Supabase requests.');
     // Changing language must preserve the current view, session, and account data.
     await click('button[aria-label="Zoom in"]');
-    await waitFor("document.querySelector('.map-scale').textContent.includes('1.4')");
+    await waitFor("document.querySelector('.world-map > g').getAttribute('transform').includes('scale(1.4)')");
     await evaluate("(() => { const select = document.querySelector('.region-filter select'); select.value = 'Asia'; select.dispatchEvent(new Event('change', {bubbles:true})); })()");
     const mapTransform = await evaluate("document.querySelector('.world-map > g').getAttribute('transform')");
     await click('[data-testid="language-switcher"]');
@@ -297,7 +297,7 @@ try {
     const sidebarPlacement = await evaluate("(() => { const el = document.querySelector('.sidebar'); const r = el.getBoundingClientRect(); return {right:r.right, left:r.left, viewport:innerWidth, client:document.documentElement.clientWidth, inlineStart:getComputedStyle(el).insetInlineStart, inlineEnd:getComputedStyle(el).insetInlineEnd, direction:getComputedStyle(el).direction}; })()");
     assert.ok(Math.min(Math.abs(sidebarPlacement.right - sidebarPlacement.viewport), Math.abs(sidebarPlacement.right - sidebarPlacement.client)) < 2, `Persian sidebar is not on the right: ${JSON.stringify(sidebarPlacement)}`);
     assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, 'Persian desktop has horizontal overflow');
-    assert.match(await evaluate("document.querySelector('.map-scale').textContent"), /۱/);
+    assert.equal(await evaluate("document.querySelector('.map-compass, .map-scale, .global-search kbd')"), null);
     assert.match(await evaluate("document.querySelector('.timeline-date strong').textContent"), /۲۰۲۶/);
     assert.equal(await evaluate("document.fonts.check('16px Vazirmatn')"), true, 'Bundled Persian font did not load');
     await screenshot('atlas-fa-desktop');
@@ -432,6 +432,24 @@ try {
   // The tools tour is exercised separately in map-tour-browser-qa.mjs.
   await evaluate("localStorage.setItem('atlas-map-tour-v1','done')");
   assert.equal(await evaluate("document.querySelector('.map-coordinate, .map-legend') === null"), true, 'Static map caption and legend are removed');
+  const assertStableTimelineWidths = async label => {
+    const original = await evaluate("document.querySelector('.timeline-slider input').value");
+    const first = Number(await evaluate("document.querySelector('.timeline-slider input').min"));
+    const widths = [];
+    for (let month = 0; month < 12; month++) {
+      const before = await evaluate("({value: document.querySelector('.timeline-slider input').value, label: document.querySelector('.timeline-date strong').textContent})");
+      await input('.timeline-slider input', String(first + month));
+      if (before.value !== String(first + month)) await waitFor(`document.querySelector('.timeline-date strong').textContent !== ${JSON.stringify(before.label)}`, label + ': selected month renders');
+      widths.push(await evaluate("['.timeline-slider', '.timeline-date'].map(selector => document.querySelector(selector).getBoundingClientRect().width)"));
+    }
+    await input('.timeline-slider input', original);
+    for (const [slider, date] of widths) {
+      assert.ok(Math.abs(slider - widths[0][0]) < 1, label + ': slider width stays constant across all months');
+      assert.ok(Math.abs(date - widths[0][1]) < 1, label + ': date width stays constant across all months');
+    }
+  };
+  assert.equal(await evaluate("document.querySelector('.map-compass, .map-scale')"), null, 'Decorative compass and zoom scale are removed');
+  await assertStableTimelineWidths('Desktop timeline');
   const assertCountryHints = async (label, touch = false) => {
     await cdp('Page.bringToFront');
     await evaluate("document.querySelector('.map-stage').dispatchEvent(new KeyboardEvent('keydown', {key:'Home',bubbles:true}))");
@@ -627,13 +645,13 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
   await screenshot("atlas-desktop");
   await click('button[aria-label="Zoom in"]');
-  await waitFor("document.querySelector('.map-scale').textContent.includes('1.4')", "Zoom changes view");
+  await waitFor("document.querySelector('.world-map > g').getAttribute('transform').includes('scale(1.4)')", "Zoom changes view");
   await click('button[aria-label="Reset map position"]');
   for (let i = 0; i < 20; i++) await click('button[aria-label="Zoom in"]');
-  await waitFor("document.querySelector('.map-scale').textContent.includes('64.0') && document.querySelector('button[aria-label=\"Zoom in\"]').disabled", "Buttons reach the new 64x maximum");
+  await waitFor("document.querySelector('.world-map > g').getAttribute('transform').includes('scale(64)') && document.querySelector('button[aria-label=\"Zoom in\"]').disabled", "Buttons reach the new 64x maximum");
   await click('button[aria-label="Reset map position"]');
   await evaluate("(() => { const el = document.querySelector('.map-stage'); const r = el.getBoundingClientRect(); el.dispatchEvent(new WheelEvent('wheel', {deltaY:-100000,clientX:r.x+r.width/2,clientY:r.y+r.height/2,bubbles:true,cancelable:true})); })()");
-  await waitFor("document.querySelector('.map-scale').textContent.includes('64.0')", "Wheel reaches the same maximum");
+  await waitFor("document.querySelector('.world-map > g').getAttribute('transform').includes('scale(64)')", "Wheel reaches the same maximum");
   await click('button[aria-label="Reset map position"]');
   await click('.map-pin');
   await waitFor("document.querySelector('.person-spotlight h3')", "Selecting a portrait opens its details");
@@ -808,6 +826,7 @@ try {
     await click('button[aria-label="Reset map position"]');
   };
   const assertOverlays = async label => {
+    await assertStableTimelineWidths(label);
     assert.equal(await evaluate(`(() => {
       const root = document.querySelector('.map-experience');
       const stage = root.querySelector('.map-stage').getBoundingClientRect();
