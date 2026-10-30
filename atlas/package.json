@@ -19,7 +19,7 @@
     "data:import": "node scripts/import-data.mjs",
     "demo:setup": "node scripts/setup-local-demo.mjs",
     "test": "node --test scripts/*.test.mjs",
-    "test:db": "bash scripts/test-db.sh"
+    "test:db": "node scripts/test-db.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

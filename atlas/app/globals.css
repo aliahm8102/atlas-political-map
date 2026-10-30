@@ -731,3 +731,38 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .below-map { flex-wrap: wrap; gap: 12px; }
 @media (max-width: 1000px) { .characters-layout { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .character-fields { grid-template-columns: 1fr; gap: 16px; }.characters-layout .settings-card { padding: 20px 16px; } }
+
+/* Publication requests and role-protected administration. */
+.publish-character { margin-top: 12px; white-space: normal; }
+.publication-review-note { margin-top: 10px; }
+.publication-status, .admin-role { display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 8px; background: var(--accent-soft); color: var(--accent-dark); font-size: calc(12px * var(--font-scale, 1)); }
+.admin-panel { display: grid; gap: 20px; min-width: 0; }
+.admin-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid var(--border); padding-bottom: 14px; }
+.admin-tabs > button { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 10px; font-size: calc(13px * var(--font-scale, 1)); }
+.admin-tabs > button[aria-selected="true"] { color: var(--accent-dark); background: var(--accent-soft); box-shadow: var(--inset); }
+.admin-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 18px 0; }
+.admin-person-heading { display: flex; align-items: start; gap: 12px; min-width: 0; }
+.admin-person-heading > div { min-width: 0; overflow-wrap: anywhere; }
+.admin-person-heading h3, .admin-account h3 { font-size: calc(15px * var(--font-scale, 1)); }
+.admin-person-heading p, .admin-person-heading small, .admin-account p { color: var(--muted); font-size: calc(12px * var(--font-scale, 1)); line-height: 1.8; }
+.admin-person-heading .portrait { width: 48px; height: 48px; }
+.admin-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 18px; }
+.admin-actions > button { white-space: normal; }
+.admin-search { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 10px; box-shadow: var(--inset); flex: 1; min-width: min(220px, 100%); }
+.admin-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: none; font-size: calc(12px * var(--font-scale, 1)); }
+.admin-search:focus-within { outline: 2px solid var(--accent); }
+.admin-editor { margin-top: 18px; }
+.admin-editor .character-form { margin-top: 20px; }
+.admin-editor fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 16px; min-width: 0; }
+.admin-note { display: grid; gap: 8px; font-size: calc(12px * var(--font-scale, 1)); margin-top: 14px; }
+.admin-note textarea { min-height: 76px; width: 100%; resize: vertical; margin: 0; }
+.admin-alert { padding: 14px 16px; background: var(--accent-soft); color: var(--accent-dark); border-radius: 10px; font-size: calc(13px * var(--font-scale, 1)); line-height: 1.8; overflow-wrap: anywhere; }
+.admin-alert.error, .admin-actions .danger { color: #a34932; }
+.admin-alert.error { background: #a3493212; }
+.admin-empty { padding: 42px 18px; text-align: center; color: var(--muted); font-size: calc(13px * var(--font-scale, 1)); }
+.admin-account-list { display: grid; gap: 14px; margin-top: 18px; }
+.admin-account { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+.admin-account > div { min-width: 0; overflow-wrap: anywhere; }
+.admin-account .publication-status { margin-top: 8px; }
+@media (max-width: 760px) { .admin-grid { grid-template-columns: minmax(0, 1fr); }.admin-account { align-items: start; flex-direction: column; }.admin-tabs > button { padding: 10px; font-size: calc(12px * var(--font-scale, 1)); }.admin-toolbar > .admin-search { flex-basis: 100%; } }

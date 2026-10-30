@@ -46,10 +46,10 @@ The login page has a separate account section with readable text and a full-widt
 - Fullscreen drawing tools: open the pencil icon to sketch with a mouse, pen or finger. Select the pencil to choose a palette color or a custom color; each stroke keeps its original color. Use the eraser to remove touched pencil strokes, the ruler to measure between two or more tapped points, or the hand to pan. The ruler shows each segment and the total approximate great-circle surface distance in kilometers (meters below 1 km), with Undo and Clear controls. It measures geographic distance rather than a driving route. Drawings and measurements follow the map during zoom, pan and screen rotation; two fingers still zoom without adding ruler points. The eraser only affects pencil strokes and cannot remove measurements, countries, portraits, geopolitical layers or stored marker positions. Drawings and measurements remain for the current map session and are not saved after reloading the page.
 - All 156 original people records, with local portraits where supplied and initials for missing or unavailable images.
 - Search by name, country, or title; country search suggestions; region and role filters.
-- A month-by-month timeline from 1900 to 2026, playback, previous/next month controls, and historical term filtering. During playback, the clock control offers 0.5x, 1x, 1.5x and 2x speed; the selected speed is retained when pausing and resuming. These speeds advance approximately 1, 2, 3 and 4 months per second, respectively, on half-second beats (fractional months carry into the next beat).
+- A month-by-month timeline from 1900 to one calendar year after the current month, playback, previous/next month controls, and historical term filtering. During playback, the clock control offers 0.5x, 1x, 1.5x and 2x speed; the selected speed is retained when pausing and resuming. These speeds advance approximately 1, 2, 3 and 4 months per second, respectively, on half-second beats (fractional months carry into the next beat).
 - Map controls show the people and geopolitical layers directly, without tabs. Appearance settings live in My workspace. The original NATO boundary overlay is available in the layer controls.
 - My workspace appearance settings: Soft light, Quiet dark, Warm sand and Midnight blue themes; sage, blue, lavender, amber and rose accents; and a 90%-130% font-size slider that scales desktop and mobile text. Preferences persist with the existing account settings and Reset appearance restores the defaults.
-- A people directory and bookmarks. Use **Add character** at the top of **My workspace** to open the authenticated `/workspace/characters` page, which adds personal characters with a name, role, country, optional dates and a portrait. Characters, their bookmarks and marker positions are stored in account-scoped browser storage in both local and Supabase modes; they never use database capacity. Clearing site data removes them, and they do not sync to other browsers or devices.
+- A people directory and bookmarks. Use **Add character** at the top of **My workspace** to open the authenticated `/workspace/characters` page, which adds personal characters with a name, role, country, optional dates and a portrait. Characters, their bookmarks and marker positions are stored in account-scoped browser storage in both local and Supabase modes; Personal drafts remain in browser storage. Explicit publication requests are saved in Supabase for administrative review. Clearing site data removes them, and they do not sync to other browsers or devices.
 - Display name, portrait visibility, continent labels, and marker size.
 - Supabase email/password sign-in, sign-up, confirmation, recovery, password update, sign-out, verified server-side route protection, and database-backed personal data when connected.
 
@@ -144,6 +144,28 @@ A hosted Supabase project must be connected before account registration and map 
 `/` and the retired `/demo` route always redirect to `/workspace`. The workspace verifies the active provider's session on the server before reading or rendering map data; unsigned visitors go to `/login`. Missing authentication configuration also redirects to sign-in. Browser storage cannot grant access. In Supabase mode, each signed-in user’s preferences, bookmarks and notes are stored under their account in the database.
 
 The setup follows [Supabase's SSR authentication guide](https://supabase.com/docs/guides/auth/server-side/creating-a-client?framework=nextjs) and [row-level security documentation](https://supabase.com/docs/guides/database/postgres/row-level-security).
+
+## Administration and character publication
+
+After creating a character under **My characters**, an online user can select **Publish character** (انتشار کاراکتر). The browser draft remains private; the submitted snapshot is stored in Supabase. The button shows pending or published status, and rejected requests show the review note and can be resubmitted. Clearing browser storage does not remove submitted snapshots. Local demo accounts cannot submit to the hosted review queue.
+
+The **Administration panel** (پنل مدیریتی) appears in the sidebar for administrators and the owner, at `/workspace/admin`:
+
+- **User**: existing map and personal-character features, plus publication requests and their own review status.
+- **Administrator**: review and approve/reject publication requests; add, edit or delete shared map characters. Editing preserves imported dataset provenance.
+- **Owner**: all administrator features, plus account search by email/name and appointing or removing administrators. The owner role cannot be granted or removed through the application.
+
+### Enable on the existing Supabase project
+
+1. Run `supabase/migrations/20261030000100_administration.sql` **once**, after the three existing migrations. This creates the role table, review queue, audited RPCs and row-level policies.
+2. The account `aliahm8102@gmail.com` must already exist with a confirmed email. Run `supabase/bootstrap-owner.sql` in SQL Editor to appoint that account as the initial owner. It refuses to replace a different existing owner and is never callable through the application.
+3. Sign in with that account and open **Administration panel**. Use **Manage administrators** to find existing registered accounts and grant/revoke administrator access.
+
+A public publishable key cannot execute these setup steps. Use the Supabase SQL Editor as the project owner; no service-role key belongs in the browser or this repository. Until the migration is applied, existing map/account features continue working, publication is marked unavailable and no administration link is shown.
+
+Authorization is checked in every server action and again inside the SQL mutation functions. Roles are read from protected database records, not user metadata or client props; revocation affects subsequent requests without issuing a new JWT. Authenticated users have no direct write grant on roles, submissions, shared people or audit records. Authors see only their own requests; staff can review the pending queue; only the owner can read account email search results. Review locks and an atomic transaction prevent duplicate publication, including concurrent approval attempts. Requests are limited to 200 per account and portraits to 300,000 characters.
+
+Run `npm run test:db` with PostgreSQL 16 installed (`ATLAS_PG_BIN` can override its location). It creates a temporary local cluster on loopback port 55439, runs the migrations and role/isolation/concurrency tests, then stops and removes that cluster. It does not connect to production or the existing PostgreSQL service. Run `node scripts/admin-preview.mjs` for the role-aware component preview on localhost. Component previews in `scripts/` use in-memory fixtures and do not grant access to the application.
 
 ## Database
 

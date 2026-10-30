@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Check, HardDrive, MapPin, Trash2, UserPlus, X } from "lucide-react";
+import { Check, HardDrive, MapPin, Send, Trash2, UserPlus, X } from "lucide-react";
 import { type Country, type Person, type Role, roleLabels } from "@/lib/atlas";
 import { customPersonSchema, type CustomPerson } from "@/lib/browser-people";
 import { useI18n } from "@/components/i18n/provider";
 import Portrait from "./portrait";
 import { getTimelineRange, TIMELINE_START_YEAR } from "@/lib/timeline";
+import type { ActionResult, Publication } from "@/lib/administration";
 
-type Props = { countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void };
-export default function CharactersPage({ countries, people, ready, onAdd, onRemove, onLocate }: Props) {
+type Props = { countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void; publications?: Publication[]; publicationAvailable?: boolean; onPublish?: (person: CustomPerson) => Promise<ActionResult<Publication>> };
+export default function CharactersPage({ countries, people, ready, onAdd, onRemove, onLocate, publications = [], publicationAvailable = false, onPublish }: Props) {
   const { t, n, countryName, text } = useI18n();
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -24,6 +25,15 @@ export default function CharactersPage({ countries, people, ready, onAdd, onRemo
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [publishing, setPublishing] = useState<string | null>(null);
+  const [publicationError, setPublicationError] = useState("");
+  async function publish(person: CustomPerson) {
+    if (!onPublish || !publicationAvailable || publishing) return;
+    setPublishing(person.id); setPublicationError("");
+    try { const result = await onPublish(person); if (!result.ok) setPublicationError(t(result.error)); }
+    catch { setPublicationError(t("The request could not be saved. Refresh and try again.")); }
+    finally { setPublishing(null); }
+  }
   async function portrait(file?: File) {
     if (!file) return;
     setError(""); setProcessing(true);
@@ -72,8 +82,11 @@ export default function CharactersPage({ countries, people, ready, onAdd, onRemo
       </form>
     </section>
     <section className="settings-card character-collection"><div className="section-heading"><h2>{t("My characters")}</h2><span className="mini-count">{n(people.length)}</span></div>
+      <p className="field-hint">{t("Send a character for review. It appears on the shared map only after administrator approval.")}</p>
+      {!publicationAvailable && <p className="field-hint">{t(onPublish ? "Administration is not enabled yet." : "Sign in with an online account to publish characters.")}</p>}
+      {publicationError && <p className="admin-alert error" role="alert">{publicationError}</p>}
       {!people.length && <p className="field-hint">{t("Your characters will appear here, in the directory and on the map.")}</p>}
-      {people.map(person => <article className="custom-character" key={person.id}><Portrait person={person} /><div><h3 dir="auto">{person.name}</h3><p dir="auto">{person.title}</p><small>{countryName(person.country)} · {text(roleLabels[person.role])}</small><button className="text-link" onClick={() => onLocate(person)}><MapPin size={13} />{t("View on map")}</button></div><button className="icon-button" aria-label={t("Delete {name}", { name: person.name })} onClick={() => onRemove(person.id)}><Trash2 size={16} /></button></article>)}
+      {people.map(person => { const publication = publications.find(item => item.localId === person.id.slice(7)); return <article className="custom-character" key={person.id}><Portrait person={person} /><div><h3 dir="auto">{person.name}</h3><p dir="auto">{person.title}</p><small>{countryName(person.country)} · {text(roleLabels[person.role])}</small><button className="text-link" onClick={() => onLocate(person)}><MapPin size={13} />{t("View on map")}</button><button className="secondary-button publish-character" disabled={!ready || !publicationAvailable || !!publishing || publication?.status === "pending" || publication?.status === "approved"} onClick={() => void publish(person)}><Send size={14} />{publishing === person.id ? t("Sending…") : publication?.status === "pending" ? t("Pending review") : publication?.status === "approved" ? t(publication.personId ? "Published" : "Removed from shared map") : publication?.status === "rejected" ? t("Resubmit for publication") : t("Publish character")}</button>{publication?.status === "rejected" && <p className="publication-review-note">{t("Publication request rejected.")}{publication.reviewNote && <span dir="auto"> {publication.reviewNote}</span>}</p>}</div><button className="icon-button" aria-label={t("Delete {name}", { name: person.name })} disabled={publishing === person.id} onClick={() => onRemove(person.id)}><Trash2 size={16} /></button></article>; })}
     </section>
   </div>;
 }
