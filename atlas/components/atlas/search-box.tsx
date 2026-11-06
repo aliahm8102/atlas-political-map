@@ -44,7 +44,7 @@ export default function SearchBox({ index, query, onQuery, onSubmit, onSelect }:
       <div className="search-suggestion-heading">{t("Suggestions")}<span>{t("{count} results", { count: n(hits.length) })}</span></div>
       <div id={id} role="listbox" aria-label={t("Search suggestions")}>
         {suggestions.map(({ document }, index) => <button type="button" role="option" tabIndex={-1} aria-selected={active === index} id={`${id}-${index}`} key={document.id} onMouseDown={event => event.preventDefault()} onMouseEnter={() => setActive(index)} onClick={() => select(document)}>
-          {document.type === "place" ? <MapPin size={18} /> : <UserRound size={18} />}<span><strong>{locale === "fa" ? document.faName : document.name}</strong><small>{document.person ? `${personTitle(document.person.title)} · ${countryName(document.person.country)}` : t("Country")}</small></span><ArrowUpRight size={15} />
+          {document.type === "place" ? <MapPin size={18} /> : <UserRound size={18} />}<span><strong>{locale === "fa" ? document.faName : document.name}</strong><small>{document.person ? `${personTitle(document.person)} · ${countryName(document.person.country)}` : t("Country")}</small></span><ArrowUpRight size={15} />
         </button>)}
       </div>
       {!suggestions.length && <p className="search-suggestion-empty">{t("No suggestions yet. View results for alternatives.")}</p>}

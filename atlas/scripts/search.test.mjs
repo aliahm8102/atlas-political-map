@@ -10,6 +10,14 @@ const index = buildSearchIndex(people, countries);
 const search = (query, filters = {}) => searchAtlas(index, { ...defaultSearchState, query, ...filters });
 const names = (hits) => hits.map(hit => hit.document.name);
 
+test("user-authored bilingual names and descriptions are searchable in both languages", () => {
+  const person = { ...people[0], id: "custom:bilingual", name: "Private explorer", title: "Independent researcher", nameFa: "کاوشگر شخصی", titleFa: "پژوهشگر مستقل" };
+  const bilingual = buildSearchIndex([person], []);
+  for (const query of ["Private explorer", "کاوشگر شخصی", "Independent researcher", "پژوهشگر مستقل"]) {
+    assert.equal(searchAtlas(bilingual, { ...defaultSearchState, query })[0]?.document.person?.id, person.id, query);
+  }
+});
+
 test("people and countries share a ranked index, including records outside the current map date", () => {
   assert.equal(index.length, people.length + countries.length);
   assert.equal(search("Iran")[0].document.country.name, "Iran");

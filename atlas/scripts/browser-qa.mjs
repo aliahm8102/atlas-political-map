@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { createServer } from "vite";
+import { runCharacterOrganizationQA } from "./character-organization-qa.mjs";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -99,7 +100,7 @@ try {
   if (authMode !== "local") await click('.auth-switch-button');
   if (authMode === "local") {
     assert.ok(["127.0.0.1", "localhost", "[::1]"].includes(new URL(origin).hostname), "Local credentials may only be tested on loopback");
-    const credentials = Object.fromEntries((await fs.readFile('.env.demo.local', 'utf8')).split('\n').filter(line => line && !line.startsWith('#')).map(line => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1)]; }));
+    const credentials = Object.fromEntries((await fs.readFile(process.env.ATLAS_TEST_CREDENTIALS_FILE || '.env.demo.local', 'utf8')).split('\n').filter(line => line && !line.startsWith('#')).map(line => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1)]; }));
     assert.equal(await evaluate("!document.querySelector('.auth-switch') && !document.querySelector('.forgot')"), true);
     await typeInto('input[autocomplete="email"]', credentials.ATLAS_DEMO_EMAIL);
     await typeInto('input[autocomplete="current-password"]', 'Incorrect-password-42');
@@ -255,6 +256,8 @@ try {
     assert.equal(await evaluate("!document.querySelector('.save-view-button,.saved-section') && ![...document.querySelectorAll('nav a,nav button')].some(item => item.textContent.includes('Saved views'))"), true, 'Retired views UI is removed');
     await typeInto('[name="character-name"]', 'شخصیت آزمایشی');
     await typeInto('[name="character-title"]', 'توضیح شخصی');
+    await typeInto('[name="character-name-fa"]', 'شخصیت آزمایشی');
+    await typeInto('[name="character-title-fa"]', 'توضیح شخصی');
     await click('.character-form button[type="submit"]');
     await waitFor("document.querySelector('.custom-character h3')?.textContent === 'شخصیت آزمایشی'", 'Character is saved from the complete workspace');
     await click('.custom-character .text-link');
@@ -266,7 +269,7 @@ try {
     await navigate(`${origin}/workspace/characters`);
     await waitFor("document.querySelector('.custom-character h3')?.textContent === 'شخصیت آزمایشی'", 'Direct character route restores local data after navigation');
     await screenshot('atlas-characters-workspace');
-    await click('.custom-character .icon-button');
+    await click('.custom-character button[aria-label^="Delete "]');
     await waitFor("!document.querySelector('.custom-character')", 'Character deletion removes its local record and bookmark');
     await nav('My workspace');
     await click('.account-info button');
@@ -427,6 +430,10 @@ try {
   });
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
+  if (process.env.ATLAS_CHARACTERS_ONLY === "1") {
+    await runCharacterOrganizationQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
+    assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
+  } else {
   await navigate(fixtureOrigin);
   await waitFor("document.querySelectorAll('.country').length > 160 && document.querySelector('.map-pin')", "Interactive map renders");
   // The tools tour is exercised separately in map-tour-browser-qa.mjs.
@@ -561,6 +568,8 @@ try {
   await waitFor("document.querySelector('.character-form button[type=submit]:not(:disabled)')", 'Character storage is ready');
   await input('[name="character-name"]', 'Browser-only character');
   await input('[name="character-title"]', 'A private office');
+  await input('[name="character-name-fa"]', 'شخصیت مرورگر');
+  await input('[name="character-title-fa"]', 'سمت شخصی');
   const { root: uploadRoot } = await cdp('DOM.getDocument');
   const { nodeId: uploadInput } = await cdp('DOM.querySelector', { nodeId: uploadRoot.nodeId, selector: '[name="character-portrait"]' });
   await cdp('DOM.setFileInputFiles', { nodeId: uploadInput, files: [fileURLToPath(new URL('../public/portraits/iran/Masoud_Pezeshkian.jpg', import.meta.url))] });
@@ -577,6 +586,8 @@ try {
   // Storage failures keep the entered form and report that no save happened.
   await input('[name="character-name"]', 'Unsaved draft');
   await input('[name="character-title"]', 'Storage failure');
+  await input('[name="character-name-fa"]', 'پیش نویس');
+  await input('[name="character-title-fa"]', 'توضیح');
   await evaluate("window.originalSetItem = Storage.prototype.setItem; Storage.prototype.setItem = () => { throw new DOMException('Storage is full', 'QuotaExceededError'); }");
   await click('.character-form button[type="submit"]');
   await waitFor("document.querySelector('.character-form .form-error')?.textContent.includes('not saved')", 'Quota error is visible');
@@ -616,7 +627,7 @@ try {
   await click('#test-characters');
   assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, 'Character page fits mobile width');
   await screenshot('atlas-characters-mobile');
-  await click('.custom-character .icon-button');
+  await click('.custom-character button[aria-label^="Delete "]');
   await waitFor("!document.querySelector('.custom-character')", 'Custom character can be removed');
   assert.deepEqual((await readCharacters()).positions, {}, 'Removing a character removes its saved position');
   await click('#test-characters');
@@ -927,6 +938,7 @@ try {
     await waitFor("!document.querySelector('.map-expanded') && document.body.style.overflow !== 'hidden'", 'Escape in details closes fallback and restores scrolling');
   }
   await cdp("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+  await runCharacterOrganizationQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
   // Switch language in place, as users do, retaining the same input widget.
   await click('[data-testid="language-switcher"]');
   await waitFor("document.documentElement.lang === 'fa'");
@@ -947,6 +959,7 @@ try {
   assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   console.log("PASS: 64x zoom, real two-finger zoom/pan and portrait gesture takeover, fullscreen clock toggle, native/fallback fullscreen, responsive portrait/landscape sizing, and RTL overlays.");
   console.log("Screenshots saved to outputs/atlas-{desktop,mobile,signin,fullscreen}.png");
+  }
   }
   await send("Browser.close");
 } catch (error) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Check, HardDrive, MapPin, Send, Trash2, UserPlus, X } from "lucide-react";
+import { Check, HardDrive, MapPin, Pencil, Send, Trash2, UserPlus, X } from "lucide-react";
 import { type Country, type Person, type Role, roleLabels } from "@/lib/atlas";
 import { customPersonSchema, type CustomPerson } from "@/lib/browser-people";
 import { useI18n } from "@/components/i18n/provider";
@@ -9,24 +9,37 @@ import Portrait from "./portrait";
 import { getTimelineRange, TIMELINE_START_YEAR } from "@/lib/timeline";
 import type { ActionResult, Publication } from "@/lib/administration";
 
-type Props = { countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void; publications?: Publication[]; publicationAvailable?: boolean; onPublish?: (person: CustomPerson) => Promise<ActionResult<Publication>> };
-export default function CharactersPage({ countries, people, ready, onAdd, onRemove, onLocate, publications = [], publicationAvailable = false, onPublish }: Props) {
-  const { t, n, countryName, text } = useI18n();
-  const [name, setName] = useState("");
-  const [title, setTitle] = useState("");
-  const [role, setRole] = useState<Role>("leader");
-  const [countryCode, setCountryCode] = useState(countries.find(country => country.code === "364")?.code ?? countries[0]?.code ?? "");
+type Props = { initialPerson?: CustomPerson; countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onUpdate: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void; publications?: Publication[]; publicationAvailable?: boolean; onPublish?: (person: CustomPerson) => Promise<ActionResult<Publication>> };
+export default function CharactersPage({ initialPerson, countries, people, ready, onAdd, onUpdate, onRemove, onLocate, publications = [], publicationAvailable = false, onPublish }: Props) {
+  const { t, n, countryName, text, personName, personTitle } = useI18n();
+  const [editingId, setEditingId] = useState<string | null>(initialPerson?.id ?? null);
+  const [name, setName] = useState(initialPerson?.name ?? "");
+  const [title, setTitle] = useState(initialPerson?.title ?? "");
+  const [nameFa, setNameFa] = useState(initialPerson?.nameFa ?? "");
+  const [titleFa, setTitleFa] = useState(initialPerson?.titleFa ?? "");
+  const [role, setRole] = useState<Role>(initialPerson?.role ?? "leader");
+  const [countryCode, setCountryCode] = useState(initialPerson?.countryCode ?? countries.find(country => country.code === "364")?.code ?? countries[0]?.code ?? "");
   const country = countries.find(country => country.code === countryCode);
-  const [lat, setLat] = useState(String(country?.lat ?? 0));
-  const [lng, setLng] = useState(String(country?.lng ?? 0));
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [lat, setLat] = useState(String(initialPerson?.lat ?? country?.lat ?? 0));
+  const [lng, setLng] = useState(String(initialPerson?.lng ?? country?.lng ?? 0));
+  const [start, setStart] = useState(initialPerson?.startYear == null ? "" : String(initialPerson.startYear));
+  const [end, setEnd] = useState(initialPerson?.endYear == null ? "" : String(initialPerson.endYear));
+  const [imageUrl, setImageUrl] = useState(initialPerson?.imageUrl ?? "");
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [publishing, setPublishing] = useState<string | null>(null);
   const [publicationError, setPublicationError] = useState("");
+  function resetEditor() {
+    setEditingId(null); setName(""); setTitle(""); setNameFa(""); setTitleFa(""); setImageUrl(""); setStart(""); setEnd(""); setError(""); setMessage("");
+    const input = document.querySelector<HTMLInputElement>('[name="character-portrait"]'); if (input) input.value = "";
+  }
+  function edit(person: CustomPerson) {
+    setEditingId(person.id); setName(person.name); setTitle(person.title); setNameFa(person.nameFa ?? ""); setTitleFa(person.titleFa ?? "");
+    setRole(person.role); setCountryCode(person.countryCode); setLat(String(person.lat)); setLng(String(person.lng));
+    setStart(person.startYear == null ? "" : String(person.startYear)); setEnd(person.endYear == null ? "" : String(person.endYear)); setImageUrl(person.imageUrl); setError(""); setMessage("");
+    document.querySelector<HTMLInputElement>('[name="character-name"]')?.focus();
+  }
   async function publish(person: CustomPerson) {
     if (!onPublish || !publicationAvailable || publishing) return;
     setPublishing(person.id); setPublicationError("");
@@ -54,20 +67,25 @@ export default function CharactersPage({ countries, people, ready, onAdd, onRemo
   function submit(event: FormEvent) {
     event.preventDefault(); setError(""); setMessage("");
     if (!country || !ready || processing) return;
-    const result = customPersonSchema.safeParse({ id: `custom:${crypto.randomUUID()}`, name, title, role, lat: Number(lat), lng: Number(lng), countryCode, country: country.name, region: country.region, imageUrl, startYear: start ? Number(start) : null, endYear: end ? Number(end) : null, dataset: "custom" });
+    if (![name, title, nameFa, titleFa].every(value => value.trim())) { setError(t("Enter the name and description in both English and Persian.")); return; }
+    if (editingId && publications.some(item => item.localId === editingId.slice(7) && item.status === "approved")) { resetEditor(); return; }
+    const result = customPersonSchema.safeParse({ id: editingId ?? `custom:${crypto.randomUUID()}`, name, title, nameFa, titleFa, role, lat: Number(lat), lng: Number(lng), countryCode, country: country.name, region: country.region, imageUrl, startYear: start ? Number(start) : null, endYear: end ? Number(end) : null, dataset: "custom" });
     if (!result.success) { setError(t("Check the coordinates and dates. The end year must follow the start year.")); return; }
-    if (!onAdd(result.data)) { setError(t("Browser storage is full or unavailable. Your change was not saved.")); return; }
-    setName(""); setTitle(""); setImageUrl(""); setStart(""); setEnd("");
+    if (!(editingId ? onUpdate(result.data) : onAdd(result.data))) { setError(t("Browser storage is full or unavailable. Your change was not saved.")); return; }
+    resetEditor();
     const input = event.currentTarget.querySelector<HTMLInputElement>('input[type="file"]'); if (input) input.value = "";
     setMessage(t("Character saved in this browser."));
   }
   return <div className="characters-layout">
     <section className="settings-card character-editor">
-      <div className="settings-card-heading"><span className="large-icon"><UserPlus size={23} /></span><div><h2>{t("Add character")}</h2><p>{t("Create a person for your own map.")}</p></div></div>
+      <div className="settings-card-heading"><span className="large-icon"><UserPlus size={23} /></span><div><h2>{editingId ? t("Edit character") : t("Add character")}</h2><p>{t("Create a person for your own map.")}</p></div></div>
       <p className="browser-storage-note"><HardDrive size={17} /><span>{t("Characters and marker positions are saved only in this browser for your account. Clearing browser data removes them.")}</span></p>
       <form onSubmit={submit} className="character-form">
-        <label>{t("Character name")}<input className="soft-input" dir="auto" name="character-name" required maxLength={120} value={name} onChange={event => setName(event.target.value)} /></label>
-        <label>{t("Office or description")}<input className="soft-input" dir="auto" name="character-title" required maxLength={240} value={title} onChange={event => setTitle(event.target.value)} /></label>
+        <div className="character-fields"><label>{t("Character name (English)")}<input className="soft-input" dir="ltr" lang="en" name="character-name" required maxLength={120} value={name} onChange={event => setName(event.target.value)} /></label>
+          <label>{t("Character name (Persian)")}<input className="soft-input" dir="rtl" lang="fa" name="character-name-fa" required maxLength={120} value={nameFa} onChange={event => setNameFa(event.target.value)} /></label></div>
+        <div className="character-fields"><label>{t("Office or description (English)")}<input className="soft-input" dir="ltr" lang="en" name="character-title" required maxLength={240} value={title} onChange={event => setTitle(event.target.value)} /></label>
+          <label>{t("Office or description (Persian)")}<input className="soft-input" dir="rtl" lang="fa" name="character-title-fa" required maxLength={240} value={titleFa} onChange={event => setTitleFa(event.target.value)} /></label></div>
+        {editingId && publications.some(item => item.localId === editingId.slice(7) && item.status === "pending") && <p className="field-hint">{t("Edits stay in this browser. The pending review keeps the submitted version.")}</p>}
         <div className="character-fields"><label>{t("Role")}<select className="soft-input" name="character-role" value={role} onChange={event => setRole(event.target.value as Role)}>{Object.entries(roleLabels).map(([value, label]) => <option key={value} value={value}>{t(label)}</option>)}</select></label>
           <label>{t("Country")}<select className="soft-input" name="character-country" value={countryCode} onChange={event => { const selected = countries.find(country => country.code === event.target.value); setCountryCode(event.target.value); if (selected) { setLat(String(selected.lat)); setLng(String(selected.lng)); } }}>{[...countries].sort((a, b) => countryName(a.name).localeCompare(countryName(b.name))).map(country => <option key={country.code} value={country.code}>{countryName(country.name)}</option>)}</select></label></div>
         <div className="character-fields"><label>{t("Latitude")}<input className="soft-input" dir="ltr" name="character-latitude" type="number" step="any" min={-90} max={90} required value={lat} onChange={event => setLat(event.target.value)} /></label><label>{t("Longitude")}<input className="soft-input" dir="ltr" name="character-longitude" type="number" step="any" min={-180} max={180} required value={lng} onChange={event => setLng(event.target.value)} /></label></div>
@@ -77,7 +95,8 @@ export default function CharactersPage({ countries, people, ready, onAdd, onRemo
         <label>{t("Portrait (optional)")}<input name="character-portrait" type="file" accept="image/png,image/jpeg,image/webp" disabled={processing} onChange={event => void portrait(event.target.files?.[0])} /></label>
         {imageUrl && <div className="character-portrait-preview"><Portrait key={imageUrl} person={{ name: name || "?", imageUrl, role } as Person} /><button type="button" className="text-link" onClick={() => setImageUrl("")}><X size={14} />{t("Remove portrait")}</button></div>}
         {error && <p className="form-error" role="alert">{error}</p>}{message && <p className="form-success" role="status">{message}</p>}
-        <button className="primary-button" type="submit" disabled={!ready || processing || people.length >= 200}>{processing ? t("Preparing portrait…") : t("Save character")}<Check size={16} /></button>
+        <button className="primary-button" type="submit" disabled={!ready || processing || (!editingId && people.length >= 200)}>{processing ? t("Preparing portrait…") : t("Save character")}<Check size={16} /></button>
+        {editingId && <button className="secondary-button" type="button" disabled={processing} onClick={resetEditor}>{t("Cancel")}</button>}
         {people.length >= 200 && <p className="field-hint">{t("You can store up to 200 characters in this browser.")}</p>}
       </form>
     </section>
@@ -86,7 +105,7 @@ export default function CharactersPage({ countries, people, ready, onAdd, onRemo
       {!publicationAvailable && <p className="field-hint">{t(onPublish ? "Administration is not enabled yet." : "Sign in with an online account to publish characters.")}</p>}
       {publicationError && <p className="admin-alert error" role="alert">{publicationError}</p>}
       {!people.length && <p className="field-hint">{t("Your characters will appear here, in the directory and on the map.")}</p>}
-      {people.map(person => { const publication = publications.find(item => item.localId === person.id.slice(7)); return <article className="custom-character" key={person.id}><Portrait person={person} /><div><h3 dir="auto">{person.name}</h3><p dir="auto">{person.title}</p><small>{countryName(person.country)} · {text(roleLabels[person.role])}</small><button className="text-link" onClick={() => onLocate(person)}><MapPin size={13} />{t("View on map")}</button><button className="secondary-button publish-character" disabled={!ready || !publicationAvailable || !!publishing || publication?.status === "pending" || publication?.status === "approved"} onClick={() => void publish(person)}><Send size={14} />{publishing === person.id ? t("Sending…") : publication?.status === "pending" ? t("Pending review") : publication?.status === "approved" ? t(publication.personId ? "Published" : "Removed from shared map") : publication?.status === "rejected" ? t("Resubmit for publication") : t("Publish character")}</button>{publication?.status === "rejected" && <p className="publication-review-note">{t("Publication request rejected.")}{publication.reviewNote && <span dir="auto"> {publication.reviewNote}</span>}</p>}</div><button className="icon-button" aria-label={t("Delete {name}", { name: person.name })} disabled={publishing === person.id} onClick={() => onRemove(person.id)}><Trash2 size={16} /></button></article>; })}
+      {people.map(person => { const publication = publications.find(item => item.localId === person.id.slice(7)); return <article className="custom-character" key={person.id}><Portrait person={person} /><div><h3 dir="auto">{personName(person)}</h3><p dir="auto">{personTitle(person)}</p><small>{countryName(person.country)} · {text(roleLabels[person.role])}</small><button className="text-link" onClick={() => onLocate(person)}><MapPin size={13} />{t("View on map")}</button><button className="secondary-button publish-character" disabled={!ready || !publicationAvailable || !!publishing || publication?.status === "pending" || publication?.status === "approved"} onClick={() => void publish(person)}><Send size={14} />{publishing === person.id ? t("Sending…") : publication?.status === "pending" ? t("Pending review") : publication?.status === "approved" ? t(publication.personId ? "Published" : "Removed from shared map") : publication?.status === "rejected" ? t("Resubmit for publication") : t("Publish character")}</button>{publication?.status === "rejected" && <p className="publication-review-note">{t("Publication request rejected.")}{publication.reviewNote && <span dir="auto"> {publication.reviewNote}</span>}</p>}</div><button className="icon-button" aria-label={t("Edit {name}", { name: personName(person) })} disabled={!ready || processing || publishing === person.id || publication?.status === "approved"} onClick={() => edit(person)}><Pencil size={16} /></button><button className="icon-button" aria-label={t("Delete {name}", { name: person.name })} disabled={publishing === person.id} onClick={() => { if (onRemove(person.id) && editingId === person.id) resetEditor(); }}><Trash2 size={16} /></button></article>; })}
     </section>
   </div>;
 }

@@ -10,6 +10,8 @@ export default function ManagedCharacterEditor({ person, countries, busy, onSave
   const { t, countryName } = useI18n();
   const country = countries.find(country => country.code === (person?.countryCode ?? "364")) ?? countries[0];
   const [name, setName] = useState(person?.name ?? "");
+  const [nameFa, setNameFa] = useState(person?.nameFa ?? "");
+  const [titleFa, setTitleFa] = useState(person?.titleFa ?? "");
   const [title, setTitle] = useState(person?.title ?? "");
   const [role, setRole] = useState<Role>(person?.role ?? "leader");
   const [countryCode, setCountryCode] = useState(country?.code ?? "");
@@ -37,7 +39,7 @@ export default function ManagedCharacterEditor({ person, countries, busy, onSave
   }
   async function submit(event: FormEvent) {
     event.preventDefault(); if (busy || processing) return;
-    const parsed = managedCharacterSchema.safeParse({ name, title, role, countryCode, lat: Number(lat), lng: Number(lng), startYear: start === "" ? null : Number(start), endYear: end === "" ? null : Number(end), imageUrl });
+    const parsed = managedCharacterSchema.safeParse({ name, title, nameFa, titleFa, role, countryCode, lat: Number(lat), lng: Number(lng), startYear: start === "" ? null : Number(start), endYear: end === "" ? null : Number(end), imageUrl });
     if (!parsed.success) { setError(t("Check the character details and try again.")); return; }
     setError(""); await onSave(parsed.data);
   }
@@ -45,6 +47,7 @@ export default function ManagedCharacterEditor({ person, countries, busy, onSave
     <form className="character-form" onSubmit={submit}><fieldset disabled={busy || processing}>
       <label>{t("Character name")}<input className="soft-input" name="admin-name" dir="auto" required maxLength={120} value={name} onChange={event => setName(event.target.value)} /></label>
       <label>{t("Office or description")}<input className="soft-input" name="admin-title" dir="auto" required maxLength={240} value={title} onChange={event => setTitle(event.target.value)} /></label>
+      <div className="character-fields"><label>{t("Character name (Persian)")}<input className="soft-input" name="admin-name-fa" dir="rtl" lang="fa" maxLength={120} value={nameFa} onChange={event => setNameFa(event.target.value)} /></label><label>{t("Office or description (Persian)")}<input className="soft-input" name="admin-title-fa" dir="rtl" lang="fa" maxLength={240} value={titleFa} onChange={event => setTitleFa(event.target.value)} /></label></div>
       <div className="character-fields"><label>{t("Role")}<select className="soft-input" value={role} onChange={event => setRole(event.target.value as Role)}>{Object.entries(roleLabels).map(([value, label]) => <option key={value} value={value}>{t(label)}</option>)}</select></label>
         <label>{t("Country")}<select className="soft-input" value={countryCode} onChange={event => { setCountryCode(event.target.value); const next = countries.find(country => country.code === event.target.value); if (next) { setLat(String(next.lat)); setLng(String(next.lng)); } }}>{countries.map(country => <option key={country.code} value={country.code}>{countryName(country.name)}</option>)}</select></label></div>
       <div className="character-fields"><label>{t("Latitude")}<input className="soft-input" name="admin-lat" dir="ltr" type="number" step="any" min={-90} max={90} required value={lat} onChange={event => setLat(event.target.value)} /></label><label>{t("Longitude")}<input className="soft-input" name="admin-lng" dir="ltr" type="number" step="any" min={-180} max={180} required value={lng} onChange={event => setLng(event.target.value)} /></label></div>

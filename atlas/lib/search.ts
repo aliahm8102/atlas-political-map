@@ -60,9 +60,9 @@ export function buildSearchIndex(people: Person[], countries: Country[]): Search
   return [
     ...countries.map(country => ({ id: `place:${country.code}`, type: "place" as const, name: country.name, faName: fa.countryName(country.name), region: country.region, country, fields: [field(`${country.name} ${fa.countryName(country.name)} ${(countryAliases[country.name] ?? []).join(" ")}`, 9), field(location(country.name, country.region), 2)] })),
     ...people.map(person => {
-      const title = tokens(`${person.title} ${fa.personTitle(person.title)}`);
+      const title = tokens(`${person.title} ${fa.personTitle(person)}`);
       const tags = [roleTags[person.role], ...(title.some(token => ["intentpresident", "intentpremier", "intentmonarch"].includes(token)) ? ["intentleader"] : [])];
-      return { id: `person:${person.id}`, type: "person" as const, name: person.name, faName: fa.personName(person.name), region: person.region, person, fields: [field(`${person.name} ${fa.personName(person.name)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3)] };
+      return { id: `person:${person.id}`, type: "person" as const, name: person.name, faName: fa.personName(person), region: person.region, person, fields: [field(`${person.name} ${fa.personName(person)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3)] };
     }),
   ];
 }

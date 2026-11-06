@@ -10,6 +10,7 @@ export const characterImageSchema = z.string().max(300000).refine(value => !valu
 const yearSchema = z.number().finite().min(0).refine(year => year < getTimelineRange().endYear + 1).nullable();
 export const managedCharacterSchema = z.object({
   name: z.string().trim().min(1).max(120), title: z.string().trim().min(1).max(240),
+  nameFa: z.string().trim().max(120).optional(), titleFa: z.string().trim().max(240).optional(),
   role: z.enum(["leader", "member", "army", "religious", "business"]),
   countryCode: z.string().min(1).max(8), lat: z.number().finite().min(-90).max(90), lng: z.number().finite().min(-180).max(180),
   imageUrl: characterImageSchema, startYear: yearSchema, endYear: yearSchema,
@@ -35,9 +36,9 @@ export type AdministrationActions = {
 };
 
 export function characterPayload(person: ManagedCharacter) {
-  return { name: person.name, title: person.title, role: person.role, country_code: person.countryCode, latitude: person.lat, longitude: person.lng, image_url: person.imageUrl, start_year: person.startYear, end_year: person.endYear };
+  return { name: person.name, title: person.title, name_fa: person.nameFa ?? "", title_fa: person.titleFa ?? "", role: person.role, country_code: person.countryCode, latitude: person.lat, longitude: person.lng, image_url: person.imageUrl, start_year: person.startYear, end_year: person.endYear };
 }
 export function personFromRow(row: Record<string, unknown>, countries: Country[]): Person {
   const country = countries.find(country => country.code === row.country_code);
-  return { id: String(row.id), name: String(row.name), title: String(row.title), role: row.role as Person["role"], lat: Number(row.latitude), lng: Number(row.longitude), imageUrl: String(row.image_url), startYear: row.start_year == null ? null : Number(row.start_year), endYear: row.end_year == null ? null : Number(row.end_year), countryCode: String(row.country_code), country: country?.name ?? "Unknown", region: country?.region ?? "Unknown", dataset: String(row.dataset_id) };
+  return { id: String(row.id), name: String(row.name), title: String(row.title), nameFa: String(row.name_fa ?? ""), titleFa: String(row.title_fa ?? ""), role: row.role as Person["role"], lat: Number(row.latitude), lng: Number(row.longitude), imageUrl: String(row.image_url), startYear: row.start_year == null ? null : Number(row.start_year), endYear: row.end_year == null ? null : Number(row.end_year), countryCode: String(row.country_code), country: country?.name ?? "Unknown", region: country?.region ?? "Unknown", dataset: String(row.dataset_id) };
 }

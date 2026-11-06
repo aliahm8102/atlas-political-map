@@ -1,8 +1,16 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { canManageAtlas, canManageAdmins, managedCharacterSchema, publicationRequestSchema, characterPayload, adminChangeSchema } from "../lib/administration.ts";
+import { canManageAtlas, canManageAdmins, managedCharacterSchema, publicationRequestSchema, characterPayload, adminChangeSchema, personFromRow } from "../lib/administration.ts";
 
 const character = { name: "  Shared explorer  ", title: "A public character", role: "leader", countryCode: "364", lat: 35, lng: 51, imageUrl: "", startYear: null, endYear: null };
+test("Persian character fields survive validation, publication payloads and database reads", () => {
+  const parsed = managedCharacterSchema.parse({ ...character, nameFa: "  کاوشگر  ", titleFa: "شخصیت عمومی" });
+  const payload = characterPayload(parsed);
+  assert.equal(payload.name_fa, "کاوشگر"); assert.equal(payload.title_fa, "شخصیت عمومی");
+  const person = personFromRow({ ...payload, id: "shared", dataset_id: "community" }, []);
+  assert.equal(person.nameFa, parsed.nameFa); assert.equal(person.titleFa, parsed.titleFa);
+  assert.equal(managedCharacterSchema.safeParse({ ...character, nameFa: "x".repeat(121) }).success, false);
+});
 test("owner and administrator capabilities stay separate from ordinary users and political roles", () => {
   for (const role of ["user", "admin", "owner", "leader", "", null, undefined]) {
     assert.equal(canManageAtlas(role), role === "owner" || role === "admin");

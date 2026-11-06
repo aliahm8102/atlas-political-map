@@ -3,7 +3,7 @@ import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 export const roleLabels = { leader: "Heads of state", member: "Government", army: "Military", religious: "Religious", business: "Business" } as const;
 export type Role = keyof typeof roleLabels;
 export type Person = {
-  id: string; name: string; title: string; role: Role; lat: number; lng: number;
+  id: string; name: string; title: string; nameFa?: string; titleFa?: string; role: Role; lat: number; lng: number;
   imageUrl: string; startYear: number | null; endYear: number | null;
   countryCode: string; country: string; region: string; dataset: string;
 };
@@ -45,7 +45,7 @@ export const initialPersonalState: PersonalState = { settings: defaultSettings, 
 export function visiblePeople(people: Person[], settings: Settings, search = "") {
   const date = settings.year + settings.month / 12;
   const query = search.toLocaleLowerCase().trim();
-  return people.filter(p => (p.startYear === null || p.startYear <= date) && (p.endYear === null || date < p.endYear) && settings.roles.includes(p.role) && (settings.region === "All regions" || p.region === settings.region) && (!query || `${p.name} ${p.title} ${p.country}`.toLocaleLowerCase().includes(query)));
+  return people.filter(p => (p.startYear === null || p.startYear <= date) && (p.endYear === null || date < p.endYear) && settings.roles.includes(p.role) && (settings.region === "All regions" || p.region === settings.region) && (!query || `${p.name} ${p.title} ${p.nameFa ?? ""} ${p.titleFa ?? ""} ${p.country}`.toLocaleLowerCase().includes(query)));
 }
 export function initials(name: string) { return name.split(" ").filter(Boolean).slice(0, 2).map(n => n[0]).join("").toUpperCase(); }
 export function period(person: Person) { return `${person.startYear ? Math.floor(person.startYear) : "Unknown"} – ${person.endYear ? Math.floor(person.endYear) : "Open-ended"}`; }

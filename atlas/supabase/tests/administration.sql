@@ -19,7 +19,7 @@ do $$ begin
   begin perform public.submit_atlas_character(gen_random_uuid(), '{"name":"Unsafe","title":"Test","role":"leader","country_code":"364","latitude":35,"longitude":51,"image_url":"javascript:alert(1)"}'); raise exception 'Unsafe portrait accepted'; exception when invalid_parameter_value then null; end;
 end $$;
 
-select public.submit_atlas_character('aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa', '{"name":"Publication test","title":"Community figure","role":"leader","country_code":"364","latitude":35,"longitude":51,"image_url":""}');
+select public.submit_atlas_character('aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa', '{"name":"Publication test","title":"Community figure","name_fa":"شخصیت آزمایشی","title_fa":"شخصیت عمومی","role":"leader","country_code":"364","latitude":35,"longitude":51,"image_url":""}');
 select public.submit_atlas_character('aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa', '{"name":"Duplicate retry","title":"Changed while pending","role":"leader","country_code":"364","latitude":35,"longitude":51,"image_url":""}');
 do $$ begin
   if (select count(*) from public.character_submissions) <> 1 then raise exception 'Duplicate request was stored'; end if;
@@ -45,7 +45,7 @@ do $$ declare request_id uuid; published uuid; new_person uuid; begin
   begin perform public.list_atlas_accounts(''); raise exception 'Admin can read account emails'; exception when insufficient_privilege then null; end;
   select id into request_id from public.character_submissions limit 1;
   published := public.review_atlas_character(request_id, 'approved', 'Approved by moderator');
-  if not exists(select 1 from public.people where id = published and name = 'Publication test') then raise exception 'Publication did not create the shared person'; end if;
+  if not exists(select 1 from public.people where id = published and name = 'Publication test' and name_fa = 'شخصیت آزمایشی' and title_fa = 'شخصیت عمومی') then raise exception 'Publication did not create the shared person'; end if;
   begin perform public.review_atlas_character(request_id, 'approved', 'Duplicate'); raise exception 'Request approved twice'; exception when invalid_parameter_value then null; end;
   if (select count(*) from public.people where name = 'Publication test') <> 1 then raise exception 'Duplicate publication'; end if;
   perform public.save_atlas_person(published, '{"name":"Edited publication","title":"Edited title","role":"army","country_code":"364","latitude":36,"longitude":52,"image_url":"/portraits/test.jpg"}');

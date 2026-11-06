@@ -37,8 +37,13 @@ export function createTranslator(locale: Locale) {
   };
   const text = (value: string) => Object.hasOwn(fa, value) ? t(value as TranslationKey) : value;
   const countryName = (name: string) => locale === "fa" ? countryTranslations[name] ?? name : name;
-  const personName = (name: string) => locale === "fa" ? personTranslations[name] ?? name : name;
-  const personTitle = (title: string) => {
+  const personName = (person: string | Pick<Person, "name" | "nameFa">) => {
+    const name = typeof person === "string" ? person : person.name;
+    return locale === "fa" ? (typeof person !== "string" && person.nameFa) || personTranslations[name] || name : name;
+  };
+  const personTitle = (person: string | Pick<Person, "title" | "titleFa">) => {
+    const title = typeof person === "string" ? person : person.title;
+    if (locale === "fa" && typeof person !== "string" && person.titleFa) return person.titleFa;
     if (locale === "en") return title;
     const value = title.trim();
     if (titleTranslations[value]) return titleTranslations[value];
@@ -51,7 +56,7 @@ export function createTranslator(locale: Locale) {
   };
   const date = (value: Date | string, options: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" }) => new Intl.DateTimeFormat(intlLocale, { ...options, calendar: "gregory", timeZone: "UTC" }).format(typeof value === "string" ? new Date(value) : value);
   const periodLabel = (person: Person) => `${person.startYear == null ? t("Unknown") : n(Math.floor(person.startYear), { useGrouping: false })} – ${person.endYear == null ? t("Open-ended") : n(Math.floor(person.endYear), { useGrouping: false })}`;
-  const matchesPerson = (person: Person, query: string) => normalizeSearch([person.name, person.title, person.country, personName(person.name), personTitle(person.title), countryName(person.country)].join(" ")).includes(normalizeSearch(query));
+  const matchesPerson = (person: Person, query: string) => normalizeSearch([person.name, person.title, person.nameFa, person.titleFa, person.country, personName(person), personTitle(person), countryName(person.country)].join(" ")).includes(normalizeSearch(query));
   return { t, text, n, date, countryName, personName, personTitle, periodLabel, matchesPerson };
 }
 
