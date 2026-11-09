@@ -10,6 +10,18 @@ const index = buildSearchIndex(people, countries);
 const search = (query, filters = {}) => searchAtlas(index, { ...defaultSearchState, query, ...filters });
 const names = (hits) => hits.map(hit => hit.document.name);
 
+test("private tag and group searches use only the supplied account's current metadata", () => {
+  const person = people[0];
+  const organization = { tags: { [person.id]: ["قفقازشخصی"] }, groups: [{ id: "private", name: "CollectorsPrivate", personIds: [person.id] }] };
+  const personal = buildSearchIndex(people, countries, organization);
+  for (const query of ["قفقازشخصی", "CollectorsPrivate"]) {
+    assert.equal(searchAtlas(personal, { ...defaultSearchState, query })[0]?.document.person?.id, person.id);
+    assert.equal(searchAtlas(index, { ...defaultSearchState, query }).length, 0, "Other accounts do not inherit private metadata");
+  }
+  const edited = buildSearchIndex(people, countries, { tags: {}, groups: [] });
+  assert.equal(searchAtlas(edited, { ...defaultSearchState, query: "CollectorsPrivate" }).length, 0);
+});
+
 test("user-authored bilingual names and descriptions are searchable in both languages", () => {
   const person = { ...people[0], id: "custom:bilingual", name: "Private explorer", title: "Independent researcher", nameFa: "کاوشگر شخصی", titleFa: "پژوهشگر مستقل" };
   const bilingual = buildSearchIndex([person], []);

@@ -10,13 +10,13 @@ import { measurementCoordinate, type MapCoordinate } from "@/lib/map-measurement
 
 export type DrawingTool = "pencil" | "eraser" | "ruler" | null;
 
-export default function MapDrawing({ tool, color, measurement, onMeasure, projection, viewport, onViewport, cover }: { tool: DrawingTool; color: string; measurement: MapCoordinate[]; onMeasure: (coordinate: MapCoordinate) => void; projection: GeoProjection; viewport: Viewport; onViewport: (view: Viewport) => void; cover: boolean }) {
+export default function MapDrawing({ tool, color, width = 3, measurement, onMeasure, projection, viewport, onViewport, cover }: { tool: DrawingTool; color: string; width?: number; measurement: MapCoordinate[]; onMeasure: (coordinate: MapCoordinate) => void; projection: GeoProjection; viewport: Viewport; onViewport: (view: Viewport) => void; cover: boolean }) {
   const { t, n } = useI18n();
   const svg = useRef<SVGSVGElement>(null);
   const ink = useRef<SVGGElement>(null);
   const [strokes, setStrokes] = useState<PencilStroke[]>([]);
   const [draft, setDraft] = useState<PencilStroke | null>(null);
-  const active = useRef<{ id: number; points: DrawingPoint[]; color: string } | null>(null);
+  const active = useRef<{ id: number; points: DrawingPoint[]; color: string; width: number } | null>(null);
   const tap = useRef<{ id: number; start: DrawingPoint; moved: boolean } | null>(null);
   const [previousTool, setPreviousTool] = useState(tool);
   // A new tool cancels the visible draft before paint, preserving committed ink.
@@ -43,8 +43,9 @@ export default function MapDrawing({ tool, color, measurement, onMeasure, projec
   }
   function erase(from: DrawingPoint, to: DrawingPoint) {
     const matrix = ink.current!.getScreenCTM()!;
-    const radius = 14 / Math.hypot(matrix.a, matrix.b);
-    setStrokes(strokes => erasePencilStrokes(strokes, from, to, radius));
+    const scale = Math.hypot(matrix.a, matrix.b);
+    const radius = 14 / scale;
+    setStrokes(strokes => erasePencilStrokes(strokes, from, to, radius, scale));
   }
   function down(event: PointerEvent<SVGSVGElement>) {
     if (!tool || event.button !== 0) return;
@@ -58,8 +59,8 @@ export default function MapDrawing({ tool, color, measurement, onMeasure, projec
     }
     const start = point(event);
     if (tool === "pencil") {
-      active.current = { id: event.pointerId, points: [start], color };
-      setDraft({ id: -1, points: [start], color });
+      active.current = { id: event.pointerId, points: [start], color, width };
+      setDraft({ id: -1, points: [start], color, width });
     } else if (tool === "ruler") {
       tap.current = { id: event.pointerId, start: { x: event.clientX, y: event.clientY }, moved: false };
     } else { previous.current = start; erase(start, start); }
@@ -84,7 +85,7 @@ export default function MapDrawing({ tool, color, measurement, onMeasure, projec
     if (tool === "pencil" && active.current?.id === event.pointerId) {
       const points = [...active.current.points, end];
       active.current.points = points;
-      setDraft({ id: -1, points, color: active.current.color });
+      setDraft({ id: -1, points, color: active.current.color, width: active.current.width });
     } else if (tool === "eraser" && previous.current) { erase(previous.current, end); previous.current = end; }
   }
   function finish(event: PointerEvent<SVGSVGElement>, cancelled = false) {
@@ -92,7 +93,7 @@ export default function MapDrawing({ tool, color, measurement, onMeasure, projec
     event.preventDefault(); event.stopPropagation();
     if (active.current?.id === event.pointerId) {
       if (!cancelled && !pinching.current) {
-        const stroke = { id: nextId.current++, points: [...active.current.points, point(event)], color: active.current.color };
+        const stroke = { id: nextId.current++, points: [...active.current.points, point(event)], color: active.current.color, width: active.current.width };
         setStrokes(strokes => [...strokes, stroke]);
       }
       active.current = null; setDraft(null);
@@ -112,8 +113,8 @@ export default function MapDrawing({ tool, color, measurement, onMeasure, projec
 
   return <svg ref={svg} className="map-drawing" data-drawing-tool={tool ?? "pan"} viewBox="0 0 1000 540" preserveAspectRatio={cover ? "xMidYMid slice" : "xMidYMid meet"} style={{ pointerEvents: tool ? "auto" : "none", direction: "ltr" }} aria-label={t("Pencil drawings on the map")} role="img" onPointerDown={down} onPointerMove={move} onPointerUp={event => finish(event)} onPointerCancel={event => finish(event, true)} onLostPointerCapture={event => finish(event, true)} onClick={event => event.stopPropagation()} onContextMenu={event => { if (tool) event.preventDefault(); }}>
     <g ref={ink} transform={`translate(${viewport.x},${viewport.y}) scale(${viewport.k})`} fill="none" stroke="#d35c37" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" pointerEvents="none">
-      {strokes.map(stroke => <path key={stroke.id} data-pencil-stroke={stroke.id} stroke={stroke.color} d={pencilPath(stroke.points)} vectorEffect="non-scaling-stroke" />)}
-      {draft && <path stroke={draft.color} d={pencilPath(draft.points)} vectorEffect="non-scaling-stroke" />}
+      {strokes.map(stroke => <path key={stroke.id} data-pencil-stroke={stroke.id} stroke={stroke.color} strokeWidth={stroke.width ?? 3} d={pencilPath(stroke.points)} vectorEffect="non-scaling-stroke" />)}
+      {draft && <path stroke={draft.color} strokeWidth={draft.width ?? 3} d={pencilPath(draft.points)} vectorEffect="non-scaling-stroke" />}
       {measurement.length > 1 && <path data-measurement-path="" d={geoPath(projection)({ type: "LineString", coordinates: measurement }) ?? ""} stroke="#2563eb" strokeWidth="3" strokeDasharray="7 4" vectorEffect="non-scaling-stroke" />}
       {measurement.map((coordinate, index) => {
         const position = projection(coordinate);

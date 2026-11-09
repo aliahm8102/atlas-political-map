@@ -1,19 +1,21 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { Check, Clock3, Pencil, Plus, RefreshCw, Search, ShieldCheck, Trash2, UserCog, X } from "lucide-react";
+import { Check, Clock3, Pencil, Plus, RefreshCw, Search, ShieldCheck, Trash2, UserCog, X, Mail } from "lucide-react";
 import { canManageAdmins, type AccessRole, type AdminData, type AdministrationActions, type AtlasAccount, type ManagedCharacter, type ActionResult } from "@/lib/administration";
 import { roleLabels, type Country, type Person } from "@/lib/atlas";
 import { useI18n } from "@/components/i18n/provider";
 import ManagedCharacterEditor from "./managed-character-editor";
 import Portrait from "./portrait";
 import Modal from "./modal";
+import FeedbackInbox from "./feedback-inbox";
+import type { FeedbackAdminActions } from "@/lib/feedback";
 
 const roleKeys = { owner: "Owner", admin: "Administrator", user: "User" } as const;
 type Confirmation = { kind: "delete"; person: Person } | { kind: "role"; account: AtlasAccount };
-export default function AdminPanel({ accessRole, countries, actions, onPeopleChange }: { accessRole: AccessRole; countries: Country[]; actions: AdministrationActions; onPeopleChange: (people: Person[]) => void }) {
+export default function AdminPanel({ feedbackActions, accessRole, countries, actions, onPeopleChange }: { feedbackActions?: FeedbackAdminActions; accessRole: AccessRole; countries: Country[]; actions: AdministrationActions; onPeopleChange: (people: Person[]) => void }) {
   const { t, n, date, countryName, personName, personTitle, matchesPerson, periodLabel } = useI18n();
   const [data, setData] = useState<AdminData | null>(null);
-  const [tab, setTab] = useState<"submissions" | "characters" | "accounts">("submissions");
+  const [tab, setTab] = useState<"submissions" | "characters" | "accounts" | "feedback">("submissions");
   const [busy, setBusy] = useState(false), [loading, setLoading] = useState(true);
   const [error, setError] = useState(""), [message, setMessage] = useState("");
   const [query, setQuery] = useState(""), [limit, setLimit] = useState(24);
@@ -30,7 +32,7 @@ export default function AdminPanel({ accessRole, countries, actions, onPeopleCha
     } catch { setError(t("The request could not be saved. Refresh and try again.")); }
     finally { setLoading(false); }
   }, [actions, onPeopleChange, t]);
-  useEffect(() => { void reload(); }, [reload]);
+  useEffect(() => { const timer = window.setTimeout(() => { void reload(); }, 0); return () => clearTimeout(timer); }, [reload]);
   async function mutate<T>(work: () => Promise<ActionResult<T>>, success: string) {
     if (busy) return false;
     setBusy(true); setError(""); setMessage("");
@@ -56,10 +58,11 @@ export default function AdminPanel({ accessRole, countries, actions, onPeopleCha
   return <section className="admin-panel" aria-label={t("Administration panel")}>
     <div className="admin-toolbar"><div className="admin-role"><ShieldCheck size={18} /><span>{t(roleKeys[accessRole])}</span></div><button className="secondary-button" disabled={disabled} onClick={() => void reload()}><RefreshCw size={15} />{t("Refresh")}</button></div>
     <div className="admin-tabs" role="tablist" aria-label={t("Administration sections")}>
-      {(["submissions", "characters", ...(canManageAdmins(accessRole) ? ["accounts"] : [])] as const).map(item => <button key={item} id={`admin-tab-${item}`} type="button" role="tab" aria-selected={tab === item} aria-controls="admin-tab-content" onClick={() => { setTab(item as typeof tab); setEditing(undefined); }}>{item === "submissions" ? <Clock3 size={17} /> : item === "accounts" ? <UserCog size={17} /> : <Pencil size={17} />}{item === "submissions" ? t("Publication requests") : item === "accounts" ? t("Manage administrators") : t("Map characters")}{item === "submissions" && <span className="mini-count">{n(data?.submissions.length ?? 0)}</span>}</button>)}
+      {(["submissions", "characters", ...(feedbackActions ? ["feedback"] : []), ...(canManageAdmins(accessRole) ? ["accounts"] : [])] as const).map(item => <button key={item} id={`admin-tab-${item}`} type="button" role="tab" aria-selected={tab === item} aria-controls="admin-tab-content" onClick={() => { setTab(item as typeof tab); setEditing(undefined); }}>{item === "submissions" ? <Clock3 size={17} /> : item === "feedback" ? <Mail size={17} /> : item === "accounts" ? <UserCog size={17} /> : <Pencil size={17} />}{item === "submissions" ? t("Publication requests") : item === "feedback" ? t("User messages") : item === "accounts" ? t("Manage administrators") : t("Map characters")}{item === "submissions" && <span className="mini-count">{n(data?.submissions.length ?? 0)}</span>}</button>)}
     </div>
     {error && <p className="admin-alert error" role="alert">{error}</p>}{message && <p className="admin-alert" role="status">{message}</p>}{loading && <p className="field-hint" role="status">{t("Loading administration…")}</p>}
     <div id="admin-tab-content" role="tabpanel" aria-labelledby={`admin-tab-${tab}`}>
+      {tab === "feedback" && feedbackActions && <FeedbackInbox actions={feedbackActions} />}
       {data && tab === "submissions" && <><p className="field-hint">{t("Approved characters become visible to everyone on the shared map.")}</p>{!data.submissions.length && <div className="admin-empty">{t("No pending publication requests.")}</div>}<div className="admin-grid">{data.submissions.map(submission => <article className="settings-card submission-card" key={submission.id}>
         <div className="admin-person-heading"><Portrait person={submission.character as Person} /><div><h3 dir="auto">{submission.character.name}</h3><p dir="auto">{submission.character.title}</p><small>{countryName(countries.find(country => country.code === submission.character.countryCode)?.name ?? "Unknown")} · {t(roleLabels[submission.character.role])}</small></div></div>
         <p className="field-hint">{t("Submitted by {name}", { name: submission.submitterName })} · {date(submission.createdAt, { day: "numeric", month: "short", year: "numeric" })}</p>
@@ -69,7 +72,7 @@ export default function AdminPanel({ accessRole, countries, actions, onPeopleCha
       </article>)}</div></>}
       {data && tab === "characters" && <><div className="admin-toolbar"><label className="admin-search"><Search size={17} /><input aria-label={t("Search map characters")} placeholder={t("Search names, countries or roles…")} value={query} onChange={event => { setQuery(event.target.value); setLimit(24); }} /></label><button className="primary-button" disabled={disabled} onClick={() => setEditing(null)}><Plus size={16} />{t("Add shared character")}</button></div>
         {editing !== undefined && <ManagedCharacterEditor key={editing?.id ?? "new"} person={editing} countries={countries} busy={disabled} onSave={save} onCancel={() => setEditing(undefined)} />}
-        <p className="field-hint">{t("{count} people", { count: people.length })}</p><div className="admin-grid">{people.slice(0, limit).map(person => <article className="settings-card admin-person" key={person.id}><div className="admin-person-heading"><Portrait person={person} /><div><h3>{personName(person.name)}</h3><p>{personTitle(person.title)}</p><small>{countryName(person.country)}</small></div></div><div className="admin-actions"><button className="secondary-button" disabled={disabled} onClick={() => setEditing(person)}><Pencil size={15} />{t("Edit character")}</button><button className="text-link danger" disabled={disabled} onClick={() => setConfirmation({ kind: "delete", person })}><Trash2 size={15} />{t("Delete character")}</button></div></article>)}</div>
+        <p className="field-hint">{t("{count} people", { count: people.length })}</p><div className="admin-grid">{people.slice(0, limit).map(person => <article className="settings-card admin-person" key={person.id}><div className="admin-person-heading"><Portrait person={person} /><div><h3>{personName(person)}</h3><p>{personTitle(person)}</p><small>{countryName(person.country)}</small></div></div><div className="admin-actions"><button className="secondary-button" disabled={disabled} onClick={() => setEditing(person)}><Pencil size={15} />{t("Edit character")}</button><button className="text-link danger" disabled={disabled} onClick={() => setConfirmation({ kind: "delete", person })}><Trash2 size={15} />{t("Delete character")}</button></div></article>)}</div>
         {!people.length && <p className="admin-empty">{t("No results found")}</p>}{people.length > limit && <button className="secondary-button" onClick={() => setLimit(previous => previous + 24)}>{t("Show more results")}</button>}
       </>}
       {data && tab === "accounts" && canManageAdmins(accessRole) && <><p className="field-hint">{t("Only the owner can appoint or remove administrators. The owner role cannot be changed here.")}</p><form className="admin-toolbar" onSubmit={async event => { event.preventDefault(); if (disabled) return; setBusy(true); setError(""); try { const response = await actions.accounts(accountQuery); if (response.ok) setData(previous => previous ? { ...previous, accounts: response.data } : previous); else setError(t(response.error)); } catch { setError(t("The request could not be saved. Refresh and try again.")); } finally { setBusy(false); } }}><label className="admin-search"><Search size={17} /><input aria-label={t("Search accounts by email or name")} placeholder={t("Search accounts by email or name")} value={accountQuery} maxLength={100} onChange={event => setAccountQuery(event.target.value)} /></label><button className="secondary-button" disabled={disabled} type="submit">{t("Search")}</button></form>

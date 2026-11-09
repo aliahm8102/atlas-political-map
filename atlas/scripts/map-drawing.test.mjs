@@ -2,6 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { erasePencilStrokes, pencilPath } from "../lib/map-drawing.ts";
 
+test("eraser includes thick stroke edges at different map scales", () => {
+  const thick = { id: 1, points: [{ x: 0, y: 0 }, { x: 10, y: 0 }], width: 10 };
+  assert.deepEqual(erasePencilStrokes([thick], { x: 2, y: 5 }, { x: 8, y: 5 }, 1), []);
+  assert.deepEqual(erasePencilStrokes([thick], { x: 2, y: 7 }, { x: 8, y: 7 }, 1), [thick]);
+  assert.deepEqual(erasePencilStrokes([thick], { x: 2, y: 2.5 }, { x: 8, y: 2.5 }, .5, 2), []);
+});
+
 const stroke = (id, points) => ({ id, points: points.map(([x, y]) => ({ x, y })) });
 
 test("eraser removes a crossed pencil stroke between sampled points, preserving nearby drawings", () => {

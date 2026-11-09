@@ -1,6 +1,7 @@
 import { regions, roleLabels, type Country, type Person, type Role } from "./atlas.ts";
 import { createTranslator, type Locale } from "./i18n/index.ts";
 import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
+import type { BrowserPeople } from "./browser-people.ts";
 
 export type SearchState = { query: string; type: "all" | "person" | "place"; region: string; role: string; year: string; sort: "relevance" | "name" | "newest" };
 export const defaultSearchState: SearchState = { query: "", type: "all", region: "", role: "", year: "", sort: "relevance" };
@@ -53,7 +54,7 @@ const countryAliases: Record<string, string[]> = {
 const regionAliases: Record<string, string> = { Europe: "European اروپایی", Asia: "Asian اسیایی", Africa: "African افریقایی", "North America": "امریکای شمالی", "South America": "امریکای جنوبی", Oceania: "اقیانوسیه" };
 const roleTags: Record<Role, string> = { leader: "intentleader", member: "intentgovernment", army: "intentmilitary", religious: "intentreligious", business: "intentbusiness" };
 
-export function buildSearchIndex(people: Person[], countries: Country[]): SearchDocument[] {
+export function buildSearchIndex(people: Person[], countries: Country[], organization: Pick<BrowserPeople, "tags" | "groups"> = { tags: {}, groups: [] }): SearchDocument[] {
   const fa = createTranslator("fa");
   const field = (text: string, weight: number) => ({ tokens: tokens(text), weight });
   const location = (name: string, region: string) => `${name} ${fa.countryName(name)} ${(countryAliases[name] ?? []).join(" ")} ${region} ${fa.text(region)} ${regionAliases[region] ?? ""}`;
@@ -62,7 +63,8 @@ export function buildSearchIndex(people: Person[], countries: Country[]): Search
     ...people.map(person => {
       const title = tokens(`${person.title} ${fa.personTitle(person)}`);
       const tags = [roleTags[person.role], ...(title.some(token => ["intentpresident", "intentpremier", "intentmonarch"].includes(token)) ? ["intentleader"] : [])];
-      return { id: `person:${person.id}`, type: "person" as const, name: person.name, faName: fa.personName(person), region: person.region, person, fields: [field(`${person.name} ${fa.personName(person)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3)] };
+      const personal = [...(organization.tags[person.id] ?? []), ...organization.groups.filter(group => group.personIds.includes(person.id)).map(group => group.name)];
+      return { id: `person:${person.id}`, type: "person" as const, name: person.name, faName: fa.personName(person), region: person.region, person, fields: [field(`${person.name} ${fa.personName(person)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3), field(personal.join(" "), 9)] };
     }),
   ];
 }

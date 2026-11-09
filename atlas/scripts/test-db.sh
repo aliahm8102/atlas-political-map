@@ -16,5 +16,7 @@ trap '"$ATLAS_PG_BIN/pg_ctl" -D "$ATLAS_TEST_DB_DIR/data" -m immediate stop >/de
   -f supabase/migrations/20261020000100_remove_saved_views.sql \
   -f supabase/migrations/20261030000100_administration.sql \
   -f supabase/migrations/20261106000100_bilingual_characters.sql \
+  -f supabase/migrations/20261106000200_user_feedback.sql \
   -f supabase/tests/isolation.sql \
-  -f supabase/tests/administration.sql
+  -f supabase/tests/administration.sql \
+  -f supabase/tests/feedback.sql

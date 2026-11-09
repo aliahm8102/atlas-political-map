@@ -3,12 +3,13 @@ import { type PointerEvent, useCallback, useMemo, useRef, useEffect, useLayoutEf
 import { geoNaturalEarth1, geoPath, geoGraticule10 } from "d3-geo";
 import { feature } from "topojson-client";
 import type { FeatureCollection } from "geojson";
-import { Plus, Minus, LocateFixed, Expand, Shrink, SlidersHorizontal, Clock3, Pencil, Eraser, Hand, Ruler, Undo2, Trash2, Highlighter, X } from "lucide-react";
+import { Plus, Minus, LocateFixed, Expand, Shrink, SlidersHorizontal, Clock3, Pencil, Eraser, Hand, Ruler, Undo2, Trash2, Highlighter, X, CircleDot } from "lucide-react";
 import world from "@/data/world.json";
 import nato from "@/data/nato.json";
 import { type Person, type Settings, type Viewport, defaultViewport, MIN_MAP_ZOOM, MAX_MAP_ZOOM } from "@/lib/atlas";
 import { constrainViewport as constrain, zoomViewport } from "@/lib/atlas";
 import Portrait from "./portrait";
+import { clusterMapPeople } from "@/lib/map-markers";
 import type { MarkerPosition } from "@/lib/browser-people";
 import { useMapFullscreen } from "./map-experience";
 import { useI18n } from "@/components/i18n/provider";
@@ -29,8 +30,8 @@ export function countryViewport(lng: number, lat: number): Viewport {
   return { k: 2.7, x: 500 - point[0] * 2.7, y: 270 - point[1] * 2.7 };
 }
 
-type Props = { positions?: Partial<Record<string, MarkerPosition>>; onMovePerson?: (id: string, position: MarkerPosition) => boolean; people: Person[]; settings: Settings; viewport: Viewport; onViewport: (v: Viewport) => void; selectedCountry: string | null; onCountry: (code: string) => void; onPerson: (person: Person) => void };
-export default function MapCanvas({ positions = {}, onMovePerson, people, settings, viewport, onViewport, selectedCountry, onCountry, onPerson }: Props) {
+type Props = { selectedPersonId?: string | null; positions?: Partial<Record<string, MarkerPosition>>; onMovePerson?: (id: string, position: MarkerPosition) => boolean; people: Person[]; settings: Settings; viewport: Viewport; onViewport: (v: Viewport) => void; selectedCountry: string | null; onCountry: (code: string) => void; onPerson: (person: Person) => void };
+export default function MapCanvas({ selectedPersonId, positions = {}, onMovePerson, people, settings, viewport, onViewport, selectedCountry, onCountry, onPerson }: Props) {
   const { t, n, countryName, personName, matchesPerson } = useI18n();
   const surface = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
@@ -42,6 +43,8 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   const dismissCountryHint = countryHint.dismiss;
   const [drawingOpen, setDrawingOpen] = useState(false);
   const [drawingTool, setDrawingTool] = useState<DrawingTool>(null);
+  const [laserEnabled, setLaserEnabled] = useState(false);
+  const [pencilWidth, setPencilWidth] = useState(3);
   const [pencilColor, setPencilColor] = useState("#d35c37");
   const [measurement, setMeasurement] = useState<MapCoordinate[]>([]);
   const [highlightOpen, setHighlightOpen] = useState(false);
@@ -50,7 +53,7 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   const measured = measureRoute(measurement);
   const distanceLabel = (km: number) => km < 1 ? t("{distance} m", { distance: n(km * 1000, { maximumFractionDigits: 0 }) }) : t("{distance} km", { distance: n(km, { maximumFractionDigits: 2 }) });
   const { expanded, pending: fullscreenPending, toggle: toggleFullscreen, inspectorOpen, toggleInspector, showInspector, timelineOpen, toggleTimeline, setInspectorOpen, setTimelineOpen } = useMapFullscreen();
-  const tourUI = useRef<{ drawingOpen: boolean; drawingTool: DrawingTool; inspectorOpen: boolean; timelineOpen: boolean } | null>(null);
+  const tourUI = useRef<{ laserEnabled: boolean; drawingOpen: boolean; drawingTool: DrawingTool; inspectorOpen: boolean; timelineOpen: boolean } | null>(null);
   const prepareTourStep = useCallback((step: number) => {
     setDrawingOpen(step >= 1 && step <= 3);
     setDrawingTool(step === 1 ? "pencil" : step === 2 ? "eraser" : step === 3 ? "ruler" : null);
@@ -61,9 +64,9 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
     const previous = tourUI.current;
     if (!previous) return;
     tourUI.current = null;
-    setDrawingOpen(previous.drawingOpen); setDrawingTool(previous.drawingTool);
+    setLaserEnabled(previous.laserEnabled); setDrawingOpen(previous.drawingOpen); setDrawingTool(previous.drawingTool);
     setInspectorOpen(previous.inspectorOpen); setTimelineOpen(previous.timelineOpen);
-  }, [setInspectorOpen, setTimelineOpen]);
+  }, [setInspectorOpen, setTimelineOpen, setLaserEnabled]);
   const [stageSize, setStageSize] = useState({ width: 1000, height: 540 });
   const cover = expanded && (stageSize.width <= 760 || stageSize.height <= 500);
   const { scale: stageScale } = mapGeometry(stageSize.width, stageSize.height, cover);
@@ -75,18 +78,7 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
     latest.current = next;
     update.current(next);
   }, [dismissCountryHint]);
-  const clusters = useMemo(() => {
-    const grouped: { person: Person; x: number; y: number; people: Person[] }[] = [];
-    const ordered = [...people].sort((a, b) => Number(highlighted.includes(a.id)) - Number(highlighted.includes(b.id)) || Number(b.role === "leader") - Number(a.role === "leader"));
-    for (const person of ordered) {
-      const geographic = projection([person.lng, person.lat]); if (!geographic) continue;
-      const override = moving?.id === person.id ? moving.position : positions[person.id];
-      const point = override ? [override.x, override.y] : geographic;
-      const near = !highlighted.includes(person.id) && person.dataset !== "custom" && !override && grouped.find(g => !highlighted.includes(g.person.id) && g.person.dataset !== "custom" && !positions[g.person.id] && moving?.id !== g.person.id && Math.hypot(g.x - point[0], g.y - point[1]) * viewport.k * stageScale < (stageScale < .5 ? 33 : 41));
-      if (near) near.people.push(person); else grouped.push({ person, x: point[0], y: point[1], people: [person] });
-    }
-    return grouped;
-  }, [people, viewport.k, stageScale, positions, moving, highlighted]);
+  const clusters = useMemo(() => clusterMapPeople(people, { project: projection, positions, moving, zoom: viewport.k, scale: stageScale, highlighted, selectedId: selectedPersonId }), [people, positions, moving, viewport.k, stageScale, highlighted, selectedPersonId]);
   useEffect(() => {
     const element = surface.current; if (!element) return;
     const observer = new ResizeObserver(entries => { const { width, height } = entries[0].contentRect; setStageSize({ width, height }); });
@@ -166,7 +158,7 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
   }
   function zoom(factor: number) { commitViewport(zoomViewport(latest.current, factor, undefined, geometry().bounds)); }
   const markerSize = (settings.markerSize === "small" ? 29 : settings.markerSize === "large" ? 45 : 36) * (stageScale < .5 ? .8 : 1);
-  return <><div className="map-stage" data-tour="map" ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
+  return <><div className={`map-stage${expanded && laserEnabled ? " map-laser-active" : ""}`} data-tour="map" ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
     if ((event.target as HTMLElement).closest("button, input, select, textarea")) return;
     countryHint.dismiss();
     const moves: Record<string, [number, number]> = { ArrowLeft: [45, 0], ArrowRight: [-45, 0], ArrowUp: [0, 45], ArrowDown: [0, -45] };
@@ -191,7 +183,7 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
     if (d && !d.moved && !held) { const element = document.elementFromPoint(event.clientX, event.clientY); const code = element?.closest("[data-country]")?.getAttribute("data-country"); if (code) { showInspector(); onCountry(code); } }
     drag.current = null; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   }} onPointerCancel={() => { drag.current = null; countryHint.dismiss(); }} onPointerLeave={countryHint.dismiss} onLostPointerCapture={event => { if (event.target === event.currentTarget) countryHint.dismiss(); }} onContextMenu={event => { if (countryHint.isHolding()) event.preventDefault(); }}>
-    <svg style={{ direction: "ltr" }} className="world-map" viewBox="0 0 1000 540" preserveAspectRatio={cover ? "xMidYMid slice" : "xMidYMid meet"} aria-label={t("World political map")} role="img"><defs><pattern id="ocean-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.5" fill="currentColor" opacity="0.11" /></pattern><filter id="land-shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#677b71" floodOpacity="0.08" /></filter></defs><rect width="1000" height="540" fill="url(#ocean-dots)" /><g transform={`translate(${viewport.x},${viewport.y}) scale(${viewport.k})`}><path d={path(geoGraticule10()) ?? ""} className="graticule" vectorEffect="non-scaling-stroke" />{land.features.map((f, index) => <path key={String(f.id ?? index)} d={countryPaths.get(String(f.id)) ?? ""} className={`country ${selectedCountry === String(f.id) ? "selected" : ""} ${countryHint.hint?.code === String(f.id) ? "country-preview" : ""}`} data-country={String(f.id)} aria-label={countryName(f.properties?.name ?? "")} vectorEffect="non-scaling-stroke"></path>)}{settings.nato && <path d={path(nato as FeatureCollection) ?? ""} className="nato-layer" vectorEffect="non-scaling-stroke" />}{settings.labels && viewport.k <= 4 && <g className="continent-labels" aria-hidden="true"><text x="204" y="185">{t("NORTH AMERICA")}</text><text x="319" y="356">{t("SOUTH AMERICA")}</text><text x="520" y="156">{t("EUROPE")}</text><text x="540" y="305">{t("AFRICA")}</text><text x="719" y="203">{t("ASIA")}</text><text x="835" y="422">{t("OCEANIA")}</text></g>}{clusters.map(({ person, x, y, people: cluster }) => <g key={person.id} transform={`translate(${x},${y}) scale(${1 / (viewport.k * stageScale)})`}><foreignObject x={-markerSize / 2 - 5} y={-markerSize / 2 - 5} width={markerSize + 18} height={markerSize + 18} overflow="visible"><button style={{ width: markerSize, height: markerSize }} className={`map-pin ${highlighted.includes(person.id) ? "highlighted" : ""} ${selectedCountry === person.countryCode ? "active" : ""}`} data-role={person.role} data-person-id={person.id} data-draggable={Boolean(onMovePerson)} aria-describedby={onMovePerson ? "marker-drag-help" : undefined}
+    <svg style={{ direction: "ltr" }} className="world-map" viewBox="0 0 1000 540" preserveAspectRatio={cover ? "xMidYMid slice" : "xMidYMid meet"} aria-label={t("World political map")} role="img"><defs><pattern id="ocean-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.5" fill="currentColor" opacity="0.11" /></pattern><filter id="land-shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#677b71" floodOpacity="0.08" /></filter></defs><rect width="1000" height="540" fill="url(#ocean-dots)" /><g transform={`translate(${viewport.x},${viewport.y}) scale(${viewport.k})`}><path d={path(geoGraticule10()) ?? ""} className="graticule" vectorEffect="non-scaling-stroke" />{land.features.map((f, index) => <path key={String(f.id ?? index)} d={countryPaths.get(String(f.id)) ?? ""} className={`country ${selectedCountry === String(f.id) ? "selected" : ""} ${countryHint.hint?.code === String(f.id) ? "country-preview" : ""}`} data-country={String(f.id)} aria-label={countryName(f.properties?.name ?? "")} vectorEffect="non-scaling-stroke"></path>)}{settings.nato && <path d={path(nato as FeatureCollection) ?? ""} className="nato-layer" vectorEffect="non-scaling-stroke" />}{settings.labels && viewport.k <= 4 && <g className="continent-labels" aria-hidden="true"><text x="204" y="185">{t("NORTH AMERICA")}</text><text x="319" y="356">{t("SOUTH AMERICA")}</text><text x="520" y="156">{t("EUROPE")}</text><text x="540" y="305">{t("AFRICA")}</text><text x="719" y="203">{t("ASIA")}</text><text x="835" y="422">{t("OCEANIA")}</text></g>}{clusters.map(({ person, x, y, people: cluster }) => <g key={person.id} transform={`translate(${x},${y}) scale(${1 / (viewport.k * stageScale)})`}><foreignObject x={-markerSize / 2 - 5} y={-markerSize / 2 - 5} width={markerSize + 18} height={markerSize + 18} overflow="visible"><button style={{ width: markerSize, height: markerSize }} aria-pressed={person.id === selectedPersonId} className={`map-pin ${person.id === selectedPersonId ? "selected-person" : ""} ${highlighted.includes(person.id) ? "highlighted" : ""} ${selectedCountry === person.countryCode ? "active" : ""}`} data-role={person.role} data-person-id={person.id} data-draggable={Boolean(onMovePerson)} aria-describedby={onMovePerson ? "marker-drag-help" : undefined}
       onDragStart={event => event.preventDefault()}
       onPointerDown={event => {
         if (!onMovePerson || event.button !== 0 || !event.isPrimary) return;
@@ -210,25 +202,26 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
       onClick={event => { event.stopPropagation(); if (suppressClick.current === person.id && event.detail !== 0) { suppressClick.current = null; return; } showInspector(); onPerson(person); }} aria-label={t("{name}, {country}{nearby}", { name: personName(person), country: countryName(person.country), nearby: cluster.length > 1 ? t(", {count} figures nearby", { count: cluster.length }) : "" })} title={`${personName(person)} · ${countryName(person.country)}${cluster.length > 1 ? t(" (+{count} nearby)", { count: cluster.length - 1 }) : ""}`}>
       {settings.portraits ? <Portrait key={person.id} person={person} /> : <span className="pin-dot" />}{cluster.length > 1 && <span className="cluster-count">{n(cluster.length)}</span>}
     </button></foreignObject></g>)}</g></svg>
-    <MapDrawing tool={expanded && drawingOpen ? drawingTool : null} color={pencilColor} measurement={measurement} onMeasure={coordinate => setMeasurement(points => [...points, coordinate])} projection={projection} viewport={viewport} onViewport={commitViewport} cover={cover} />
+    <MapDrawing tool={expanded && drawingOpen ? drawingTool : null} color={pencilColor} width={pencilWidth} measurement={measurement} onMeasure={coordinate => setMeasurement(points => [...points, coordinate])} projection={projection} viewport={viewport} onViewport={commitViewport} cover={cover} />
     <p className="sr-only" id="marker-drag-help">{t("Drag portraits to move them. Use arrow keys on a focused portrait.")}</p>{countryHint.hint && <div id="map-country-tooltip" className="map-country-tooltip" role="tooltip">{countryName(countryHint.hint.name)}</div>}<div className="map-controls">{expanded && <>
-      <button className="map-control" aria-label={t("Highlight characters")} title={t("Highlight characters")} aria-expanded={highlightOpen} aria-controls="map-highlight-picker" aria-pressed={highlighted.length > 0} onClick={() => { setHighlightOpen(!highlightOpen); setDrawingOpen(false); setDrawingTool(null); }}><Highlighter size={17} /></button>
+      <button className="map-control" aria-label={t("Red laser pointer")} title={t("Red laser pointer")} aria-pressed={laserEnabled} onClick={() => { setLaserEnabled(!laserEnabled); setDrawingOpen(false); setDrawingTool(null); setHighlightOpen(false); countryHint.dismiss(); }}><CircleDot size={17} /></button>
+      <button className="map-control" aria-label={t("Highlight characters")} title={t("Highlight characters")} aria-expanded={highlightOpen} aria-controls="map-highlight-picker" aria-pressed={highlighted.length > 0} onClick={() => { setLaserEnabled(false); setHighlightOpen(!highlightOpen); setDrawingOpen(false); setDrawingTool(null); }}><Highlighter size={17} /></button>
       {highlightOpen && <section id="map-highlight-picker" className="map-highlight-picker" aria-label={t("Choose characters to highlight")}>
         <div className="section-heading"><strong>{t("Highlight characters")}</strong><button className="icon-button" aria-label={t("Close")} onClick={() => setHighlightOpen(false)}><X size={16} /></button></div>
         <input className="soft-input" type="search" aria-label={t("Search characters")} placeholder={t("Search characters")} value={highlightSearch} onChange={event => setHighlightSearch(event.target.value)} />
         <div className="highlight-options">{people.filter(person => matchesPerson(person, highlightSearch)).map(person => <label key={person.id}><input type="checkbox" checked={highlighted.includes(person.id)} onChange={event => setHighlighted(previous => event.target.checked ? [...previous, person.id] : previous.filter(id => id !== person.id))} /><span>{personName(person)}<small>{countryName(person.country)}</small></span></label>)}</div>
         <button className="text-link" disabled={!highlighted.length} onClick={() => setHighlighted([])}>{t("Clear highlights")}</button>
       </section>}
-      <button className="map-control" data-map-tour="drawing-toggle" aria-label={t("Drawing tools")} title={t("Drawing tools")} aria-expanded={drawingOpen} aria-controls="map-drawing-tools" aria-pressed={drawingOpen} onClick={() => { setHighlightOpen(false); setDrawingOpen(!drawingOpen); setDrawingTool(drawingOpen ? null : "pencil"); }}><Pencil size={17} /></button>
+      <button className="map-control" data-map-tour="drawing-toggle" aria-label={t("Drawing tools")} title={t("Drawing tools")} aria-expanded={drawingOpen} aria-controls="map-drawing-tools" aria-pressed={drawingOpen} onClick={() => { setLaserEnabled(false); setHighlightOpen(false); setDrawingOpen(!drawingOpen); setDrawingTool(drawingOpen ? null : "pencil"); }}><Pencil size={17} /></button>
       <div id="map-drawing-tools" className="map-drawing-tools" hidden={!drawingOpen} role="group" aria-label={t("Drawing tools")}>
         <button className="map-control" data-map-tour="pencil" aria-label={t("Pencil")} title={t("Pencil")} aria-pressed={drawingTool === "pencil"} onClick={() => setDrawingTool("pencil")}><Pencil size={17} /></button>
         <button className="map-control" data-map-tour="eraser" aria-label={t("Erase pencil strokes")} title={t("Erase pencil strokes")} aria-pressed={drawingTool === "eraser"} onClick={() => setDrawingTool("eraser")}><Eraser size={17} /></button>
         <button className="map-control" data-map-tour="ruler" aria-label={t("Measure distance")} title={t("Measure distance")} aria-pressed={drawingTool === "ruler"} onClick={() => setDrawingTool("ruler")}><Ruler size={17} /></button>
         <button className="map-control" aria-label={t("Pan map")} title={t("Pan map")} aria-pressed={drawingTool === null} onClick={() => setDrawingTool(null)}><Hand size={17} /></button>
-        {drawingTool === "pencil" && <div className="map-pencil-colors" role="group" aria-label={t("Pencil color")}>
+        {drawingTool === "pencil" && <><label className="map-pencil-width">{t("Pencil width")}<input type="range" min={1} max={12} step={1} value={pencilWidth} onChange={event => setPencilWidth(Number(event.target.value))} aria-label={t("Pencil width")} /><output>{t("{width} px", { width: n(pencilWidth) })}</output></label><div className="map-pencil-colors" role="group" aria-label={t("Pencil color")}>
           {([ ["#d35c37", "Orange"], ["#2563eb", "Blue"], ["#16a34a", "Green"], ["#9333ea", "Purple"], ["#202a25", "Black"], ["#ffffff", "White"] ] as const).map(([color, name]) => <button key={color} className="pencil-color" style={{ backgroundColor: color }} aria-label={t(name)} title={t(name)} aria-pressed={pencilColor === color} onClick={() => setPencilColor(color)} />)}
           <label className="pencil-custom-color" title={t("Custom pencil color")}><span className="sr-only">{t("Custom pencil color")}</span><input type="color" value={pencilColor} onChange={event => setPencilColor(event.target.value)} /></label>
-        </div>}
+        </div></>}
         {drawingTool === "ruler" && <div className="map-measurement">
           <p>{t("Tap the map to add measurement points.")}</p>
           <output aria-live="polite" aria-atomic="true" data-measurement-total={measured.total}>{t("Total distance")}: <strong>{distanceLabel(measured.total)}</strong></output>
@@ -239,5 +232,5 @@ export default function MapCanvas({ positions = {}, onMovePerson, people, settin
         </div>}
       </div>
     </>}{expanded && <button className="map-control" data-map-tour="timeline" aria-label={timelineOpen ? t("Hide timeline") : t("Show timeline")} title={timelineOpen ? t("Hide timeline") : t("Show timeline")} aria-expanded={timelineOpen} aria-controls="map-timeline" onClick={toggleTimeline}><Clock3 size={17} /></button>}{expanded && <button className="map-control" data-map-tour="settings" aria-label={t("Map controls")} title={t("Map controls")} aria-expanded={inspectorOpen} onClick={toggleInspector}><SlidersHorizontal size={17} /></button>}<button className="map-control" aria-label={t("Zoom in")} disabled={viewport.k >= MAX_MAP_ZOOM} onClick={() => zoom(1.4)}><Plus size={18} /></button><button className="map-control" aria-label={t("Zoom out")} disabled={viewport.k <= MIN_MAP_ZOOM} onClick={() => zoom(1 / 1.4)}><Minus size={18} /></button><span /><button className="map-control" aria-label={t("Reset map position")} onClick={() => { countryHint.dismiss(); onViewport(defaultViewport); }}><LocateFixed size={18} /></button><button className="map-control" data-tour="fullscreen" aria-label={expanded ? t("Exit fullscreen") : t("Enter fullscreen")} title={expanded ? t("Exit fullscreen (Esc)") : t("Fullscreen map")} aria-pressed={expanded} disabled={fullscreenPending} onClick={toggleFullscreen}>{expanded ? <Shrink size={17} /> : <Expand size={17} />}</button></div>{people.length === 0 && <div className="map-empty">{t("No figures match this view.")}<br /><span>{t("Try another date or clear your filters.")}</span></div>}
-  </div>{expanded && <OnboardingTour kind="map" onStart={() => { tourUI.current = { drawingOpen, drawingTool, inspectorOpen, timelineOpen }; }} onStep={prepareTourStep} onEnd={restoreTourUI} />}</>;
+  </div>{expanded && <OnboardingTour kind="map" onStart={() => { setLaserEnabled(false); tourUI.current = { laserEnabled, drawingOpen, drawingTool, inspectorOpen, timelineOpen }; }} onStep={prepareTourStep} onEnd={restoreTourUI} />}</>;
 }

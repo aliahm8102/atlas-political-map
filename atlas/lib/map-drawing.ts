@@ -1,5 +1,5 @@
 export type DrawingPoint = { x: number; y: number };
-export type PencilStroke = { id: number; points: DrawingPoint[]; color?: string };
+export type PencilStroke = { id: number; points: DrawingPoint[]; color?: string; width?: number };
 
 function pointDistance(point: DrawingPoint, start: DrawingPoint, end: DrawingPoint) {
   const dx = end.x - start.x, dy = end.y - start.y;
@@ -17,8 +17,8 @@ function segmentsNear(a: DrawingPoint, b: DrawingPoint, c: DrawingPoint, d: Draw
 
 // Only pencil data enters this function. Geography, portraits and map layers
 // are separate SVG elements and can never be deleted by the eraser.
-export function erasePencilStrokes(strokes: PencilStroke[], from: DrawingPoint, to: DrawingPoint, radius: number): PencilStroke[] {
-  return strokes.filter(stroke => !stroke.points.some((point, index) => segmentsNear(from, to, point, stroke.points[Math.max(0, index - 1)], radius)));
+export function erasePencilStrokes(strokes: PencilStroke[], from: DrawingPoint, to: DrawingPoint, radius: number, pixelsPerMapUnit = 1): PencilStroke[] {
+  return strokes.filter(stroke => !stroke.points.some((point, index) => segmentsNear(from, to, point, stroke.points[Math.max(0, index - 1)], radius + (stroke.width ?? 0) / (2 * pixelsPerMapUnit))));
 }
 
 export function pencilPath(points: DrawingPoint[]) {

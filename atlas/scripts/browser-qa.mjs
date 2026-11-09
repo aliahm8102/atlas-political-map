@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { createServer } from "vite";
+import { runMapToolsFeedbackQA } from "./map-tools-feedback-qa.mjs";
 import { runCharacterOrganizationQA } from "./character-organization-qa.mjs";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
@@ -260,6 +261,24 @@ try {
     await typeInto('[name="character-title-fa"]', 'توضیح شخصی');
     await click('.character-form button[type="submit"]');
     await waitFor("document.querySelector('.custom-character h3')?.textContent === 'شخصیت آزمایشی'", 'Character is saved from the complete workspace');
+    await nav('People directory');
+    await waitFor("document.querySelector('.person-card[data-person-id^=\"custom:\"]')");
+    await input('#directory-group-name', 'PrivateQATeam');
+    await click('.group-form button[type=submit]');
+    await click('.person-card[data-person-id^="custom:"] .person-organization-actions button');
+    await input('[name=person-tags]', 'PrivateQATag');
+    await click('.group-memberships input');
+    await click('.modal-inner button[type=submit]');
+    await waitFor("!document.querySelector('[name=person-tags]')");
+    for (const query of ['PrivateQATag', 'PrivateQATeam']) {
+      await typeInto('.topbar-search input', query);
+      await click('.topbar-search button[type=submit]');
+      await waitFor("document.querySelector('.search-result-card h3')?.textContent === 'شخصیت آزمایشی'", 'Global search finds personal tags and groups');
+    }
+    await evaluate("[...document.querySelectorAll('.sidebar button')].find(el => el.textContent.includes('Contact administrators')).click()");
+    await waitFor("document.querySelector('.feedback-page button[type=submit]:disabled')", 'Local demo explains online contact requirement');
+    await click('a[href="/workspace/characters"]');
+    await waitFor("document.querySelector('.custom-character')");
     await click('.custom-character .text-link');
     await waitFor("location.pathname === '/workspace' && document.querySelector('.person-spotlight h3')?.textContent === 'شخصیت آزمایشی'", 'Custom character opens on the map');
     await click('.bookmark-person');
@@ -430,7 +449,10 @@ try {
   });
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
-  if (process.env.ATLAS_CHARACTERS_ONLY === "1") {
+  if (process.env.ATLAS_PRESENTATION_ONLY === "1") {
+    await runMapToolsFeedbackQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
+    assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
+  } else if (process.env.ATLAS_CHARACTERS_ONLY === "1") {
     await runCharacterOrganizationQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
     assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   } else {
@@ -939,6 +961,7 @@ try {
   }
   await cdp("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await runCharacterOrganizationQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
+  await runMapToolsFeedbackQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
   // Switch language in place, as users do, retaining the same input widget.
   await click('[data-testid="language-switcher"]');
   await waitFor("document.documentElement.lang === 'fa'");
