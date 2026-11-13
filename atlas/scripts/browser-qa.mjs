@@ -7,6 +7,7 @@ import { createServer } from "vite";
 import { runMapLayersQA } from "./map-layers-browser-qa.mjs";
 import { runMapToolsFeedbackQA } from "./map-tools-feedback-qa.mjs";
 import { runCharacterOrganizationQA } from "./character-organization-qa.mjs";
+import { runCharacterMonthsQA } from "./character-months-browser-qa.mjs";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -24,9 +25,11 @@ try {
   socket = new WebSocket(`ws://127.0.0.1:${portInfo[0]}${portInfo[1]}`);
   await new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); });
   const tileRequests = [];
+  const fileChoosers = [];
   let failTiles = false;
   socket.addEventListener("message", event => {
     const data = JSON.parse(String(event.data));
+    if (data.method === "Page.fileChooserOpened") fileChoosers.push(data.params);
     if (data.method === "Fetch.requestPaused") {
       tileRequests.push(data.params.request.url);
       void send("Fetch.fulfillRequest", { requestId: data.params.requestId, responseCode: failTiles ? 503 : 200, responseHeaders: [{name:"Content-Type",value:"image/png"}, {name:"Cache-Control",value:"no-store"}], body: failTiles ? "" : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGO48/ImAAVDAp82717uAAAAAElFTkSuQmCC" }, data.sessionId);
@@ -464,7 +467,10 @@ try {
   });
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
-  if (process.env.ATLAS_LAYERS_ONLY === "1") {
+  if (process.env.ATLAS_CHARACTER_DATES_ONLY === "1") {
+    await runCharacterMonthsQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin, fileChoosers });
+    assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
+  } else if (process.env.ATLAS_LAYERS_ONLY === "1") {
     await runMapLayersQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin, tileRequests, setTileFailure: value => { failTiles = value; } });
     assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   } else if (process.env.ATLAS_PRESENTATION_ONLY === "1") {

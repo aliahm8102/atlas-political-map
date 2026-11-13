@@ -1,17 +1,20 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { Check, HardDrive, MapPin, Pencil, Send, Trash2, UserPlus, X } from "lucide-react";
+import { useId, useRef, useState, type FormEvent } from "react";
+import { Check, HardDrive, ImagePlus, MapPin, Pencil, Send, Trash2, UserPlus, X } from "lucide-react";
 import { type Country, type Person, type Role, roleLabels } from "@/lib/atlas";
 import { customPersonSchema, type CustomPerson } from "@/lib/browser-people";
 import { useI18n } from "@/components/i18n/provider";
 import Portrait from "./portrait";
 import { getTimelineRange, TIMELINE_START_YEAR } from "@/lib/timeline";
 import type { ActionResult, Publication } from "@/lib/administration";
+import { characterDateFields, characterDateValue } from "@/lib/character-dates";
 
 type Props = { initialPerson?: CustomPerson; countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onUpdate: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void; publications?: Publication[]; publicationAvailable?: boolean; onPublish?: (person: CustomPerson) => Promise<ActionResult<Publication>> };
 export default function CharactersPage({ initialPerson, countries, people, ready, onAdd, onUpdate, onRemove, onLocate, publications = [], publicationAvailable = false, onPublish }: Props) {
-  const { t, n, countryName, text, personName, personTitle } = useI18n();
+  const { t, n, date, countryName, text, personName, personTitle } = useI18n();
+  const portraitInput = useRef<HTMLInputElement>(null);
+  const portraitHintId = useId();
   const [editingId, setEditingId] = useState<string | null>(initialPerson?.id ?? null);
   const [name, setName] = useState(initialPerson?.name ?? "");
   const [title, setTitle] = useState(initialPerson?.title ?? "");
@@ -22,22 +25,27 @@ export default function CharactersPage({ initialPerson, countries, people, ready
   const country = countries.find(country => country.code === countryCode);
   const [lat, setLat] = useState(String(initialPerson?.lat ?? country?.lat ?? 0));
   const [lng, setLng] = useState(String(initialPerson?.lng ?? country?.lng ?? 0));
-  const [start, setStart] = useState(initialPerson?.startYear == null ? "" : String(initialPerson.startYear));
-  const [end, setEnd] = useState(initialPerson?.endYear == null ? "" : String(initialPerson.endYear));
+  const [start, setStart] = useState(characterDateFields(initialPerson?.startYear).year);
+  const [startMonth, setStartMonth] = useState(characterDateFields(initialPerson?.startYear).month);
+  const [end, setEnd] = useState(characterDateFields(initialPerson?.endYear).year);
+  const [endMonth, setEndMonth] = useState(characterDateFields(initialPerson?.endYear).month);
   const [imageUrl, setImageUrl] = useState(initialPerson?.imageUrl ?? "");
+  const [portraitName, setPortraitName] = useState("");
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [publishing, setPublishing] = useState<string | null>(null);
   const [publicationError, setPublicationError] = useState("");
   function resetEditor() {
-    setEditingId(null); setName(""); setTitle(""); setNameFa(""); setTitleFa(""); setImageUrl(""); setStart(""); setEnd(""); setError(""); setMessage("");
-    const input = document.querySelector<HTMLInputElement>('[name="character-portrait"]'); if (input) input.value = "";
+    setEditingId(null); setName(""); setTitle(""); setNameFa(""); setTitleFa(""); setImageUrl(""); setPortraitName(""); setStart(""); setEnd(""); setStartMonth(0); setEndMonth(0); setError(""); setMessage("");
+    if (portraitInput.current) portraitInput.current.value = "";
   }
   function edit(person: CustomPerson) {
     setEditingId(person.id); setName(person.name); setTitle(person.title); setNameFa(person.nameFa ?? ""); setTitleFa(person.titleFa ?? "");
     setRole(person.role); setCountryCode(person.countryCode); setLat(String(person.lat)); setLng(String(person.lng));
-    setStart(person.startYear == null ? "" : String(person.startYear)); setEnd(person.endYear == null ? "" : String(person.endYear)); setImageUrl(person.imageUrl); setError(""); setMessage("");
+    setStart(characterDateFields(person.startYear).year); setStartMonth(characterDateFields(person.startYear).month);
+    setEnd(characterDateFields(person.endYear).year); setEndMonth(characterDateFields(person.endYear).month);
+    setImageUrl(person.imageUrl); setPortraitName(""); if (portraitInput.current) portraitInput.current.value = ""; setError(""); setMessage("");
     document.querySelector<HTMLInputElement>('[name="character-name"]')?.focus();
   }
   async function publish(person: CustomPerson) {
@@ -60,6 +68,7 @@ export default function CharactersPage({ initialPerson, countries, people, ready
         const context = canvas.getContext("2d"); if (!context) throw new Error();
         context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
         setImageUrl(canvas.toDataURL("image/webp", .8));
+        setPortraitName(file.name);
       } finally { bitmap.close(); }
     } catch { setError(t("Choose a PNG, JPEG or WebP image smaller than 5 MB.")); }
     finally { setProcessing(false); }
@@ -69,13 +78,17 @@ export default function CharactersPage({ initialPerson, countries, people, ready
     if (!country || !ready || processing) return;
     if (![name, title, nameFa, titleFa].every(value => value.trim())) { setError(t("Enter the name and description in both English and Persian.")); return; }
     if (editingId && publications.some(item => item.localId === editingId.slice(7) && item.status === "approved")) { resetEditor(); return; }
-    const result = customPersonSchema.safeParse({ id: editingId ?? `custom:${crypto.randomUUID()}`, name, title, nameFa, titleFa, role, lat: Number(lat), lng: Number(lng), countryCode, country: country.name, region: country.region, imageUrl, startYear: start ? Number(start) : null, endYear: end ? Number(end) : null, dataset: "custom" });
-    if (!result.success) { setError(t("Check the coordinates and dates. The end year must follow the start year.")); return; }
+    const result = customPersonSchema.safeParse({ id: editingId ?? `custom:${crypto.randomUUID()}`, name, title, nameFa, titleFa, role, lat: Number(lat), lng: Number(lng), countryCode, country: country.name, region: country.region, imageUrl, startYear: characterDateValue(start, startMonth), endYear: characterDateValue(end, endMonth), dataset: "custom" });
+    if (!result.success) { setError(t("Check the coordinates and dates. The end date must follow the start date.")); return; }
     if (!(editingId ? onUpdate(result.data) : onAdd(result.data))) { setError(t("Browser storage is full or unavailable. Your change was not saved.")); return; }
     resetEditor();
     const input = event.currentTarget.querySelector<HTMLInputElement>('input[type="file"]'); if (input) input.value = "";
     setMessage(t("Character saved in this browser."));
   }
+  const dateTerms = [
+    { key: "start", label: "Start date (optional)", monthLabel: "Start month", year: start, month: startMonth, setYear: setStart, setMonth: setStartMonth },
+    { key: "end", label: "End date (optional)", monthLabel: "End month", year: end, month: endMonth, setYear: setEnd, setMonth: setEndMonth },
+  ] as const;
   return <div className="characters-layout">
     <section className="settings-card character-editor">
       <div className="settings-card-heading"><span className="large-icon"><UserPlus size={23} /></span><div><h2>{editingId ? t("Edit character") : t("Add character")}</h2><p>{t("Create a person for your own map.")}</p></div></div>
@@ -90,10 +103,17 @@ export default function CharactersPage({ initialPerson, countries, people, ready
           <label>{t("Country")}<select className="soft-input" name="character-country" value={countryCode} onChange={event => { const selected = countries.find(country => country.code === event.target.value); setCountryCode(event.target.value); if (selected) { setLat(String(selected.lat)); setLng(String(selected.lng)); } }}>{[...countries].sort((a, b) => countryName(a.name).localeCompare(countryName(b.name))).map(country => <option key={country.code} value={country.code}>{countryName(country.name)}</option>)}</select></label></div>
         <div className="character-fields"><label>{t("Latitude")}<input className="soft-input" dir="ltr" name="character-latitude" type="number" step="any" min={-90} max={90} required value={lat} onChange={event => setLat(event.target.value)} /></label><label>{t("Longitude")}<input className="soft-input" dir="ltr" name="character-longitude" type="number" step="any" min={-180} max={180} required value={lng} onChange={event => setLng(event.target.value)} /></label></div>
         <p className="field-hint">{t("Country coordinates are filled automatically. You can also drag the portrait on the map.")}</p>
-        <div className="character-fields"><label>{t("Start year (optional)")}<input className="soft-input" dir="ltr" name="character-start" type="number" min={TIMELINE_START_YEAR} max={getTimelineRange().endYear} value={start} onChange={event => setStart(event.target.value)} /></label><label>{t("End year (optional)")}<input className="soft-input" dir="ltr" name="character-end" type="number" min={TIMELINE_START_YEAR} max={getTimelineRange().endYear} value={end} onChange={event => setEnd(event.target.value)} /></label></div>
-        <p className="field-hint">{t("Leave dates empty to show this person throughout the timeline. The end year is excluded.")}</p>
-        <label>{t("Portrait (optional)")}<input name="character-portrait" type="file" accept="image/png,image/jpeg,image/webp" disabled={processing} onChange={event => void portrait(event.target.files?.[0])} /></label>
-        {imageUrl && <div className="character-portrait-preview"><Portrait key={imageUrl} person={{ name: name || "?", imageUrl, role } as Person} /><button type="button" className="text-link" onClick={() => setImageUrl("")}><X size={14} />{t("Remove portrait")}</button></div>}
+        <div className="character-fields">{dateTerms.map(term => <fieldset key={term.key} className="character-term"><legend>{t(term.label)}</legend><div className="character-term-fields">
+          <label>{t("Year")}<input className="soft-input" dir="ltr" aria-label={t(term.key === "start" ? "Start year (optional)" : "End year (optional)")} name={`character-${term.key}`} type="number" step={1} min={TIMELINE_START_YEAR} max={getTimelineRange().endYear} value={term.year} onChange={event => term.setYear(event.target.value)} /></label>
+          <label>{t("Month")}<select className="soft-input" name={`character-${term.key}-month`} aria-label={t(term.monthLabel)} value={term.month} disabled={!term.year} onChange={event => term.setMonth(Number(event.target.value))}>{Array.from({ length: 12 }, (_, month) => <option key={month} value={month}>{date(new Date(Date.UTC(2000, month, 1)), { month: "long" })}</option>)}</select></label>
+        </div></fieldset>)}</div>
+        <p className="field-hint">{t("Leave dates empty to show this person throughout the timeline. The end month is excluded.")}</p>
+        <fieldset className="portrait-picker"><legend>{t("Portrait (optional)")}</legend><div className="portrait-picker-row">
+          <input ref={portraitInput} name="character-portrait" type="file" accept="image/png,image/jpeg,image/webp" disabled={processing} hidden onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; void portrait(file); }} />
+          <button type="button" className="secondary-button portrait-select" aria-describedby={portraitHintId} disabled={processing} onClick={() => portraitInput.current?.click()}><ImagePlus size={18} />{t(processing ? "Preparing portrait…" : imageUrl ? "Replace portrait" : "Choose portrait")}</button>
+          <span className="portrait-file-name" dir="auto" aria-live="polite">{portraitName || t(imageUrl ? "Portrait ready" : "No portrait selected")}</span>
+        </div><p id={portraitHintId} className="field-hint">{t("Choose a PNG, JPEG or WebP image smaller than 5 MB.")}</p></fieldset>
+        {imageUrl && <div className="character-portrait-preview"><Portrait key={imageUrl} person={{ name: name || "?", imageUrl, role } as Person} /><button type="button" className="text-link" onClick={() => { setImageUrl(""); setPortraitName(""); if (portraitInput.current) portraitInput.current.value = ""; }}><X size={14} />{t("Remove portrait")}</button></div>}
         {error && <p className="form-error" role="alert">{error}</p>}{message && <p className="form-success" role="status">{message}</p>}
         <button className="primary-button" type="submit" disabled={!ready || processing || (!editingId && people.length >= 200)}>{processing ? t("Preparing portrait…") : t("Save character")}<Check size={16} /></button>
         {editingId && <button className="secondary-button" type="button" disabled={processing} onClick={resetEditor}>{t("Cancel")}</button>}

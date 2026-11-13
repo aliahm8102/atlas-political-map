@@ -4,6 +4,7 @@ import profiles from "../../data/country-profiles.json" with { type: "json" };
 import historical from "../../data/historical-boundaries/catalog.json" with { type: "json" };
 const countryProfiles = { ...historical.entities, ...profiles };
 import type { Person } from "../atlas";
+import { characterDateFields } from "../character-dates.ts";
 
 export type Locale = "en" | "fa";
 export const LOCALE_COOKIE = "atlas-locale";
@@ -59,7 +60,15 @@ export function createTranslator(locale: Locale) {
     return title;
   };
   const date = (value: Date | string, options: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" }) => new Intl.DateTimeFormat(intlLocale, { ...options, calendar: "gregory", timeZone: "UTC" }).format(typeof value === "string" ? new Date(value) : value);
-  const periodLabel = (person: Person) => `${person.startYear == null ? t("Unknown") : n(Math.floor(person.startYear), { useGrouping: false })} – ${person.endYear == null ? t("Open-ended") : n(Math.floor(person.endYear), { useGrouping: false })}`;
+  const periodLabel = (person: Person) => {
+    const term = (value: number) => {
+      if (person.dataset !== "custom" && person.dataset !== "community") return n(Math.floor(value), { useGrouping: false });
+      const fields = characterDateFields(value), calendarDate = new Date(0);
+      calendarDate.setUTCFullYear(Number(fields.year), fields.month, 1);
+      return date(calendarDate, { month: "short", year: "numeric" });
+    };
+    return `${person.startYear == null ? t("Unknown") : term(person.startYear)} – ${person.endYear == null ? t("Open-ended") : term(person.endYear)}`;
+  };
   const matchesPerson = (person: Person, query: string) => normalizeSearch([person.name, person.title, person.nameFa, person.titleFa, person.country, personName(person), personTitle(person), countryName(person.country)].join(" ")).includes(normalizeSearch(query));
   return { t, text, n, date, countryName, personName, personTitle, periodLabel, matchesPerson };
 }

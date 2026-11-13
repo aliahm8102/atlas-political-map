@@ -158,6 +158,10 @@ The setup follows [Supabase's SSR authentication guide](https://supabase.com/doc
 
 ## Administration and character publication
 
+**My characters** accepts an optional Gregorian year and month for both the start and end of a term. The first month is included and the end month is excluded, so March–June appears from March through May. Whole-year legacy drafts reopen in January. Monthly dates use the existing decimal-year format for browser storage and publication payloads; no storage migration is needed. Custom/community period labels show the chosen month. Portrait selection uses a keyboard-accessible styled button, a filename/status label and a preview with removal/replacement; PNG, JPEG and WebP files up to 5 MB are resized locally.
+
+For the focused form checks, run `ATLAS_MAP_ONLY=1 ATLAS_CHARACTER_DATES_ONLY=1 node scripts/browser-qa.mjs` (set `ATLAS_CHROME_BIN` as needed). The checks cover same-year terms, invalid ordering, reload/edit precision, the native chooser, same-file reselection and Persian mobile layouts.
+
 After creating a character under **My characters**, an online user can select **Publish character** (انتشار کاراکتر). The browser draft remains private while the submitted snapshot is reviewed in Supabase. Rejected requests show the review note and can be resubmitted. Users can edit their own local drafts from **My characters** or the directory; edits made during review do not overwrite the submitted snapshot. New characters require English and Persian names and descriptions, and both languages survive publication and administrative editing. Existing single-language drafts remain readable and can be completed when edited.
 
 Once an approval is received, Atlas removes the local draft to prevent duplicate directory/map entries. Its browser bookmarks, portrait position, tags and group memberships move to the shared character ID. This cleanup also runs on reload and across storage updates; pending reviews refresh every 30 seconds while visible and when returning to the tab. Clearing browser storage does not remove submitted snapshots. Local demo accounts cannot submit to the hosted review queue.
