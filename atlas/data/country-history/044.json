@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "044",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Nassau",
+      "areaKm2": 13943,
+      "population": 398165,
+      "flagPath": "/flags/bs.svg"
+    }
+  }
+}

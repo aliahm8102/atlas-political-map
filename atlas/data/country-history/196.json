@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "196",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Nicosia",
+      "areaKm2": 9251,
+      "population": 1442614,
+      "flagPath": "/flags/cy.svg"
+    }
+  }
+}

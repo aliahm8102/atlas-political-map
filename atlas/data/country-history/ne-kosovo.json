@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "ne-kosovo",
+  "years": {
+    "2025": {
+      "capitalFa": "پریشتینا",
+      "capitalEn": "Pristina",
+      "areaKm2": 10908,
+      "population": 1585566,
+      "flagPath": "/flags/xk.svg"
+    }
+  }
+}

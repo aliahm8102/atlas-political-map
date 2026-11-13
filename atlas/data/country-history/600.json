@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "600",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Asunción",
+      "areaKm2": 406752,
+      "population": 6109644,
+      "flagPath": "/flags/py.svg"
+    }
+  }
+}

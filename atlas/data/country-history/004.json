@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "004",
+  "years": {
+    "2025": {
+      "capitalFa": "کابل",
+      "capitalEn": "Kabul",
+      "areaKm2": 652230,
+      "population": 43844000,
+      "flagPath": "/flags/af.svg"
+    }
+  }
+}

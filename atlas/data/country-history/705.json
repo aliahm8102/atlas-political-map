@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "705",
+  "years": {
+    "2025": {
+      "capitalFa": "لیوبلیانا",
+      "capitalEn": "Ljubljana",
+      "areaKm2": 20273,
+      "population": 2130986,
+      "flagPath": "/flags/si.svg"
+    }
+  }
+}

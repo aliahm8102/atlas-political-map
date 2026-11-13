@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "231",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Addis Ababa",
+      "areaKm2": 1104300,
+      "population": 111652998,
+      "flagPath": "/flags/et.svg"
+    }
+  }
+}

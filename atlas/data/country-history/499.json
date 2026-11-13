@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "499",
+  "years": {
+    "2025": {
+      "capitalFa": "پودگوریتسا",
+      "capitalEn": "Podgorica",
+      "areaKm2": 13812,
+      "population": 623129,
+      "flagPath": "/flags/me.svg"
+    }
+  }
+}

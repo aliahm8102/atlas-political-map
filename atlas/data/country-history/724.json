@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "724",
+  "years": {
+    "2025": {
+      "capitalFa": "مادرید",
+      "capitalEn": "Madrid",
+      "areaKm2": 505370,
+      "population": 49355143,
+      "flagPath": "/flags/es.svg"
+    }
+  }
+}

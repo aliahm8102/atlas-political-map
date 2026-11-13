@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "144",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Sri Jayawardenepura Kotte",
+      "areaKm2": 65610,
+      "population": 21763170,
+      "flagPath": "/flags/lk.svg"
+    }
+  }
+}

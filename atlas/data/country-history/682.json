@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "682",
+  "years": {
+    "2025": {
+      "capitalFa": "ریاض",
+      "capitalEn": "Riyadh",
+      "areaKm2": 2149690,
+      "population": 35300280,
+      "flagPath": "/flags/sa.svg"
+    }
+  }
+}

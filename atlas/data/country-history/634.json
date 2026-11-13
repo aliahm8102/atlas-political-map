@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "634",
+  "years": {
+    "2025": {
+      "capitalFa": "دوحه",
+      "capitalEn": "Doha",
+      "areaKm2": 11586,
+      "population": 3173024,
+      "flagPath": "/flags/qa.svg"
+    }
+  }
+}

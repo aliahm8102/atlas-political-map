@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "788",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Tunis",
+      "areaKm2": 163610,
+      "population": 11972169,
+      "flagPath": "/flags/tn.svg"
+    }
+  }
+}

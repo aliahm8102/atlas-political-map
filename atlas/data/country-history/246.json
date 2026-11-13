@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "246",
+  "years": {
+    "2025": {
+      "capitalFa": "هلسینکی",
+      "capitalEn": "Helsinki",
+      "areaKm2": 338145,
+      "population": 5646436,
+      "flagPath": "/flags/fi.svg"
+    }
+  }
+}

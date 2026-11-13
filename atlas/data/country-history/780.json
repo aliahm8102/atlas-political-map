@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "780",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Port of Spain",
+      "areaKm2": 5130,
+      "population": 1367764,
+      "flagPath": "/flags/tt.svg"
+    }
+  }
+}

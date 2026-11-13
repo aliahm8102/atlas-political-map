@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "686",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Dakar",
+      "areaKm2": 196722,
+      "population": 18593258,
+      "flagPath": "/flags/sn.svg"
+    }
+  }
+}

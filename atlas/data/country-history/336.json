@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "336",
+  "years": {
+    "2025": {
+      "capitalFa": "واتیکان",
+      "capitalEn": "Vatican City",
+      "areaKm2": 0.49,
+      "population": 882,
+      "flagPath": "/flags/va.svg"
+    }
+  }
+}

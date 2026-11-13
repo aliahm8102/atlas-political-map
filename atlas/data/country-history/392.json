@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "392",
+  "years": {
+    "2025": {
+      "capitalFa": "توکیو",
+      "capitalEn": "Tokyo",
+      "areaKm2": 377930,
+      "population": 123210000,
+      "flagPath": "/flags/jp.svg"
+    }
+  }
+}

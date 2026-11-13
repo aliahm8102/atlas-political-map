@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "862",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Caracas",
+      "areaKm2": 916445,
+      "population": 28517000,
+      "flagPath": "/flags/ve.svg"
+    }
+  }
+}

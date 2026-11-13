@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "800",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Kampala",
+      "areaKm2": 241550,
+      "population": 45905417,
+      "flagPath": "/flags/ug.svg"
+    }
+  }
+}

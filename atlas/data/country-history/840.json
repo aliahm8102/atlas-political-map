@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "840",
+  "years": {
+    "2025": {
+      "capitalFa": "واشینگتن، دی.سی.",
+      "capitalEn": "Washington, D.C.",
+      "areaKm2": 9525067,
+      "population": 340110988,
+      "flagPath": "/flags/us.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "688",
+  "years": {
+    "2025": {
+      "capitalFa": "بلگراد",
+      "capitalEn": "Belgrade",
+      "areaKm2": 77474,
+      "population": 6549143,
+      "flagPath": "/flags/rs.svg"
+    }
+  }
+}

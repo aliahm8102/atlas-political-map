@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "762",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Dushanbe",
+      "areaKm2": 143100,
+      "population": 10499000,
+      "flagPath": "/flags/tj.svg"
+    }
+  }
+}

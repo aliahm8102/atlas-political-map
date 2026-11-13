@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "156",
+  "years": {
+    "2025": {
+      "capitalFa": "پکن",
+      "capitalEn": "Beijing",
+      "areaKm2": 9706961,
+      "population": 1408280000,
+      "flagPath": "/flags/cn.svg"
+    }
+  }
+}

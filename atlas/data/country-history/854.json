@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "854",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Ouagadougou",
+      "areaKm2": 272967,
+      "population": 24070553,
+      "flagPath": "/flags/bf.svg"
+    }
+  }
+}

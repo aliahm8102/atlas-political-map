@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "484",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Mexico City",
+      "areaKm2": 1964375,
+      "population": 130575786,
+      "flagPath": "/flags/mx.svg"
+    }
+  }
+}

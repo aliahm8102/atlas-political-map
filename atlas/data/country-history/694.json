@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "694",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Freetown",
+      "areaKm2": 71740,
+      "population": 9077691,
+      "flagPath": "/flags/sl.svg"
+    }
+  }
+}

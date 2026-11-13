@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "304",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Nuuk",
+      "areaKm2": 2166086,
+      "population": 56542,
+      "flagPath": "/flags/gl.svg"
+    }
+  }
+}

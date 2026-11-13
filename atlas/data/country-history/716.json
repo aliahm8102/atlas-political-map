@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "716",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Harare",
+      "areaKm2": 390757,
+      "population": 17073087,
+      "flagPath": "/flags/zw.svg"
+    }
+  }
+}

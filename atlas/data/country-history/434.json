@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "434",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Tripoli",
+      "areaKm2": 1759540,
+      "population": 7459000,
+      "flagPath": "/flags/ly.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "266",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Libreville",
+      "areaKm2": 267668,
+      "population": 2469296,
+      "flagPath": "/flags/ga.svg"
+    }
+  }
+}

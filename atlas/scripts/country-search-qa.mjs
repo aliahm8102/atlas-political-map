@@ -9,6 +9,10 @@ export async function runCountrySearchQA({ cdp, evaluate, waitFor, click, type, 
   await waitFor("document.documentElement.lang === 'en'");
   await evaluate("new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))");
   const input = '.global-search input';
+  const setYear = async year => {
+    await evaluate(`(() => { const slider=document.querySelector('.timeline-slider input'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(slider,${JSON.stringify(String(year * 12))}); slider.dispatchEvent(new Event('input',{bubbles:true})); slider.dispatchEvent(new Event('change',{bubbles:true})); })()`);
+    await waitFor(`document.querySelector('.country-profile')?.dataset.countryYear === '${year}'`);
+  };
   await type(input, 'United');
   await waitFor("document.querySelector('[data-preview-type=place] [role=option]')");
   assert.equal(await evaluate("document.querySelectorAll('[data-preview-type=place] [role=option]').length"), 3, 'Country preview is capped at three');
@@ -21,7 +25,9 @@ export async function runCountrySearchQA({ cdp, evaluate, waitFor, click, type, 
   await waitFor("(() => { const r = document.querySelector('#country-276').getBoundingClientRect(); return r.top >= 0 && r.top < innerHeight / 2; })()");
   assert.match(await evaluate("document.querySelector('.world-map > g').getAttribute('transform')"), /scale\(2\.7\)/);
   assert.equal(await evaluate("document.querySelector('.country.selected').dataset.country"), '276');
+  await setYear(2025);
   assert.deepEqual(await evaluate("[...document.querySelectorAll('.country-facts dd')].map(el => el.textContent)"), ['Berlin', '357,022', '83,491,249']);
+  assert.equal(await evaluate("document.querySelectorAll('.country-profile h2').length === 1 && !document.querySelector('.country-profile').textContent.includes('آلمان') && !document.querySelector('.country-english-name')"), true, 'English country identity uses one English name');
   await waitFor("document.querySelector('.country-flag-portrait img').complete && document.querySelector('.country-flag-portrait img').naturalWidth > 0");
   await screenshot('country-profile-germany');
   await cdp('Page.reload');
@@ -63,8 +69,22 @@ export async function runCountrySearchQA({ cdp, evaluate, waitFor, click, type, 
   await waitFor(`document.querySelector('.map-pin.selected-person')?.dataset.personId === ${JSON.stringify(personId)}`);
   await navigate('/workspace#country-276');
   await waitFor("document.querySelector('[data-country-profile=\"276\"]')");
+  await setYear(2025);
   await click('[data-testid=language-switcher]');
   await waitFor("document.querySelector('.country-facts dd')?.textContent === 'برلین'");
+  assert.equal(await evaluate("document.querySelector('.country-profile h2').textContent === 'آلمان' && !document.querySelector('.country-profile').textContent.includes('Germany') && !document.querySelector('.country-english-name')"), true, 'Persian country identity contains no extra English country name');
+  for (const year of [2024, 2026, 1900]) {
+    await setYear(year);
+    assert.equal(await evaluate("[...document.querySelectorAll('.country-facts dd')].every(el => el.textContent === 'موجود نیست') && !document.querySelector('.country-flag-portrait img') && document.querySelector('.country-profile').dataset.countryDataYear === ''"), true, 'Unfilled years never reuse 2025 facts or a modern flag');
+    assert.equal(await evaluate(`document.querySelector('.country-reference-note').textContent.includes(new Intl.NumberFormat('fa-IR',{useGrouping:false}).format(${year}))`), true);
+  }
+  await setYear(2025);
+  await waitFor("document.querySelector('.country-flag-portrait img')?.complete && document.querySelector('.country-flag-portrait img').naturalWidth > 0");
+  assert.deepEqual(await evaluate("[...document.querySelectorAll('.country-facts dd')].map(el => el.textContent)"), ['برلین', '۳۵۷٬۰۲۲', '۸۳٬۴۹۱٬۲۴۹']);
+  await click('[data-testid=language-switcher]');
+  await waitFor("document.querySelector('.country-profile h2')?.textContent === 'Germany' && document.querySelector('.country-facts dd')?.textContent === 'Berlin'");
+  await click('[data-testid=language-switcher]');
+  await waitFor("document.querySelector('.country-profile h2')?.textContent === 'آلمان'");
   for (const [width, height] of [[390,844],[844,390]]) {
     await cdp("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: true });
     await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3')");
@@ -78,5 +98,5 @@ export async function runCountrySearchQA({ cdp, evaluate, waitFor, click, type, 
     await evaluate("document.querySelector('.country-profile').scrollIntoView({block:'center',behavior:'instant'})");
     await screenshot(`country-profile-fa-${width}`);
   }
-  console.log('PASS: per-type three-result previews, tag/group facets, real map anchors, scroll/zoom, reload/deep links, supplied country facts and flags, RTL/mobile profiles.');
+  console.log('PASS: per-type previews, map anchors, annual facts/flags and missing-year recovery, one-language country names, reload persistence and RTL/mobile profiles.');
 }

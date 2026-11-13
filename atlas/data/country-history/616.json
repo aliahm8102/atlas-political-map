@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "616",
+  "years": {
+    "2025": {
+      "capitalFa": "ورشو",
+      "capitalEn": "Warsaw",
+      "areaKm2": 312685,
+      "population": 36435861,
+      "flagPath": "/flags/pl.svg"
+    }
+  }
+}

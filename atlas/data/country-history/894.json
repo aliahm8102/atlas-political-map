@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "894",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Lusaka",
+      "areaKm2": 752612,
+      "population": 19693423,
+      "flagPath": "/flags/zm.svg"
+    }
+  }
+}

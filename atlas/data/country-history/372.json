@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "372",
+  "years": {
+    "2025": {
+      "capitalFa": "دوبلین",
+      "capitalEn": "Dublin",
+      "areaKm2": 70273,
+      "population": 5484367,
+      "flagPath": "/flags/ie.svg"
+    }
+  }
+}

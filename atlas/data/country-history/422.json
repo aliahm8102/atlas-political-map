@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "422",
+  "years": {
+    "2025": {
+      "capitalFa": "بیروت",
+      "capitalEn": "Beirut",
+      "areaKm2": 10452,
+      "population": 5490000,
+      "flagPath": "/flags/lb.svg"
+    }
+  }
+}

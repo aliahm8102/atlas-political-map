@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "218",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Quito",
+      "areaKm2": 276841,
+      "population": 18103660,
+      "flagPath": "/flags/ec.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "010",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": null,
+      "areaKm2": 14000000,
+      "population": 1300,
+      "flagPath": "/flags/aq.svg"
+    }
+  }
+}

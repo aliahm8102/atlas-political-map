@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "352",
+  "years": {
+    "2025": {
+      "capitalFa": "ریکیاویک",
+      "capitalEn": "Reykjavik",
+      "areaKm2": 103000,
+      "population": 392404,
+      "flagPath": "/flags/is.svg"
+    }
+  }
+}

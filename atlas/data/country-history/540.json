@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "540",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Nouméa",
+      "areaKm2": 18575,
+      "population": 264596,
+      "flagPath": "/flags/nc.svg"
+    }
+  }
+}

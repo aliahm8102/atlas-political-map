@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "ne-n-cyprus",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": null,
+      "areaKm2": null,
+      "population": null,
+      "flagPath": "/flags/ne-n-cyprus.svg"
+    }
+  }
+}

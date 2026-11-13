@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "591",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Panama City",
+      "areaKm2": 75417,
+      "population": 4064780,
+      "flagPath": "/flags/pa.svg"
+    }
+  }
+}

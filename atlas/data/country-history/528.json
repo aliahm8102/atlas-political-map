@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "528",
+  "years": {
+    "2025": {
+      "capitalFa": "آمستردام",
+      "capitalEn": "Amsterdam",
+      "areaKm2": 41543,
+      "population": 18087633,
+      "flagPath": "/flags/nl.svg"
+    }
+  }
+}

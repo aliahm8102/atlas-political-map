@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "703",
+  "years": {
+    "2025": {
+      "capitalFa": "براتیسلاوا",
+      "capitalEn": "Bratislava",
+      "areaKm2": 49035,
+      "population": 5413813,
+      "flagPath": "/flags/sk.svg"
+    }
+  }
+}

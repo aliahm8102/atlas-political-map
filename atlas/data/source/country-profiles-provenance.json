@@ -2,7 +2,7 @@
   "reference": "https://raw.githubusercontent.com/restcountries/restcountries/bfadee4f951682c29970e53677707bc558e80b74/src/main/resources/countriesV3.1.json",
   "snapshotDate": "2026-11-13",
   "sample": "country-profile-samples.json (user-provided reference figures; observation years unspecified)",
-  "note": "Reference figures are a snapshot, not a live census or timeline reconstruction. Missing facts remain null.",
+  "note": "Existing reference figures seed year 2025 by user request, without asserting their observation year. Annual records are in data/country-history/<code>.json. Missing facts and untranslated Persian capitals remain null. Only the selected year is displayed.",
   "flags": {
     "/flags/fj.svg": "https://raw.githubusercontent.com/hampusborgos/country-flags/c09927e63705529bbf59ca6684cd9b23225dddad/svg/fj.svg",
     "/flags/tz.svg": "https://raw.githubusercontent.com/hampusborgos/country-flags/c09927e63705529bbf59ca6684cd9b23225dddad/svg/tz.svg",

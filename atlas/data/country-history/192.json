@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "192",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Havana",
+      "areaKm2": 109884,
+      "population": 9748007,
+      "flagPath": "/flags/cu.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "300",
+  "years": {
+    "2025": {
+      "capitalFa": "آتن",
+      "capitalEn": "Athens",
+      "areaKm2": 131957,
+      "population": 10413962,
+      "flagPath": "/flags/gr.svg"
+    }
+  }
+}

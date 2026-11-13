@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "268",
+  "years": {
+    "2025": {
+      "capitalFa": "تفلیس",
+      "capitalEn": "Tbilisi",
+      "areaKm2": 69700,
+      "population": 4000921,
+      "flagPath": "/flags/ge.svg"
+    }
+  }
+}

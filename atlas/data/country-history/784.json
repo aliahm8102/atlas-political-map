@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "784",
+  "years": {
+    "2025": {
+      "capitalFa": "ابوظبی",
+      "capitalEn": "Abu Dhabi",
+      "areaKm2": 83600,
+      "population": 11294243,
+      "flagPath": "/flags/ae.svg"
+    }
+  }
+}

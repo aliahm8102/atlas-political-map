@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "188",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "San José",
+      "areaKm2": 51100,
+      "population": 5309625,
+      "flagPath": "/flags/cr.svg"
+    }
+  }
+}

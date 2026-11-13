@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "408",
+  "years": {
+    "2025": {
+      "capitalFa": "پیونگ‌یانگ",
+      "capitalEn": "Pyongyang",
+      "areaKm2": 120538,
+      "population": 25950000,
+      "flagPath": "/flags/kp.svg"
+    }
+  }
+}

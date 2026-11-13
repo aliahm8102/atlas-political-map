@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "112",
+  "years": {
+    "2025": {
+      "capitalFa": "مینسک",
+      "capitalEn": "Minsk",
+      "areaKm2": 207600,
+      "population": 9085991,
+      "flagPath": "/flags/by.svg"
+    }
+  }
+}

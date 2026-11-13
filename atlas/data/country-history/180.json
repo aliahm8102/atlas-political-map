@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "180",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Kinshasa",
+      "areaKm2": 2344858,
+      "population": 112832000,
+      "flagPath": "/flags/cd.svg"
+    }
+  }
+}

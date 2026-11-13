@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "458",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Kuala Lumpur",
+      "areaKm2": 330803,
+      "population": 34231700,
+      "flagPath": "/flags/my.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "478",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Nouakchott",
+      "areaKm2": 1030700,
+      "population": 4927532,
+      "flagPath": "/flags/mr.svg"
+    }
+  }
+}

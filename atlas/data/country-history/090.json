@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "090",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Honiara",
+      "areaKm2": 28896,
+      "population": 750325,
+      "flagPath": "/flags/sb.svg"
+    }
+  }
+}

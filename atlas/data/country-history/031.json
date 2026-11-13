@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "031",
+  "years": {
+    "2025": {
+      "capitalFa": "باکو",
+      "capitalEn": "Baku",
+      "areaKm2": 86600,
+      "population": 10241722,
+      "flagPath": "/flags/az.svg"
+    }
+  }
+}

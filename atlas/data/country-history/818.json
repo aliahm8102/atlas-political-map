@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "818",
+  "years": {
+    "2025": {
+      "capitalFa": "قاهره",
+      "capitalEn": "Cairo",
+      "areaKm2": 1002450,
+      "population": 107271260,
+      "flagPath": "/flags/eg.svg"
+    }
+  }
+}

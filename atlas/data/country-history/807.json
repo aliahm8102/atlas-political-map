@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "807",
+  "years": {
+    "2025": {
+      "capitalFa": "اسکوپیه",
+      "capitalEn": "Skopje",
+      "areaKm2": 25713,
+      "population": 1820909,
+      "flagPath": "/flags/mk.svg"
+    }
+  }
+}

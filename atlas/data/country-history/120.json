@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "120",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Yaoundé",
+      "areaKm2": 475442,
+      "population": 29442327,
+      "flagPath": "/flags/cm.svg"
+    }
+  }
+}

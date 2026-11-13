@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "858",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Montevideo",
+      "areaKm2": 181034,
+      "population": 3499451,
+      "flagPath": "/flags/uy.svg"
+    }
+  }
+}

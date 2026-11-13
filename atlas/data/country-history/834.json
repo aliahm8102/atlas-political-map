@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "834",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Dodoma",
+      "areaKm2": 947303,
+      "population": 68153004,
+      "flagPath": "/flags/tz.svg"
+    }
+  }
+}

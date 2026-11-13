@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "208",
+  "years": {
+    "2025": {
+      "capitalFa": "کپنهاگ",
+      "capitalEn": "Copenhagen",
+      "areaKm2": 43094,
+      "population": 6009169,
+      "flagPath": "/flags/dk.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "470",
+  "years": {
+    "2025": {
+      "capitalFa": "والتا",
+      "capitalEn": "Valletta",
+      "areaKm2": 316,
+      "population": 579704,
+      "flagPath": "/flags/mt.svg"
+    }
+  }
+}

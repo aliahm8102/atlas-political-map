@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "348",
+  "years": {
+    "2025": {
+      "capitalFa": "بوداپست",
+      "capitalEn": "Budapest",
+      "areaKm2": 93028,
+      "population": 9514251,
+      "flagPath": "/flags/hu.svg"
+    }
+  }
+}

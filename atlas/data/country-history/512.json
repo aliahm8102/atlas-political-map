@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "512",
+  "years": {
+    "2025": {
+      "capitalFa": "مسقط",
+      "capitalEn": "Muscat",
+      "areaKm2": 309500,
+      "population": 5343630,
+      "flagPath": "/flags/om.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "170",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Bogotá",
+      "areaKm2": 1141748,
+      "population": 53057212,
+      "flagPath": "/flags/co.svg"
+    }
+  }
+}

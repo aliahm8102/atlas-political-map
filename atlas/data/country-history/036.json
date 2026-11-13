@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "036",
+  "years": {
+    "2025": {
+      "capitalFa": "کانبرا",
+      "capitalEn": "Canberra",
+      "areaKm2": 7692024,
+      "population": 27536874,
+      "flagPath": "/flags/au.svg"
+    }
+  }
+}

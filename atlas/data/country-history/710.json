@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "710",
+  "years": {
+    "2025": {
+      "capitalFa": "پرتوریا / بلومفونتین / کیپ‌تاون",
+      "capitalEn": "Pretoria / Bloemfontein / Cape Town",
+      "areaKm2": 1221037,
+      "population": 63100945,
+      "flagPath": "/flags/za.svg"
+    }
+  }
+}

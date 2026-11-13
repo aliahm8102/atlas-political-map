@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "566",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Abuja",
+      "areaKm2": 923768,
+      "population": 223800000,
+      "flagPath": "/flags/ng.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "554",
+  "years": {
+    "2025": {
+      "capitalFa": "ولینگتون",
+      "capitalEn": "Wellington",
+      "areaKm2": 268838,
+      "population": 5324700,
+      "flagPath": "/flags/nz.svg"
+    }
+  }
+}

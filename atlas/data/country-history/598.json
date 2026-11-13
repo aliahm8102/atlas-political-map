@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "598",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Port Moresby",
+      "areaKm2": 462840,
+      "population": 11781559,
+      "flagPath": "/flags/pg.svg"
+    }
+  }
+}

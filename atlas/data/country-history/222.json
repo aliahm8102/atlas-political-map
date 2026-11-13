@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "222",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "San Salvador",
+      "areaKm2": 21041,
+      "population": 6029976,
+      "flagPath": "/flags/sv.svg"
+    }
+  }
+}

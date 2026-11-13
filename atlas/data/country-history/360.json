@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "360",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Jakarta",
+      "areaKm2": 1904569,
+      "population": 284438782,
+      "flagPath": "/flags/id.svg"
+    }
+  }
+}

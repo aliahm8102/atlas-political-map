@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "624",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Bissau",
+      "areaKm2": 36125,
+      "population": 1781308,
+      "flagPath": "/flags/gw.svg"
+    }
+  }
+}

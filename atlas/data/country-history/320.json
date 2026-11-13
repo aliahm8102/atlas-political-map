@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "320",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Guatemala City",
+      "areaKm2": 108889,
+      "population": 18079810,
+      "flagPath": "/flags/gt.svg"
+    }
+  }
+}

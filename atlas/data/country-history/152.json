@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "152",
+  "years": {
+    "2025": {
+      "capitalFa": "سانتیاگو",
+      "capitalEn": "Santiago",
+      "areaKm2": 756102,
+      "population": 20206953,
+      "flagPath": "/flags/cl.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "275",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Ramallah / Jerusalem",
+      "areaKm2": 6220,
+      "population": 5483450,
+      "flagPath": "/flags/ps.svg"
+    }
+  }
+}

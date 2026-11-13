@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import { createHash } from "node:crypto";
+import { historyDirectory, writeCountryHistoryIndex } from "./index-country-histories.mjs";
 
 const revision = "bfadee4f951682c29970e53677707bc558e80b74";
 const source = `https://raw.githubusercontent.com/restcountries/restcountries/${revision}/src/main/resources/countriesV3.1.json`;
@@ -15,6 +16,7 @@ const supplements = samples.filter(([code]) => !countries.some(country => countr
 const capitalsFa = { Tehran: "تهران", Kabul: "کابل", Baghdad: "بغداد", Ankara: "آنکارا", Beijing: "پکن", Tokyo: "توکیو", Seoul: "سئول", Pyongyang: "پیونگ‌یانگ", "New Delhi": "دهلی نو", Islamabad: "اسلام‌آباد", Riyadh: "ریاض", Doha: "دوحه", "Abu Dhabi": "ابوظبی", Muscat: "مسقط", Cairo: "قاهره", Damascus: "دمشق", Beirut: "بیروت", Amman: "امان", "Washington, D.C.": "واشینگتن، دی.سی.", Ottawa: "اتاوا", Canberra: "کانبرا", Wellington: "ولینگتون", Brasília: "برازیلیا", "Buenos Aires": "بوئنوس آیرس", Santiago: "سانتیاگو", Pretoria: "پرتوریا", "Cape Town": "کیپ‌تاون", Bloemfontein: "بلومفونتین", Nairobi: "نایروبی", Pristina: "پریشتینا", Tbilisi: "تفلیس", Yerevan: "ایروان", Baku: "باکو" };
 const manifest = {}, profiles = {};
 await fs.mkdir("public/flags", { recursive: true });
+await fs.mkdir(historyDirectory, { recursive: true });
 const downloads = [];
 for (const country of [...countries, ...supplements]) {
   const row = reference.find(row => row.ccn3 && row.ccn3 === country.code || row.name.common === country.name);
@@ -22,7 +24,12 @@ for (const country of [...countries, ...supplements]) {
   const sample = samples.find(([code]) => code === country.code);
   const capitals = row?.capital ?? [];
   const profile = { ...country, nameEn: sample?.[2] ?? row?.name.common ?? country.name, nameFa: sample?.[1] ?? legacyFa[country.name] ?? row?.translations?.per?.common ?? country.name, capital: capitals.join(" / ") || null, capitalFa: sample?.[3] ?? (capitals.length ? capitals.map(capital => capitalsFa[capital] ?? capital).join(" / ") : null), areaKm2: sample?.[4] ?? row?.area ?? null, population: sample?.[5] ?? row?.population ?? null, flag: row ? `/flags/${row.cca2.toLowerCase()}.svg` : `/flags/${country.code}.svg`, source: sample ? "provided" : row ? "restcountries" : "unavailable" };
-  profiles[country.code] = profile;
+  const { capital, capitalFa, areaKm2, population, flag, ...metadata } = profile;
+  profiles[country.code] = metadata;
+  const history = { $schema: "./schema.json", code: country.code, years: { "2025": { capitalFa: capitalFa && /[\u0600-\u06ff]/.test(capitalFa) && !/[a-z]/i.test(capitalFa) ? capitalFa : null, capitalEn: capital, areaKm2, population, flagPath: flag } } };
+  // Existing annual records belong to the editor and must never be overwritten by an import.
+  try { await fs.writeFile(new URL(`../data/country-history/${country.code}.json`, import.meta.url), JSON.stringify(history, null, 2) + "\n", { flag: "wx" }); }
+  catch (error) { if (error.code !== "EEXIST") throw error; }
   if (row) {
     const flagUrl = `https://raw.githubusercontent.com/hampusborgos/country-flags/c09927e63705529bbf59ca6684cd9b23225dddad/svg/${row.cca2.toLowerCase()}.svg`;
     downloads.push({ path: `public${profile.flag}`, url: flagUrl, svg: true }); manifest[profile.flag] = flagUrl;
@@ -49,5 +56,6 @@ await Promise.all(Array.from({ length: 6 }, async () => {
   }
 }));
 await fs.writeFile("data/country-profiles.json", JSON.stringify(profiles, null, 2) + "\n");
-await fs.writeFile("data/source/country-profiles-provenance.json", JSON.stringify({ reference: source, snapshotDate: "2026-11-13", sample: "country-profile-samples.json (user-provided reference figures; observation years unspecified)", note: "Reference figures are a snapshot, not a live census or timeline reconstruction. Missing facts remain null.", flags: manifest }, null, 2) + "\n");
+await fs.writeFile("data/source/country-profiles-provenance.json", JSON.stringify({ reference: source, snapshotDate: "2026-11-13", sample: "country-profile-samples.json (user-provided reference figures; observation years unspecified)", note: "Reference figures seed year 2025 by user request; observation years remain unspecified. Existing annual country files are never overwritten. Missing facts and untranslated Persian capitals remain null.", flags: manifest }, null, 2) + "\n");
+await writeCountryHistoryIndex();
 console.log(`Imported ${Object.keys(profiles).length} profiles and ${downloads.length} local flags; preserved ${samples.length} supplied samples.`);

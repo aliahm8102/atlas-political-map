@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "887",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Sana'a",
+      "areaKm2": 527968,
+      "population": 32684503,
+      "flagPath": "/flags/ye.svg"
+    }
+  }
+}

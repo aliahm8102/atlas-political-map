@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "084",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Belmopan",
+      "areaKm2": 22966,
+      "population": 417634,
+      "flagPath": "/flags/bz.svg"
+    }
+  }
+}

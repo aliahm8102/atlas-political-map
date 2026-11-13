@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "756",
+  "years": {
+    "2025": {
+      "capitalFa": "برن",
+      "capitalEn": "Bern",
+      "areaKm2": 41277,
+      "population": 9092436,
+      "flagPath": "/flags/ch.svg"
+    }
+  }
+}

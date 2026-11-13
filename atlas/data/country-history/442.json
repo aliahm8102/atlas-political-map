@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "442",
+  "years": {
+    "2025": {
+      "capitalFa": "لوکزامبورگ",
+      "capitalEn": "Luxembourg",
+      "areaKm2": 2586,
+      "population": 686970,
+      "flagPath": "/flags/lu.svg"
+    }
+  }
+}

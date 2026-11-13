@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "051",
+  "years": {
+    "2025": {
+      "capitalFa": "ایروان",
+      "capitalEn": "Yerevan",
+      "areaKm2": 29743,
+      "population": 3076200,
+      "flagPath": "/flags/am.svg"
+    }
+  }
+}

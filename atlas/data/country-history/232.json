@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "232",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Asmara",
+      "areaKm2": 117600,
+      "population": 3607000,
+      "flagPath": "/flags/er.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "466",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Bamako",
+      "areaKm2": 1240192,
+      "population": 22395489,
+      "flagPath": "/flags/ml.svg"
+    }
+  }
+}

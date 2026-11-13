@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "056",
+  "years": {
+    "2025": {
+      "capitalFa": "بروکسل",
+      "capitalEn": "Brussels",
+      "areaKm2": 30528,
+      "population": 11941781,
+      "flagPath": "/flags/be.svg"
+    }
+  }
+}

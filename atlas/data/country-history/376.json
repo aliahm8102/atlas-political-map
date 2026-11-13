@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "376",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Jerusalem",
+      "areaKm2": 21937,
+      "population": 10134800,
+      "flagPath": "/flags/il.svg"
+    }
+  }
+}

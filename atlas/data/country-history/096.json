@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "096",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Bandar Seri Begawan",
+      "areaKm2": 5765,
+      "population": 455500,
+      "flagPath": "/flags/bn.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "706",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Mogadishu",
+      "areaKm2": 637657,
+      "population": 19655000,
+      "flagPath": "/flags/so.svg"
+    }
+  }
+}

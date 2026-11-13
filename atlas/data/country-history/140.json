@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "140",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Bangui",
+      "areaKm2": 622984,
+      "population": 6470307,
+      "flagPath": "/flags/cf.svg"
+    }
+  }
+}

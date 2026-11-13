@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "404",
+  "years": {
+    "2025": {
+      "capitalFa": "نایروبی",
+      "capitalEn": "Nairobi",
+      "areaKm2": 580367,
+      "population": 53330978,
+      "flagPath": "/flags/ke.svg"
+    }
+  }
+}

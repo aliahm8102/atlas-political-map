@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "860",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Tashkent",
+      "areaKm2": 447400,
+      "population": 37859698,
+      "flagPath": "/flags/uz.svg"
+    }
+  }
+}

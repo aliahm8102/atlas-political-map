@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "328",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Georgetown",
+      "areaKm2": 214969,
+      "population": 772975,
+      "flagPath": "/flags/gy.svg"
+    }
+  }
+}

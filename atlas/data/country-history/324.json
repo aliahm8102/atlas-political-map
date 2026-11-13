@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "324",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Conakry",
+      "areaKm2": 245857,
+      "population": 14363931,
+      "flagPath": "/flags/gn.svg"
+    }
+  }
+}

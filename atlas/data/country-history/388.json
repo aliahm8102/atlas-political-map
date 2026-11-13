@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "388",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Kingston",
+      "areaKm2": 10991,
+      "population": 2825544,
+      "flagPath": "/flags/jm.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "008",
+  "years": {
+    "2025": {
+      "capitalFa": "تیرانا",
+      "capitalEn": "Tirana",
+      "areaKm2": 28748,
+      "population": 2349580,
+      "flagPath": "/flags/al.svg"
+    }
+  }
+}

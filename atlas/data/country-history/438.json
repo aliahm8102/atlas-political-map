@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "438",
+  "years": {
+    "2025": {
+      "capitalFa": "فادوتس",
+      "capitalEn": "Vaduz",
+      "areaKm2": 160,
+      "population": 41024,
+      "flagPath": "/flags/li.svg"
+    }
+  }
+}

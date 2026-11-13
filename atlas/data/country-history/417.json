@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "417",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Bishkek",
+      "areaKm2": 199951,
+      "population": 7281800,
+      "flagPath": "/flags/kg.svg"
+    }
+  }
+}

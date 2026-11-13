@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "020",
+  "years": {
+    "2025": {
+      "capitalFa": "آندورا لاولا",
+      "capitalEn": "Andorra la Vella",
+      "areaKm2": 468,
+      "population": 82904,
+      "flagPath": "/flags/ad.svg"
+    }
+  }
+}

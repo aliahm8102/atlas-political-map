@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "728",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Juba",
+      "areaKm2": 619745,
+      "population": 15786898,
+      "flagPath": "/flags/ss.svg"
+    }
+  }
+}

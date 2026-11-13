@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "430",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Monrovia",
+      "areaKm2": 111369,
+      "population": 5248621,
+      "flagPath": "/flags/lr.svg"
+    }
+  }
+}

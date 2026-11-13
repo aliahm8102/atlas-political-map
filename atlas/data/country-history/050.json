@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "050",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Dhaka",
+      "areaKm2": 147570,
+      "population": 169828911,
+      "flagPath": "/flags/bd.svg"
+    }
+  }
+}

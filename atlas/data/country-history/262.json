@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "262",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Djibouti",
+      "areaKm2": 23200,
+      "population": 1066809,
+      "flagPath": "/flags/dj.svg"
+    }
+  }
+}

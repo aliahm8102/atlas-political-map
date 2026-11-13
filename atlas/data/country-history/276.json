@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "276",
+  "years": {
+    "2025": {
+      "capitalFa": "برلین",
+      "capitalEn": "Berlin",
+      "areaKm2": 357022,
+      "population": 83491249,
+      "flagPath": "/flags/de.svg"
+    }
+  }
+}

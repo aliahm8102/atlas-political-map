@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "068",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Sucre",
+      "areaKm2": 1098581,
+      "population": 11365333,
+      "flagPath": "/flags/bo.svg"
+    }
+  }
+}

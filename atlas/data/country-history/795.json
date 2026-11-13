@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "795",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Ashgabat",
+      "areaKm2": 488100,
+      "population": 7057841,
+      "flagPath": "/flags/tm.svg"
+    }
+  }
+}

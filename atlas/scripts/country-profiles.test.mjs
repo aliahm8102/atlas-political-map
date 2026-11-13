@@ -10,11 +10,11 @@ const countries = read("../data/countries.json"), samples = read("../data/source
 test("all 44 supplied country samples retain exact names, capitals, areas and populations", () => {
   assert.equal(samples.length, 44);
   for (const [code, nameFa, nameEn, capitalFa, areaKm2, population] of samples) {
-    const profile = countryProfiles[code];
+    const profile = countryProfile(countryProfiles[code], 2025);
     assert.deepEqual([profile.nameFa, profile.nameEn, profile.capitalFa, profile.areaKm2, profile.population], [nameFa, nameEn, capitalFa, areaKm2, population]);
     assert.equal(createTranslator("fa").countryName(profile.name), nameFa);
   }
-  assert.equal(countryProfiles["336"].areaKm2, .49);
+  assert.equal(countryProfile(countryProfiles["336"], 2025).areaKm2, .49);
 });
 test("country coverage includes small sample countries without duplicating existing map identities", () => {
   const merged = withCountryProfiles(countries);
@@ -25,16 +25,17 @@ test("country coverage includes small sample countries without duplicating exist
   for (const country of countries) assert.equal(merged.find(item => item.code === country.code), country);
 });
 test("every profile has a safe local flag and Persian name; absent facts remain explicitly unavailable", () => {
-  for (const profile of Object.values(countryProfiles)) {
+  for (const metadata of Object.values(countryProfiles)) {
+    const profile = countryProfile(metadata, 2025);
     assert.match(profile.nameFa, /[\u0600-\u06ff]/);
-    assert.match(profile.flag, /^\/flags\/[a-z0-9-]+\.svg$/);
-    const flag = fs.readFileSync(new URL(`../public${profile.flag}`, import.meta.url), "utf8");
+    assert.match(profile.flagPath, /^\/flags\/[a-z0-9-]+\.svg$/);
+    const flag = fs.readFileSync(new URL(`../public${profile.flagPath}`, import.meta.url), "utf8");
     assert.match(flag, /<svg/); assert.doesNotMatch(flag, /<script\b|<foreignObject\b|\bonload\s*=/i);
     assert.ok(profile.areaKm2 === null || profile.areaKm2 >= 0);
     assert.ok(profile.population === null || Number.isSafeInteger(profile.population));
   }
-  assert.equal(countryProfiles["ne-somaliland"].population, null);
-  assert.equal(countryProfile({ code: "missing", name: "New country" }).capital, null);
+  assert.equal(countryProfile(countryProfiles["ne-somaliland"], 2025).population, null);
+  assert.equal(countryProfile({ code: "missing", name: "New country" }, 2025).capitalEn, null);
 });
 test("person and country map links round trip safely, including custom identities", () => {
   for (const target of [{ kind: "country", id: "276" }, { kind: "country", id: "ne-kosovo" }, { kind: "person", id: "custom:aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa" }]) assert.deepEqual(parseMapTarget(`#${mapTargetId(target)}`), target);

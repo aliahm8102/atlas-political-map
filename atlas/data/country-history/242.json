@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "242",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Suva",
+      "areaKm2": 18272,
+      "population": 900869,
+      "flagPath": "/flags/fj.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "729",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Khartoum",
+      "areaKm2": 1886068,
+      "population": 51662000,
+      "flagPath": "/flags/sd.svg"
+    }
+  }
+}

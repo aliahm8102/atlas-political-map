@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "626",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Dili",
+      "areaKm2": 14874,
+      "population": 1391221,
+      "flagPath": "/flags/tl.svg"
+    }
+  }
+}

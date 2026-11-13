@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "288",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Accra",
+      "areaKm2": 238533,
+      "population": 33742380,
+      "flagPath": "/flags/gh.svg"
+    }
+  }
+}

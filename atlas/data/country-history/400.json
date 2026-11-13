@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "400",
+  "years": {
+    "2025": {
+      "capitalFa": "امان",
+      "capitalEn": "Amman",
+      "areaKm2": 89342,
+      "population": 11734000,
+      "flagPath": "/flags/jo.svg"
+    }
+  }
+}

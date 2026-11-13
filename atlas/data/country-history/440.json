@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "440",
+  "years": {
+    "2025": {
+      "capitalFa": "ویلنیوس",
+      "capitalEn": "Vilnius",
+      "areaKm2": 65300,
+      "population": 2888774,
+      "flagPath": "/flags/lt.svg"
+    }
+  }
+}

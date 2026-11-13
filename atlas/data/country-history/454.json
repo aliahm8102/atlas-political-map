@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "454",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Lilongwe",
+      "areaKm2": 118484,
+      "population": 20734262,
+      "flagPath": "/flags/mw.svg"
+    }
+  }
+}

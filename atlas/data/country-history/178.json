@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "178",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Brazzaville",
+      "areaKm2": 342000,
+      "population": 6142180,
+      "flagPath": "/flags/cg.svg"
+    }
+  }
+}

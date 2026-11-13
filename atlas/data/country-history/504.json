@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "504",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Rabat",
+      "areaKm2": 446550,
+      "population": 36828330,
+      "flagPath": "/flags/ma.svg"
+    }
+  }
+}

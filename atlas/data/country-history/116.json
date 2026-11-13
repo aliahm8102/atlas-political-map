@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "116",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Phnom Penh",
+      "areaKm2": 181035,
+      "population": 17577760,
+      "flagPath": "/flags/kh.svg"
+    }
+  }
+}

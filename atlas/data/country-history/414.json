@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "414",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Kuwait City",
+      "areaKm2": 17818,
+      "population": 4881254,
+      "flagPath": "/flags/kw.svg"
+    }
+  }
+}

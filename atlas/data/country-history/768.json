@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "768",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Lomé",
+      "areaKm2": 56785,
+      "population": 8095498,
+      "flagPath": "/flags/tg.svg"
+    }
+  }
+}

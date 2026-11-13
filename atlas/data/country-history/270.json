@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "270",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Banjul",
+      "areaKm2": 10689,
+      "population": 2422712,
+      "flagPath": "/flags/gm.svg"
+    }
+  }
+}

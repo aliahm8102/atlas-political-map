@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "214",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Santo Domingo",
+      "areaKm2": 48671,
+      "population": 10771504,
+      "flagPath": "/flags/do.svg"
+    }
+  }
+}

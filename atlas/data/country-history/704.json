@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "704",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Hanoi",
+      "areaKm2": 331212,
+      "population": 101343800,
+      "flagPath": "/flags/vn.svg"
+    }
+  }
+}

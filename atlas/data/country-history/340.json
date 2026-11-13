@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "340",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Tegucigalpa",
+      "areaKm2": 112492,
+      "population": 9892632,
+      "flagPath": "/flags/hn.svg"
+    }
+  }
+}

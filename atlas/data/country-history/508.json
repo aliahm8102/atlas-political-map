@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "508",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Maputo",
+      "areaKm2": 801590,
+      "population": 34090466,
+      "flagPath": "/flags/mz.svg"
+    }
+  }
+}

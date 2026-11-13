@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "ne-somaliland",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": null,
+      "areaKm2": null,
+      "population": null,
+      "flagPath": "/flags/ne-somaliland.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "233",
+  "years": {
+    "2025": {
+      "capitalFa": "تالین",
+      "capitalEn": "Tallinn",
+      "areaKm2": 45228,
+      "population": 1366475,
+      "flagPath": "/flags/ee.svg"
+    }
+  }
+}

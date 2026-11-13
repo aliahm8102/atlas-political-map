@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "368",
+  "years": {
+    "2025": {
+      "capitalFa": "بغداد",
+      "capitalEn": "Baghdad",
+      "areaKm2": 438317,
+      "population": 46118793,
+      "flagPath": "/flags/iq.svg"
+    }
+  }
+}

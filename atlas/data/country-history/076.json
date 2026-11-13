@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "076",
+  "years": {
+    "2025": {
+      "capitalFa": "برازیلیا",
+      "capitalEn": "Brasília",
+      "areaKm2": 8515767,
+      "population": 213421037,
+      "flagPath": "/flags/br.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "072",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Gaborone",
+      "areaKm2": 582000,
+      "population": 2359609,
+      "flagPath": "/flags/bw.svg"
+    }
+  }
+}

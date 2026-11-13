@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "620",
+  "years": {
+    "2025": {
+      "capitalFa": "لیسبون",
+      "capitalEn": "Lisbon",
+      "areaKm2": 92090,
+      "population": 10804871,
+      "flagPath": "/flags/pt.svg"
+    }
+  }
+}

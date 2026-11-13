@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "384",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Yamoussoukro",
+      "areaKm2": 322463,
+      "population": 31719275,
+      "flagPath": "/flags/ci.svg"
+    }
+  }
+}

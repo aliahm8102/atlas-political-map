@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "260",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Port-aux-Français",
+      "areaKm2": 7747,
+      "population": 400,
+      "flagPath": "/flags/tf.svg"
+    }
+  }
+}

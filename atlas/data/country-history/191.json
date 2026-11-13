@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "191",
+  "years": {
+    "2025": {
+      "capitalFa": "زاگرب",
+      "capitalEn": "Zagreb",
+      "areaKm2": 56594,
+      "population": 3876200,
+      "flagPath": "/flags/hr.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "064",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Thimphu",
+      "areaKm2": 38394,
+      "population": 784043,
+      "flagPath": "/flags/bt.svg"
+    }
+  }
+}

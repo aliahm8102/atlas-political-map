@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "148",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "N'Djamena",
+      "areaKm2": 1284000,
+      "population": 19340757,
+      "flagPath": "/flags/td.svg"
+    }
+  }
+}

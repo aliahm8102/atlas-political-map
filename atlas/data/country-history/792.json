@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "792",
+  "years": {
+    "2025": {
+      "capitalFa": "آنکارا",
+      "capitalEn": "Ankara",
+      "areaKm2": 783562,
+      "population": 85664944,
+      "flagPath": "/flags/tr.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "158",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Taipei",
+      "areaKm2": 36197,
+      "population": 23317031,
+      "flagPath": "/flags/tw.svg"
+    }
+  }
+}

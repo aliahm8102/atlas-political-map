@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "760",
+  "years": {
+    "2025": {
+      "capitalFa": "دمشق",
+      "capitalEn": "Damascus",
+      "areaKm2": 185180,
+      "population": 25620000,
+      "flagPath": "/flags/sy.svg"
+    }
+  }
+}

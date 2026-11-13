@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "040",
+  "years": {
+    "2025": {
+      "capitalFa": "وین",
+      "capitalEn": "Vienna",
+      "areaKm2": 83871,
+      "population": 9208163,
+      "flagPath": "/flags/at.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "516",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Windhoek",
+      "areaKm2": 825615,
+      "population": 3022401,
+      "flagPath": "/flags/na.svg"
+    }
+  }
+}

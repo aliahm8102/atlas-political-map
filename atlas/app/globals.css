@@ -694,7 +694,6 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .country-profile .country-heading h2 { margin-top: 0; }
 .country-flag-portrait { display: flex; align-items: center; justify-content: center; width: 76px; height: 76px; border-radius: 50%; padding: 12px; background: var(--surface); box-shadow: var(--raised); flex-shrink: 0; }
 .country-flag-portrait img { display: block; width: 100%; height: auto; max-height: 52px; object-fit: contain; }
-.country-english-name { margin-top: 6px; font-size: calc(12px * var(--font-scale, 1)); color: var(--muted); text-align: start; }
 .country-facts { display: grid; gap: 0; margin: 18px 0 10px; }
 .country-facts > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .country-facts dt { color: var(--muted); font-size: calc(12px * var(--font-scale, 1)); flex-shrink: 0; }

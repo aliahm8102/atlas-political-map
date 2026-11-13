@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "492",
+  "years": {
+    "2025": {
+      "capitalFa": "موناکو",
+      "capitalEn": "Monaco",
+      "areaKm2": 2,
+      "population": 38341,
+      "flagPath": "/flags/mc.svg"
+    }
+  }
+}

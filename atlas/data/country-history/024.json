@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "024",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Luanda",
+      "areaKm2": 1246700,
+      "population": 36170961,
+      "flagPath": "/flags/ao.svg"
+    }
+  }
+}

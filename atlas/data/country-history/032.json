@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "032",
+  "years": {
+    "2025": {
+      "capitalFa": "بوئنوس آیرس",
+      "capitalEn": "Buenos Aires",
+      "areaKm2": 2780400,
+      "population": 46735004,
+      "flagPath": "/flags/ar.svg"
+    }
+  }
+}

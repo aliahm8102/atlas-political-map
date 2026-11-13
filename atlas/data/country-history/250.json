@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "250",
+  "years": {
+    "2025": {
+      "capitalFa": "پاریس",
+      "capitalEn": "Paris",
+      "areaKm2": 643801,
+      "population": 68720337,
+      "flagPath": "/flags/fr.svg"
+    }
+  }
+}

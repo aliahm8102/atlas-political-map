@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "630",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "San Juan",
+      "areaKm2": 8870,
+      "population": 3203295,
+      "flagPath": "/flags/pr.svg"
+    }
+  }
+}

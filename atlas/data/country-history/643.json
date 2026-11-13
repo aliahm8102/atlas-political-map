@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "643",
+  "years": {
+    "2025": {
+      "capitalFa": "مسکو",
+      "capitalEn": "Moscow",
+      "areaKm2": 17098242,
+      "population": 143513328,
+      "flagPath": "/flags/ru.svg"
+    }
+  }
+}

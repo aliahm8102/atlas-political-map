@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "604",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Lima",
+      "areaKm2": 1285216,
+      "population": 34350244,
+      "flagPath": "/flags/pe.svg"
+    }
+  }
+}

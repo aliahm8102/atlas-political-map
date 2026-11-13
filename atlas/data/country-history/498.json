@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "498",
+  "years": {
+    "2025": {
+      "capitalFa": "کیشیناو",
+      "capitalEn": "Chișinău",
+      "areaKm2": 33851,
+      "population": 2360527,
+      "flagPath": "/flags/md.svg"
+    }
+  }
+}

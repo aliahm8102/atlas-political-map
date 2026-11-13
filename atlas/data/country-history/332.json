@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "332",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Port-au-Prince",
+      "areaKm2": 27750,
+      "population": 11867032,
+      "flagPath": "/flags/ht.svg"
+    }
+  }
+}

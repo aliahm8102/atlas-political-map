@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "562",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Niamey",
+      "areaKm2": 1267000,
+      "population": 26312034,
+      "flagPath": "/flags/ne.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "204",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Porto-Novo",
+      "areaKm2": 112622,
+      "population": 13224860,
+      "flagPath": "/flags/bj.svg"
+    }
+  }
+}

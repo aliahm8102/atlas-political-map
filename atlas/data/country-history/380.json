@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "380",
+  "years": {
+    "2025": {
+      "capitalFa": "رم",
+      "capitalEn": "Rome",
+      "areaKm2": 301340,
+      "population": 58915656,
+      "flagPath": "/flags/it.svg"
+    }
+  }
+}

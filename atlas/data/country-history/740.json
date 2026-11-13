@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "740",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Paramaribo",
+      "areaKm2": 163820,
+      "population": 616500,
+      "flagPath": "/flags/sr.svg"
+    }
+  }
+}

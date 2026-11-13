@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "124",
+  "years": {
+    "2025": {
+      "capitalFa": "اتاوا",
+      "capitalEn": "Ottawa",
+      "areaKm2": 9984670,
+      "population": 41651653,
+      "flagPath": "/flags/ca.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "804",
+  "years": {
+    "2025": {
+      "capitalFa": "کی‌یف",
+      "capitalEn": "Kyiv",
+      "areaKm2": 603550,
+      "population": 38980376,
+      "flagPath": "/flags/ua.svg"
+    }
+  }
+}

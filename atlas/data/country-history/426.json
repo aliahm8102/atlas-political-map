@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "426",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Maseru",
+      "areaKm2": 30355,
+      "population": 2116427,
+      "flagPath": "/flags/ls.svg"
+    }
+  }
+}

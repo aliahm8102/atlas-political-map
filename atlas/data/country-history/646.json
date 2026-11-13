@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "646",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Kigali",
+      "areaKm2": 26338,
+      "population": 14104969,
+      "flagPath": "/flags/rw.svg"
+    }
+  }
+}

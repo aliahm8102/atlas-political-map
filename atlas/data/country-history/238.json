@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "238",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Stanley",
+      "areaKm2": 12173,
+      "population": 3662,
+      "flagPath": "/flags/fk.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "364",
+  "years": {
+    "2025": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 85961000,
+      "flagPath": "/flags/ir.svg"
+    }
+  }
+}

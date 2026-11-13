@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "732",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "El Aaiún",
+      "areaKm2": 266000,
+      "population": 600904,
+      "flagPath": "/flags/eh.svg"
+    }
+  }
+}

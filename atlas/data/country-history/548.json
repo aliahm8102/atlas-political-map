@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "548",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Port Vila",
+      "areaKm2": 12189,
+      "population": 321409,
+      "flagPath": "/flags/vu.svg"
+    }
+  }
+}

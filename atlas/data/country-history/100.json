@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "100",
+  "years": {
+    "2025": {
+      "capitalFa": "صوفیه",
+      "capitalEn": "Sofia",
+      "areaKm2": 110879,
+      "population": 6433302,
+      "flagPath": "/flags/bg.svg"
+    }
+  }
+}

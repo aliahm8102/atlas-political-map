@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "428",
+  "years": {
+    "2025": {
+      "capitalFa": "ریگا",
+      "capitalEn": "Riga",
+      "areaKm2": 64589,
+      "population": 1847785,
+      "flagPath": "/flags/lv.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "826",
+  "years": {
+    "2025": {
+      "capitalFa": "لندن",
+      "capitalEn": "London",
+      "areaKm2": 243610,
+      "population": 69487000,
+      "flagPath": "/flags/gb.svg"
+    }
+  }
+}

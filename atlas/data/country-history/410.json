@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "410",
+  "years": {
+    "2025": {
+      "capitalFa": "سئول",
+      "capitalEn": "Seoul",
+      "areaKm2": 100210,
+      "population": 51159889,
+      "flagPath": "/flags/kr.svg"
+    }
+  }
+}

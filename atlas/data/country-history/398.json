@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "398",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Astana",
+      "areaKm2": 2724900,
+      "population": 20426568,
+      "flagPath": "/flags/kz.svg"
+    }
+  }
+}

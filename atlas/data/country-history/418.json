@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "418",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Vientiane",
+      "areaKm2": 236800,
+      "population": 7647000,
+      "flagPath": "/flags/la.svg"
+    }
+  }
+}

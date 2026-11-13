@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "450",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Antananarivo",
+      "areaKm2": 587041,
+      "population": 31727042,
+      "flagPath": "/flags/mg.svg"
+    }
+  }
+}

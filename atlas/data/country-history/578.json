@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "578",
+  "years": {
+    "2025": {
+      "capitalFa": "اسلو",
+      "capitalEn": "Oslo",
+      "areaKm2": 323802,
+      "population": 5610870,
+      "flagPath": "/flags/no.svg"
+    }
+  }
+}

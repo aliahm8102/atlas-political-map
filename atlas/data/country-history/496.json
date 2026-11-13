@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "496",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Ulan Bator",
+      "areaKm2": 1564110,
+      "population": 3544835,
+      "flagPath": "/flags/mn.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "674",
+  "years": {
+    "2025": {
+      "capitalFa": "سان مارینو",
+      "capitalEn": "City of San Marino",
+      "areaKm2": 61,
+      "population": 34109,
+      "flagPath": "/flags/sm.svg"
+    }
+  }
+}

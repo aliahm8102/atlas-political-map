@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "108",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Gitega",
+      "areaKm2": 27834,
+      "population": 12332788,
+      "flagPath": "/flags/bi.svg"
+    }
+  }
+}

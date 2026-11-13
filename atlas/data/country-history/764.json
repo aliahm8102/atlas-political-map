@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "764",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Bangkok",
+      "areaKm2": 513120,
+      "population": 65859640,
+      "flagPath": "/flags/th.svg"
+    }
+  }
+}

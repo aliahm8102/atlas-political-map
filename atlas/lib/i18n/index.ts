@@ -22,6 +22,7 @@ const prefixTranslations: [string, string][] = [
   ["Minister of Defense of ", "وزیر دفاع "], ["Minister of Defence of ", "وزیر دفاع "],
 ];
 const countryTranslations: Record<string, string> = { ...data.countries, ...Object.fromEntries(Object.values(countryProfiles).flatMap(profile => [[profile.name, profile.nameFa], [profile.nameEn, profile.nameFa]])) };
+const englishCountryNames: Record<string, string> = { ...Object.fromEntries(Object.entries(data.countries).flatMap(([name, faName]) => [[name, name], [faName, name]])), ...Object.fromEntries(Object.values(countryProfiles).flatMap(profile => [profile.name, profile.nameEn, profile.nameFa].map(alias => [alias, profile.nameEn]))) };
 const personTranslations: Record<string, string> = data.people;
 const titleTranslations: Record<string, string> = data.titles;
 
@@ -37,7 +38,7 @@ export function createTranslator(locale: Locale) {
     return template.replace(/\{(\w+)\}/g, (placeholder, key: string) => values[key] === undefined ? placeholder : typeof values[key] === "number" ? n(values[key]) : values[key]);
   };
   const text = (value: string) => Object.hasOwn(fa, value) ? t(value as TranslationKey) : value;
-  const countryName = (name: string) => locale === "fa" ? countryTranslations[name] ?? name : name;
+  const countryName = (name: string) => locale === "fa" ? countryTranslations[name] ?? name : englishCountryNames[name] ?? name;
   const personName = (person: string | Pick<Person, "name" | "nameFa">) => {
     const name = typeof person === "string" ? person : person.name;
     return locale === "fa" ? (typeof person !== "string" && person.nameFa) || personTranslations[name] || name : name;

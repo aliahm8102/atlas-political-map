@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "070",
+  "years": {
+    "2025": {
+      "capitalFa": "سارایوو",
+      "capitalEn": "Sarajevo",
+      "areaKm2": 51197,
+      "population": 3140095,
+      "flagPath": "/flags/ba.svg"
+    }
+  }
+}

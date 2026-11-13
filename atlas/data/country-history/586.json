@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "586",
+  "years": {
+    "2025": {
+      "capitalFa": "اسلام‌آباد",
+      "capitalEn": "Islamabad",
+      "areaKm2": 796095,
+      "population": 241499431,
+      "flagPath": "/flags/pk.svg"
+    }
+  }
+}

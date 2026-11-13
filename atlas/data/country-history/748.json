@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "748",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Mbabane",
+      "areaKm2": 17364,
+      "population": 1235549,
+      "flagPath": "/flags/sz.svg"
+    }
+  }
+}

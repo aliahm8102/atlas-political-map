@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "104",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Naypyidaw",
+      "areaKm2": 676578,
+      "population": 51316756,
+      "flagPath": "/flags/mm.svg"
+    }
+  }
+}

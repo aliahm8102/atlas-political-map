@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "012",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Algiers",
+      "areaKm2": 2381741,
+      "population": 47400000,
+      "flagPath": "/flags/dz.svg"
+    }
+  }
+}

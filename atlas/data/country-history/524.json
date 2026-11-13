@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "524",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Kathmandu",
+      "areaKm2": 147181,
+      "population": 29911840,
+      "flagPath": "/flags/np.svg"
+    }
+  }
+}

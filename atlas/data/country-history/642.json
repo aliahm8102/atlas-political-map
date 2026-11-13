@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "642",
+  "years": {
+    "2025": {
+      "capitalFa": "بخارست",
+      "capitalEn": "Bucharest",
+      "areaKm2": 238391,
+      "population": 19020271,
+      "flagPath": "/flags/ro.svg"
+    }
+  }
+}

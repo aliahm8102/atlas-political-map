@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "203",
+  "years": {
+    "2025": {
+      "capitalFa": "پراگ",
+      "capitalEn": "Prague",
+      "areaKm2": 78867,
+      "population": 10886878,
+      "flagPath": "/flags/cz.svg"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema.json",
+  "code": "608",
+  "years": {
+    "2025": {
+      "capitalFa": null,
+      "capitalEn": "Manila",
+      "areaKm2": 342353,
+      "population": 114123600,
+      "flagPath": "/flags/ph.svg"
+    }
+  }
+}
