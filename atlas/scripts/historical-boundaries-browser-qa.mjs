@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { runMapGroundQA } from "./map-ground-browser-qa.mjs";
 
 export async function runHistoricalBordersQA({ cdp, evaluate, waitFor, click, type, navigate, screenshot }) {
   await cdp("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
@@ -8,6 +9,7 @@ export async function runHistoricalBordersQA({ cdp, evaluate, waitFor, click, ty
   if (await evaluate("document.documentElement.lang === 'fa'")) await click('[data-testid=language-switcher]');
   await waitFor("document.documentElement.lang === 'en'");
   await evaluate("localStorage.setItem('atlas-map-tour-v1','done')");
+  await runMapGroundQA({ cdp, evaluate, waitFor, click, type, screenshot });
   const setDate = async (year, month = 0) => {
     await evaluate(`(() => {const el=document.querySelector('.timeline-slider input');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'${year*12+month}');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
     await waitFor(`document.querySelector('.map-stage')?.dataset.boundaryDate === '${year}-${String(month+1).padStart(2,'0')}-01'`);

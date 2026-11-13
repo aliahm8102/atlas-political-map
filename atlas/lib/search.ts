@@ -16,6 +16,10 @@ export function normalizeQuery(text: string) {
     .replace(/[۰-۹]/g, digit => String(digit.charCodeAt(0) - 1776)).replace(/[٠-٩]/g, digit => String(digit.charCodeAt(0) - 1632))
     .replace(/[^\p{L}\p{N}]+/gu, " ").replace(/\s+/g, " ").trim();
 }
+export function timelineYearFromQuery(text: string) {
+  const year = normalizeQuery(text).match(/(?:^|\s)(\d{4})(?:\s|$)/)?.[1];
+  return year && Number(year) >= TIMELINE_START_YEAR && Number(year) <= getTimelineRange().endYear ? year : "";
+}
 function stem(word: string) {
   if (/^[a-z]+$/.test(word)) {
     if (word.length > 5 && word.endsWith("ies")) return word.slice(0, -3) + "y";
@@ -90,7 +94,7 @@ function activeInYear(person: Person, year: number) { return (person.startYear =
 export function searchAtlas(index: SearchDocument[], state: SearchState, locale: Locale = "en") {
   const query = normalizeQuery(state.query.slice(0, 160));
   const queryTokens = tokens(query).filter(word => !/^\d{4}$/.test(word)).slice(0, 12);
-  const queryYear = query.match(/(?:^|\s)((?:19|20)\d{2})(?:\s|$)/)?.[1];
+  const queryYear = timelineYearFromQuery(query);
   const rawWords = words(query);
   const explicitType = rawWords.some(word => ["country", "place", "کشور", "مکان"].includes(word)) ? "place" : rawWords.some(word => ["people", "person", "اشخاص", "افراد"].includes(word)) ? "person" : "all";
   const type = state.type === "all" ? explicitType : state.type;
