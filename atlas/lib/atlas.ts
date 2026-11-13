@@ -30,14 +30,14 @@ export type Viewport = z.infer<typeof viewportSchema>;
 export const defaultViewport: Viewport = { x: 0, y: 0, k: 1 };
 export type MapBounds = { x: number; y: number; width: number; height: number };
 const defaultMapBounds: MapBounds = { x: 0, y: 0, width: 1000, height: 540 };
-export function constrainViewport(view: Viewport, bounds = defaultMapBounds): Viewport {
-  const k = Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, view.k));
+export function constrainViewport(view: Viewport, bounds = defaultMapBounds, maxZoom = MAX_MAP_ZOOM, extent = defaultMapBounds): Viewport {
+  const k = Math.min(maxZoom, Math.max(MIN_MAP_ZOOM, view.k));
   // Letterboxing is outside the map; only a cropped map changes the pan limits.
-  return { k, x: Math.min(Math.max(0, bounds.x) + 80, Math.max(Math.min(1000, bounds.x + bounds.width) - 1000 * k - 80, view.x)), y: Math.min(Math.max(0, bounds.y) + 80, Math.max(Math.min(540, bounds.y + bounds.height) - 540 * k - 80, view.y)) };
+  return { k, x: Math.min(Math.max(extent.x, bounds.x) - extent.x * k + 80, Math.max(Math.min(extent.x + extent.width, bounds.x + bounds.width) - (extent.x + extent.width) * k - 80, view.x)), y: Math.min(Math.max(extent.y, bounds.y) - extent.y * k + 80, Math.max(Math.min(extent.y + extent.height, bounds.y + bounds.height) - (extent.y + extent.height) * k - 80, view.y)) };
 }
-export function zoomViewport(view: Viewport, factor: number, anchor = { x: 500, y: 270 }, bounds = defaultMapBounds): Viewport {
-  const k = Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, view.k * factor));
-  return constrainViewport({ k, x: anchor.x - (anchor.x - view.x) * k / view.k, y: anchor.y - (anchor.y - view.y) * k / view.k }, bounds);
+export function zoomViewport(view: Viewport, factor: number, anchor = { x: 500, y: 270 }, bounds = defaultMapBounds, maxZoom = MAX_MAP_ZOOM, extent = defaultMapBounds): Viewport {
+  const k = Math.min(maxZoom, Math.max(MIN_MAP_ZOOM, view.k * factor));
+  return constrainViewport({ k, x: anchor.x - (anchor.x - view.x) * k / view.k, y: anchor.y - (anchor.y - view.y) * k / view.k }, bounds, maxZoom, extent);
 }
 export const localStateSchema = z.object({ settings: settingsSchema, bookmarks: z.array(z.string()).default([]), notes: z.record(z.string()).default({}), displayName: z.string().max(80).default("Explorer") });
 export type PersonalState = z.infer<typeof localStateSchema>;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent } from "react";
-import type { Viewport } from "@/lib/atlas";
+import type { Viewport, MapBounds } from "@/lib/atlas";
 import { erasePencilStrokes, pencilPath, type DrawingPoint, type PencilStroke } from "@/lib/map-drawing";
 import { mapGeometry, pinchViewport } from "@/lib/map-gestures";
 import { useI18n } from "@/components/i18n/provider";
@@ -10,7 +10,7 @@ import { measurementCoordinate, type MapCoordinate } from "@/lib/map-measurement
 
 export type DrawingTool = "pencil" | "eraser" | "ruler" | null;
 
-export default function MapDrawing({ tool, color, width = 3, measurement, onMeasure, projection, viewport, onViewport, cover }: { tool: DrawingTool; color: string; width?: number; measurement: MapCoordinate[]; onMeasure: (coordinate: MapCoordinate) => void; projection: GeoProjection; viewport: Viewport; onViewport: (view: Viewport) => void; cover: boolean }) {
+export default function MapDrawing({ tool, color, width = 3, measurement, onMeasure, projection, viewport, onViewport, cover, maxZoom, mapExtent }: { tool: DrawingTool; color: string; width?: number; measurement: MapCoordinate[]; onMeasure: (coordinate: MapCoordinate) => void; projection: GeoProjection; viewport: Viewport; onViewport: (view: Viewport) => void; cover: boolean; maxZoom?: number; mapExtent?: MapBounds }) {
   const { t, n } = useI18n();
   const svg = useRef<SVGSVGElement>(null);
   const ink = useRef<SVGGElement>(null);
@@ -75,7 +75,7 @@ export default function MapDrawing({ tool, color, width = 3, measurement, onMeas
       const rect = svg.current!.getBoundingClientRect();
       const { scale, bounds } = mapGeometry(rect.width, rect.height, cover);
       const local = (p: DrawingPoint) => ({ x: bounds.x + (p.x - rect.left) / scale, y: bounds.y + (p.y - rect.top) / scale });
-      const next = pinchViewport(currentView.current, [local(before[0]), local(before[1])], [local(after[0]), local(after[1])], bounds);
+      const next = pinchViewport(currentView.current, [local(before[0]), local(before[1])], [local(after[0]), local(after[1])], bounds, maxZoom, mapExtent);
       currentView.current = next; onViewport(next);
       return;
     }

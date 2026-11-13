@@ -151,6 +151,25 @@ select option { background: var(--surface); color: var(--text); }
 .map-stage { height: clamp(320px, 41.5vh, 500px); background: var(--ocean); position: relative; overflow: hidden; touch-action: none; cursor: grab; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: inset 0 2px 8px #374d3c08; }
 .map-stage:active { cursor: grabbing; }
 .world-map { height: 100%; width: 100%; user-select: none; }
+.leaflet-basemap { position: absolute; inset: 0; isolation: isolate; pointer-events: none; background: var(--ocean); }
+.map-stage-geographic > .world-map { position: relative; }
+.map-stage-geographic .world-map > rect, .map-stage-geographic .graticule { display: none; }
+.map-stage-geographic .country { fill: transparent; stroke: transparent; filter: none; }
+.map-stage-geographic .country.selected, .map-stage-geographic .country.country-preview { fill: #e9b64c20; stroke: #e7a321; stroke-width: 2; }
+.map-stage-geographic .country:hover { fill: #e9b64c12; }
+.map-attribution { position: absolute; z-index: 1; inset-inline-start: 8px; top: 8px; max-width: min(75%, 580px); padding: 4px 7px; background: #fffffff0; border-radius: 4px; color: #263b30; font: 10px/1.5 Arial, sans-serif; cursor: auto; }
+.map-attribution a { color: #154d83; text-decoration: underline; }
+.map-experience.map-expanded.map-geographic { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-attribution-height, 60px)); }
+.map-expanded .map-attribution { z-index: 3; top: auto; bottom: max(4px, env(safe-area-inset-bottom)); inset-inline-start: 12px; max-width: calc(100% - 24px); }
+.map-load-status { position: absolute; z-index: 2; inset-inline-start: 10px; bottom: 10px; max-width: min(70%, 350px); padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: auto; }
+.map-load-status > div { display: flex; gap: 15px; margin-top: 5px; }
+.map-expanded .map-load-status { bottom: 125px; }
+.map-controls > .map-type-picker { margin: 0; }
+.map-controls .map-type-trigger { width: 32px; height: 32px; min-height: 32px; padding: 0; justify-content: center; border: 0; background: transparent; }
+.map-controls .map-type-trigger span, .map-controls .map-type-trigger > svg:last-child { display: none; }
+.map-controls .map-type-options { top: 0; inset-inline-end: calc(100% + 10px); max-height: min(340px, 70vh); overflow-y: auto; }
+.map-expanded .map-controls .map-type-options { inset-inline-start: calc(100% + 10px); inset-inline-end: auto; max-width: calc(100vw - 80px); }
+.map-type-option:hover, .map-type-option:focus-visible { background: var(--accent-soft); }
 .country { fill: var(--land); stroke: var(--ocean); stroke-width: .7px; transition: fill .2s; }
 .country.country-preview { fill: #afc4b0; }
 .country.selected { fill: #9db79d; stroke: var(--accent); stroke-width: 1px; }

@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { createServer } from "vite";
+import { runMapLayersQA } from "./map-layers-browser-qa.mjs";
 import { runMapToolsFeedbackQA } from "./map-tools-feedback-qa.mjs";
 import { runCharacterOrganizationQA } from "./character-organization-qa.mjs";
 import react from "@vitejs/plugin-react";
@@ -22,8 +23,14 @@ try {
   if (!portInfo) throw new Error("Chrome did not start");
   socket = new WebSocket(`ws://127.0.0.1:${portInfo[0]}${portInfo[1]}`);
   await new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); });
+  const tileRequests = [];
+  let failTiles = false;
   socket.addEventListener("message", event => {
     const data = JSON.parse(String(event.data));
+    if (data.method === "Fetch.requestPaused") {
+      tileRequests.push(data.params.request.url);
+      void send("Fetch.fulfillRequest", { requestId: data.params.requestId, responseCode: failTiles ? 503 : 200, responseHeaders: [{name:"Content-Type",value:"image/png"}, {name:"Cache-Control",value:"no-store"}], body: failTiles ? "" : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGO48/ImAAVDAp82717uAAAAAElFTkSuQmCC" }, data.sessionId);
+    }
     if (data.id) {
       const promise = pending.get(data.id);
       if (promise) {
@@ -120,13 +127,21 @@ try {
       await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()", "Workspace is interactive");
     };
     await signIn();
+    if (process.env.ATLAS_WORKSPACE_LAYERS === "1") {
+      await runMapLayersQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin: `${origin}/workspace`, tileRequests, setTileFailure: value => { failTiles = value; } });
+      await cdp("Network.setCookie", { name: "atlas-locale", value: "en", url: origin });
+      await cdp("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
+      await navigate(`${origin}/workspace`);
+      await waitFor("document.querySelector('.world-map')");
+      await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()");
+    }
     assert.equal(await evaluate("document.querySelector('.settings-summary') === null && document.querySelectorAll('.settings-grid > .settings-card').length === 2"), true, 'My workspace keeps profile and appearance without the summary card');
     await nav('Explore map');
     await waitFor("document.querySelector('.map-type-trigger')");
     await click('.map-type-trigger');
     await waitFor("document.querySelector('.map-type-options')");
-    assert.deepEqual(await evaluate("[...document.querySelectorAll('[data-map-type]')].map(el=>el.dataset.mapType)"), ['default', 'terrain', 'natural']);
-    assert.equal(await evaluate("[...document.querySelectorAll('[data-map-type]')].every(el=>el.disabled)"), true, 'Map types are a visual preview without switching map rendering');
+    assert.deepEqual(await evaluate("[...document.querySelectorAll('[data-map-type]')].map(el=>el.dataset.mapType)"), ['default', 'physical', 'topographic', 'satellite', 'political']);
+    assert.equal(await evaluate("[...document.querySelectorAll('[data-map-type]')].every(el=>!el.disabled)"), true, 'Map types are available for switching the base layer');
     await screenshot('atlas-map-types');
     await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
     await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
@@ -354,7 +369,7 @@ try {
       await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3'); document.querySelector('.map-type-trigger').scrollIntoView({block:'center'})");
       await click('.map-type-trigger');
       await waitFor("document.querySelector('.map-type-options')");
-      assert.equal(await evaluate("document.querySelector('.map-type-trigger').textContent.includes('انتخاب نوع نقشه') && document.querySelector('.map-type-options').textContent.includes('به‌زودی')"), true);
+      assert.equal(await evaluate("document.querySelector('.map-type-trigger').textContent.includes('انتخاب نوع نقشه') && document.querySelector('.map-type-options').textContent.includes('توپوگرافی')"), true);
       assert.equal(await evaluate("(() => {const r=document.querySelector('.map-type-options').getBoundingClientRect(), card=document.querySelector('.map-card').getBoundingClientRect();return r.left>=card.left && r.right<=card.right && r.bottom<=card.bottom && document.documentElement.scrollWidth<=innerWidth;})()"), true, 'Persian map type preview fits the card at 130% font size');
       await screenshot(`atlas-map-types-fa-${width}`);
       await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
@@ -436,7 +451,7 @@ try {
     configFile: false, root,
     resolve: { alias: { "@": root } },
     server: { host: "127.0.0.1", port: 0, watch: { ignored: ["**/.next/**", "**/.next-qa/**", "**/outputs/**", "**/work/**"] } },
-    optimizeDeps: { include: ["react", "react-dom/client", "react/jsx-runtime", "@supabase/ssr", "@supabase/supabase-js", "d3-geo", "lucide-react", "topojson-client", "zod"], noDiscovery: true },
+    optimizeDeps: { include: ["react", "react-dom/client", "react/jsx-runtime", "@supabase/ssr", "@supabase/supabase-js", "d3-geo", "leaflet", "lucide-react", "topojson-client", "zod"], noDiscovery: true },
     plugins: [react(), { name: "isolated-browser-fixture", configureServer(server) {
       server.middlewares.use(async (request, response, next) => {
         if (request.url?.split("?")[0] !== "/") return next();
@@ -449,7 +464,10 @@ try {
   });
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
-  if (process.env.ATLAS_PRESENTATION_ONLY === "1") {
+  if (process.env.ATLAS_LAYERS_ONLY === "1") {
+    await runMapLayersQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin, tileRequests, setTileFailure: value => { failTiles = value; } });
+    assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
+  } else if (process.env.ATLAS_PRESENTATION_ONLY === "1") {
     await runMapToolsFeedbackQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
     assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   } else if (process.env.ATLAS_CHARACTERS_ONLY === "1") {

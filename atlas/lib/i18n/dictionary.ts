@@ -1,4 +1,10 @@
 export const fa = {
+  "Physical Map": "نقشهٔ فیزیکی",
+  "Topographic Map": "نقشهٔ توپوگرافی",
+  "Satellite Imagery": "تصاویر ماهواره‌ای",
+  "Political Map": "نقشهٔ سیاسی",
+  "Loading map…": "در حال بارگذاری نقشه…",
+  "Some map tiles could not load. Check your connection or try another map.": "بخشی از نقشه بارگذاری نشد. اتصال اینترنت را بررسی کنید یا نقشهٔ دیگری انتخاب کنید.",
   "Countries": "کشورها",
   "Capital": "پایتخت",
   "Area (km²)": "مساحت (km²)",

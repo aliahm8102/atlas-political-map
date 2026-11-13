@@ -37,6 +37,14 @@ Local access is enabled by `ATLAS_LOCAL_AUTH_ENABLED=true` and takes precedence 
 
 To return to Supabase, set `ATLAS_LOCAL_AUTH_ENABLED=false` in `.env.local` and restart the server. Local authentication is always disabled in production builds. The default dev server binds to `127.0.0.1`. This mode uses the local Next.js server; it is not a static HTML export.
 
+## Geographic basemaps
+
+The map-type menu keeps the bundled political atlas as the default and adds four online Leaflet 1.9.4 basemaps: **Physical Map** (Esri World Physical, native zoom 0–8), **Topographic Map** (OpenTopoMap, 0–17), **Satellite Imagery** (Esri World Imagery, 0–19), and **Political Map** (OpenStreetMap, 0–19, with cities and administrative boundaries). The menu also appears in the fullscreen toolbar. Public HTTPS tile sources and their visible credits are configured in `lib/map-layers.ts`; no API key is embedded. The original bundled map needs no tile service. Online basemaps require internet access and show retry/default-map actions if tiles fail.
+
+The geographic layers use Web Mercator, with portraits, country selection, NATO overlay, drawing, ruler, highlighting, laser and timeline above the tiles. Stored portrait positions are converted to/from the original projection so switching maps preserves the account's local data. The timeline filters people; provider imagery and borders describe the provider's current geographic snapshot. The physical source is limited to zoom 8 rather than requesting nonexistent detailed tiles. Tiles load only for the visible view, with normal browser caching and no offline download or prefetch facility; follow the [OpenStreetMap tile policy](https://operations.osmfoundation.org/policies/tiles/) and the selected provider's terms when deploying.
+
+`ATLAS_MAP_ONLY=1 ATLAS_LAYERS_ONLY=1 node scripts/browser-qa.mjs` exercises all four sources, coordinate alignment, native zoom limits, portrait selection, fullscreen tools, retry recovery and Persian phone/landscape layouts using intercepted test tiles. Set `ATLAS_CHROME_BIN` to the local Chrome executable when needed. The coordinate/zoom checks also run in `npm test` (`NODE_OPTIONS=--experimental-strip-types` on Node 22).
+
 ## What works
 
 The login page has a separate account section with readable text and a full-width **Create an account** action. Login, signup and password-update inputs allow 8-32 characters, including when passwords are visible. Native maximum length limits typing/paste; a separate pre-submit length check rejects out-of-range DOM/autofill values before any authentication request. The limit applies to these forms; the external Supabase service retains its own server policy. With an isolated local server, `node scripts/auth-ux-browser-qa.mjs` checks the account action, keyboard use, password boundaries, paste, and Persian/mobile layouts without creating accounts or sending emails.
