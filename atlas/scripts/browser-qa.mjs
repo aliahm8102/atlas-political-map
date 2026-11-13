@@ -331,7 +331,7 @@ try {
     await waitFor("!document.fullscreenElement");
     await typeInto('.topbar-search input', 'ایران');
     await waitFor("document.querySelector('.search-results')?.textContent.includes('ایران')", 'Persian country search finds Iran');
-    await click('.search-results button');
+    await click('.search-results [data-preview-type="place"] a');
     await waitFor("document.querySelector('.country-heading h2')?.textContent === 'ایران'", 'Persian country details render');
     assert.match(await evaluate("document.querySelector('.person-spotlight h3').textContent"), /[\u0600-\u06ff]/);
     await nav('فهرست افراد');

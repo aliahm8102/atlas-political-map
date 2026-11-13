@@ -1,5 +1,6 @@
 import { fa, type TranslationKey } from "./dictionary.ts";
 import data from "../../data/locales/fa-data.json" with { type: "json" };
+import countryProfiles from "../../data/country-profiles.json" with { type: "json" };
 import type { Person } from "../atlas";
 
 export type Locale = "en" | "fa";
@@ -20,7 +21,7 @@ const prefixTranslations: [string, string][] = [
   ["Minister of Foreign Affairs of ", "وزیر امور خارجهٔ "],
   ["Minister of Defense of ", "وزیر دفاع "], ["Minister of Defence of ", "وزیر دفاع "],
 ];
-const countryTranslations: Record<string, string> = data.countries;
+const countryTranslations: Record<string, string> = { ...data.countries, ...Object.fromEntries(Object.values(countryProfiles).flatMap(profile => [[profile.name, profile.nameFa], [profile.nameEn, profile.nameFa]])) };
 const personTranslations: Record<string, string> = data.people;
 const titleTranslations: Record<string, string> = data.titles;
 

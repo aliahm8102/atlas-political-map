@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import assert from "node:assert/strict";
+import { runCountrySearchQA } from "./country-search-qa.mjs";
 
 const origin = process.env.ATLAS_TEST_ORIGIN || "http://127.0.0.1:3000";
 assert.ok(["127.0.0.1", "localhost"].includes(new URL(origin).hostname), "Use the local demo server");
@@ -48,6 +49,8 @@ try {
   };
   await cdp("Page.enable");
   await cdp("Runtime.enable");
+  await cdp("Network.enable");
+  await cdp("Network.setCookie", { name: "atlas-locale", value: "en", url: origin });
   const exceptions = [];
   socket.addEventListener("message", ({ data }) => { const message = JSON.parse(String(data)); if (message.method === "Runtime.exceptionThrown") exceptions.push(message.params.exceptionDetails.text); });
   const navigate = async path => { await cdp("Page.navigate", { url: `${origin}${path}` }); };
@@ -66,7 +69,7 @@ try {
   await waitFor("document.querySelector('.auth-page')?.dataset.authMode === 'local'");
   await waitFor("(() => { if(document.querySelector('button[aria-label=\"Hide password\"]')) return true; document.querySelector('button[aria-label=\"Show password\"]')?.click(); return false; })()");
   await click('button[aria-label="Hide password"]');
-  const credentials = Object.fromEntries((await fs.readFile(".env.demo.local", "utf8")).split(/\r?\n/).filter(line => line && !line.startsWith("#")).map(line => { const i = line.indexOf("="); return [line.slice(0, i), line.slice(i + 1)]; }));
+  const credentials = Object.fromEntries((await fs.readFile(process.env.ATLAS_TEST_CREDENTIALS_FILE || ".env.demo.local", "utf8")).split(/\r?\n/).filter(line => line && !line.startsWith("#")).map(line => { const i = line.indexOf("="); return [line.slice(0, i), line.slice(i + 1)]; }));
   await type('input[autocomplete="email"]', credentials.ATLAS_DEMO_EMAIL);
   await type('input[autocomplete="current-password"]', credentials.ATLAS_DEMO_PASSWORD);
   await click('.auth-submit');
@@ -95,7 +98,7 @@ try {
   assert.equal(await evaluate("document.querySelector('.global-search input').value"), "presidents Iran 2024");
   await submit("barak obma");
   await waitFor("document.querySelector('.search-result-card h3')?.textContent === 'Barack Obama'");
-  await click('.search-result-card button');
+  await click('.search-result-card a');
   await waitFor("location.pathname === '/workspace' && document.querySelector('.person-spotlight h3')?.textContent === 'Barack Obama'");
   assert.ok(await evaluate("Number(document.querySelector('.timeline-slider input').value) < 2017 * 12"), 'Historical selection aligns the map date');
   await evaluate("history.back()");
@@ -168,6 +171,7 @@ try {
     await screenshot(`search-fa-mobile-${width}`);
     await key("Escape");
   }
+  await runCountrySearchQA({ cdp, evaluate, waitFor, click, type, navigate, screenshot });
   assert.deepEqual(exceptions, []);
   console.log("Search browser checks passed: protected routes, keyboard suggestions, people/places, typo and intent matching, historical map focus, filters/sorting, reload/back restoration, zero-result alternatives, Persian and mobile layouts.");
   await cdp("Browser.close");

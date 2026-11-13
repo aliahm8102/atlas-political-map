@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 const FullscreenContext = createContext({ expanded: false, pending: false, inspectorOpen: true, timelineOpen: true, toggle: async () => {}, toggleInspector: () => {}, showInspector: () => {}, toggleTimeline: () => {}, setInspectorOpen: (open: boolean) => { void open; }, setTimelineOpen: (open: boolean) => { void open; } });
 export const useMapFullscreen = () => useContext(FullscreenContext);
 
-export default function MapExperience({ children }: { children: ReactNode }) {
+export default function MapExperience({ children, targetId = "atlas-map" }: { children: ReactNode; targetId?: string }) {
   const root = useRef<HTMLDivElement>(null);
   const [native, setNative] = useState(false);
   const [fallback, setFallback] = useState(false);
@@ -53,6 +53,6 @@ export default function MapExperience({ children }: { children: ReactNode }) {
   }
 
   return <FullscreenContext.Provider value={{ expanded, pending, inspectorOpen, timelineOpen, toggle, toggleInspector: () => setInspectorOpen(open => !open), showInspector: () => setInspectorOpen(true), toggleTimeline: () => setTimelineOpen(open => !open), setInspectorOpen, setTimelineOpen }}>
-    <div ref={root} className={`map-experience${expanded ? " map-expanded" : ""}${expanded && !inspectorOpen ? " map-inspector-hidden" : ""}${expanded && !timelineOpen ? " map-timeline-hidden" : ""}`} data-fullscreen={native ? "native" : fallback ? "fallback" : "off"}>{children}</div>
+    <div ref={root} id={targetId} tabIndex={-1} className={`map-experience${expanded ? " map-expanded" : ""}${expanded && !inspectorOpen ? " map-inspector-hidden" : ""}${expanded && !timelineOpen ? " map-timeline-hidden" : ""}`} data-fullscreen={native ? "native" : fallback ? "fallback" : "off"}>{children}</div>
   </FullscreenContext.Provider>;
 }

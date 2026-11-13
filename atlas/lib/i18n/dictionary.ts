@@ -1,4 +1,12 @@
 export const fa = {
+  "Countries": "کشورها",
+  "Capital": "پایتخت",
+  "Area (km²)": "مساحت (km²)",
+  "Population": "جمعیت",
+  "Not available": "موجود نیست",
+  "Flag of {name}": "پرچم {name}",
+  "{name} country profile": "پروفایل کشور {name}",
+  "Country figures are a reference snapshot and do not change with the timeline.": "آمار کشور یک دادهٔ مرجع است و با خط زمانی تغییر نمی‌کند.",
   "Red laser pointer": "نشانگر لیزری قرمز",
   "Pencil width": "ضخامت مداد",
   "{width} px": "{width} پیکسل",

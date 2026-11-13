@@ -2,13 +2,34 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { performance } from "node:perf_hooks";
-import { buildSearchIndex, defaultSearchState, normalizeQuery, searchAtlas, alternativeQueries, searchUrl, parseSearchState, editDistance } from "../lib/search.ts";
+import { buildSearchIndex, defaultSearchState, normalizeQuery, searchAtlas, alternativeQueries, searchUrl, parseSearchState, editDistance, searchPreviews } from "../lib/search.ts";
 
 const people = JSON.parse(fs.readFileSync(new URL("../data/people.json", import.meta.url)));
 const countries = JSON.parse(fs.readFileSync(new URL("../data/countries.json", import.meta.url)));
 const index = buildSearchIndex(people, countries);
 const search = (query, filters = {}) => searchAtlas(index, { ...defaultSearchState, query, ...filters });
 const names = (hits) => hits.map(hit => hit.document.name);
+
+test("previews cap each matching type at three and retain full counts and real hrefs", () => {
+  const persons = Array.from({ length: 5 }, (_, i) => ({ ...people[0], id: `preview-${i}`, name: `Atlas person ${i}` }));
+  const places = Array.from({ length: 5 }, (_, i) => ({ ...countries[0], code: `preview-${i}`, name: `Atlas country ${i}` }));
+  const organization = { tags: { [persons[0].id]: Array.from({ length: 5 }, (_, i) => `Atlas tag ${i}`) }, groups: Array.from({ length: 5 }, (_, i) => ({ id: `group-${i}`, name: `Atlas group ${i}`, personIds: [persons[0].id] })) };
+  const sections = searchPreviews(buildSearchIndex(persons, places, organization), "Atlas", organization, "en");
+  assert.deepEqual(sections.map(section => section.type).sort(), ["group", "person", "place", "tag"]);
+  for (const section of sections) { assert.equal(section.items.length, 3); assert.equal(section.total, 5); assert.ok(section.items.every(item => item.href.startsWith("/workspace"))); }
+  assert.deepEqual(searchPreviews(index, "", organization, "fa"), []);
+});
+
+test("tag/group preview filters round trip and restrict results to exact membership", () => {
+  const organization = { tags: { [people[0].id]: ["My tag"] }, groups: [{ id: "group-one", name: "My group", personIds: [people[1].id] }] };
+  const personal = buildSearchIndex(people, countries, organization);
+  for (const [key, value, person] of [["tag", "My tag", people[0]], ["group", "group-one", people[1]]]) {
+    const state = { ...defaultSearchState, type: "person", [key]: value };
+    assert.deepEqual(parseSearchState(new URL(searchUrl(state), "https://atlas.test").searchParams), state);
+    assert.deepEqual(searchAtlas(personal, state).map(hit => hit.document.person.id), [person.id]);
+    assert.deepEqual(searchAtlas(index, state), []);
+  }
+});
 
 test("private tag and group searches use only the supplied account's current metadata", () => {
   const person = people[0];
@@ -90,6 +111,11 @@ test("query and filters round trip in URLs; malformed parameters are bounded or 
   assert.equal(invalid.query.length, 160);
   assert.equal(invalid.role, ""); assert.equal(invalid.region, ""); assert.equal(invalid.year, "");
   assert.equal(invalid.type, "all"); assert.equal(invalid.sort, "relevance");
+});
+
+test("full English country names remain searchable alongside imported map aliases", () => {
+  assert.equal(search("North Macedonia", { type: "place" })[0]?.document.country.code, "807");
+  assert.equal(search("Bosnia and Herzegovina", { type: "place" })[0]?.document.country.code, "070");
 });
 
 test("account-local characters join only the supplied account index and untrusted text remains data", () => {

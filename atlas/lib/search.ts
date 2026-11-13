@@ -2,10 +2,12 @@ import { regions, roleLabels, type Country, type Person, type Role } from "./atl
 import { createTranslator, type Locale } from "./i18n/index.ts";
 import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 import type { BrowserPeople } from "./browser-people.ts";
+import { mapResultHref } from "./map-links.ts";
+import { countryProfiles } from "./country-profiles.ts";
 
-export type SearchState = { query: string; type: "all" | "person" | "place"; region: string; role: string; year: string; sort: "relevance" | "name" | "newest" };
-export const defaultSearchState: SearchState = { query: "", type: "all", region: "", role: "", year: "", sort: "relevance" };
-export type SearchDocument = { id: string; type: "person" | "place"; name: string; faName: string; region: string; person?: Person; country?: Country; fields: { tokens: string[]; weight: number }[] };
+export type SearchState = { query: string; type: "all" | "person" | "place"; region: string; role: string; year: string; tag: string; group: string; sort: "relevance" | "name" | "newest" };
+export const defaultSearchState: SearchState = { query: "", type: "all", region: "", role: "", year: "", tag: "", group: "", sort: "relevance" };
+export type SearchDocument = { id: string; type: "person" | "place"; name: string; faName: string; region: string; person?: Person; country?: Country; tags?: string[]; groupIds?: string[]; fields: { tokens: string[]; weight: number }[] };
 export type SearchHit = { document: SearchDocument; score: number; approximate: boolean };
 
 export function normalizeQuery(text: string) {
@@ -59,12 +61,12 @@ export function buildSearchIndex(people: Person[], countries: Country[], organiz
   const field = (text: string, weight: number) => ({ tokens: tokens(text), weight });
   const location = (name: string, region: string) => `${name} ${fa.countryName(name)} ${(countryAliases[name] ?? []).join(" ")} ${region} ${fa.text(region)} ${regionAliases[region] ?? ""}`;
   return [
-    ...countries.map(country => ({ id: `place:${country.code}`, type: "place" as const, name: country.name, faName: fa.countryName(country.name), region: country.region, country, fields: [field(`${country.name} ${fa.countryName(country.name)} ${(countryAliases[country.name] ?? []).join(" ")}`, 9), field(location(country.name, country.region), 2)] })),
+    ...countries.map(country => ({ id: `place:${country.code}`, type: "place" as const, name: countryProfiles[country.code]?.nameEn ?? country.name, faName: fa.countryName(country.name), region: country.region, country, fields: [field(`${country.name} ${countryProfiles[country.code]?.nameEn ?? ""} ${fa.countryName(country.name)} ${(countryAliases[country.name] ?? []).join(" ")}`, 9), field(location(country.name, country.region), 2)] })),
     ...people.map(person => {
       const title = tokens(`${person.title} ${fa.personTitle(person)}`);
       const tags = [roleTags[person.role], ...(title.some(token => ["intentpresident", "intentpremier", "intentmonarch"].includes(token)) ? ["intentleader"] : [])];
       const personal = [...(organization.tags[person.id] ?? []), ...organization.groups.filter(group => group.personIds.includes(person.id)).map(group => group.name)];
-      return { id: `person:${person.id}`, type: "person" as const, name: person.name, faName: fa.personName(person), region: person.region, person, fields: [field(`${person.name} ${fa.personName(person)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3), field(personal.join(" "), 9)] };
+      return { id: `person:${person.id}`, type: "person" as const, name: person.name, faName: fa.personName(person), region: person.region, person, tags: organization.tags[person.id] ?? [], groupIds: organization.groups.filter(group => group.personIds.includes(person.id)).map(group => group.id), fields: [field(`${person.name} ${fa.personName(person)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3), field(personal.join(" "), 9)] };
     }),
   ];
 }
@@ -91,7 +93,7 @@ export function searchAtlas(index: SearchDocument[], state: SearchState, locale:
   const explicitType = rawWords.some(word => ["country", "place", "کشور", "مکان"].includes(word)) ? "place" : rawWords.some(word => ["people", "person", "اشخاص", "افراد"].includes(word)) ? "person" : "all";
   const type = state.type === "all" ? explicitType : state.type;
   const year = state.type === "place" ? "" : state.year || queryYear;
-  const eligible = index.filter(doc => (type === "all" || doc.type === type) && (!state.region || doc.region === state.region) && (!state.role || doc.person?.role === state.role) && (!year || (doc.person && activeInYear(doc.person, Number(year)))));
+  const eligible = index.filter(doc => (type === "all" || doc.type === type) && (!state.region || doc.region === state.region) && (!state.tag || doc.tags?.includes(state.tag)) && (!state.group || doc.groupIds?.includes(state.group)) && (!state.role || doc.person?.role === state.role) && (!year || (doc.person && activeInYear(doc.person, Number(year)))));
   function rank(fuzzy: boolean) {
     return eligible.flatMap(document => {
       let score = 0, approximate = false;
@@ -129,11 +131,27 @@ export function alternativeQueries(index: SearchDocument[], query: string, local
 export function parseSearchState(params: URLSearchParams): SearchState {
   const type = params.get("type"), sort = params.get("sort"), year = params.get("year") ?? "";
   const region = params.get("region") ?? "", role = params.get("role") ?? "";
-  return { query: (params.get("q") ?? "").slice(0, 160), type: type === "person" || type === "place" ? type : "all", region: regions.some(value => value === region && value !== "All regions") ? region : "", role: Object.hasOwn(roleLabels, role) && type !== "place" ? role : "", year: /^\d{4}$/.test(year) && Number(year) >= TIMELINE_START_YEAR && Number(year) <= getTimelineRange().endYear && type !== "place" ? year : "", sort: sort === "name" || sort === "newest" ? sort : "relevance" };
+  return { tag: (params.get("tag") ?? "").slice(0, 40), group: (params.get("group") ?? "").slice(0, 160), query: (params.get("q") ?? "").slice(0, 160), type: type === "person" || type === "place" ? type : "all", region: regions.some(value => value === region && value !== "All regions") ? region : "", role: Object.hasOwn(roleLabels, role) && type !== "place" ? role : "", year: /^\d{4}$/.test(year) && Number(year) >= TIMELINE_START_YEAR && Number(year) <= getTimelineRange().endYear && type !== "place" ? year : "", sort: sort === "name" || sort === "newest" ? sort : "relevance" };
 }
 export function searchUrl(state: SearchState) {
   const params = new URLSearchParams();
   if (state.query) params.set("q", state.query);
-  for (const key of ["type", "region", "role", "year", "sort"] as const) if (state[key] !== defaultSearchState[key]) params.set(key, state[key]);
+  for (const key of ["type", "region", "role", "year", "sort", "tag", "group"] as const) if (state[key] && state[key] !== defaultSearchState[key]) params.set(key, state[key]);
   return `/workspace/search${params.size ? `?${params}` : ""}`;
+}
+
+export type SearchPreviewType = "person" | "place" | "tag" | "group";
+export type SearchPreview = { id: string; type: SearchPreviewType; name: string; faName: string; href: string; document?: SearchDocument; value?: string; count?: number };
+export function searchPreviews(index: SearchDocument[], query: string, organization: Pick<BrowserPeople, "tags" | "groups">, locale: Locale) {
+  const hits = query.trim() ? searchAtlas(index, { ...defaultSearchState, query }, locale) : [];
+  const sections: { type: SearchPreviewType; total: number; items: SearchPreview[] }[] = (["place", "person"] as const).map(type => {
+    const matching = hits.filter(hit => hit.document.type === type);
+    return { type, total: matching.length, items: matching.slice(0, 3).map(({ document }) => ({ id: document.id, type, name: document.name, faName: document.faName, href: mapResultHref(document), document })) };
+  });
+  const normalized = normalizeQuery(query);
+  const tags = normalized ? [...new Set(Object.values(organization.tags).flat())].filter(tag => normalizeQuery(tag).includes(normalized)).sort((a, b) => a.localeCompare(b, locale)) : [];
+  const groups = normalized ? organization.groups.filter(group => normalizeQuery(group.name).includes(normalized)).sort((a, b) => a.name.localeCompare(b.name, locale)) : [];
+  sections.push({ type: "tag", total: tags.length, items: tags.slice(0, 3).map(tag => ({ id: `tag:${tag}`, type: "tag", name: tag, faName: tag, value: tag, count: Object.values(organization.tags).filter(tags => tags.includes(tag)).length, href: searchUrl({ ...defaultSearchState, type: "person", tag }) })) });
+  sections.push({ type: "group", total: groups.length, items: groups.slice(0, 3).map(group => ({ id: `group:${group.id}`, type: "group", name: group.name, faName: group.name, value: group.id, count: group.personIds.length, href: searchUrl({ ...defaultSearchState, type: "person", group: group.id }) })) });
+  return sections.filter(section => section.total > 0);
 }
