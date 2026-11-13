@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { runCountrySearchQA } from "./country-search-qa.mjs";
+import { runHistoricalBordersQA } from "./historical-boundaries-browser-qa.mjs";
 
 const origin = process.env.ATLAS_TEST_ORIGIN || "http://127.0.0.1:3000";
 assert.ok(["127.0.0.1", "localhost"].includes(new URL(origin).hostname), "Use the local demo server");
@@ -172,6 +173,7 @@ try {
     await key("Escape");
   }
   await runCountrySearchQA({ cdp, evaluate, waitFor, click, type, navigate, screenshot });
+  await runHistoricalBordersQA({ cdp, evaluate, waitFor, click, type, navigate, screenshot });
   assert.deepEqual(exceptions, []);
   console.log("Search browser checks passed: protected routes, keyboard suggestions, people/places, typo and intent matching, historical map focus, filters/sorting, reload/back restoration, zero-result alternatives, Persian and mobile layouts.");
   await cdp("Browser.close");

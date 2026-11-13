@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "countryId": "hist-example",
+        "validFrom": "1900-01-01",
+        "validTo": "1950-01-01",
+        "versionId": "example-1900",
+        "replaces": []
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[14, 49], [16, 49], [16, 51], [14, 51], [14, 49]]]
+      }
+    }
+  ]
+}

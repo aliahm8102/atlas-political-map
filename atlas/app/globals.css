@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@source not "../data";
+@source not "../public/boundaries";
+@source not "../outputs";
 
 :root { --font-sans: "Inter", "Aptos", "Segoe UI", Arial, sans-serif; --desktop-font-increment: 0px; }
 * { box-sizing: border-box; }
@@ -159,6 +162,14 @@ select option { background: var(--surface); color: var(--text); }
 .map-stage-geographic .country:hover { fill: #e9b64c12; }
 .map-attribution { position: absolute; z-index: 1; inset-inline-start: 8px; top: 8px; max-width: min(75%, 580px); padding: 4px 7px; background: #fffffff0; border-radius: 4px; color: #263b30; font: 10px/1.5 Arial, sans-serif; cursor: auto; }
 .map-attribution a { color: #154d83; text-decoration: underline; }
+.country-coastline { fill: var(--land); stroke: var(--border); stroke-width: .5; }
+.map-boundary-status { position: absolute; z-index: 2; bottom: 8px; inset-inline-start: 8px; max-width: min(75%, 580px); padding: 5px 8px; border-radius: 5px; background: var(--surface); color: var(--text); font-size: calc(10px * var(--font-scale, 1)); line-height: 1.7; cursor: auto; }
+.map-boundary-status a { text-decoration: underline; }
+.map-boundary-status .text-link { display: inline; }
+.boundary-nato-note { display: block; }
+.map-experience.map-expanded:has(.map-boundary-status) { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-boundary-status-height, 60px)); }
+.map-expanded .map-boundary-status { z-index: 3; bottom: max(4px, env(safe-area-inset-bottom)); inset-inline-start: 12px; max-width: calc(100% - 24px); }
+.country-lifetime { margin-top: 12px; font-size: calc(11px * var(--font-scale, 1)); line-height: 1.9; color: var(--muted); }
 .map-experience.map-expanded.map-geographic { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-attribution-height, 60px)); }
 .map-expanded .map-attribution { z-index: 3; top: auto; bottom: max(4px, env(safe-area-inset-bottom)); inset-inline-start: 12px; max-width: calc(100% - 24px); }
 .map-load-status { position: absolute; z-index: 2; inset-inline-start: 10px; bottom: 10px; max-width: min(70%, 350px); padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: auto; }

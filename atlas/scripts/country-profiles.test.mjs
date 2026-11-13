@@ -28,9 +28,11 @@ test("every profile has a safe local flag and Persian name; absent facts remain 
   for (const metadata of Object.values(countryProfiles)) {
     const profile = countryProfile(metadata, 2025);
     assert.match(profile.nameFa, /[\u0600-\u06ff]/);
-    assert.match(profile.flagPath, /^\/flags\/[a-z0-9-]+\.svg$/);
-    const flag = fs.readFileSync(new URL(`../public${profile.flagPath}`, import.meta.url), "utf8");
-    assert.match(flag, /<svg/); assert.doesNotMatch(flag, /<script\b|<foreignObject\b|\bonload\s*=/i);
+    if (profile.flagPath !== null) {
+      assert.match(profile.flagPath, /^\/flags\/[a-z0-9-]+\.svg$/);
+      const flag = fs.readFileSync(new URL(`../public${profile.flagPath}`, import.meta.url), "utf8");
+      assert.match(flag, /<svg/); assert.doesNotMatch(flag, /<script\b|<foreignObject\b|\bonload\s*=/i);
+    }
     assert.ok(profile.areaKm2 === null || profile.areaKm2 >= 0);
     assert.ok(profile.population === null || Number.isSafeInteger(profile.population));
   }

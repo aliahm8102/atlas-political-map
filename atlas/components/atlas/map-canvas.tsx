@@ -1,7 +1,7 @@
 "use client";
 import { type PointerEvent, useCallback, useMemo, useRef, useEffect, useLayoutEffect, useState } from "react";
 import { geoNaturalEarth1, geoMercator, geoPath, geoGraticule10 } from "d3-geo";
-import { feature } from "topojson-client";
+import { feature, merge } from "topojson-client";
 import type { FeatureCollection } from "geojson";
 import { Plus, Minus, LocateFixed, Expand, Shrink, SlidersHorizontal, Clock3, Pencil, Eraser, Hand, Ruler, Undo2, Trash2, Highlighter, X, CircleDot } from "lucide-react";
 import world from "@/data/world.json";
@@ -20,6 +20,9 @@ import { measureRoute, type MapCoordinate } from "@/lib/map-measurement";
 import { geographicExtent, geographicMaxZoom, type RasterMapType } from "@/lib/map-layers";
 import LeafletBasemap from "./leaflet-basemap";
 import MapTypePicker from "./map-type-picker";
+import { useHistoricalBorders } from "./use-historical-borders";
+import BoundaryStatus from "./boundary-status";
+import { countryEntities, mapDate } from "@/lib/country-entities";
 import { useCountryHint } from "./use-country-hint";
 
 const collection = feature(world as never, world.objects.countries as never) as unknown as FeatureCollection;
@@ -27,7 +30,8 @@ const land = { ...collection, features: collection.features.filter(f => f.proper
 const projection = geoNaturalEarth1().fitExtent([[28, 45], [972, 505]], land);
 const mercator = geoMercator().scale(1000 / (2 * Math.PI)).translate([500, 270]);
 const path = geoPath(projection);
-const countryNames = new Map(land.features.map(f => [String(f.id), String(f.properties?.name ?? "")]));
+const coastline = merge(world as never, world.objects.countries.geometries.filter(g => g.properties?.name !== "Antarctica") as never);
+const historicalPaths = new WeakMap<object, Map<string, string>>();
 const countryPaths = new Map(land.features.map(f => [String(f.id), path(f) ?? ""]));
 export function countryViewport(lng: number, lat: number): Viewport {
   const point = projection([lng, lat]) ?? [500, 270];
@@ -65,7 +69,19 @@ function GeographicCanvas({ type, ...props }: Props & { type: RasterMapType }) {
 function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, settings, viewport, onViewport, selectedCountry, onCountry, onPerson, rasterMapType }: Props & { rasterMapType?: RasterMapType }) {
   const activeProjection = rasterMapType ? mercator : projection;
   const activePath = useMemo(() => geoPath(activeProjection), [activeProjection]);
-  const activeCountryPaths = useMemo(() => rasterMapType ? new Map(land.features.map(f => [String(f.id), activePath(f) ?? ""])) : countryPaths, [rasterMapType, activePath]);
+  const temporal = useHistoricalBorders(settings.year, settings.month, !rasterMapType);
+  const features = temporal.historical ? temporal.features : land.features;
+  const countryNames = useMemo(() => new Map((features ?? []).map(f => [String(f.id), countryEntities[String(f.id)]?.nameEn ?? String(f.properties && "name" in f.properties ? f.properties.name : "")])), [features]);
+  const activeCountryPaths = useMemo(() => {
+    if (!rasterMapType && !temporal.historical) return countryPaths;
+    let cache = historicalPaths.get(activeProjection);
+    if (!cache) { cache = new Map(); historicalPaths.set(activeProjection, cache); }
+    return new Map((features ?? []).map(f => {
+      const key = String(f.properties?.versionId ?? `current-${f.id}`);
+      if (!cache.has(key)) cache.set(key, activePath(f) ?? "");
+      return [String(f.id), cache.get(key)!];
+    }));
+  }, [rasterMapType, temporal.historical, activeProjection, activePath, features]);
   const { t, n, countryName, personName, matchesPerson } = useI18n();
   const surface = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
@@ -75,6 +91,7 @@ function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, se
   const [moving, setMoving] = useState<{ id: string; position: MarkerPosition } | null>(null);
   const countryHint = useCountryHint(surface, countryNames);
   const dismissCountryHint = countryHint.dismiss;
+  useEffect(() => { dismissCountryHint(); }, [countryNames, dismissCountryHint]);
   const [drawingOpen, setDrawingOpen] = useState(false);
   const [drawingTool, setDrawingTool] = useState<DrawingTool>(null);
   const [laserEnabled, setLaserEnabled] = useState(false);
@@ -199,7 +216,7 @@ function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, se
   }
   function zoom(factor: number) { commitViewport(zoomViewport(latest.current, factor, undefined, geometry().bounds, maxZoom, mapExtent)); }
   const markerSize = (settings.markerSize === "small" ? 29 : settings.markerSize === "large" ? 45 : 36) * (stageScale < .5 ? .8 : 1);
-  return <><div className={`map-stage${rasterMapType ? " map-stage-geographic" : ""}${expanded && laserEnabled ? " map-laser-active" : ""}`} data-tour="map" ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
+  return <><div className={`map-stage${rasterMapType ? " map-stage-geographic" : ""}${expanded && laserEnabled ? " map-laser-active" : ""}`} data-tour="map" data-boundary-mode={temporal.historical ? "historical" : "current"} data-boundary-date={mapDate(settings.year, settings.month)} ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
     if ((event.target as HTMLElement).closest("button, input, select, textarea")) return;
     countryHint.dismiss();
     const moves: Record<string, [number, number]> = { ArrowLeft: [45, 0], ArrowRight: [-45, 0], ArrowUp: [0, 45], ArrowDown: [0, -45] };
@@ -225,7 +242,7 @@ function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, se
     drag.current = null; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   }} onPointerCancel={() => { drag.current = null; countryHint.dismiss(); }} onPointerLeave={countryHint.dismiss} onLostPointerCapture={event => { if (event.target === event.currentTarget) countryHint.dismiss(); }} onContextMenu={event => { if (countryHint.isHolding()) event.preventDefault(); }}>
     {rasterMapType && <LeafletBasemap type={rasterMapType} viewport={viewport} scale={stageScale} width={stageSize.width} height={stageSize.height} />}
-    <svg style={{ direction: "ltr" }} className="world-map" viewBox="0 0 1000 540" preserveAspectRatio={cover ? "xMidYMid slice" : "xMidYMid meet"} aria-label={t("World political map")} role="img"><defs><pattern id="ocean-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.5" fill="currentColor" opacity="0.11" /></pattern><filter id="land-shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#677b71" floodOpacity="0.08" /></filter></defs><rect width="1000" height="540" fill="url(#ocean-dots)" /><g transform={`translate(${viewport.x},${viewport.y}) scale(${viewport.k})`}><path d={activePath(geoGraticule10()) ?? ""} className="graticule" vectorEffect="non-scaling-stroke" />{land.features.map((f, index) => <path key={String(f.id ?? index)} d={activeCountryPaths.get(String(f.id)) ?? ""} className={`country ${selectedCountry === String(f.id) ? "selected" : ""} ${countryHint.hint?.code === String(f.id) ? "country-preview" : ""}`} data-country={String(f.id)} aria-label={countryName(f.properties?.name ?? "")} vectorEffect="non-scaling-stroke"></path>)}{settings.nato && <path d={activePath(nato as FeatureCollection) ?? ""} className="nato-layer" vectorEffect="non-scaling-stroke" />}{!rasterMapType && settings.labels && viewport.k <= 4 && <g className="continent-labels" aria-hidden="true"><text x="204" y="185">{t("NORTH AMERICA")}</text><text x="319" y="356">{t("SOUTH AMERICA")}</text><text x="520" y="156">{t("EUROPE")}</text><text x="540" y="305">{t("AFRICA")}</text><text x="719" y="203">{t("ASIA")}</text><text x="835" y="422">{t("OCEANIA")}</text></g>}{clusters.map(({ person, x, y, people: cluster }) => <g key={person.id} transform={`translate(${x},${y}) scale(${1 / (viewport.k * stageScale)})`}><foreignObject x={-markerSize / 2 - 5} y={-markerSize / 2 - 5} width={markerSize + 18} height={markerSize + 18} overflow="visible"><button style={{ width: markerSize, height: markerSize }} aria-pressed={person.id === selectedPersonId} className={`map-pin ${person.id === selectedPersonId ? "selected-person" : ""} ${highlighted.includes(person.id) ? "highlighted" : ""} ${selectedCountry === person.countryCode ? "active" : ""}`} data-role={person.role} data-person-id={person.id} data-draggable={Boolean(onMovePerson)} aria-describedby={onMovePerson ? "marker-drag-help" : undefined}
+    <svg style={{ direction: "ltr" }} className="world-map" viewBox="0 0 1000 540" preserveAspectRatio={cover ? "xMidYMid slice" : "xMidYMid meet"} aria-label={t("World political map")} role="img"><defs><pattern id="ocean-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.5" fill="currentColor" opacity="0.11" /></pattern><filter id="land-shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#677b71" floodOpacity="0.08" /></filter></defs><rect width="1000" height="540" fill="url(#ocean-dots)" /><g transform={`translate(${viewport.x},${viewport.y}) scale(${viewport.k})`}><path d={activePath(geoGraticule10()) ?? ""} className="graticule" vectorEffect="non-scaling-stroke" />{temporal.historical && !features && <path d={activePath(coastline) ?? ""} className="country-coastline" />}{(features ?? []).map((f, index) => <path key={String(f.id ?? index)} d={activeCountryPaths.get(String(f.id)) ?? ""} className={`country ${selectedCountry === String(f.id) ? "selected" : ""} ${countryHint.hint?.code === String(f.id) ? "country-preview" : ""}`} data-country={String(f.id)} aria-label={countryName(countryNames.get(String(f.id)) ?? "")} vectorEffect="non-scaling-stroke"></path>)}{settings.nato && !temporal.historical && <path d={activePath(nato as FeatureCollection) ?? ""} className="nato-layer" vectorEffect="non-scaling-stroke" />}{!rasterMapType && settings.labels && viewport.k <= 4 && <g className="continent-labels" aria-hidden="true"><text x="204" y="185">{t("NORTH AMERICA")}</text><text x="319" y="356">{t("SOUTH AMERICA")}</text><text x="520" y="156">{t("EUROPE")}</text><text x="540" y="305">{t("AFRICA")}</text><text x="719" y="203">{t("ASIA")}</text><text x="835" y="422">{t("OCEANIA")}</text></g>}{clusters.map(({ person, x, y, people: cluster }) => <g key={person.id} transform={`translate(${x},${y}) scale(${1 / (viewport.k * stageScale)})`}><foreignObject x={-markerSize / 2 - 5} y={-markerSize / 2 - 5} width={markerSize + 18} height={markerSize + 18} overflow="visible"><button style={{ width: markerSize, height: markerSize }} aria-pressed={person.id === selectedPersonId} className={`map-pin ${person.id === selectedPersonId ? "selected-person" : ""} ${highlighted.includes(person.id) ? "highlighted" : ""} ${selectedCountry === person.countryCode ? "active" : ""}`} data-role={person.role} data-person-id={person.id} data-draggable={Boolean(onMovePerson)} aria-describedby={onMovePerson ? "marker-drag-help" : undefined}
       onDragStart={event => event.preventDefault()}
       onPointerDown={event => {
         if (!onMovePerson || event.button !== 0 || !event.isPrimary) return;
@@ -244,6 +261,7 @@ function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, se
       onClick={event => { event.stopPropagation(); if (suppressClick.current === person.id && event.detail !== 0) { suppressClick.current = null; return; } showInspector(); onPerson(person); }} aria-label={t("{name}, {country}{nearby}", { name: personName(person), country: countryName(person.country), nearby: cluster.length > 1 ? t(", {count} figures nearby", { count: cluster.length }) : "" })} title={`${personName(person)} · ${countryName(person.country)}${cluster.length > 1 ? t(" (+{count} nearby)", { count: cluster.length - 1 }) : ""}`}>
       {settings.portraits ? <Portrait key={person.id} person={person} /> : <span className="pin-dot" />}{cluster.length > 1 && <span className="cluster-count">{n(cluster.length)}</span>}
     </button></foreignObject></g>)}</g></svg>
+    {temporal.historical && <BoundaryStatus loading={temporal.loading} error={temporal.error} retry={temporal.retry} date={mapDate(settings.year, settings.month)} nato={settings.nato} />}
     <MapDrawing tool={expanded && drawingOpen ? drawingTool : null} color={pencilColor} width={pencilWidth} measurement={measurement} onMeasure={coordinate => setMeasurement(points => [...points, coordinate])} projection={activeProjection} maxZoom={maxZoom} mapExtent={mapExtent} viewport={viewport} onViewport={commitViewport} cover={cover} />
     <p className="sr-only" id="marker-drag-help">{t("Drag portraits to move them. Use arrow keys on a focused portrait.")}</p>{countryHint.hint && <div id="map-country-tooltip" className="map-country-tooltip" role="tooltip">{countryName(countryHint.hint.name)}</div>}<div className="map-controls">{expanded && <MapTypePicker />}{expanded && <>
       <button className="map-control" aria-label={t("Red laser pointer")} title={t("Red laser pointer")} aria-pressed={laserEnabled} onClick={() => { setLaserEnabled(!laserEnabled); setDrawingOpen(false); setDrawingTool(null); setHighlightOpen(false); countryHint.dismiss(); }}><CircleDot size={17} /></button>

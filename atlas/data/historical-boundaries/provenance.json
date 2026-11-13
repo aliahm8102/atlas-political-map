@@ -1,0 +1,12 @@
+{
+  "source": "https://raw.githubusercontent.com/cran/cshapes/54840534d9a82cfd01caf1021f85933e701e8318/inst/extdata/cshapes_2_gw.topojson.xz",
+  "sourceSha256": "196c6d9d881cf944e176e4ce5bfc61074d21792de7152cb0a9e035e56b0297c8",
+  "outputSha256": "0c0d45aa25a0f5b8ba5b25b3df35359adb65c195a600f9a0dea43ed5eea1830e",
+  "project": "https://icr.ethz.ch/data/cshapes/",
+  "license": "CC-BY-NC-SA-4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "citation": "Schvitz, Rüegger, Girardin, Cederman, Weidmann and Gleditsch (2022), Mapping The International System, 1886–2017: The CShapes 2.0 Dataset. Journal of Conflict Resolution 66(1):144–161.",
+  "modifications": "Quantized to 100,000 positions. Inclusive source end dates converted to exclusive ends. Source country-periods split into separate identities using overrides.json; coordinates are unchanged except quantization. Life dates and source-coverage dates are distinct. Modern Natural Earth fallback begins 2020-01-01; later border changes are not reconstructed.",
+  "versions": 718,
+  "entities": 409
+}

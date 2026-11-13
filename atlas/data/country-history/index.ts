@@ -10,178 +10,404 @@ import country7 from "./032.json" with { type: "json" };
 import country8 from "./036.json" with { type: "json" };
 import country9 from "./040.json" with { type: "json" };
 import country10 from "./044.json" with { type: "json" };
-import country11 from "./050.json" with { type: "json" };
-import country12 from "./051.json" with { type: "json" };
-import country13 from "./056.json" with { type: "json" };
-import country14 from "./064.json" with { type: "json" };
-import country15 from "./068.json" with { type: "json" };
-import country16 from "./070.json" with { type: "json" };
-import country17 from "./072.json" with { type: "json" };
-import country18 from "./076.json" with { type: "json" };
-import country19 from "./084.json" with { type: "json" };
-import country20 from "./090.json" with { type: "json" };
-import country21 from "./096.json" with { type: "json" };
-import country22 from "./100.json" with { type: "json" };
-import country23 from "./104.json" with { type: "json" };
-import country24 from "./108.json" with { type: "json" };
-import country25 from "./112.json" with { type: "json" };
-import country26 from "./116.json" with { type: "json" };
-import country27 from "./120.json" with { type: "json" };
-import country28 from "./124.json" with { type: "json" };
-import country29 from "./140.json" with { type: "json" };
-import country30 from "./144.json" with { type: "json" };
-import country31 from "./148.json" with { type: "json" };
-import country32 from "./152.json" with { type: "json" };
-import country33 from "./156.json" with { type: "json" };
-import country34 from "./158.json" with { type: "json" };
-import country35 from "./170.json" with { type: "json" };
-import country36 from "./178.json" with { type: "json" };
-import country37 from "./180.json" with { type: "json" };
-import country38 from "./188.json" with { type: "json" };
-import country39 from "./191.json" with { type: "json" };
-import country40 from "./192.json" with { type: "json" };
-import country41 from "./196.json" with { type: "json" };
-import country42 from "./203.json" with { type: "json" };
-import country43 from "./204.json" with { type: "json" };
-import country44 from "./208.json" with { type: "json" };
-import country45 from "./214.json" with { type: "json" };
-import country46 from "./218.json" with { type: "json" };
-import country47 from "./222.json" with { type: "json" };
-import country48 from "./226.json" with { type: "json" };
-import country49 from "./231.json" with { type: "json" };
-import country50 from "./232.json" with { type: "json" };
-import country51 from "./233.json" with { type: "json" };
-import country52 from "./238.json" with { type: "json" };
-import country53 from "./242.json" with { type: "json" };
-import country54 from "./246.json" with { type: "json" };
-import country55 from "./250.json" with { type: "json" };
-import country56 from "./260.json" with { type: "json" };
-import country57 from "./262.json" with { type: "json" };
-import country58 from "./266.json" with { type: "json" };
-import country59 from "./268.json" with { type: "json" };
-import country60 from "./270.json" with { type: "json" };
-import country61 from "./275.json" with { type: "json" };
-import country62 from "./276.json" with { type: "json" };
-import country63 from "./288.json" with { type: "json" };
-import country64 from "./300.json" with { type: "json" };
-import country65 from "./304.json" with { type: "json" };
-import country66 from "./320.json" with { type: "json" };
-import country67 from "./324.json" with { type: "json" };
-import country68 from "./328.json" with { type: "json" };
-import country69 from "./332.json" with { type: "json" };
-import country70 from "./336.json" with { type: "json" };
-import country71 from "./340.json" with { type: "json" };
-import country72 from "./348.json" with { type: "json" };
-import country73 from "./352.json" with { type: "json" };
-import country74 from "./356.json" with { type: "json" };
-import country75 from "./360.json" with { type: "json" };
-import country76 from "./364.json" with { type: "json" };
-import country77 from "./368.json" with { type: "json" };
-import country78 from "./372.json" with { type: "json" };
-import country79 from "./376.json" with { type: "json" };
-import country80 from "./380.json" with { type: "json" };
-import country81 from "./384.json" with { type: "json" };
-import country82 from "./388.json" with { type: "json" };
-import country83 from "./392.json" with { type: "json" };
-import country84 from "./398.json" with { type: "json" };
-import country85 from "./400.json" with { type: "json" };
-import country86 from "./404.json" with { type: "json" };
-import country87 from "./408.json" with { type: "json" };
-import country88 from "./410.json" with { type: "json" };
-import country89 from "./414.json" with { type: "json" };
-import country90 from "./417.json" with { type: "json" };
-import country91 from "./418.json" with { type: "json" };
-import country92 from "./422.json" with { type: "json" };
-import country93 from "./426.json" with { type: "json" };
-import country94 from "./428.json" with { type: "json" };
-import country95 from "./430.json" with { type: "json" };
-import country96 from "./434.json" with { type: "json" };
-import country97 from "./438.json" with { type: "json" };
-import country98 from "./440.json" with { type: "json" };
-import country99 from "./442.json" with { type: "json" };
-import country100 from "./450.json" with { type: "json" };
-import country101 from "./454.json" with { type: "json" };
-import country102 from "./458.json" with { type: "json" };
-import country103 from "./466.json" with { type: "json" };
-import country104 from "./470.json" with { type: "json" };
-import country105 from "./478.json" with { type: "json" };
-import country106 from "./484.json" with { type: "json" };
-import country107 from "./492.json" with { type: "json" };
-import country108 from "./496.json" with { type: "json" };
-import country109 from "./498.json" with { type: "json" };
-import country110 from "./499.json" with { type: "json" };
-import country111 from "./504.json" with { type: "json" };
-import country112 from "./508.json" with { type: "json" };
-import country113 from "./512.json" with { type: "json" };
-import country114 from "./516.json" with { type: "json" };
-import country115 from "./524.json" with { type: "json" };
-import country116 from "./528.json" with { type: "json" };
-import country117 from "./540.json" with { type: "json" };
-import country118 from "./548.json" with { type: "json" };
-import country119 from "./554.json" with { type: "json" };
-import country120 from "./558.json" with { type: "json" };
-import country121 from "./562.json" with { type: "json" };
-import country122 from "./566.json" with { type: "json" };
-import country123 from "./578.json" with { type: "json" };
-import country124 from "./586.json" with { type: "json" };
-import country125 from "./591.json" with { type: "json" };
-import country126 from "./598.json" with { type: "json" };
-import country127 from "./600.json" with { type: "json" };
-import country128 from "./604.json" with { type: "json" };
-import country129 from "./608.json" with { type: "json" };
-import country130 from "./616.json" with { type: "json" };
-import country131 from "./620.json" with { type: "json" };
-import country132 from "./624.json" with { type: "json" };
-import country133 from "./626.json" with { type: "json" };
-import country134 from "./630.json" with { type: "json" };
-import country135 from "./634.json" with { type: "json" };
-import country136 from "./642.json" with { type: "json" };
-import country137 from "./643.json" with { type: "json" };
-import country138 from "./646.json" with { type: "json" };
-import country139 from "./674.json" with { type: "json" };
-import country140 from "./682.json" with { type: "json" };
-import country141 from "./686.json" with { type: "json" };
-import country142 from "./688.json" with { type: "json" };
-import country143 from "./694.json" with { type: "json" };
-import country144 from "./703.json" with { type: "json" };
-import country145 from "./704.json" with { type: "json" };
-import country146 from "./705.json" with { type: "json" };
-import country147 from "./706.json" with { type: "json" };
-import country148 from "./710.json" with { type: "json" };
-import country149 from "./716.json" with { type: "json" };
-import country150 from "./724.json" with { type: "json" };
-import country151 from "./728.json" with { type: "json" };
-import country152 from "./729.json" with { type: "json" };
-import country153 from "./732.json" with { type: "json" };
-import country154 from "./740.json" with { type: "json" };
-import country155 from "./748.json" with { type: "json" };
-import country156 from "./752.json" with { type: "json" };
-import country157 from "./756.json" with { type: "json" };
-import country158 from "./760.json" with { type: "json" };
-import country159 from "./762.json" with { type: "json" };
-import country160 from "./764.json" with { type: "json" };
-import country161 from "./768.json" with { type: "json" };
-import country162 from "./780.json" with { type: "json" };
-import country163 from "./784.json" with { type: "json" };
-import country164 from "./788.json" with { type: "json" };
-import country165 from "./792.json" with { type: "json" };
-import country166 from "./795.json" with { type: "json" };
-import country167 from "./800.json" with { type: "json" };
-import country168 from "./804.json" with { type: "json" };
-import country169 from "./807.json" with { type: "json" };
-import country170 from "./818.json" with { type: "json" };
-import country171 from "./826.json" with { type: "json" };
-import country172 from "./834.json" with { type: "json" };
-import country173 from "./840.json" with { type: "json" };
-import country174 from "./854.json" with { type: "json" };
-import country175 from "./858.json" with { type: "json" };
-import country176 from "./860.json" with { type: "json" };
-import country177 from "./862.json" with { type: "json" };
-import country178 from "./887.json" with { type: "json" };
-import country179 from "./894.json" with { type: "json" };
-import country180 from "./ne-kosovo.json" with { type: "json" };
-import country181 from "./ne-n-cyprus.json" with { type: "json" };
-import country182 from "./ne-somaliland.json" with { type: "json" };
+import country11 from "./048.json" with { type: "json" };
+import country12 from "./050.json" with { type: "json" };
+import country13 from "./051.json" with { type: "json" };
+import country14 from "./052.json" with { type: "json" };
+import country15 from "./056.json" with { type: "json" };
+import country16 from "./064.json" with { type: "json" };
+import country17 from "./068.json" with { type: "json" };
+import country18 from "./070.json" with { type: "json" };
+import country19 from "./072.json" with { type: "json" };
+import country20 from "./076.json" with { type: "json" };
+import country21 from "./084.json" with { type: "json" };
+import country22 from "./090.json" with { type: "json" };
+import country23 from "./096.json" with { type: "json" };
+import country24 from "./100.json" with { type: "json" };
+import country25 from "./104.json" with { type: "json" };
+import country26 from "./108.json" with { type: "json" };
+import country27 from "./112.json" with { type: "json" };
+import country28 from "./116.json" with { type: "json" };
+import country29 from "./120.json" with { type: "json" };
+import country30 from "./124.json" with { type: "json" };
+import country31 from "./132.json" with { type: "json" };
+import country32 from "./140.json" with { type: "json" };
+import country33 from "./144.json" with { type: "json" };
+import country34 from "./148.json" with { type: "json" };
+import country35 from "./152.json" with { type: "json" };
+import country36 from "./156.json" with { type: "json" };
+import country37 from "./158.json" with { type: "json" };
+import country38 from "./170.json" with { type: "json" };
+import country39 from "./174.json" with { type: "json" };
+import country40 from "./178.json" with { type: "json" };
+import country41 from "./180.json" with { type: "json" };
+import country42 from "./188.json" with { type: "json" };
+import country43 from "./191.json" with { type: "json" };
+import country44 from "./192.json" with { type: "json" };
+import country45 from "./196.json" with { type: "json" };
+import country46 from "./203.json" with { type: "json" };
+import country47 from "./204.json" with { type: "json" };
+import country48 from "./208.json" with { type: "json" };
+import country49 from "./214.json" with { type: "json" };
+import country50 from "./218.json" with { type: "json" };
+import country51 from "./222.json" with { type: "json" };
+import country52 from "./226.json" with { type: "json" };
+import country53 from "./231.json" with { type: "json" };
+import country54 from "./232.json" with { type: "json" };
+import country55 from "./233.json" with { type: "json" };
+import country56 from "./238.json" with { type: "json" };
+import country57 from "./242.json" with { type: "json" };
+import country58 from "./246.json" with { type: "json" };
+import country59 from "./250.json" with { type: "json" };
+import country60 from "./260.json" with { type: "json" };
+import country61 from "./262.json" with { type: "json" };
+import country62 from "./266.json" with { type: "json" };
+import country63 from "./268.json" with { type: "json" };
+import country64 from "./270.json" with { type: "json" };
+import country65 from "./275.json" with { type: "json" };
+import country66 from "./276.json" with { type: "json" };
+import country67 from "./288.json" with { type: "json" };
+import country68 from "./300.json" with { type: "json" };
+import country69 from "./304.json" with { type: "json" };
+import country70 from "./320.json" with { type: "json" };
+import country71 from "./324.json" with { type: "json" };
+import country72 from "./328.json" with { type: "json" };
+import country73 from "./332.json" with { type: "json" };
+import country74 from "./336.json" with { type: "json" };
+import country75 from "./340.json" with { type: "json" };
+import country76 from "./348.json" with { type: "json" };
+import country77 from "./352.json" with { type: "json" };
+import country78 from "./356.json" with { type: "json" };
+import country79 from "./360.json" with { type: "json" };
+import country80 from "./364.json" with { type: "json" };
+import country81 from "./368.json" with { type: "json" };
+import country82 from "./372.json" with { type: "json" };
+import country83 from "./376.json" with { type: "json" };
+import country84 from "./380.json" with { type: "json" };
+import country85 from "./384.json" with { type: "json" };
+import country86 from "./388.json" with { type: "json" };
+import country87 from "./392.json" with { type: "json" };
+import country88 from "./398.json" with { type: "json" };
+import country89 from "./400.json" with { type: "json" };
+import country90 from "./404.json" with { type: "json" };
+import country91 from "./408.json" with { type: "json" };
+import country92 from "./410.json" with { type: "json" };
+import country93 from "./414.json" with { type: "json" };
+import country94 from "./417.json" with { type: "json" };
+import country95 from "./418.json" with { type: "json" };
+import country96 from "./422.json" with { type: "json" };
+import country97 from "./426.json" with { type: "json" };
+import country98 from "./428.json" with { type: "json" };
+import country99 from "./430.json" with { type: "json" };
+import country100 from "./434.json" with { type: "json" };
+import country101 from "./438.json" with { type: "json" };
+import country102 from "./440.json" with { type: "json" };
+import country103 from "./442.json" with { type: "json" };
+import country104 from "./450.json" with { type: "json" };
+import country105 from "./454.json" with { type: "json" };
+import country106 from "./458.json" with { type: "json" };
+import country107 from "./462.json" with { type: "json" };
+import country108 from "./466.json" with { type: "json" };
+import country109 from "./470.json" with { type: "json" };
+import country110 from "./478.json" with { type: "json" };
+import country111 from "./480.json" with { type: "json" };
+import country112 from "./484.json" with { type: "json" };
+import country113 from "./492.json" with { type: "json" };
+import country114 from "./496.json" with { type: "json" };
+import country115 from "./498.json" with { type: "json" };
+import country116 from "./499.json" with { type: "json" };
+import country117 from "./504.json" with { type: "json" };
+import country118 from "./508.json" with { type: "json" };
+import country119 from "./512.json" with { type: "json" };
+import country120 from "./516.json" with { type: "json" };
+import country121 from "./524.json" with { type: "json" };
+import country122 from "./528.json" with { type: "json" };
+import country123 from "./540.json" with { type: "json" };
+import country124 from "./548.json" with { type: "json" };
+import country125 from "./554.json" with { type: "json" };
+import country126 from "./558.json" with { type: "json" };
+import country127 from "./562.json" with { type: "json" };
+import country128 from "./566.json" with { type: "json" };
+import country129 from "./578.json" with { type: "json" };
+import country130 from "./586.json" with { type: "json" };
+import country131 from "./591.json" with { type: "json" };
+import country132 from "./598.json" with { type: "json" };
+import country133 from "./600.json" with { type: "json" };
+import country134 from "./604.json" with { type: "json" };
+import country135 from "./608.json" with { type: "json" };
+import country136 from "./616.json" with { type: "json" };
+import country137 from "./620.json" with { type: "json" };
+import country138 from "./624.json" with { type: "json" };
+import country139 from "./626.json" with { type: "json" };
+import country140 from "./630.json" with { type: "json" };
+import country141 from "./634.json" with { type: "json" };
+import country142 from "./642.json" with { type: "json" };
+import country143 from "./643.json" with { type: "json" };
+import country144 from "./646.json" with { type: "json" };
+import country145 from "./674.json" with { type: "json" };
+import country146 from "./682.json" with { type: "json" };
+import country147 from "./686.json" with { type: "json" };
+import country148 from "./688.json" with { type: "json" };
+import country149 from "./694.json" with { type: "json" };
+import country150 from "./702.json" with { type: "json" };
+import country151 from "./703.json" with { type: "json" };
+import country152 from "./704.json" with { type: "json" };
+import country153 from "./705.json" with { type: "json" };
+import country154 from "./706.json" with { type: "json" };
+import country155 from "./710.json" with { type: "json" };
+import country156 from "./716.json" with { type: "json" };
+import country157 from "./724.json" with { type: "json" };
+import country158 from "./728.json" with { type: "json" };
+import country159 from "./729.json" with { type: "json" };
+import country160 from "./732.json" with { type: "json" };
+import country161 from "./740.json" with { type: "json" };
+import country162 from "./748.json" with { type: "json" };
+import country163 from "./752.json" with { type: "json" };
+import country164 from "./756.json" with { type: "json" };
+import country165 from "./760.json" with { type: "json" };
+import country166 from "./762.json" with { type: "json" };
+import country167 from "./764.json" with { type: "json" };
+import country168 from "./768.json" with { type: "json" };
+import country169 from "./780.json" with { type: "json" };
+import country170 from "./784.json" with { type: "json" };
+import country171 from "./788.json" with { type: "json" };
+import country172 from "./792.json" with { type: "json" };
+import country173 from "./795.json" with { type: "json" };
+import country174 from "./800.json" with { type: "json" };
+import country175 from "./804.json" with { type: "json" };
+import country176 from "./807.json" with { type: "json" };
+import country177 from "./818.json" with { type: "json" };
+import country178 from "./826.json" with { type: "json" };
+import country179 from "./834.json" with { type: "json" };
+import country180 from "./840.json" with { type: "json" };
+import country181 from "./854.json" with { type: "json" };
+import country182 from "./858.json" with { type: "json" };
+import country183 from "./860.json" with { type: "json" };
+import country184 from "./862.json" with { type: "json" };
+import country185 from "./887.json" with { type: "json" };
+import country186 from "./894.json" with { type: "json" };
+import country187 from "./hist-004-protectorate-200.json" with { type: "json" };
+import country188 from "./hist-012-colony-220.json" with { type: "json" };
+import country189 from "./hist-024-colony-235.json" with { type: "json" };
+import country190 from "./hist-044-colony-200.json" with { type: "json" };
+import country191 from "./hist-052-colony-200.json" with { type: "json" };
+import country192 from "./hist-064-protectorate-200.json" with { type: "json" };
+import country193 from "./hist-064-protectorate-750.json" with { type: "json" };
+import country194 from "./hist-072-protectorate-200.json" with { type: "json" };
+import country195 from "./hist-084-colony-200.json" with { type: "json" };
+import country196 from "./hist-090-protectorate-200.json" with { type: "json" };
+import country197 from "./hist-096-protectorate-200.json" with { type: "json" };
+import country198 from "./hist-104-colony-200.json" with { type: "json" };
+import country199 from "./hist-116-colony-220.json" with { type: "json" };
+import country200 from "./hist-120-mandate-220.json" with { type: "json" };
+import country201 from "./hist-120-occupied-220.json" with { type: "json" };
+import country202 from "./hist-132-colony-235.json" with { type: "json" };
+import country203 from "./hist-140-colony-220.json" with { type: "json" };
+import country204 from "./hist-144-colony-200.json" with { type: "json" };
+import country205 from "./hist-148-colony-220.json" with { type: "json" };
+import country206 from "./hist-148-occupied-220.json" with { type: "json" };
+import country207 from "./hist-158-colony-740.json" with { type: "json" };
+import country208 from "./hist-174-colony-220.json" with { type: "json" };
+import country209 from "./hist-178-colony-220.json" with { type: "json" };
+import country210 from "./hist-180-colony-211.json" with { type: "json" };
+import country211 from "./hist-192-colony-230.json" with { type: "json" };
+import country212 from "./hist-192-occupied-2.json" with { type: "json" };
+import country213 from "./hist-196-colony-200.json" with { type: "json" };
+import country214 from "./hist-204-colony-220.json" with { type: "json" };
+import country215 from "./hist-226-colony-230.json" with { type: "json" };
+import country216 from "./hist-232-colony-325.json" with { type: "json" };
+import country217 from "./hist-232-occupied-200.json" with { type: "json" };
+import country218 from "./hist-242-colony-200.json" with { type: "json" };
+import country219 from "./hist-262-colony-220.json" with { type: "json" };
+import country220 from "./hist-266-colony-220.json" with { type: "json" };
+import country221 from "./hist-266-protectorate-220.json" with { type: "json" };
+import country222 from "./hist-270-colony-200.json" with { type: "json" };
+import country223 from "./hist-275-mandate-200.json" with { type: "json" };
+import country224 from "./hist-275-occupied-200.json" with { type: "json" };
+import country225 from "./hist-288-colony-200.json" with { type: "json" };
+import country226 from "./hist-324-colony-220.json" with { type: "json" };
+import country227 from "./hist-328-colony-200.json" with { type: "json" };
+import country228 from "./hist-332-occupied-2.json" with { type: "json" };
+import country229 from "./hist-352-colony-390.json" with { type: "json" };
+import country230 from "./hist-352-occupied-2.json" with { type: "json" };
+import country231 from "./hist-356-colony-200.json" with { type: "json" };
+import country232 from "./hist-360-colony-210.json" with { type: "json" };
+import country233 from "./hist-368-mandate-200.json" with { type: "json" };
+import country234 from "./hist-368-occupied-200.json" with { type: "json" };
+import country235 from "./hist-384-colony-220.json" with { type: "json" };
+import country236 from "./hist-384-protectorate-220.json" with { type: "json" };
+import country237 from "./hist-388-colony-200.json" with { type: "json" };
+import country238 from "./hist-400-mandate-200.json" with { type: "json" };
+import country239 from "./hist-400-occupied-200.json" with { type: "json" };
+import country240 from "./hist-404-colony-200.json" with { type: "json" };
+import country241 from "./hist-404-protectorate-200.json" with { type: "json" };
+import country242 from "./hist-408-occupied-365.json" with { type: "json" };
+import country243 from "./hist-410-occupied-2.json" with { type: "json" };
+import country244 from "./hist-418-colony-220.json" with { type: "json" };
+import country245 from "./hist-422-mandate-220.json" with { type: "json" };
+import country246 from "./hist-422-occupied-220.json" with { type: "json" };
+import country247 from "./hist-426-colony-200.json" with { type: "json" };
+import country248 from "./hist-434-colony-325.json" with { type: "json" };
+import country249 from "./hist-434-mandate-200.json" with { type: "json" };
+import country250 from "./hist-434-occupied-200.json" with { type: "json" };
+import country251 from "./hist-450-colony-220.json" with { type: "json" };
+import country252 from "./hist-454-protectorate-200.json" with { type: "json" };
+import country253 from "./hist-458-colony-200.json" with { type: "json" };
+import country254 from "./hist-462-protectorate-200.json" with { type: "json" };
+import country255 from "./hist-466-colony-220.json" with { type: "json" };
+import country256 from "./hist-470-colony-200.json" with { type: "json" };
+import country257 from "./hist-478-colony-220.json" with { type: "json" };
+import country258 from "./hist-478-protectorate-220.json" with { type: "json" };
+import country259 from "./hist-480-colony-200.json" with { type: "json" };
+import country260 from "./hist-499-occupied-300.json" with { type: "json" };
+import country261 from "./hist-504-protectorate-220.json" with { type: "json" };
+import country262 from "./hist-508-colony-235.json" with { type: "json" };
+import country263 from "./hist-516-colony-255.json" with { type: "json" };
+import country264 from "./hist-516-colony-560.json" with { type: "json" };
+import country265 from "./hist-516-mandate-560.json" with { type: "json" };
+import country266 from "./hist-516-occupied-560.json" with { type: "json" };
+import country267 from "./hist-554-colony-200.json" with { type: "json" };
+import country268 from "./hist-562-colony-220.json" with { type: "json" };
+import country269 from "./hist-566-colony-200.json" with { type: "json" };
+import country270 from "./hist-598-mandate-900.json" with { type: "json" };
+import country271 from "./hist-608-colony-2.json" with { type: "json" };
+import country272 from "./hist-608-colony-230.json" with { type: "json" };
+import country273 from "./hist-624-colony-235.json" with { type: "json" };
+import country274 from "./hist-626-colony-235.json" with { type: "json" };
+import country275 from "./hist-630-colony-2.json" with { type: "json" };
+import country276 from "./hist-630-colony-230.json" with { type: "json" };
+import country277 from "./hist-634-protectorate-200.json" with { type: "json" };
+import country278 from "./hist-686-colony-220.json" with { type: "json" };
+import country279 from "./hist-688-occupied-300.json" with { type: "json" };
+import country280 from "./hist-694-colony-200.json" with { type: "json" };
+import country281 from "./hist-702-colony-200.json" with { type: "json" };
+import country282 from "./hist-704-colony-220.json" with { type: "json" };
+import country283 from "./hist-716-colony-200.json" with { type: "json" };
+import country284 from "./hist-729-colony-200.json" with { type: "json" };
+import country285 from "./hist-740-colony-210.json" with { type: "json" };
+import country286 from "./hist-748-colony-200.json" with { type: "json" };
+import country287 from "./hist-748-colony-563.json" with { type: "json" };
+import country288 from "./hist-760-mandate-220.json" with { type: "json" };
+import country289 from "./hist-760-occupied-220.json" with { type: "json" };
+import country290 from "./hist-768-mandate-220.json" with { type: "json" };
+import country291 from "./hist-780-colony-200.json" with { type: "json" };
+import country292 from "./hist-784-protectorate-200.json" with { type: "json" };
+import country293 from "./hist-788-protectorate-220.json" with { type: "json" };
+import country294 from "./hist-800-protectorate-200.json" with { type: "json" };
+import country295 from "./hist-818-colony-200.json" with { type: "json" };
+import country296 from "./hist-818-protectorate-200.json" with { type: "json" };
+import country297 from "./hist-834-colony-255.json" with { type: "json" };
+import country298 from "./hist-834-mandate-200.json" with { type: "json" };
+import country299 from "./hist-834-occupied-200.json" with { type: "json" };
+import country300 from "./hist-854-colony-220.json" with { type: "json" };
+import country301 from "./hist-894-colony-200.json" with { type: "json" };
+import country302 from "./hist-austria-hungary.json" with { type: "json" };
+import country303 from "./hist-czechoslovakia.json" with { type: "json" };
+import country304 from "./hist-east-germany.json" with { type: "json" };
+import country305 from "./hist-federal-yugoslavia.json" with { type: "json" };
+import country306 from "./hist-germany-pre1945.json" with { type: "json" };
+import country307 from "./hist-gw-120-colony-220.json" with { type: "json" };
+import country308 from "./hist-gw-1201-colony-220.json" with { type: "json" };
+import country309 from "./hist-gw-21-colony-200.json" with { type: "json" };
+import country310 from "./hist-gw-260-occupied-2.json" with { type: "json" };
+import country311 from "./hist-gw-265-occupied-365.json" with { type: "json" };
+import country312 from "./hist-gw-291-mandate-0.json" with { type: "json" };
+import country313 from "./hist-gw-3-colony-2.json" with { type: "json" };
+import country314 from "./hist-gw-3461-occupied-300.json" with { type: "json" };
+import country315 from "./hist-gw-3462-occupied-300.json" with { type: "json" };
+import country316 from "./hist-gw-4-colony-2.json" with { type: "json" };
+import country317 from "./hist-gw-430-colony-220.json" with { type: "json" };
+import country318 from "./hist-gw-460-colony-255.json" with { type: "json" };
+import country319 from "./hist-gw-460-occupied-200.json" with { type: "json" };
+import country320 from "./hist-gw-462-mandate-200.json" with { type: "json" };
+import country321 from "./hist-gw-470-colony-255.json" with { type: "json" };
+import country322 from "./hist-gw-470-occupied-200.json" with { type: "json" };
+import country323 from "./hist-gw-472-mandate-200.json" with { type: "json" };
+import country324 from "./hist-gw-472-occupied-200.json" with { type: "json" };
+import country325 from "./hist-gw-4781-colony-200.json" with { type: "json" };
+import country326 from "./hist-gw-4782-protectorate-200.json" with { type: "json" };
+import country327 from "./hist-gw-4783-protectorate-200.json" with { type: "json" };
+import country328 from "./hist-gw-4784-protectorate-200.json" with { type: "json" };
+import country329 from "./hist-gw-511-occupied-200.json" with { type: "json" };
+import country330 from "./hist-gw-511-protectorate-200.json" with { type: "json" };
+import country331 from "./hist-gw-511.json" with { type: "json" };
+import country332 from "./hist-gw-515-mandate-211.json" with { type: "json" };
+import country333 from "./hist-gw-5200-colony-325.json" with { type: "json" };
+import country334 from "./hist-gw-5200-mandate-325.json" with { type: "json" };
+import country335 from "./hist-gw-5200-occupied-200.json" with { type: "json" };
+import country336 from "./hist-gw-521-colony-200.json" with { type: "json" };
+import country337 from "./hist-gw-550-colony-200.json" with { type: "json" };
+import country338 from "./hist-gw-5518-colony-200.json" with { type: "json" };
+import country339 from "./hist-gw-5519-colony-200.json" with { type: "json" };
+import country340 from "./hist-gw-561-colony-200.json" with { type: "json" };
+import country341 from "./hist-gw-5612-colony-200.json" with { type: "json" };
+import country342 from "./hist-gw-562-colony-200.json" with { type: "json" };
+import country343 from "./hist-gw-563.json" with { type: "json" };
+import country344 from "./hist-gw-564.json" with { type: "json" };
+import country345 from "./hist-gw-585-colony-220.json" with { type: "json" };
+import country346 from "./hist-gw-602-protectorate-230.json" with { type: "json" };
+import country347 from "./hist-gw-6021-protectorate-230.json" with { type: "json" };
+import country348 from "./hist-gw-609-colony-230.json" with { type: "json" };
+import country349 from "./hist-gw-610-protectorate-230.json" with { type: "json" };
+import country350 from "./hist-gw-65-colony-220.json" with { type: "json" };
+import country351 from "./hist-gw-6511-occupied-651.json" with { type: "json" };
+import country352 from "./hist-gw-66-colony-220.json" with { type: "json" };
+import country353 from "./hist-gw-6631-occupied-663.json" with { type: "json" };
+import country354 from "./hist-gw-6801-colony-200.json" with { type: "json" };
+import country355 from "./hist-gw-681-colony-200.json" with { type: "json" };
+import country356 from "./hist-gw-6812-protectorate-200.json" with { type: "json" };
+import country357 from "./hist-gw-7020-protectorate-365.json" with { type: "json" };
+import country358 from "./hist-gw-7030-protectorate-365.json" with { type: "json" };
+import country359 from "./hist-gw-711.json" with { type: "json" };
+import country360 from "./hist-gw-730-colony-740.json" with { type: "json" };
+import country361 from "./hist-gw-730.json" with { type: "json" };
+import country362 from "./hist-gw-7351-colony-740.json" with { type: "json" };
+import country363 from "./hist-gw-7506-occupied-750.json" with { type: "json" };
+import country364 from "./hist-gw-7708-occupied-770.json" with { type: "json" };
+import country365 from "./hist-gw-817.json" with { type: "json" };
+import country366 from "./hist-gw-8201-colony-200.json" with { type: "json" };
+import country367 from "./hist-gw-8202-colony-200.json" with { type: "json" };
+import country368 from "./hist-gw-8203-colony-200.json" with { type: "json" };
+import country369 from "./hist-gw-821-colony-200.json" with { type: "json" };
+import country370 from "./hist-gw-822-protectorate-200.json" with { type: "json" };
+import country371 from "./hist-gw-823-colony-200.json" with { type: "json" };
+import country372 from "./hist-gw-823-protectorate-200.json" with { type: "json" };
+import country373 from "./hist-gw-824-colony-200.json" with { type: "json" };
+import country374 from "./hist-gw-824-protectorate-200.json" with { type: "json" };
+import country375 from "./hist-gw-827-colony-200.json" with { type: "json" };
+import country376 from "./hist-gw-851-colony-210.json" with { type: "json" };
+import country377 from "./hist-gw-851-occupied-850.json" with { type: "json" };
+import country378 from "./hist-gw-851-protectorate-1.json" with { type: "json" };
+import country379 from "./hist-gw-901-colony-200.json" with { type: "json" };
+import country380 from "./hist-gw-902-colony-200.json" with { type: "json" };
+import country381 from "./hist-gw-903-colony-200.json" with { type: "json" };
+import country382 from "./hist-gw-904-colony-200.json" with { type: "json" };
+import country383 from "./hist-gw-905-colony-200.json" with { type: "json" };
+import country384 from "./hist-gw-906-colony-200.json" with { type: "json" };
+import country385 from "./hist-gw-911-colony-200.json" with { type: "json" };
+import country386 from "./hist-gw-911-colony-900.json" with { type: "json" };
+import country387 from "./hist-gw-911-protectorate-200.json" with { type: "json" };
+import country388 from "./hist-gw-912-colony-255.json" with { type: "json" };
+import country389 from "./hist-gw-912-mandate-900.json" with { type: "json" };
+import country390 from "./hist-gw-912-occupied-900.json" with { type: "json" };
+import country391 from "./hist-gw-930-colony-220.json" with { type: "json" };
+import country392 from "./hist-gw-9401-protectorate-255.json" with { type: "json" };
+import country393 from "./hist-gw-960-colony-220.json" with { type: "json" };
+import country394 from "./hist-north-vietnam.json" with { type: "json" };
+import country395 from "./hist-north-yemen.json" with { type: "json" };
+import country396 from "./hist-ottoman-empire.json" with { type: "json" };
+import country397 from "./hist-russian-empire.json" with { type: "json" };
+import country398 from "./hist-russian-republic.json" with { type: "json" };
+import country399 from "./hist-russian-sfsr.json" with { type: "json" };
+import country400 from "./hist-serbia-montenegro.json" with { type: "json" };
+import country401 from "./hist-south-yemen.json" with { type: "json" };
+import country402 from "./hist-turkey-transition.json" with { type: "json" };
+import country403 from "./hist-ussr.json" with { type: "json" };
+import country404 from "./hist-west-germany.json" with { type: "json" };
+import country405 from "./hist-yugoslavia.json" with { type: "json" };
+import country406 from "./ne-kosovo.json" with { type: "json" };
+import country407 from "./ne-n-cyprus.json" with { type: "json" };
+import country408 from "./ne-somaliland.json" with { type: "json" };
 
 const histories = {
   "004": country0,
@@ -195,177 +421,403 @@ const histories = {
   "036": country8,
   "040": country9,
   "044": country10,
-  "050": country11,
-  "051": country12,
-  "056": country13,
-  "064": country14,
-  "068": country15,
-  "070": country16,
-  "072": country17,
-  "076": country18,
-  "084": country19,
-  "090": country20,
-  "096": country21,
-  "100": country22,
-  "104": country23,
-  "108": country24,
-  "112": country25,
-  "116": country26,
-  "120": country27,
-  "124": country28,
-  "140": country29,
-  "144": country30,
-  "148": country31,
-  "152": country32,
-  "156": country33,
-  "158": country34,
-  "170": country35,
-  "178": country36,
-  "180": country37,
-  "188": country38,
-  "191": country39,
-  "192": country40,
-  "196": country41,
-  "203": country42,
-  "204": country43,
-  "208": country44,
-  "214": country45,
-  "218": country46,
-  "222": country47,
-  "226": country48,
-  "231": country49,
-  "232": country50,
-  "233": country51,
-  "238": country52,
-  "242": country53,
-  "246": country54,
-  "250": country55,
-  "260": country56,
-  "262": country57,
-  "266": country58,
-  "268": country59,
-  "270": country60,
-  "275": country61,
-  "276": country62,
-  "288": country63,
-  "300": country64,
-  "304": country65,
-  "320": country66,
-  "324": country67,
-  "328": country68,
-  "332": country69,
-  "336": country70,
-  "340": country71,
-  "348": country72,
-  "352": country73,
-  "356": country74,
-  "360": country75,
-  "364": country76,
-  "368": country77,
-  "372": country78,
-  "376": country79,
-  "380": country80,
-  "384": country81,
-  "388": country82,
-  "392": country83,
-  "398": country84,
-  "400": country85,
-  "404": country86,
-  "408": country87,
-  "410": country88,
-  "414": country89,
-  "417": country90,
-  "418": country91,
-  "422": country92,
-  "426": country93,
-  "428": country94,
-  "430": country95,
-  "434": country96,
-  "438": country97,
-  "440": country98,
-  "442": country99,
-  "450": country100,
-  "454": country101,
-  "458": country102,
-  "466": country103,
-  "470": country104,
-  "478": country105,
-  "484": country106,
-  "492": country107,
-  "496": country108,
-  "498": country109,
-  "499": country110,
-  "504": country111,
-  "508": country112,
-  "512": country113,
-  "516": country114,
-  "524": country115,
-  "528": country116,
-  "540": country117,
-  "548": country118,
-  "554": country119,
-  "558": country120,
-  "562": country121,
-  "566": country122,
-  "578": country123,
-  "586": country124,
-  "591": country125,
-  "598": country126,
-  "600": country127,
-  "604": country128,
-  "608": country129,
-  "616": country130,
-  "620": country131,
-  "624": country132,
-  "626": country133,
-  "630": country134,
-  "634": country135,
-  "642": country136,
-  "643": country137,
-  "646": country138,
-  "674": country139,
-  "682": country140,
-  "686": country141,
-  "688": country142,
-  "694": country143,
-  "703": country144,
-  "704": country145,
-  "705": country146,
-  "706": country147,
-  "710": country148,
-  "716": country149,
-  "724": country150,
-  "728": country151,
-  "729": country152,
-  "732": country153,
-  "740": country154,
-  "748": country155,
-  "752": country156,
-  "756": country157,
-  "760": country158,
-  "762": country159,
-  "764": country160,
-  "768": country161,
-  "780": country162,
-  "784": country163,
-  "788": country164,
-  "792": country165,
-  "795": country166,
-  "800": country167,
-  "804": country168,
-  "807": country169,
-  "818": country170,
-  "826": country171,
-  "834": country172,
-  "840": country173,
-  "854": country174,
-  "858": country175,
-  "860": country176,
-  "862": country177,
-  "887": country178,
-  "894": country179,
-  "ne-kosovo": country180,
-  "ne-n-cyprus": country181,
-  "ne-somaliland": country182,
+  "048": country11,
+  "050": country12,
+  "051": country13,
+  "052": country14,
+  "056": country15,
+  "064": country16,
+  "068": country17,
+  "070": country18,
+  "072": country19,
+  "076": country20,
+  "084": country21,
+  "090": country22,
+  "096": country23,
+  "100": country24,
+  "104": country25,
+  "108": country26,
+  "112": country27,
+  "116": country28,
+  "120": country29,
+  "124": country30,
+  "132": country31,
+  "140": country32,
+  "144": country33,
+  "148": country34,
+  "152": country35,
+  "156": country36,
+  "158": country37,
+  "170": country38,
+  "174": country39,
+  "178": country40,
+  "180": country41,
+  "188": country42,
+  "191": country43,
+  "192": country44,
+  "196": country45,
+  "203": country46,
+  "204": country47,
+  "208": country48,
+  "214": country49,
+  "218": country50,
+  "222": country51,
+  "226": country52,
+  "231": country53,
+  "232": country54,
+  "233": country55,
+  "238": country56,
+  "242": country57,
+  "246": country58,
+  "250": country59,
+  "260": country60,
+  "262": country61,
+  "266": country62,
+  "268": country63,
+  "270": country64,
+  "275": country65,
+  "276": country66,
+  "288": country67,
+  "300": country68,
+  "304": country69,
+  "320": country70,
+  "324": country71,
+  "328": country72,
+  "332": country73,
+  "336": country74,
+  "340": country75,
+  "348": country76,
+  "352": country77,
+  "356": country78,
+  "360": country79,
+  "364": country80,
+  "368": country81,
+  "372": country82,
+  "376": country83,
+  "380": country84,
+  "384": country85,
+  "388": country86,
+  "392": country87,
+  "398": country88,
+  "400": country89,
+  "404": country90,
+  "408": country91,
+  "410": country92,
+  "414": country93,
+  "417": country94,
+  "418": country95,
+  "422": country96,
+  "426": country97,
+  "428": country98,
+  "430": country99,
+  "434": country100,
+  "438": country101,
+  "440": country102,
+  "442": country103,
+  "450": country104,
+  "454": country105,
+  "458": country106,
+  "462": country107,
+  "466": country108,
+  "470": country109,
+  "478": country110,
+  "480": country111,
+  "484": country112,
+  "492": country113,
+  "496": country114,
+  "498": country115,
+  "499": country116,
+  "504": country117,
+  "508": country118,
+  "512": country119,
+  "516": country120,
+  "524": country121,
+  "528": country122,
+  "540": country123,
+  "548": country124,
+  "554": country125,
+  "558": country126,
+  "562": country127,
+  "566": country128,
+  "578": country129,
+  "586": country130,
+  "591": country131,
+  "598": country132,
+  "600": country133,
+  "604": country134,
+  "608": country135,
+  "616": country136,
+  "620": country137,
+  "624": country138,
+  "626": country139,
+  "630": country140,
+  "634": country141,
+  "642": country142,
+  "643": country143,
+  "646": country144,
+  "674": country145,
+  "682": country146,
+  "686": country147,
+  "688": country148,
+  "694": country149,
+  "702": country150,
+  "703": country151,
+  "704": country152,
+  "705": country153,
+  "706": country154,
+  "710": country155,
+  "716": country156,
+  "724": country157,
+  "728": country158,
+  "729": country159,
+  "732": country160,
+  "740": country161,
+  "748": country162,
+  "752": country163,
+  "756": country164,
+  "760": country165,
+  "762": country166,
+  "764": country167,
+  "768": country168,
+  "780": country169,
+  "784": country170,
+  "788": country171,
+  "792": country172,
+  "795": country173,
+  "800": country174,
+  "804": country175,
+  "807": country176,
+  "818": country177,
+  "826": country178,
+  "834": country179,
+  "840": country180,
+  "854": country181,
+  "858": country182,
+  "860": country183,
+  "862": country184,
+  "887": country185,
+  "894": country186,
+  "hist-004-protectorate-200": country187,
+  "hist-012-colony-220": country188,
+  "hist-024-colony-235": country189,
+  "hist-044-colony-200": country190,
+  "hist-052-colony-200": country191,
+  "hist-064-protectorate-200": country192,
+  "hist-064-protectorate-750": country193,
+  "hist-072-protectorate-200": country194,
+  "hist-084-colony-200": country195,
+  "hist-090-protectorate-200": country196,
+  "hist-096-protectorate-200": country197,
+  "hist-104-colony-200": country198,
+  "hist-116-colony-220": country199,
+  "hist-120-mandate-220": country200,
+  "hist-120-occupied-220": country201,
+  "hist-132-colony-235": country202,
+  "hist-140-colony-220": country203,
+  "hist-144-colony-200": country204,
+  "hist-148-colony-220": country205,
+  "hist-148-occupied-220": country206,
+  "hist-158-colony-740": country207,
+  "hist-174-colony-220": country208,
+  "hist-178-colony-220": country209,
+  "hist-180-colony-211": country210,
+  "hist-192-colony-230": country211,
+  "hist-192-occupied-2": country212,
+  "hist-196-colony-200": country213,
+  "hist-204-colony-220": country214,
+  "hist-226-colony-230": country215,
+  "hist-232-colony-325": country216,
+  "hist-232-occupied-200": country217,
+  "hist-242-colony-200": country218,
+  "hist-262-colony-220": country219,
+  "hist-266-colony-220": country220,
+  "hist-266-protectorate-220": country221,
+  "hist-270-colony-200": country222,
+  "hist-275-mandate-200": country223,
+  "hist-275-occupied-200": country224,
+  "hist-288-colony-200": country225,
+  "hist-324-colony-220": country226,
+  "hist-328-colony-200": country227,
+  "hist-332-occupied-2": country228,
+  "hist-352-colony-390": country229,
+  "hist-352-occupied-2": country230,
+  "hist-356-colony-200": country231,
+  "hist-360-colony-210": country232,
+  "hist-368-mandate-200": country233,
+  "hist-368-occupied-200": country234,
+  "hist-384-colony-220": country235,
+  "hist-384-protectorate-220": country236,
+  "hist-388-colony-200": country237,
+  "hist-400-mandate-200": country238,
+  "hist-400-occupied-200": country239,
+  "hist-404-colony-200": country240,
+  "hist-404-protectorate-200": country241,
+  "hist-408-occupied-365": country242,
+  "hist-410-occupied-2": country243,
+  "hist-418-colony-220": country244,
+  "hist-422-mandate-220": country245,
+  "hist-422-occupied-220": country246,
+  "hist-426-colony-200": country247,
+  "hist-434-colony-325": country248,
+  "hist-434-mandate-200": country249,
+  "hist-434-occupied-200": country250,
+  "hist-450-colony-220": country251,
+  "hist-454-protectorate-200": country252,
+  "hist-458-colony-200": country253,
+  "hist-462-protectorate-200": country254,
+  "hist-466-colony-220": country255,
+  "hist-470-colony-200": country256,
+  "hist-478-colony-220": country257,
+  "hist-478-protectorate-220": country258,
+  "hist-480-colony-200": country259,
+  "hist-499-occupied-300": country260,
+  "hist-504-protectorate-220": country261,
+  "hist-508-colony-235": country262,
+  "hist-516-colony-255": country263,
+  "hist-516-colony-560": country264,
+  "hist-516-mandate-560": country265,
+  "hist-516-occupied-560": country266,
+  "hist-554-colony-200": country267,
+  "hist-562-colony-220": country268,
+  "hist-566-colony-200": country269,
+  "hist-598-mandate-900": country270,
+  "hist-608-colony-2": country271,
+  "hist-608-colony-230": country272,
+  "hist-624-colony-235": country273,
+  "hist-626-colony-235": country274,
+  "hist-630-colony-2": country275,
+  "hist-630-colony-230": country276,
+  "hist-634-protectorate-200": country277,
+  "hist-686-colony-220": country278,
+  "hist-688-occupied-300": country279,
+  "hist-694-colony-200": country280,
+  "hist-702-colony-200": country281,
+  "hist-704-colony-220": country282,
+  "hist-716-colony-200": country283,
+  "hist-729-colony-200": country284,
+  "hist-740-colony-210": country285,
+  "hist-748-colony-200": country286,
+  "hist-748-colony-563": country287,
+  "hist-760-mandate-220": country288,
+  "hist-760-occupied-220": country289,
+  "hist-768-mandate-220": country290,
+  "hist-780-colony-200": country291,
+  "hist-784-protectorate-200": country292,
+  "hist-788-protectorate-220": country293,
+  "hist-800-protectorate-200": country294,
+  "hist-818-colony-200": country295,
+  "hist-818-protectorate-200": country296,
+  "hist-834-colony-255": country297,
+  "hist-834-mandate-200": country298,
+  "hist-834-occupied-200": country299,
+  "hist-854-colony-220": country300,
+  "hist-894-colony-200": country301,
+  "hist-austria-hungary": country302,
+  "hist-czechoslovakia": country303,
+  "hist-east-germany": country304,
+  "hist-federal-yugoslavia": country305,
+  "hist-germany-pre1945": country306,
+  "hist-gw-120-colony-220": country307,
+  "hist-gw-1201-colony-220": country308,
+  "hist-gw-21-colony-200": country309,
+  "hist-gw-260-occupied-2": country310,
+  "hist-gw-265-occupied-365": country311,
+  "hist-gw-291-mandate-0": country312,
+  "hist-gw-3-colony-2": country313,
+  "hist-gw-3461-occupied-300": country314,
+  "hist-gw-3462-occupied-300": country315,
+  "hist-gw-4-colony-2": country316,
+  "hist-gw-430-colony-220": country317,
+  "hist-gw-460-colony-255": country318,
+  "hist-gw-460-occupied-200": country319,
+  "hist-gw-462-mandate-200": country320,
+  "hist-gw-470-colony-255": country321,
+  "hist-gw-470-occupied-200": country322,
+  "hist-gw-472-mandate-200": country323,
+  "hist-gw-472-occupied-200": country324,
+  "hist-gw-4781-colony-200": country325,
+  "hist-gw-4782-protectorate-200": country326,
+  "hist-gw-4783-protectorate-200": country327,
+  "hist-gw-4784-protectorate-200": country328,
+  "hist-gw-511-occupied-200": country329,
+  "hist-gw-511-protectorate-200": country330,
+  "hist-gw-511": country331,
+  "hist-gw-515-mandate-211": country332,
+  "hist-gw-5200-colony-325": country333,
+  "hist-gw-5200-mandate-325": country334,
+  "hist-gw-5200-occupied-200": country335,
+  "hist-gw-521-colony-200": country336,
+  "hist-gw-550-colony-200": country337,
+  "hist-gw-5518-colony-200": country338,
+  "hist-gw-5519-colony-200": country339,
+  "hist-gw-561-colony-200": country340,
+  "hist-gw-5612-colony-200": country341,
+  "hist-gw-562-colony-200": country342,
+  "hist-gw-563": country343,
+  "hist-gw-564": country344,
+  "hist-gw-585-colony-220": country345,
+  "hist-gw-602-protectorate-230": country346,
+  "hist-gw-6021-protectorate-230": country347,
+  "hist-gw-609-colony-230": country348,
+  "hist-gw-610-protectorate-230": country349,
+  "hist-gw-65-colony-220": country350,
+  "hist-gw-6511-occupied-651": country351,
+  "hist-gw-66-colony-220": country352,
+  "hist-gw-6631-occupied-663": country353,
+  "hist-gw-6801-colony-200": country354,
+  "hist-gw-681-colony-200": country355,
+  "hist-gw-6812-protectorate-200": country356,
+  "hist-gw-7020-protectorate-365": country357,
+  "hist-gw-7030-protectorate-365": country358,
+  "hist-gw-711": country359,
+  "hist-gw-730-colony-740": country360,
+  "hist-gw-730": country361,
+  "hist-gw-7351-colony-740": country362,
+  "hist-gw-7506-occupied-750": country363,
+  "hist-gw-7708-occupied-770": country364,
+  "hist-gw-817": country365,
+  "hist-gw-8201-colony-200": country366,
+  "hist-gw-8202-colony-200": country367,
+  "hist-gw-8203-colony-200": country368,
+  "hist-gw-821-colony-200": country369,
+  "hist-gw-822-protectorate-200": country370,
+  "hist-gw-823-colony-200": country371,
+  "hist-gw-823-protectorate-200": country372,
+  "hist-gw-824-colony-200": country373,
+  "hist-gw-824-protectorate-200": country374,
+  "hist-gw-827-colony-200": country375,
+  "hist-gw-851-colony-210": country376,
+  "hist-gw-851-occupied-850": country377,
+  "hist-gw-851-protectorate-1": country378,
+  "hist-gw-901-colony-200": country379,
+  "hist-gw-902-colony-200": country380,
+  "hist-gw-903-colony-200": country381,
+  "hist-gw-904-colony-200": country382,
+  "hist-gw-905-colony-200": country383,
+  "hist-gw-906-colony-200": country384,
+  "hist-gw-911-colony-200": country385,
+  "hist-gw-911-colony-900": country386,
+  "hist-gw-911-protectorate-200": country387,
+  "hist-gw-912-colony-255": country388,
+  "hist-gw-912-mandate-900": country389,
+  "hist-gw-912-occupied-900": country390,
+  "hist-gw-930-colony-220": country391,
+  "hist-gw-9401-protectorate-255": country392,
+  "hist-gw-960-colony-220": country393,
+  "hist-north-vietnam": country394,
+  "hist-north-yemen": country395,
+  "hist-ottoman-empire": country396,
+  "hist-russian-empire": country397,
+  "hist-russian-republic": country398,
+  "hist-russian-sfsr": country399,
+  "hist-serbia-montenegro": country400,
+  "hist-south-yemen": country401,
+  "hist-turkey-transition": country402,
+  "hist-ussr": country403,
+  "hist-west-germany": country404,
+  "hist-yugoslavia": country405,
+  "ne-kosovo": country406,
+  "ne-n-cyprus": country407,
+  "ne-somaliland": country408,
 };
 export default histories;

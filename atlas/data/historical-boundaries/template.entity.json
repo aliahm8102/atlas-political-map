@@ -1,0 +1,14 @@
+{
+  "hist-example": {
+    "code": "hist-example",
+    "name": "Example historical country",
+    "nameEn": "Example historical country",
+    "nameFa": "کشور تاریخی نمونه",
+    "region": "Europe",
+    "lat": 50,
+    "lng": 15,
+    "modern": false,
+    "foundedOn": "1900-01-01",
+    "dissolvedOn": "1950-01-01"
+  }
+}

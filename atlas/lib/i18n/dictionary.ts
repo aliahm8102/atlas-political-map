@@ -1,4 +1,11 @@
 export const fa = {
+  "Loading historical borders…": "در حال بارگذاری مرزهای تاریخی…",
+  "Historical borders could not load.": "مرزهای تاریخی بارگذاری نشدند.",
+  "Historical borders on {date}": "مرزهای تاریخی در {date}",
+  "No NATO membership data is available for this historical view.": "برای این دوره دادهٔ عضویت ناتو موجود نیست.",
+  "Identity begins": "آغاز این هویت سیاسی",
+  "Identity ends": "پایان این هویت سیاسی",
+  "This country identity is not active at the selected date.": "این هویت کشوری در تاریخ انتخاب‌شده فعال نیست.",
   "Physical Map": "نقشهٔ فیزیکی",
   "Topographic Map": "نقشهٔ توپوگرافی",
   "Satellite Imagery": "تصاویر ماهواره‌ای",

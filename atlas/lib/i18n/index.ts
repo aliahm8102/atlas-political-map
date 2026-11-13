@@ -1,6 +1,8 @@
 import { fa, type TranslationKey } from "./dictionary.ts";
 import data from "../../data/locales/fa-data.json" with { type: "json" };
-import countryProfiles from "../../data/country-profiles.json" with { type: "json" };
+import profiles from "../../data/country-profiles.json" with { type: "json" };
+import historical from "../../data/historical-boundaries/catalog.json" with { type: "json" };
+const countryProfiles = { ...historical.entities, ...profiles };
 import type { Person } from "../atlas";
 
 export type Locale = "en" | "fa";

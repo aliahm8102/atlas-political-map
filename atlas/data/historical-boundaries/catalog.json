@@ -1,0 +1,7831 @@
+{
+  "coverage": {
+    "validFrom": "1886-01-01",
+    "validTo": "2020-01-01"
+  },
+  "entities": {
+    "100": {
+      "code": "100",
+      "name": "Bulgaria",
+      "nameEn": "Bulgaria",
+      "nameFa": "بلغارستان",
+      "region": "Europe",
+      "lat": 42.7559432839268,
+      "lng": 25.187509595656323,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "104": {
+      "code": "104",
+      "name": "Myanmar",
+      "nameEn": "Myanmar",
+      "nameFa": "میانمار",
+      "region": "Asia",
+      "lat": 20.944799841822928,
+      "lng": 96.51319759040699,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1948-01-04",
+          "validTo": null
+        }
+      ]
+    },
+    "108": {
+      "code": "108",
+      "name": "Burundi",
+      "nameEn": "Burundi",
+      "nameFa": "بوروندی",
+      "region": "Africa",
+      "lat": -3.3776956312361057,
+      "lng": 29.91403682471914,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-07-01",
+          "validTo": null
+        }
+      ]
+    },
+    "112": {
+      "code": "112",
+      "name": "Belarus",
+      "nameEn": "Belarus",
+      "nameFa": "بلاروس",
+      "region": "Europe",
+      "lat": 53.495244860784396,
+      "lng": 27.96493659159701,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-08-25",
+          "validTo": null
+        }
+      ]
+    },
+    "116": {
+      "code": "116",
+      "name": "Cambodia",
+      "nameEn": "Cambodia",
+      "nameFa": "کامبوج",
+      "region": "Asia",
+      "lat": 12.684927562145091,
+      "lng": 104.87409804573856,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1953-11-09",
+          "validTo": null
+        }
+      ]
+    },
+    "120": {
+      "code": "120",
+      "name": "Cameroon",
+      "nameEn": "Cameroon",
+      "nameFa": "کامرون",
+      "region": "Africa",
+      "lat": 5.654325259855498,
+      "lng": 12.605967962806472,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "124": {
+      "code": "124",
+      "name": "Canada",
+      "nameEn": "Canada",
+      "nameFa": "کانادا",
+      "region": "North America",
+      "lat": 60.47689319168129,
+      "lng": -96.39596521119846,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "132": {
+      "code": "132",
+      "name": "Cape Verde",
+      "nameEn": "Cape Verde",
+      "nameFa": "کیپ ورد",
+      "region": "Africa",
+      "lat": 14.91667,
+      "lng": -23.51667,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1975-07-05",
+          "validTo": null
+        }
+      ]
+    },
+    "140": {
+      "code": "140",
+      "name": "Central African Republic",
+      "nameEn": "Central African Republic",
+      "nameFa": "جمهوری آفریقای مرکزی",
+      "region": "Africa",
+      "lat": 6.546760195132757,
+      "lng": 20.367667865493242,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-13",
+          "validTo": null
+        }
+      ]
+    },
+    "144": {
+      "code": "144",
+      "name": "Sri Lanka",
+      "nameEn": "Sri Lanka",
+      "nameFa": "سری‌لانکا",
+      "region": "Asia",
+      "lat": 7.699504106505523,
+      "lng": 80.66790964699014,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1948-02-04",
+          "validTo": null
+        }
+      ]
+    },
+    "148": {
+      "code": "148",
+      "name": "Chad",
+      "nameEn": "Chad",
+      "nameFa": "چاد",
+      "region": "Africa",
+      "lat": 15.276051828357305,
+      "lng": 18.57378521873008,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-11",
+          "validTo": null
+        }
+      ]
+    },
+    "152": {
+      "code": "152",
+      "name": "Chile",
+      "nameEn": "Chile",
+      "nameFa": "شیلی",
+      "region": "South America",
+      "lat": -37.31091190683756,
+      "lng": -71.17789122485415,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "156": {
+      "code": "156",
+      "name": "China",
+      "nameEn": "China",
+      "nameFa": "چین",
+      "region": "Asia",
+      "lat": 36.683402772207494,
+      "lng": 103.45254772896584,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "158": {
+      "code": "158",
+      "name": "Taiwan",
+      "nameEn": "Taiwan",
+      "nameFa": "تایوان",
+      "region": "Asia",
+      "lat": 23.73902040290787,
+      "lng": 120.97155366687659,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1949-12-08",
+          "validTo": null
+        }
+      ]
+    },
+    "170": {
+      "code": "170",
+      "name": "Colombia",
+      "nameEn": "Colombia",
+      "nameFa": "کلمبیا",
+      "region": "South America",
+      "lat": 3.9163468591418087,
+      "lng": -73.07345714315181,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "174": {
+      "code": "174",
+      "name": "Comoros",
+      "nameEn": "Comoros",
+      "nameFa": "کومور",
+      "region": "Africa",
+      "lat": -11.70417,
+      "lng": 43.24028,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1975-07-06",
+          "validTo": null
+        }
+      ]
+    },
+    "178": {
+      "code": "178",
+      "name": "Republic of the Congo",
+      "nameEn": "Republic of the Congo",
+      "nameFa": "کنگو",
+      "region": "Africa",
+      "lat": -0.8366679709430046,
+      "lng": 15.136018192660343,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-15",
+          "validTo": null
+        }
+      ]
+    },
+    "180": {
+      "code": "180",
+      "name": "DR Congo",
+      "nameEn": "DR Congo",
+      "nameFa": "جمهوری دموکراتیک کنگو",
+      "region": "Africa",
+      "lat": -2.838657289105749,
+      "lng": 23.57677487644107,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-06-30",
+          "validTo": null
+        }
+      ]
+    },
+    "188": {
+      "code": "188",
+      "name": "Costa Rica",
+      "nameEn": "Costa Rica",
+      "nameFa": "کاستاریکا",
+      "region": "North America",
+      "lat": 9.965837710986856,
+      "lng": -84.1734639009167,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "191": {
+      "code": "191",
+      "name": "Croatia",
+      "nameEn": "Croatia",
+      "nameFa": "کرواسی",
+      "region": "Europe",
+      "lat": 45.0098474173622,
+      "lng": 16.567328503658622,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1992-04-27",
+          "validTo": null
+        }
+      ]
+    },
+    "192": {
+      "code": "192",
+      "name": "Cuba",
+      "nameEn": "Cuba",
+      "nameFa": "کوبا",
+      "region": "North America",
+      "lat": 21.647273803320633,
+      "lng": -78.93178529323538,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1902-05-20",
+          "validTo": null
+        }
+      ]
+    },
+    "196": {
+      "code": "196",
+      "name": "Cyprus",
+      "nameEn": "Cyprus",
+      "nameFa": "قبرس",
+      "region": "Asia",
+      "lat": 34.907490889560506,
+      "lng": 33.03913550626353,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-16",
+          "validTo": null
+        }
+      ]
+    },
+    "203": {
+      "code": "203",
+      "name": "Czechia",
+      "nameEn": "Czechia",
+      "nameFa": "جمهوری چک",
+      "region": "Europe",
+      "lat": 49.77975008637941,
+      "lng": 15.342931449194108,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1993-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "204": {
+      "code": "204",
+      "name": "Benin",
+      "nameEn": "Benin",
+      "nameFa": "بنین",
+      "region": "Africa",
+      "lat": 9.642306963005444,
+      "lng": 2.3364334648703755,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-01",
+          "validTo": null
+        }
+      ]
+    },
+    "208": {
+      "code": "208",
+      "name": "Denmark",
+      "nameEn": "Denmark",
+      "nameFa": "دانمارک",
+      "region": "Europe",
+      "lat": 56.05913526739813,
+      "lng": 9.885527215595431,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "214": {
+      "code": "214",
+      "name": "Dominican Republic",
+      "nameEn": "Dominican Republic",
+      "nameFa": "جمهوری دومینیکن",
+      "region": "North America",
+      "lat": 18.885420716111305,
+      "lng": -70.46185863870569,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "218": {
+      "code": "218",
+      "name": "Ecuador",
+      "nameEn": "Ecuador",
+      "nameFa": "اکوادور",
+      "region": "South America",
+      "lat": -1.4544335502342323,
+      "lng": -78.38369518037301,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "222": {
+      "code": "222",
+      "name": "El Salvador",
+      "nameEn": "El Salvador",
+      "nameFa": "السالوادور",
+      "region": "North America",
+      "lat": 13.726209872261462,
+      "lng": -88.87191160917233,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "226": {
+      "code": "226",
+      "name": "Equatorial Guinea",
+      "nameEn": "Equatorial Guinea",
+      "nameFa": "گینهٔ استوایی",
+      "region": "Africa",
+      "lat": 1.6463619203400401,
+      "lng": 10.365692891756174,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1968-10-12",
+          "validTo": null
+        }
+      ]
+    },
+    "231": {
+      "code": "231",
+      "name": "Ethiopia",
+      "nameEn": "Ethiopia",
+      "nameFa": "اتیوپی",
+      "region": "Africa",
+      "lat": 8.645911998905715,
+      "lng": 39.55980522631151,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "232": {
+      "code": "232",
+      "name": "Eritrea",
+      "nameEn": "Eritrea",
+      "nameFa": "اریتره",
+      "region": "Africa",
+      "lat": 15.427257290521629,
+      "lng": 38.68853071393093,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1993-05-24",
+          "validTo": null
+        }
+      ]
+    },
+    "233": {
+      "code": "233",
+      "name": "Estonia",
+      "nameEn": "Estonia",
+      "nameFa": "استونی",
+      "region": "Europe",
+      "lat": 58.64139230592771,
+      "lng": 25.830578101202892,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1918-11-11",
+          "validTo": "1940-06-02"
+        },
+        {
+          "validFrom": "1991-09-06",
+          "validTo": null
+        }
+      ]
+    },
+    "238": {
+      "code": "238",
+      "name": "Falkland Is.",
+      "region": "South America",
+      "lat": -51.71627009973495,
+      "lng": -59.415851844252785,
+      "nameEn": "Falkland Islands",
+      "nameFa": "جزایر فالکلند",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "242": {
+      "code": "242",
+      "name": "Fiji",
+      "nameEn": "Fiji",
+      "nameFa": "فیجی",
+      "region": "Oceania",
+      "lat": -17.31504815749131,
+      "lng": 178.56893652314392,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1970-10-10",
+          "validTo": null
+        }
+      ]
+    },
+    "246": {
+      "code": "246",
+      "name": "Finland",
+      "nameEn": "Finland",
+      "nameFa": "فنلاند",
+      "region": "Europe",
+      "lat": 64.26099646498538,
+      "lng": 26.141602718872342,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1917-12-06",
+          "validTo": null
+        }
+      ]
+    },
+    "250": {
+      "code": "250",
+      "name": "France",
+      "nameEn": "France",
+      "nameFa": "فرانسه",
+      "region": "Europe",
+      "lat": 43.14028215881337,
+      "lng": -6.801574616743793,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "260": {
+      "code": "260",
+      "name": "Fr. S. Antarctic Lands",
+      "region": "Antarctica",
+      "lat": -49.30702018723928,
+      "lng": 69.5308950742775,
+      "nameEn": "French Southern and Antarctic Lands",
+      "nameFa": "سرزمین‌های جنوبی و جنوبگانی فرانسه",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "262": {
+      "code": "262",
+      "name": "Djibouti",
+      "nameEn": "Djibouti",
+      "nameFa": "جیبوتی",
+      "region": "Africa",
+      "lat": 11.772803533017383,
+      "lng": 42.49723339364747,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1977-06-27",
+          "validTo": null
+        }
+      ]
+    },
+    "266": {
+      "code": "266",
+      "name": "Gabon",
+      "nameEn": "Gabon",
+      "nameFa": "گابن",
+      "region": "Africa",
+      "lat": -0.6468832071208366,
+      "lng": 11.687429649125713,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-17",
+          "validTo": null
+        }
+      ]
+    },
+    "268": {
+      "code": "268",
+      "name": "Georgia",
+      "nameEn": "Georgia",
+      "nameFa": "گرجستان",
+      "region": "Asia",
+      "lat": 42.167901160020655,
+      "lng": 43.49912972638795,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-09-06",
+          "validTo": null
+        }
+      ]
+    },
+    "270": {
+      "code": "270",
+      "name": "Gambia",
+      "nameEn": "Gambia",
+      "nameFa": "گامبیا",
+      "region": "Africa",
+      "lat": 13.476739304475803,
+      "lng": -15.432659224733518,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1965-02-18",
+          "validTo": null
+        }
+      ]
+    },
+    "275": {
+      "code": "275",
+      "name": "Palestine",
+      "region": "Asia",
+      "lat": 31.9398243596657,
+      "lng": 35.272787311818156,
+      "nameEn": "Palestine",
+      "nameFa": "فلسطین",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "276": {
+      "code": "276",
+      "name": "Germany",
+      "nameEn": "Germany",
+      "nameFa": "آلمان",
+      "region": "Europe",
+      "lat": 51.077444092791815,
+      "lng": 10.270397238175592,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": "1990-10-03",
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1990-10-03",
+          "validTo": null
+        }
+      ]
+    },
+    "288": {
+      "code": "288",
+      "name": "Ghana",
+      "nameEn": "Ghana",
+      "nameFa": "غنا",
+      "region": "Africa",
+      "lat": 7.923471570231706,
+      "lng": -1.2370763863815333,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1957-03-06",
+          "validTo": null
+        }
+      ]
+    },
+    "300": {
+      "code": "300",
+      "name": "Greece",
+      "nameEn": "Greece",
+      "nameFa": "یونان",
+      "region": "Europe",
+      "lat": 39.03665401364332,
+      "lng": 22.72007081060726,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "304": {
+      "code": "304",
+      "name": "Greenland",
+      "region": "North America",
+      "lat": 73.15074181673789,
+      "lng": -41.96489665506525,
+      "nameEn": "Greenland",
+      "nameFa": "گرینلند",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "320": {
+      "code": "320",
+      "name": "Guatemala",
+      "nameEn": "Guatemala",
+      "nameFa": "گواتمالا",
+      "region": "North America",
+      "lat": 15.696073861022391,
+      "lng": -90.37169443008953,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "324": {
+      "code": "324",
+      "name": "Guinea",
+      "nameEn": "Guinea",
+      "nameFa": "گینه",
+      "region": "Africa",
+      "lat": 10.450014036050117,
+      "lng": -11.055196197027318,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1958-10-02",
+          "validTo": null
+        }
+      ]
+    },
+    "328": {
+      "code": "328",
+      "name": "Guyana",
+      "nameEn": "Guyana",
+      "nameFa": "گویان",
+      "region": "South America",
+      "lat": 4.7860844635240625,
+      "lng": -58.96940684277811,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1966-05-26",
+          "validTo": null
+        }
+      ]
+    },
+    "332": {
+      "code": "332",
+      "name": "Haiti",
+      "nameEn": "Haiti",
+      "nameFa": "هائیتی",
+      "region": "North America",
+      "lat": 18.900261803200927,
+      "lng": -72.65906040585877,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1915-07-05"
+        },
+        {
+          "validFrom": "1934-08-15",
+          "validTo": null
+        }
+      ]
+    },
+    "336": {
+      "code": "336",
+      "name": "Vatican City",
+      "region": "Europe",
+      "lat": 41.9022,
+      "lng": 12.4533,
+      "nameEn": "Vatican City",
+      "nameFa": "واتیکان",
+      "source": "provided",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "340": {
+      "code": "340",
+      "name": "Honduras",
+      "nameEn": "Honduras",
+      "nameFa": "هندوراس",
+      "region": "North America",
+      "lat": 14.825126033905285,
+      "lng": -86.5928338545046,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "348": {
+      "code": "348",
+      "name": "Hungary",
+      "nameEn": "Hungary",
+      "nameFa": "مجارستان",
+      "region": "Europe",
+      "lat": 47.203540347386706,
+      "lng": 19.34303887071611,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1918-11-03",
+          "validTo": null
+        }
+      ]
+    },
+    "352": {
+      "code": "352",
+      "name": "Iceland",
+      "nameEn": "Iceland",
+      "nameFa": "ایسلند",
+      "region": "Europe",
+      "lat": 65.07979964149162,
+      "lng": -18.765099306660964,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1944-06-17",
+          "validTo": null
+        }
+      ]
+    },
+    "356": {
+      "code": "356",
+      "name": "India",
+      "nameEn": "India",
+      "nameFa": "هند",
+      "region": "Asia",
+      "lat": 22.819169766905116,
+      "lng": 79.53991712385177,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1947-08-15",
+          "validTo": null
+        }
+      ]
+    },
+    "360": {
+      "code": "360",
+      "name": "Indonesia",
+      "nameEn": "Indonesia",
+      "nameFa": "اندونزی",
+      "region": "Asia",
+      "lat": -2.2718744795703945,
+      "lng": 117.36464278135101,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1945-08-17",
+          "validTo": null
+        }
+      ]
+    },
+    "364": {
+      "code": "364",
+      "name": "Iran",
+      "nameEn": "Iran",
+      "nameFa": "ایران",
+      "region": "Asia",
+      "lat": 32.474135914851075,
+      "lng": 54.45297488708861,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "368": {
+      "code": "368",
+      "name": "Iraq",
+      "nameEn": "Iraq",
+      "nameFa": "عراق",
+      "region": "Asia",
+      "lat": 33.009692831957,
+      "lng": 43.78694947477871,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1932-10-03",
+          "validTo": null
+        }
+      ]
+    },
+    "372": {
+      "code": "372",
+      "name": "Ireland",
+      "nameEn": "Ireland",
+      "nameFa": "ایرلند",
+      "region": "Europe",
+      "lat": 53.17177955737033,
+      "lng": -8.017007679860992,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1921-12-06",
+          "validTo": null
+        }
+      ]
+    },
+    "376": {
+      "code": "376",
+      "name": "Israel",
+      "nameEn": "Israel",
+      "nameFa": "اسرائیل",
+      "region": "Asia",
+      "lat": 31.479074944386973,
+      "lng": 35.00098872102661,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1948-05-14",
+          "validTo": null
+        }
+      ]
+    },
+    "380": {
+      "code": "380",
+      "name": "Italy",
+      "nameEn": "Italy",
+      "nameFa": "ایتالیا",
+      "region": "Europe",
+      "lat": 42.67076391434157,
+      "lng": 12.268972406754907,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "384": {
+      "code": "384",
+      "name": "Ivory Coast",
+      "nameEn": "Ivory Coast",
+      "nameFa": "ساحل عاج",
+      "region": "Africa",
+      "lat": 7.551542611587612,
+      "lng": -5.6118596115146016,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-07",
+          "validTo": null
+        }
+      ]
+    },
+    "388": {
+      "code": "388",
+      "name": "Jamaica",
+      "nameEn": "Jamaica",
+      "nameFa": "جامائیکا",
+      "region": "North America",
+      "lat": 18.13834993339306,
+      "lng": -77.3242833360015,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-08-06",
+          "validTo": null
+        }
+      ]
+    },
+    "392": {
+      "code": "392",
+      "name": "Japan",
+      "nameEn": "Japan",
+      "nameFa": "ژاپن",
+      "region": "Asia",
+      "lat": 37.53674100507462,
+      "lng": 137.71227776329422,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "398": {
+      "code": "398",
+      "name": "Kazakhstan",
+      "nameEn": "Kazakhstan",
+      "nameFa": "قزاقستان",
+      "region": "Asia",
+      "lat": 48.40585039153326,
+      "lng": 67.23568238185361,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-12-26",
+          "validTo": null
+        }
+      ]
+    },
+    "400": {
+      "code": "400",
+      "name": "Jordan",
+      "nameEn": "Jordan",
+      "nameFa": "اردن",
+      "region": "Asia",
+      "lat": 31.24021662821758,
+      "lng": 36.766332796853156,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-05-25",
+          "validTo": null
+        }
+      ]
+    },
+    "404": {
+      "code": "404",
+      "name": "Kenya",
+      "nameEn": "Kenya",
+      "nameFa": "کنیا",
+      "region": "Africa",
+      "lat": 0.595504521462854,
+      "lng": 37.79137160957355,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1963-12-12",
+          "validTo": null
+        }
+      ]
+    },
+    "408": {
+      "code": "408",
+      "name": "North Korea",
+      "nameEn": "North Korea",
+      "nameFa": "کرهٔ شمالی",
+      "region": "Asia",
+      "lat": 40.1297243062498,
+      "lng": 127.13083425052875,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1948-09-09",
+          "validTo": null
+        }
+      ]
+    },
+    "410": {
+      "code": "410",
+      "name": "South Korea",
+      "nameEn": "South Korea",
+      "nameFa": "کرهٔ جنوبی",
+      "region": "Asia",
+      "lat": 36.418657448570634,
+      "lng": 127.81993152429597,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1948-08-15",
+          "validTo": null
+        }
+      ]
+    },
+    "414": {
+      "code": "414",
+      "name": "Kuwait",
+      "nameEn": "Kuwait",
+      "nameFa": "کویت",
+      "region": "Asia",
+      "lat": 29.30717382955798,
+      "lng": 47.600841125608405,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1961-06-19",
+          "validTo": null
+        }
+      ]
+    },
+    "417": {
+      "code": "417",
+      "name": "Kyrgyzstan",
+      "nameEn": "Kyrgyzstan",
+      "nameFa": "قرقیزستان",
+      "region": "Asia",
+      "lat": 41.518710446172456,
+      "lng": 74.58707165651103,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-09-01",
+          "validTo": null
+        }
+      ]
+    },
+    "418": {
+      "code": "418",
+      "name": "Laos",
+      "nameEn": "Laos",
+      "nameFa": "لائوس",
+      "region": "Asia",
+      "lat": 18.430864535001426,
+      "lng": 103.78720209034563,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1954-05-01",
+          "validTo": null
+        }
+      ]
+    },
+    "422": {
+      "code": "422",
+      "name": "Lebanon",
+      "nameEn": "Lebanon",
+      "nameFa": "لبنان",
+      "region": "Asia",
+      "lat": 33.91020649639143,
+      "lng": 35.86843689863866,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1944-11-22",
+          "validTo": null
+        }
+      ]
+    },
+    "426": {
+      "code": "426",
+      "name": "Lesotho",
+      "nameEn": "Lesotho",
+      "nameFa": "لسوتو",
+      "region": "Africa",
+      "lat": -29.624638503533284,
+      "lng": 28.171555522078112,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1966-10-04",
+          "validTo": null
+        }
+      ]
+    },
+    "428": {
+      "code": "428",
+      "name": "Latvia",
+      "nameEn": "Latvia",
+      "nameFa": "لتونی",
+      "region": "Europe",
+      "lat": 56.817275563585156,
+      "lng": 24.839360592335915,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1918-11-18",
+          "validTo": "1940-06-02"
+        },
+        {
+          "validFrom": "1991-09-06",
+          "validTo": null
+        }
+      ]
+    },
+    "430": {
+      "code": "430",
+      "name": "Liberia",
+      "nameEn": "Liberia",
+      "nameFa": "لیبریا",
+      "region": "Africa",
+      "lat": 6.43027308451388,
+      "lng": -9.408620608546414,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "434": {
+      "code": "434",
+      "name": "Libya",
+      "nameEn": "Libya",
+      "nameFa": "لیبی",
+      "region": "Africa",
+      "lat": 26.988217377314836,
+      "lng": 18.030449428057654,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1951-12-24",
+          "validTo": null
+        }
+      ]
+    },
+    "438": {
+      "code": "438",
+      "name": "Liechtenstein",
+      "region": "Europe",
+      "lat": 47.26666666,
+      "lng": 9.53333333,
+      "nameEn": "Liechtenstein",
+      "nameFa": "لیختن‌اشتاین",
+      "source": "provided",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "440": {
+      "code": "440",
+      "name": "Lithuania",
+      "nameEn": "Lithuania",
+      "nameFa": "لیتوانی",
+      "region": "Europe",
+      "lat": 55.28275891978371,
+      "lng": 23.888139070035304,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1918-02-16",
+          "validTo": "1940-06-02"
+        },
+        {
+          "validFrom": "1991-09-06",
+          "validTo": null
+        }
+      ]
+    },
+    "442": {
+      "code": "442",
+      "name": "Luxembourg",
+      "nameEn": "Luxembourg",
+      "nameFa": "لوکزامبورگ",
+      "region": "Europe",
+      "lat": 49.76493278103263,
+      "lng": 5.966117052708055,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "450": {
+      "code": "450",
+      "name": "Madagascar",
+      "nameEn": "Madagascar",
+      "nameFa": "ماداگاسکار",
+      "region": "Africa",
+      "lat": -19.30122677471851,
+      "lng": 46.729373695196344,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1896-08-06"
+        },
+        {
+          "validFrom": "1960-06-26",
+          "validTo": null
+        }
+      ]
+    },
+    "454": {
+      "code": "454",
+      "name": "Malawi",
+      "nameEn": "Malawi",
+      "nameFa": "مالاوی",
+      "region": "Africa",
+      "lat": -13.159247983782143,
+      "lng": 34.186025820422806,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1964-07-06",
+          "validTo": null
+        }
+      ]
+    },
+    "458": {
+      "code": "458",
+      "name": "Malaysia",
+      "nameEn": "Malaysia",
+      "nameFa": "مالزی",
+      "region": "Asia",
+      "lat": 3.7463797125046843,
+      "lng": 109.69961531251074,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1957-08-31",
+          "validTo": null
+        }
+      ]
+    },
+    "462": {
+      "code": "462",
+      "name": "Maldives",
+      "nameEn": "Maldives",
+      "nameFa": "مالدیو",
+      "region": "Asia",
+      "lat": 4.166667,
+      "lng": 73.5,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1965-05-26",
+          "validTo": null
+        }
+      ]
+    },
+    "466": {
+      "code": "466",
+      "name": "Mali",
+      "nameEn": "Mali",
+      "nameFa": "مالی",
+      "region": "Africa",
+      "lat": 17.240422151001496,
+      "lng": -3.5929264607867344,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-09-22",
+          "validTo": null
+        }
+      ]
+    },
+    "470": {
+      "code": "470",
+      "name": "Malta",
+      "nameEn": "Malta",
+      "nameFa": "مالت",
+      "region": "Europe",
+      "lat": 35.9375,
+      "lng": 14.3754,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1964-09-21",
+          "validTo": null
+        }
+      ]
+    },
+    "478": {
+      "code": "478",
+      "name": "Mauritania",
+      "nameEn": "Mauritania",
+      "nameFa": "موریتانی",
+      "region": "Africa",
+      "lat": 20.180316183391973,
+      "lng": -10.348677416082428,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-11-28",
+          "validTo": null
+        }
+      ]
+    },
+    "480": {
+      "code": "480",
+      "name": "Mauritius",
+      "nameEn": "Mauritius",
+      "nameFa": "موریس",
+      "region": "Africa",
+      "lat": -20.16195,
+      "lng": 57.49889,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1968-03-12",
+          "validTo": null
+        }
+      ]
+    },
+    "484": {
+      "code": "484",
+      "name": "Mexico",
+      "nameEn": "Mexico",
+      "nameFa": "مکزیک",
+      "region": "North America",
+      "lat": 23.913416451541593,
+      "lng": -102.22312784904646,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "492": {
+      "code": "492",
+      "name": "Monaco",
+      "region": "Europe",
+      "lat": 43.73333333,
+      "lng": 7.4,
+      "nameEn": "Monaco",
+      "nameFa": "موناکو",
+      "source": "provided",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "496": {
+      "code": "496",
+      "name": "Mongolia",
+      "nameEn": "Mongolia",
+      "nameFa": "مغولستان",
+      "region": "Asia",
+      "lat": 46.95419911477369,
+      "lng": 103.01565952926065,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1921-03-13",
+          "validTo": null
+        }
+      ]
+    },
+    "498": {
+      "code": "498",
+      "name": "Moldova",
+      "nameEn": "Moldova",
+      "nameFa": "مولداوی",
+      "region": "Europe",
+      "lat": 47.19636858392286,
+      "lng": 28.4197316411926,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-08-25",
+          "validTo": null
+        }
+      ]
+    },
+    "499": {
+      "code": "499",
+      "name": "Montenegro",
+      "nameEn": "Montenegro",
+      "nameFa": "مونته‌نگرو",
+      "region": "Europe",
+      "lat": 42.787804054911994,
+      "lng": 19.285440256715702,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1915-07-02"
+        },
+        {
+          "validFrom": "2006-06-12",
+          "validTo": null
+        }
+      ]
+    },
+    "504": {
+      "code": "504",
+      "name": "Morocco",
+      "nameEn": "Morocco",
+      "nameFa": "مراکش",
+      "region": "Africa",
+      "lat": 29.815372044664567,
+      "lng": -8.693667945346007,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1912-11-27"
+        },
+        {
+          "validFrom": "1956-03-02",
+          "validTo": null
+        }
+      ]
+    },
+    "508": {
+      "code": "508",
+      "name": "Mozambique",
+      "nameEn": "Mozambique",
+      "nameFa": "موزامبیک",
+      "region": "Africa",
+      "lat": -17.15408177172942,
+      "lng": 35.54224341292384,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1975-06-25",
+          "validTo": null
+        }
+      ]
+    },
+    "512": {
+      "code": "512",
+      "name": "Oman",
+      "nameEn": "Oman",
+      "nameFa": "عمان",
+      "region": "Asia",
+      "lat": 20.59154269923336,
+      "lng": 56.0677392947901,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "516": {
+      "code": "516",
+      "name": "Namibia",
+      "nameEn": "Namibia",
+      "nameFa": "نامیبیا",
+      "region": "Africa",
+      "lat": -22.040120721139512,
+      "lng": 17.142187820423352,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1990-03-21",
+          "validTo": null
+        }
+      ]
+    },
+    "524": {
+      "code": "524",
+      "name": "Nepal",
+      "nameEn": "Nepal",
+      "nameFa": "نپال",
+      "region": "Asia",
+      "lat": 28.248958231527833,
+      "lng": 84.04345054999912,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "528": {
+      "code": "528",
+      "name": "Netherlands",
+      "nameEn": "Netherlands",
+      "nameFa": "هلند",
+      "region": "Europe",
+      "lat": 52.29287475775403,
+      "lng": 5.4998938360794805,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "540": {
+      "code": "540",
+      "name": "New Caledonia",
+      "region": "Oceania",
+      "lat": -21.26095047398029,
+      "lng": 165.52837696708968,
+      "nameEn": "New Caledonia",
+      "nameFa": "کالدونیای جدید",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "548": {
+      "code": "548",
+      "name": "Vanuatu",
+      "region": "Oceania",
+      "lat": -15.542284969181424,
+      "lng": 167.0729405158768,
+      "nameEn": "Vanuatu",
+      "nameFa": "وانواتو",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "554": {
+      "code": "554",
+      "name": "New Zealand",
+      "nameEn": "New Zealand",
+      "nameFa": "نیوزیلند",
+      "region": "Oceania",
+      "lat": -41.55107392488395,
+      "lng": 172.95140783891412,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1907-09-01",
+          "validTo": null
+        }
+      ]
+    },
+    "558": {
+      "code": "558",
+      "name": "Nicaragua",
+      "nameEn": "Nicaragua",
+      "nameFa": "نیکاراگوئه",
+      "region": "North America",
+      "lat": 12.846636906615657,
+      "lng": -85.02148399862018,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "562": {
+      "code": "562",
+      "name": "Niger",
+      "nameEn": "Niger",
+      "nameFa": "نیجر",
+      "region": "Africa",
+      "lat": 17.340374170519883,
+      "lng": 9.274701830040073,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-03",
+          "validTo": null
+        }
+      ]
+    },
+    "566": {
+      "code": "566",
+      "name": "Nigeria",
+      "nameEn": "Nigeria",
+      "nameFa": "نیجریه",
+      "region": "Africa",
+      "lat": 9.544611591809016,
+      "lng": 7.985765714993629,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-10-01",
+          "validTo": null
+        }
+      ]
+    },
+    "578": {
+      "code": "578",
+      "name": "Norway",
+      "nameEn": "Norway",
+      "nameFa": "نروژ",
+      "region": "Europe",
+      "lat": 66.64824315415278,
+      "lng": 12.82926547618235,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1905-08-26",
+          "validTo": null
+        }
+      ]
+    },
+    "586": {
+      "code": "586",
+      "name": "Pakistan",
+      "nameEn": "Pakistan",
+      "nameFa": "پاکستان",
+      "region": "Asia",
+      "lat": 29.90821391826716,
+      "lng": 69.23497895799804,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1947-08-15",
+          "validTo": null
+        }
+      ]
+    },
+    "591": {
+      "code": "591",
+      "name": "Panama",
+      "nameEn": "Panama",
+      "nameFa": "پاناما",
+      "region": "North America",
+      "lat": 8.532626555780435,
+      "lng": -80.10925094669992,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1903-11-03",
+          "validTo": null
+        }
+      ]
+    },
+    "598": {
+      "code": "598",
+      "name": "Papua New Guinea",
+      "nameEn": "Papua New Guinea",
+      "nameFa": "پاپوآ گینهٔ نو",
+      "region": "Oceania",
+      "lat": -6.457287233080053,
+      "lng": 145.3134835731396,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1975-09-16",
+          "validTo": null
+        }
+      ]
+    },
+    "600": {
+      "code": "600",
+      "name": "Paraguay",
+      "nameEn": "Paraguay",
+      "nameFa": "پاراگوئه",
+      "region": "South America",
+      "lat": -23.2296961601115,
+      "lng": -58.43176848852881,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "604": {
+      "code": "604",
+      "name": "Peru",
+      "nameEn": "Peru",
+      "nameFa": "پرو",
+      "region": "South America",
+      "lat": -9.147133411380075,
+      "lng": -74.43056901477348,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "608": {
+      "code": "608",
+      "name": "Philippines",
+      "nameEn": "Philippines",
+      "nameFa": "فیلیپین",
+      "region": "Asia",
+      "lat": 11.719704000672909,
+      "lng": 122.93757156238387,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-07-04",
+          "validTo": null
+        }
+      ]
+    },
+    "616": {
+      "code": "616",
+      "name": "Poland",
+      "nameEn": "Poland",
+      "nameFa": "لهستان",
+      "region": "Europe",
+      "lat": 52.13407363786625,
+      "lng": 19.343765521406297,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1918-11-11",
+          "validTo": null
+        }
+      ]
+    },
+    "620": {
+      "code": "620",
+      "name": "Portugal",
+      "nameEn": "Portugal",
+      "nameFa": "پرتغال",
+      "region": "Europe",
+      "lat": 39.60724729769303,
+      "lng": -8.061099069676905,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "624": {
+      "code": "624",
+      "name": "Guinea-Bissau",
+      "nameEn": "Guinea-Bissau",
+      "nameFa": "گینهٔ بیسائو",
+      "region": "Africa",
+      "lat": 12.024038012408404,
+      "lng": -15.110392864548576,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1974-09-10",
+          "validTo": null
+        }
+      ]
+    },
+    "626": {
+      "code": "626",
+      "name": "Timor-Leste",
+      "nameEn": "Timor-Leste",
+      "nameFa": "تیمور شرقی",
+      "region": "Asia",
+      "lat": -8.767879046921914,
+      "lng": 125.96733709201654,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "2002-05-20",
+          "validTo": null
+        }
+      ]
+    },
+    "630": {
+      "code": "630",
+      "name": "Puerto Rico",
+      "region": "North America",
+      "lat": 18.238007898653617,
+      "lng": -66.47905702647654,
+      "nameEn": "Puerto Rico",
+      "nameFa": "پورتوریکو",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "634": {
+      "code": "634",
+      "name": "Qatar",
+      "nameEn": "Qatar",
+      "nameFa": "قطر",
+      "region": "Asia",
+      "lat": 25.320983229049347,
+      "lng": 51.1838446696885,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1971-09-03",
+          "validTo": null
+        }
+      ]
+    },
+    "642": {
+      "code": "642",
+      "name": "Romania",
+      "nameEn": "Romania",
+      "nameFa": "رومانی",
+      "region": "Europe",
+      "lat": 45.85337950200309,
+      "lng": 24.95407532106762,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "643": {
+      "code": "643",
+      "name": "Russia",
+      "nameEn": "Russia",
+      "nameFa": "روسیه",
+      "region": "Europe",
+      "lat": 66.06782669636499,
+      "lng": 95.78533375304583,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": "1991-12-26",
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-12-26",
+          "validTo": null
+        }
+      ]
+    },
+    "646": {
+      "code": "646",
+      "name": "Rwanda",
+      "nameEn": "Rwanda",
+      "nameFa": "رواندا",
+      "region": "Africa",
+      "lat": -2.013708798309977,
+      "lng": 29.918680768530237,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-07-01",
+          "validTo": null
+        }
+      ]
+    },
+    "674": {
+      "code": "674",
+      "name": "San Marino",
+      "region": "Europe",
+      "lat": 43.76666666,
+      "lng": 12.41666666,
+      "nameEn": "San Marino",
+      "nameFa": "سان مارینو",
+      "source": "provided",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "682": {
+      "code": "682",
+      "name": "Saudi Arabia",
+      "nameEn": "Saudi Arabia",
+      "nameFa": "عربستان سعودی",
+      "region": "Asia",
+      "lat": 24.089289274627895,
+      "lng": 44.641346547075536,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1932-09-23",
+          "validTo": null
+        }
+      ]
+    },
+    "686": {
+      "code": "686",
+      "name": "Senegal",
+      "nameEn": "Senegal",
+      "nameFa": "سنگال",
+      "region": "Africa",
+      "lat": 14.353596783110603,
+      "lng": -14.505963735176849,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-06-21",
+          "validTo": null
+        }
+      ]
+    },
+    "688": {
+      "code": "688",
+      "name": "Serbia",
+      "nameEn": "Serbia",
+      "nameFa": "صربستان",
+      "region": "Europe",
+      "lat": 44.22324891480765,
+      "lng": 20.836941524209973,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1915-10-02"
+        },
+        {
+          "validFrom": "2006-06-06",
+          "validTo": null
+        }
+      ]
+    },
+    "694": {
+      "code": "694",
+      "name": "Sierra Leone",
+      "nameEn": "Sierra Leone",
+      "nameFa": "سیرالئون",
+      "region": "Africa",
+      "lat": 8.529896051741154,
+      "lng": -11.795383449912269,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1961-04-27",
+          "validTo": null
+        }
+      ]
+    },
+    "702": {
+      "code": "702",
+      "name": "Singapore",
+      "nameEn": "Singapore",
+      "nameFa": "سنگاپور",
+      "region": "Asia",
+      "lat": 1.29306,
+      "lng": 103.855797,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1965-08-09",
+          "validTo": null
+        }
+      ]
+    },
+    "703": {
+      "code": "703",
+      "name": "Slovakia",
+      "nameEn": "Slovakia",
+      "nameFa": "اسلواکی",
+      "region": "Europe",
+      "lat": 48.73326194063438,
+      "lng": 19.497522406155014,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1993-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "704": {
+      "code": "704",
+      "name": "Vietnam",
+      "nameEn": "Vietnam",
+      "nameFa": "ویتنام",
+      "region": "Asia",
+      "lat": 16.55555147497658,
+      "lng": 106.33291978713162,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1893-01-02"
+        },
+        {
+          "validFrom": "1976-07-02",
+          "validTo": null
+        }
+      ]
+    },
+    "705": {
+      "code": "705",
+      "name": "Slovenia",
+      "nameEn": "Slovenia",
+      "nameFa": "اسلوونی",
+      "region": "Europe",
+      "lat": 46.1259173387723,
+      "lng": 14.934228566517884,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1992-04-27",
+          "validTo": null
+        }
+      ]
+    },
+    "706": {
+      "code": "706",
+      "name": "Somalia",
+      "nameEn": "Somalia",
+      "nameFa": "سومالی",
+      "region": "Africa",
+      "lat": 4.74148343627302,
+      "lng": 45.69948397150603,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-07-01",
+          "validTo": null
+        }
+      ]
+    },
+    "710": {
+      "code": "710",
+      "name": "South Africa",
+      "nameEn": "South Africa",
+      "nameFa": "آفریقای جنوبی",
+      "region": "Africa",
+      "lat": -28.92325013043891,
+      "lng": 25.158116601813372,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1910-05-31",
+          "validTo": null
+        }
+      ]
+    },
+    "716": {
+      "code": "716",
+      "name": "Zimbabwe",
+      "nameEn": "Zimbabwe",
+      "nameFa": "زیمبابوه",
+      "region": "Africa",
+      "lat": -18.900273572780492,
+      "lng": 29.78858348282732,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1965-11-11",
+          "validTo": null
+        }
+      ]
+    },
+    "724": {
+      "code": "724",
+      "name": "Spain",
+      "nameEn": "Spain",
+      "nameFa": "اسپانیا",
+      "region": "Europe",
+      "lat": 40.32070054853027,
+      "lng": -3.6242334452591187,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "728": {
+      "code": "728",
+      "name": "South Sudan",
+      "nameEn": "South Sudan",
+      "nameFa": "سودان جنوبی",
+      "region": "Africa",
+      "lat": 7.293085433973486,
+      "lng": 30.201985248841506,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "2011-07-09",
+          "validTo": null
+        }
+      ]
+    },
+    "729": {
+      "code": "729",
+      "name": "Sudan",
+      "nameEn": "Sudan",
+      "nameFa": "سودان",
+      "region": "Africa",
+      "lat": 15.971614772036359,
+      "lng": 29.83062274765237,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1956-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "732": {
+      "code": "732",
+      "name": "W. Sahara",
+      "region": "Africa",
+      "lat": 24.278187611265896,
+      "lng": -12.18607386518645,
+      "nameEn": "Western Sahara",
+      "nameFa": "صحرای غربی",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "740": {
+      "code": "740",
+      "name": "Suriname",
+      "nameEn": "Suriname",
+      "nameFa": "سورینام",
+      "region": "South America",
+      "lat": 4.119699529743588,
+      "lng": -55.91146172923425,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1975-11-25",
+          "validTo": null
+        }
+      ]
+    },
+    "748": {
+      "code": "748",
+      "name": "Eswatini",
+      "nameEn": "Eswatini",
+      "nameFa": "اسواتینی",
+      "region": "Africa",
+      "lat": -26.48961036713719,
+      "lng": 31.395057294837454,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1968-09-06",
+          "validTo": null
+        }
+      ]
+    },
+    "752": {
+      "code": "752",
+      "name": "Sweden",
+      "nameEn": "Sweden",
+      "nameFa": "سوئد",
+      "region": "Europe",
+      "lat": 62.41852307231613,
+      "lng": 16.109057778672746,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "756": {
+      "code": "756",
+      "name": "Switzerland",
+      "nameEn": "Switzerland",
+      "nameFa": "سوئیس",
+      "region": "Europe",
+      "lat": 46.79282001655209,
+      "lng": 8.115759061149433,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "760": {
+      "code": "760",
+      "name": "Syria",
+      "nameEn": "Syria",
+      "nameFa": "سوریه",
+      "region": "Asia",
+      "lat": 35.00851139130995,
+      "lng": 38.52344399319117,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "762": {
+      "code": "762",
+      "name": "Tajikistan",
+      "nameEn": "Tajikistan",
+      "nameFa": "تاجیکستان",
+      "region": "Asia",
+      "lat": 38.58915974006616,
+      "lng": 71.04768548480315,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-09-06",
+          "validTo": null
+        }
+      ]
+    },
+    "764": {
+      "code": "764",
+      "name": "Thailand",
+      "nameEn": "Thailand",
+      "nameFa": "تایلند",
+      "region": "Asia",
+      "lat": 14.980675302013053,
+      "lng": 101.00248599581612,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "768": {
+      "code": "768",
+      "name": "Togo",
+      "nameEn": "Togo",
+      "nameFa": "توگو",
+      "region": "Africa",
+      "lat": 8.434634819184804,
+      "lng": 0.9981293836693488,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-04-27",
+          "validTo": null
+        }
+      ]
+    },
+    "780": {
+      "code": "780",
+      "name": "Trinidad and Tobago",
+      "nameEn": "Trinidad and Tobago",
+      "nameFa": "ترینیداد و توباگو",
+      "region": "North America",
+      "lat": 10.428471974301756,
+      "lng": -61.33143748403786,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-08-31",
+          "validTo": null
+        }
+      ]
+    },
+    "784": {
+      "code": "784",
+      "name": "United Arab Emirates",
+      "nameEn": "United Arab Emirates",
+      "nameFa": "امارات متحدهٔ عربی",
+      "region": "Asia",
+      "lat": 23.871010109259696,
+      "lng": 54.20044722922346,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1971-12-02",
+          "validTo": null
+        }
+      ]
+    },
+    "788": {
+      "code": "788",
+      "name": "Tunisia",
+      "nameEn": "Tunisia",
+      "nameFa": "تونس",
+      "region": "Africa",
+      "lat": 34.143848258453716,
+      "lng": 9.538671404378636,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1956-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "792": {
+      "code": "792",
+      "name": "Turkey",
+      "nameEn": "Turkey",
+      "nameFa": "ترکیه",
+      "region": "Asia",
+      "lat": 39.145094075147405,
+      "lng": 35.11717909092672,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": "1923-10-29",
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1923-10-29",
+          "validTo": null
+        }
+      ]
+    },
+    "795": {
+      "code": "795",
+      "name": "Turkmenistan",
+      "nameEn": "Turkmenistan",
+      "nameFa": "ترکمنستان",
+      "region": "Asia",
+      "lat": 39.10215746689576,
+      "lng": 59.3484276577152,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-10-27",
+          "validTo": null
+        }
+      ]
+    },
+    "800": {
+      "code": "800",
+      "name": "Uganda",
+      "nameEn": "Uganda",
+      "nameFa": "اوگاندا",
+      "region": "Africa",
+      "lat": 1.2950906449111175,
+      "lng": 32.3574068878029,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-10-09",
+          "validTo": null
+        }
+      ]
+    },
+    "804": {
+      "code": "804",
+      "name": "Ukraine",
+      "nameEn": "Ukraine",
+      "nameFa": "اوکراین",
+      "region": "Europe",
+      "lat": 49.186609670808224,
+      "lng": 31.292438527598232,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-12-26",
+          "validTo": null
+        }
+      ]
+    },
+    "807": {
+      "code": "807",
+      "name": "North Macedonia",
+      "nameEn": "North Macedonia",
+      "nameFa": "مقدونیه شمالی",
+      "region": "Europe",
+      "lat": 41.60575552260215,
+      "lng": 21.696134119117193,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-11-20",
+          "validTo": null
+        }
+      ]
+    },
+    "818": {
+      "code": "818",
+      "name": "Egypt",
+      "nameEn": "Egypt",
+      "nameFa": "مصر",
+      "region": "Africa",
+      "lat": 26.47492982089098,
+      "lng": 29.860980187510144,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1922-02-28",
+          "validTo": null
+        }
+      ]
+    },
+    "826": {
+      "code": "826",
+      "name": "United Kingdom",
+      "nameEn": "United Kingdom",
+      "nameFa": "بریتانیا",
+      "region": "Europe",
+      "lat": 53.808520796489965,
+      "lng": -2.7596849127502807,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "834": {
+      "code": "834",
+      "name": "Tanzania",
+      "nameEn": "Tanzania",
+      "nameFa": "تانزانیا",
+      "region": "Africa",
+      "lat": -6.250659245687626,
+      "lng": 34.74173041609096,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1961-12-09",
+          "validTo": null
+        }
+      ]
+    },
+    "840": {
+      "code": "840",
+      "name": "United States",
+      "nameEn": "United States",
+      "nameFa": "ایالات متحدهٔ آمریکا",
+      "region": "North America",
+      "lat": 44.75573007084505,
+      "lng": -103.57252852801429,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "854": {
+      "code": "854",
+      "name": "Burkina Faso",
+      "nameEn": "Burkina Faso",
+      "nameFa": "بورکینافاسو",
+      "region": "Africa",
+      "lat": 12.31295007840512,
+      "lng": -1.7827610045784543,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1960-08-05",
+          "validTo": null
+        }
+      ]
+    },
+    "858": {
+      "code": "858",
+      "name": "Uruguay",
+      "nameEn": "Uruguay",
+      "nameFa": "اروگوئه",
+      "region": "South America",
+      "lat": -32.77378565042608,
+      "lng": -56.0098770401033,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "860": {
+      "code": "860",
+      "name": "Uzbekistan",
+      "nameEn": "Uzbekistan",
+      "nameFa": "ازبکستان",
+      "region": "Asia",
+      "lat": 41.77113926946658,
+      "lng": 63.36503414799328,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-09-01",
+          "validTo": null
+        }
+      ]
+    },
+    "862": {
+      "code": "862",
+      "name": "Venezuela",
+      "nameEn": "Venezuela",
+      "nameFa": "ونزوئلا",
+      "region": "South America",
+      "lat": 7.160800541498007,
+      "lng": -66.15319386889263,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "887": {
+      "code": "887",
+      "name": "Yemen",
+      "nameEn": "Yemen",
+      "nameFa": "یمن",
+      "region": "Asia",
+      "lat": 15.922142685237882,
+      "lng": 47.515104517608435,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": "1990-05-22",
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1990-05-22",
+          "validTo": null
+        }
+      ]
+    },
+    "894": {
+      "code": "894",
+      "name": "Zambia",
+      "nameEn": "Zambia",
+      "nameFa": "زامبیا",
+      "region": "Africa",
+      "lat": -13.393024396329842,
+      "lng": 27.761320995528724,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1964-01-22",
+          "validTo": null
+        }
+      ]
+    },
+    "004": {
+      "code": "004",
+      "name": "Afghanistan",
+      "nameEn": "Afghanistan",
+      "nameFa": "افغانستان",
+      "region": "Asia",
+      "lat": 33.84034880613984,
+      "lng": 66.00378286433504,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1888-12-31"
+        },
+        {
+          "validFrom": "1919-05-01",
+          "validTo": null
+        }
+      ]
+    },
+    "008": {
+      "code": "008",
+      "name": "Albania",
+      "nameEn": "Albania",
+      "nameFa": "آلبانی",
+      "region": "Europe",
+      "lat": 41.13444804196395,
+      "lng": 20.033813412836583,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1913-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "010": {
+      "code": "010",
+      "name": "Antarctica",
+      "region": "Antarctica",
+      "lat": -84.9686418021817,
+      "lng": 82.50704525624919,
+      "nameEn": "Antarctica",
+      "nameFa": "جنوبگان",
+      "source": "restcountries",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "012": {
+      "code": "012",
+      "name": "Algeria",
+      "nameEn": "Algeria",
+      "nameFa": "الجزایر",
+      "region": "Africa",
+      "lat": 28.0854809639131,
+      "lng": 2.6119652341604183,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-07-05",
+          "validTo": null
+        }
+      ]
+    },
+    "020": {
+      "code": "020",
+      "name": "Andorra",
+      "region": "Europe",
+      "lat": 42.5,
+      "lng": 1.5,
+      "nameEn": "Andorra",
+      "nameFa": "آندورا",
+      "source": "provided",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "024": {
+      "code": "024",
+      "name": "Angola",
+      "nameEn": "Angola",
+      "nameFa": "آنگولا",
+      "region": "Africa",
+      "lat": -12.225613614982333,
+      "lng": 17.46501490051317,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1975-11-11",
+          "validTo": null
+        }
+      ]
+    },
+    "031": {
+      "code": "031",
+      "name": "Azerbaijan",
+      "nameEn": "Azerbaijan",
+      "nameFa": "آذربایجان",
+      "region": "Asia",
+      "lat": 40.21948811293478,
+      "lng": 47.55504063475462,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-12-26",
+          "validTo": null
+        }
+      ]
+    },
+    "032": {
+      "code": "032",
+      "name": "Argentina",
+      "nameEn": "Argentina",
+      "nameFa": "آرژانتین",
+      "region": "South America",
+      "lat": -34.736621632215964,
+      "lng": -64.75429424155682,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "036": {
+      "code": "036",
+      "name": "Australia",
+      "nameEn": "Australia",
+      "nameFa": "استرالیا",
+      "region": "Oceania",
+      "lat": -25.763130036769137,
+      "lng": 134.31409394003165,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1901-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "040": {
+      "code": "040",
+      "name": "Austria",
+      "nameEn": "Austria",
+      "nameFa": "اتریش",
+      "region": "Europe",
+      "lat": 47.62095064753285,
+      "lng": 14.060187611718646,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1918-11-03",
+          "validTo": null
+        }
+      ]
+    },
+    "044": {
+      "code": "044",
+      "name": "Bahamas",
+      "nameEn": "Bahamas",
+      "nameFa": "باهاما",
+      "region": "North America",
+      "lat": 25.506570940733177,
+      "lng": -77.92798394733224,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1973-07-10",
+          "validTo": null
+        }
+      ]
+    },
+    "048": {
+      "code": "048",
+      "name": "Bahrain",
+      "nameEn": "Bahrain",
+      "nameFa": "بحرین",
+      "region": "Asia",
+      "lat": 26.23611,
+      "lng": 50.583061,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1971-08-15",
+          "validTo": null
+        }
+      ]
+    },
+    "050": {
+      "code": "050",
+      "name": "Bangladesh",
+      "nameEn": "Bangladesh",
+      "nameFa": "بنگلادش",
+      "region": "Asia",
+      "lat": 23.83388512678864,
+      "lng": 90.27633888995999,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1971-12-16",
+          "validTo": null
+        }
+      ]
+    },
+    "051": {
+      "code": "051",
+      "name": "Armenia",
+      "nameEn": "Armenia",
+      "nameFa": "ارمنستان",
+      "region": "Asia",
+      "lat": 40.21443732361939,
+      "lng": 45.00957332920173,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1991-12-26",
+          "validTo": null
+        }
+      ]
+    },
+    "052": {
+      "code": "052",
+      "name": "Barbados",
+      "nameEn": "Barbados",
+      "nameFa": "باربادوس",
+      "region": "North America",
+      "lat": 13.1,
+      "lng": -59.616661,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1966-11-30",
+          "validTo": null
+        }
+      ]
+    },
+    "056": {
+      "code": "056",
+      "name": "Belgium",
+      "nameEn": "Belgium",
+      "nameFa": "بلژیک",
+      "region": "Europe",
+      "lat": 50.652595886622976,
+      "lng": 4.587689788220876,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "064": {
+      "code": "064",
+      "name": "Bhutan",
+      "nameEn": "Bhutan",
+      "nameFa": "بوتان",
+      "region": "Asia",
+      "lat": 27.42955969804518,
+      "lng": 90.47333990862937,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1949-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "068": {
+      "code": "068",
+      "name": "Bolivia",
+      "nameEn": "Bolivia",
+      "nameFa": "بولیوی",
+      "region": "South America",
+      "lat": -16.703909810404912,
+      "lng": -64.65468685243751,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "070": {
+      "code": "070",
+      "name": "Bosnia and Herzegovina",
+      "nameEn": "Bosnia and Herzegovina",
+      "nameFa": "بوسنی و هرزگوین",
+      "region": "Europe",
+      "lat": 44.17881096605585,
+      "lng": 17.822903050128687,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1992-04-27",
+          "validTo": null
+        }
+      ]
+    },
+    "072": {
+      "code": "072",
+      "name": "Botswana",
+      "nameEn": "Botswana",
+      "nameFa": "بوتسوانا",
+      "region": "Africa",
+      "lat": -22.082329750830137,
+      "lng": 23.783026621565995,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1966-09-30",
+          "validTo": null
+        }
+      ]
+    },
+    "076": {
+      "code": "076",
+      "name": "Brazil",
+      "nameEn": "Brazil",
+      "nameFa": "برزیل",
+      "region": "South America",
+      "lat": -10.6554749187722,
+      "lng": -53.172527779720134,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "084": {
+      "code": "084",
+      "name": "Belize",
+      "nameEn": "Belize",
+      "nameFa": "بلیز",
+      "region": "North America",
+      "lat": 17.1947108110114,
+      "lng": -88.70377666806235,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1981-09-21",
+          "validTo": null
+        }
+      ]
+    },
+    "090": {
+      "code": "090",
+      "name": "Solomon Islands",
+      "nameEn": "Solomon Islands",
+      "nameFa": "جزایر سلیمان",
+      "region": "Oceania",
+      "lat": -8.852332345908787,
+      "lng": 159.9594818531804,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1978-07-07",
+          "validTo": null
+        }
+      ]
+    },
+    "096": {
+      "code": "096",
+      "name": "Brunei",
+      "nameEn": "Brunei",
+      "nameFa": "برونئی",
+      "region": "Asia",
+      "lat": 4.690141346078837,
+      "lng": 114.915104486191,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1984-01-01",
+          "validTo": null
+        }
+      ]
+    },
+    "hist-004-protectorate-200": {
+      "code": "hist-004-protectorate-200",
+      "name": "Afghanistan (protectorate)",
+      "nameEn": "Afghanistan (protectorate)",
+      "nameFa": "افغانستان (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 34.51667,
+      "lng": 69.183327,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1888-12-31",
+          "validTo": "1919-05-01"
+        }
+      ]
+    },
+    "hist-012-colony-220": {
+      "code": "hist-012-colony-220",
+      "name": "Algeria (colony)",
+      "nameEn": "Algeria (colony)",
+      "nameFa": "الجزایر (مستعمره)",
+      "region": "Africa",
+      "lat": 36.76305,
+      "lng": 3.050556,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1962-07-05"
+        }
+      ]
+    },
+    "hist-024-colony-235": {
+      "code": "hist-024-colony-235",
+      "name": "Angola (colony)",
+      "nameEn": "Angola (colony)",
+      "nameFa": "آنگولا (مستعمره)",
+      "region": "Africa",
+      "lat": -8.83833,
+      "lng": 13.23444,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1975-11-11"
+        }
+      ]
+    },
+    "hist-044-colony-200": {
+      "code": "hist-044-colony-200",
+      "name": "Bahamas (colony)",
+      "nameEn": "Bahamas (colony)",
+      "nameFa": "باهاما (مستعمره)",
+      "region": "North America",
+      "lat": 25.07735,
+      "lng": -77.343003,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1973-07-10"
+        }
+      ]
+    },
+    "hist-052-colony-200": {
+      "code": "hist-052-colony-200",
+      "name": "Barbados (colony)",
+      "nameEn": "Barbados (colony)",
+      "nameFa": "باربادوس (مستعمره)",
+      "region": "North America",
+      "lat": 13.1,
+      "lng": -59.616661,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1966-11-30"
+        }
+      ]
+    },
+    "hist-064-protectorate-200": {
+      "code": "hist-064-protectorate-200",
+      "name": "Bhutan (protectorate)",
+      "nameEn": "Bhutan (protectorate)",
+      "nameFa": "بوتان (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 27.48333,
+      "lng": 89.599998,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1947-08-15"
+        }
+      ]
+    },
+    "hist-064-protectorate-750": {
+      "code": "hist-064-protectorate-750",
+      "name": "Bhutan (protectorate)",
+      "nameEn": "Bhutan (protectorate)",
+      "nameFa": "بوتان (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 27.48333,
+      "lng": 89.599998,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1947-08-15",
+          "validTo": "1949-01-01"
+        }
+      ]
+    },
+    "hist-072-protectorate-200": {
+      "code": "hist-072-protectorate-200",
+      "name": "Botswana (protectorate)",
+      "nameEn": "Botswana (protectorate)",
+      "nameFa": "بوتسوانا (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": -24.64639,
+      "lng": 25.911949,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1966-09-30"
+        }
+      ]
+    },
+    "hist-084-colony-200": {
+      "code": "hist-084-colony-200",
+      "name": "Belize (colony)",
+      "nameEn": "Belize (colony)",
+      "nameFa": "بلیز (مستعمره)",
+      "region": "North America",
+      "lat": 17.49871,
+      "lng": -88.188374,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1981-09-21"
+        }
+      ]
+    },
+    "hist-090-protectorate-200": {
+      "code": "hist-090-protectorate-200",
+      "name": "Solomon Islands (protectorate)",
+      "nameEn": "Solomon Islands (protectorate)",
+      "nameFa": "جزایر سلیمان (تحت‌الحمایه)",
+      "region": "Oceania",
+      "lat": -9.43333,
+      "lng": 159.949997,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1893-03-15",
+          "validTo": "1978-07-07"
+        }
+      ]
+    },
+    "hist-096-protectorate-200": {
+      "code": "hist-096-protectorate-200",
+      "name": "Brunei (protectorate)",
+      "nameEn": "Brunei (protectorate)",
+      "nameFa": "برونئی (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 4.88333,
+      "lng": 114.933296,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1888-09-17",
+          "validTo": "1984-01-01"
+        }
+      ]
+    },
+    "hist-104-colony-200": {
+      "code": "hist-104-colony-200",
+      "name": "Myanmar (Burma) (colony)",
+      "nameEn": "Myanmar (Burma) (colony)",
+      "nameFa": "میانمار (مستعمره)",
+      "region": "Asia",
+      "lat": 16.78333,
+      "lng": 96.166656,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1937-04-01",
+          "validTo": "1948-01-04"
+        }
+      ]
+    },
+    "hist-116-colony-220": {
+      "code": "hist-116-colony-220",
+      "name": "Cambodia (Kampuchea) (colony)",
+      "nameEn": "Cambodia (Kampuchea) (colony)",
+      "nameFa": "کامبوج (مستعمره)",
+      "region": "Asia",
+      "lat": 11.55,
+      "lng": 104.916702,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1953-11-09"
+        }
+      ]
+    },
+    "hist-120-mandate-220": {
+      "code": "hist-120-mandate-220",
+      "name": "Cameroon (mandate)",
+      "nameEn": "Cameroon (mandate)",
+      "nameFa": "کامرون (قیمومت)",
+      "region": "Africa",
+      "lat": 3.86667,
+      "lng": 11.51667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1922-07-20",
+          "validTo": "1960-01-01"
+        }
+      ]
+    },
+    "hist-120-occupied-220": {
+      "code": "hist-120-occupied-220",
+      "name": "Cameroon (occupied)",
+      "nameEn": "Cameroon (occupied)",
+      "nameFa": "کامرون (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 3.86667,
+      "lng": 11.51667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1919-06-28",
+          "validTo": "1922-07-20"
+        }
+      ]
+    },
+    "hist-132-colony-235": {
+      "code": "hist-132-colony-235",
+      "name": "Cape Verde (colony)",
+      "nameEn": "Cape Verde (colony)",
+      "nameFa": "کیپ ورد (مستعمره)",
+      "region": "Africa",
+      "lat": 14.91667,
+      "lng": -23.51667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1975-07-05"
+        }
+      ]
+    },
+    "hist-140-colony-220": {
+      "code": "hist-140-colony-220",
+      "name": "Central African Republic (colony)",
+      "nameEn": "Central African Republic (colony)",
+      "nameFa": "جمهوری آفریقای مرکزی (مستعمره)",
+      "region": "Africa",
+      "lat": 4.36808,
+      "lng": 18.582937,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1906-02-11",
+          "validTo": "1960-08-13"
+        }
+      ]
+    },
+    "hist-144-colony-200": {
+      "code": "hist-144-colony-200",
+      "name": "Sri Lanka (Ceylon) (colony)",
+      "nameEn": "Sri Lanka (Ceylon) (colony)",
+      "nameFa": "سری‌لانکا (مستعمره)",
+      "region": "Asia",
+      "lat": 6.93194,
+      "lng": 79.847778,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1948-02-04"
+        }
+      ]
+    },
+    "hist-148-colony-220": {
+      "code": "hist-148-colony-220",
+      "name": "Chad (colony)",
+      "nameEn": "Chad (colony)",
+      "nameFa": "چاد (مستعمره)",
+      "region": "Africa",
+      "lat": 11.71667,
+      "lng": 15.21667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-03-17",
+          "validTo": "1960-08-11"
+        }
+      ]
+    },
+    "hist-148-occupied-220": {
+      "code": "hist-148-occupied-220",
+      "name": "Chad (occupied)",
+      "nameEn": "Chad (occupied)",
+      "nameFa": "چاد (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 11.71667,
+      "lng": 15.21667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1900-09-05",
+          "validTo": "1920-03-17"
+        }
+      ]
+    },
+    "hist-158-colony-740": {
+      "code": "hist-158-colony-740",
+      "name": "Taiwan (colony)",
+      "nameEn": "Taiwan (colony)",
+      "nameFa": "تایوان (مستعمره)",
+      "region": "Asia",
+      "lat": 25.03917,
+      "lng": 121.525002,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1895-04-17",
+          "validTo": "1945-08-15"
+        }
+      ]
+    },
+    "hist-174-colony-220": {
+      "code": "hist-174-colony-220",
+      "name": "Comoros (colony)",
+      "nameEn": "Comoros (colony)",
+      "nameFa": "کومور (مستعمره)",
+      "region": "Africa",
+      "lat": -11.70417,
+      "lng": 43.24028,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-10-27",
+          "validTo": "1975-07-06"
+        }
+      ]
+    },
+    "hist-178-colony-220": {
+      "code": "hist-178-colony-220",
+      "name": "Congo (colony)",
+      "nameEn": "Congo (colony)",
+      "nameFa": "کنگو (مستعمره)",
+      "region": "Africa",
+      "lat": -4.25917,
+      "lng": 15.28472,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1960-08-15"
+        }
+      ]
+    },
+    "hist-180-colony-211": {
+      "code": "hist-180-colony-211",
+      "name": "Congo, Democratic Republic of (Zaire) (colony)",
+      "nameEn": "Congo, Democratic Republic of (Zaire) (colony)",
+      "nameFa": "جمهوری دموکراتیک کنگو (مستعمره)",
+      "region": "Africa",
+      "lat": -5.82999,
+      "lng": 13.049994,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1960-06-30"
+        }
+      ]
+    },
+    "hist-192-colony-230": {
+      "code": "hist-192-colony-230",
+      "name": "Cuba (colony)",
+      "nameEn": "Cuba (colony)",
+      "nameFa": "کوبا (مستعمره)",
+      "region": "North America",
+      "lat": 23.13194,
+      "lng": -82.364166,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1898-12-10"
+        }
+      ]
+    },
+    "hist-192-occupied-2": {
+      "code": "hist-192-occupied-2",
+      "name": "Cuba (occupied)",
+      "nameEn": "Cuba (occupied)",
+      "nameFa": "کوبا (اشغال‌شده)",
+      "region": "North America",
+      "lat": 23.13194,
+      "lng": -82.364166,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1898-12-10",
+          "validTo": "1902-05-20"
+        }
+      ]
+    },
+    "hist-196-colony-200": {
+      "code": "hist-196-colony-200",
+      "name": "Cyprus (colony)",
+      "nameEn": "Cyprus (colony)",
+      "nameFa": "قبرس (مستعمره)",
+      "region": "Europe",
+      "lat": 35.16667,
+      "lng": 33.366661,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1914-11-05",
+          "validTo": "1960-08-16"
+        }
+      ]
+    },
+    "hist-204-colony-220": {
+      "code": "hist-204-colony-220",
+      "name": "Benin (colony)",
+      "nameEn": "Benin (colony)",
+      "nameFa": "بنین (مستعمره)",
+      "region": "Africa",
+      "lat": 6.48333,
+      "lng": 2.616667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1895-01-01",
+          "validTo": "1960-08-01"
+        }
+      ]
+    },
+    "hist-226-colony-230": {
+      "code": "hist-226-colony-230",
+      "name": "Equatorial Guinea (colony)",
+      "nameEn": "Equatorial Guinea (colony)",
+      "nameFa": "گینهٔ استوایی (مستعمره)",
+      "region": "Africa",
+      "lat": 3.75041,
+      "lng": 8.737104,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1968-10-12"
+        }
+      ]
+    },
+    "hist-232-colony-325": {
+      "code": "hist-232-colony-325",
+      "name": "Eritrea (colony)",
+      "nameEn": "Eritrea (colony)",
+      "nameFa": "اریتره (مستعمره)",
+      "region": "Africa",
+      "lat": 15.33333,
+      "lng": 38.933331,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1941-05-19"
+        }
+      ]
+    },
+    "hist-232-occupied-200": {
+      "code": "hist-232-occupied-200",
+      "name": "Eritrea (occupied)",
+      "nameEn": "Eritrea (occupied)",
+      "nameFa": "اریتره (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 15.33333,
+      "lng": 38.933331,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1941-05-19",
+          "validTo": "1952-09-15"
+        }
+      ]
+    },
+    "hist-242-colony-200": {
+      "code": "hist-242-colony-200",
+      "name": "Fiji (colony)",
+      "nameEn": "Fiji (colony)",
+      "nameFa": "فیجی (مستعمره)",
+      "region": "Oceania",
+      "lat": -18.13408,
+      "lng": 178.430299,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1970-10-10"
+        }
+      ]
+    },
+    "hist-262-colony-220": {
+      "code": "hist-262-colony-220",
+      "name": "Djibouti (colony)",
+      "nameEn": "Djibouti (colony)",
+      "nameFa": "جیبوتی (مستعمره)",
+      "region": "Africa",
+      "lat": 11.57036,
+      "lng": 43.150575,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1977-06-27"
+        }
+      ]
+    },
+    "hist-266-colony-220": {
+      "code": "hist-266-colony-220",
+      "name": "Gabon (colony)",
+      "nameEn": "Gabon (colony)",
+      "nameFa": "گابن (مستعمره)",
+      "region": "Africa",
+      "lat": 0.38333,
+      "lng": 9.45,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1903-12-29",
+          "validTo": "1960-08-17"
+        }
+      ]
+    },
+    "hist-266-protectorate-220": {
+      "code": "hist-266-protectorate-220",
+      "name": "Gabon (protectorate)",
+      "nameEn": "Gabon (protectorate)",
+      "nameFa": "گابن (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 0.38333,
+      "lng": 9.45,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1903-12-29"
+        }
+      ]
+    },
+    "hist-270-colony-200": {
+      "code": "hist-270-colony-200",
+      "name": "Gambia (colony)",
+      "nameEn": "Gambia (colony)",
+      "nameFa": "گامبیا (مستعمره)",
+      "region": "Africa",
+      "lat": 13.45388,
+      "lng": -16.591701,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1889-08-10",
+          "validTo": "1965-02-18"
+        }
+      ]
+    },
+    "hist-275-mandate-200": {
+      "code": "hist-275-mandate-200",
+      "name": "Palestine (mandate)",
+      "nameEn": "Palestine (mandate)",
+      "nameFa": "فلسطین (قیمومت)",
+      "region": "Asia",
+      "lat": 31.77841,
+      "lng": 35.206626,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1923-09-29",
+          "validTo": "1948-05-14"
+        }
+      ]
+    },
+    "hist-275-occupied-200": {
+      "code": "hist-275-occupied-200",
+      "name": "Palestine (occupied)",
+      "nameEn": "Palestine (occupied)",
+      "nameFa": "فلسطین (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 31.77841,
+      "lng": 35.206626,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-04-26",
+          "validTo": "1923-09-29"
+        }
+      ]
+    },
+    "hist-288-colony-200": {
+      "code": "hist-288-colony-200",
+      "name": "Ghana (colony)",
+      "nameEn": "Ghana (colony)",
+      "nameFa": "غنا (مستعمره)",
+      "region": "Africa",
+      "lat": 5.55,
+      "lng": -0.216667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1957-03-06"
+        }
+      ]
+    },
+    "hist-324-colony-220": {
+      "code": "hist-324-colony-220",
+      "name": "Guinea (colony)",
+      "nameEn": "Guinea (colony)",
+      "nameFa": "گینه (مستعمره)",
+      "region": "Africa",
+      "lat": 9.55133,
+      "lng": -13.661917,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1894-01-01",
+          "validTo": "1958-10-02"
+        }
+      ]
+    },
+    "hist-328-colony-200": {
+      "code": "hist-328-colony-200",
+      "name": "Guyana (colony)",
+      "nameEn": "Guyana (colony)",
+      "nameFa": "گویان (مستعمره)",
+      "region": "South America",
+      "lat": 6.8,
+      "lng": -58.166672,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1966-05-26"
+        }
+      ]
+    },
+    "hist-332-occupied-2": {
+      "code": "hist-332-occupied-2",
+      "name": "Haiti (occupied)",
+      "nameEn": "Haiti (occupied)",
+      "nameFa": "هائیتی (اشغال‌شده)",
+      "region": "North America",
+      "lat": 18.5392,
+      "lng": -72.334999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1915-07-05",
+          "validTo": "1934-08-15"
+        }
+      ]
+    },
+    "hist-352-colony-390": {
+      "code": "hist-352-colony-390",
+      "name": "Iceland (colony)",
+      "nameEn": "Iceland (colony)",
+      "nameFa": "ایسلند (مستعمره)",
+      "region": "Europe",
+      "lat": 64.15,
+      "lng": -21.950001,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1942-04-22"
+        }
+      ]
+    },
+    "hist-352-occupied-2": {
+      "code": "hist-352-occupied-2",
+      "name": "Iceland (occupied)",
+      "nameEn": "Iceland (occupied)",
+      "nameFa": "ایسلند (اشغال‌شده)",
+      "region": "Europe",
+      "lat": 64.15,
+      "lng": -21.950001,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1942-04-22",
+          "validTo": "1944-06-17"
+        }
+      ]
+    },
+    "hist-356-colony-200": {
+      "code": "hist-356-colony-200",
+      "name": "India (colony)",
+      "nameEn": "India (colony)",
+      "nameFa": "هند (مستعمره)",
+      "region": "Asia",
+      "lat": 22.49497,
+      "lng": 88.324676,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1947-08-15"
+        }
+      ]
+    },
+    "hist-360-colony-210": {
+      "code": "hist-360-colony-210",
+      "name": "Indonesia (colony)",
+      "nameEn": "Indonesia (colony)",
+      "nameFa": "اندونزی (مستعمره)",
+      "region": "Asia",
+      "lat": -6.17444,
+      "lng": 106.829399,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1945-08-17"
+        }
+      ]
+    },
+    "hist-368-mandate-200": {
+      "code": "hist-368-mandate-200",
+      "name": "Iraq (mandate)",
+      "nameEn": "Iraq (mandate)",
+      "nameFa": "عراق (قیمومت)",
+      "region": "Asia",
+      "lat": 33.33861,
+      "lng": 44.39389,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-12-24",
+          "validTo": "1932-10-03"
+        }
+      ]
+    },
+    "hist-368-occupied-200": {
+      "code": "hist-368-occupied-200",
+      "name": "Iraq (occupied)",
+      "nameEn": "Iraq (occupied)",
+      "nameFa": "عراق (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 33.33861,
+      "lng": 44.39389,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-04-26",
+          "validTo": "1920-12-24"
+        }
+      ]
+    },
+    "hist-384-colony-220": {
+      "code": "hist-384-colony-220",
+      "name": "Cote D'Ivoire (colony)",
+      "nameEn": "Cote D'Ivoire (colony)",
+      "nameFa": "ساحل عاج (مستعمره)",
+      "region": "Africa",
+      "lat": 5.32,
+      "lng": -4.040048,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1893-03-10",
+          "validTo": "1960-08-07"
+        }
+      ]
+    },
+    "hist-384-protectorate-220": {
+      "code": "hist-384-protectorate-220",
+      "name": "Cote D'Ivoire (protectorate)",
+      "nameEn": "Cote D'Ivoire (protectorate)",
+      "nameFa": "ساحل عاج (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 5.20039,
+      "lng": -3.749988,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1889-01-10",
+          "validTo": "1893-03-10"
+        }
+      ]
+    },
+    "hist-388-colony-200": {
+      "code": "hist-388-colony-200",
+      "name": "Jamaica (colony)",
+      "nameEn": "Jamaica (colony)",
+      "nameFa": "جامائیکا (مستعمره)",
+      "region": "North America",
+      "lat": 18,
+      "lng": -76.800003,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1962-08-06"
+        }
+      ]
+    },
+    "hist-400-mandate-200": {
+      "code": "hist-400-mandate-200",
+      "name": "Jordan (mandate)",
+      "nameEn": "Jordan (mandate)",
+      "nameFa": "اردن (قیمومت)",
+      "region": "Asia",
+      "lat": 31.95,
+      "lng": 35.933331,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-12-24",
+          "validTo": "1946-05-25"
+        }
+      ]
+    },
+    "hist-400-occupied-200": {
+      "code": "hist-400-occupied-200",
+      "name": "Jordan (occupied)",
+      "nameEn": "Jordan (occupied)",
+      "nameFa": "اردن (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 31.95,
+      "lng": 35.933331,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-04-26",
+          "validTo": "1920-12-24"
+        }
+      ]
+    },
+    "hist-404-colony-200": {
+      "code": "hist-404-colony-200",
+      "name": "Kenya (colony)",
+      "nameEn": "Kenya (colony)",
+      "nameFa": "کنیا (مستعمره)",
+      "region": "Africa",
+      "lat": -1.28333,
+      "lng": 36.816669,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-07-23",
+          "validTo": "1963-12-12"
+        }
+      ]
+    },
+    "hist-404-protectorate-200": {
+      "code": "hist-404-protectorate-200",
+      "name": "Kenya (protectorate)",
+      "nameEn": "Kenya (protectorate)",
+      "nameFa": "کنیا (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": -4.036878,
+      "lng": 39.699571,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1888-10-15",
+          "validTo": "1920-07-23"
+        }
+      ]
+    },
+    "hist-408-occupied-365": {
+      "code": "hist-408-occupied-365",
+      "name": "Korea, People's Republic of (occupied)",
+      "nameEn": "Korea, People's Republic of (occupied)",
+      "nameFa": "کرهٔ شمالی (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 39.01944,
+      "lng": 125.7547,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1945-08-15",
+          "validTo": "1948-09-09"
+        }
+      ]
+    },
+    "hist-410-occupied-2": {
+      "code": "hist-410-occupied-2",
+      "name": "Korea, Republic of (occupied)",
+      "nameEn": "Korea, Republic of (occupied)",
+      "nameFa": "کرهٔ جنوبی (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 37.56639,
+      "lng": 126.999703,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1945-08-15",
+          "validTo": "1948-08-15"
+        }
+      ]
+    },
+    "hist-418-colony-220": {
+      "code": "hist-418-colony-220",
+      "name": "Laos (colony)",
+      "nameEn": "Laos (colony)",
+      "nameFa": "لائوس (مستعمره)",
+      "region": "Asia",
+      "lat": 17.96667,
+      "lng": 102.599999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1893-10-03",
+          "validTo": "1954-05-01"
+        }
+      ]
+    },
+    "hist-422-mandate-220": {
+      "code": "hist-422-mandate-220",
+      "name": "Lebanon (mandate)",
+      "nameEn": "Lebanon (mandate)",
+      "nameFa": "لبنان (قیمومت)",
+      "region": "Asia",
+      "lat": 33.87194,
+      "lng": 35.50972,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-12-24",
+          "validTo": "1944-11-22"
+        }
+      ]
+    },
+    "hist-422-occupied-220": {
+      "code": "hist-422-occupied-220",
+      "name": "Lebanon (occupied)",
+      "nameEn": "Lebanon (occupied)",
+      "nameFa": "لبنان (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 33.87194,
+      "lng": 35.50972,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-04-26",
+          "validTo": "1920-12-24"
+        }
+      ]
+    },
+    "hist-426-colony-200": {
+      "code": "hist-426-colony-200",
+      "name": "Lesotho (colony)",
+      "nameEn": "Lesotho (colony)",
+      "nameFa": "لسوتو (مستعمره)",
+      "region": "Africa",
+      "lat": -29.31667,
+      "lng": 27.48333,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1966-10-04"
+        }
+      ]
+    },
+    "hist-434-colony-325": {
+      "code": "hist-434-colony-325",
+      "name": "Libya (colony)",
+      "nameEn": "Libya (colony)",
+      "nameFa": "لیبی (مستعمره)",
+      "region": "Africa",
+      "lat": 32.8925,
+      "lng": 13.18,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1912-10-18",
+          "validTo": "1943-05-13"
+        }
+      ]
+    },
+    "hist-434-mandate-200": {
+      "code": "hist-434-mandate-200",
+      "name": "Libya (mandate)",
+      "nameEn": "Libya (mandate)",
+      "nameFa": "لیبی (قیمومت)",
+      "region": "Africa",
+      "lat": 32.8925,
+      "lng": 13.18,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1949-11-21",
+          "validTo": "1951-12-24"
+        }
+      ]
+    },
+    "hist-434-occupied-200": {
+      "code": "hist-434-occupied-200",
+      "name": "Libya (occupied)",
+      "nameEn": "Libya (occupied)",
+      "nameFa": "لیبی (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 32.8925,
+      "lng": 13.18,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1943-05-13",
+          "validTo": "1949-11-21"
+        }
+      ]
+    },
+    "hist-450-colony-220": {
+      "code": "hist-450-colony-220",
+      "name": "Madagascar (Malagasy) (colony)",
+      "nameEn": "Madagascar (Malagasy) (colony)",
+      "nameFa": "ماداگاسکار (مستعمره)",
+      "region": "Africa",
+      "lat": -18.91667,
+      "lng": 47.51667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1896-08-06",
+          "validTo": "1960-06-26"
+        }
+      ]
+    },
+    "hist-454-protectorate-200": {
+      "code": "hist-454-protectorate-200",
+      "name": "Malawi (protectorate)",
+      "nameEn": "Malawi (protectorate)",
+      "nameFa": "مالاوی (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": -13.98333,
+      "lng": 33.783329,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1891-06-10",
+          "validTo": "1953-08-01"
+        },
+        {
+          "validFrom": "1964-01-22",
+          "validTo": "1964-07-06"
+        }
+      ]
+    },
+    "hist-458-colony-200": {
+      "code": "hist-458-colony-200",
+      "name": "Malaysia (colony)",
+      "nameEn": "Malaysia (colony)",
+      "nameFa": "مالزی (مستعمره)",
+      "region": "Asia",
+      "lat": 3.16667,
+      "lng": 101.699997,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-04-01",
+          "validTo": "1957-08-31"
+        }
+      ]
+    },
+    "hist-462-protectorate-200": {
+      "code": "hist-462-protectorate-200",
+      "name": "Maldives (protectorate)",
+      "nameEn": "Maldives (protectorate)",
+      "nameFa": "مالدیو (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 4.166667,
+      "lng": 73.5,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1887-12-16",
+          "validTo": "1965-05-26"
+        }
+      ]
+    },
+    "hist-466-colony-220": {
+      "code": "hist-466-colony-220",
+      "name": "Mali (colony)",
+      "nameEn": "Mali (colony)",
+      "nameFa": "مالی (مستعمره)",
+      "region": "Africa",
+      "lat": 12.61771,
+      "lng": -7.97491,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1905-01-01",
+          "validTo": "1960-09-22"
+        }
+      ]
+    },
+    "hist-470-colony-200": {
+      "code": "hist-470-colony-200",
+      "name": "Malta (colony)",
+      "nameEn": "Malta (colony)",
+      "nameFa": "مالت (مستعمره)",
+      "region": "Europe",
+      "lat": 35.89972,
+      "lng": 14.51472,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1964-09-21"
+        }
+      ]
+    },
+    "hist-478-colony-220": {
+      "code": "hist-478-colony-220",
+      "name": "Mauritania (colony)",
+      "nameEn": "Mauritania (colony)",
+      "nameFa": "موریتانی (مستعمره)",
+      "region": "Africa",
+      "lat": 18.11944,
+      "lng": -16.027356,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-01-12",
+          "validTo": "1960-11-28"
+        }
+      ]
+    },
+    "hist-478-protectorate-220": {
+      "code": "hist-478-protectorate-220",
+      "name": "Mauritania (protectorate)",
+      "nameEn": "Mauritania (protectorate)",
+      "nameFa": "موریتانی (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 18.11944,
+      "lng": -16.027356,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1904-04-08",
+          "validTo": "1920-01-12"
+        }
+      ]
+    },
+    "hist-480-colony-200": {
+      "code": "hist-480-colony-200",
+      "name": "Mauritius (colony)",
+      "nameEn": "Mauritius (colony)",
+      "nameFa": "موریس (مستعمره)",
+      "region": "Africa",
+      "lat": -20.16195,
+      "lng": 57.49889,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1968-03-12"
+        }
+      ]
+    },
+    "hist-499-occupied-300": {
+      "code": "hist-499-occupied-300",
+      "name": "Montenegro (occupied)",
+      "nameEn": "Montenegro (occupied)",
+      "nameFa": "مونته‌نگرو (اشغال‌شده)",
+      "region": "Europe",
+      "lat": 42.3931,
+      "lng": 18.911596,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1915-07-02",
+          "validTo": "1918-12-01"
+        }
+      ]
+    },
+    "hist-504-protectorate-220": {
+      "code": "hist-504-protectorate-220",
+      "name": "Morocco (protectorate)",
+      "nameEn": "Morocco (protectorate)",
+      "nameFa": "مراکش (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 34.02,
+      "lng": -6.83,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1912-11-27",
+          "validTo": "1956-03-02"
+        }
+      ]
+    },
+    "hist-508-colony-235": {
+      "code": "hist-508-colony-235",
+      "name": "Mozambique (colony)",
+      "nameEn": "Mozambique (colony)",
+      "nameFa": "موزامبیک (مستعمره)",
+      "region": "Africa",
+      "lat": -25.96528,
+      "lng": 32.589169,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1975-06-25"
+        }
+      ]
+    },
+    "hist-516-colony-255": {
+      "code": "hist-516-colony-255",
+      "name": "Namibia (colony)",
+      "nameEn": "Namibia (colony)",
+      "nameFa": "نامیبیا (مستعمره)",
+      "region": "Africa",
+      "lat": -22.57,
+      "lng": 17.083611,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1915-08-16"
+        }
+      ]
+    },
+    "hist-516-colony-560": {
+      "code": "hist-516-colony-560",
+      "name": "Namibia (colony)",
+      "nameEn": "Namibia (colony)",
+      "nameFa": "نامیبیا (مستعمره)",
+      "region": "Africa",
+      "lat": -22.57,
+      "lng": 17.083611,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1966-10-27",
+          "validTo": "1990-03-21"
+        }
+      ]
+    },
+    "hist-516-mandate-560": {
+      "code": "hist-516-mandate-560",
+      "name": "Namibia (mandate)",
+      "nameEn": "Namibia (mandate)",
+      "nameFa": "نامیبیا (قیمومت)",
+      "region": "Africa",
+      "lat": -22.57,
+      "lng": 17.083611,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-12-17",
+          "validTo": "1966-10-27"
+        }
+      ]
+    },
+    "hist-516-occupied-560": {
+      "code": "hist-516-occupied-560",
+      "name": "Namibia (occupied)",
+      "nameEn": "Namibia (occupied)",
+      "nameFa": "نامیبیا (اشغال‌شده)",
+      "region": "Africa",
+      "lat": -22.57,
+      "lng": 17.083611,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1915-08-16",
+          "validTo": "1920-12-17"
+        }
+      ]
+    },
+    "hist-554-colony-200": {
+      "code": "hist-554-colony-200",
+      "name": "New Zealand (colony)",
+      "nameEn": "New Zealand (colony)",
+      "nameFa": "نیوزیلند (مستعمره)",
+      "region": "Oceania",
+      "lat": -41.3,
+      "lng": 174.783295,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1907-09-01"
+        }
+      ]
+    },
+    "hist-562-colony-220": {
+      "code": "hist-562-colony-220",
+      "name": "Niger (colony)",
+      "nameEn": "Niger (colony)",
+      "nameFa": "نیجر (مستعمره)",
+      "region": "Africa",
+      "lat": 13.51667,
+      "lng": 2.116667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1905-01-01",
+          "validTo": "1960-08-03"
+        }
+      ]
+    },
+    "hist-566-colony-200": {
+      "code": "hist-566-colony-200",
+      "name": "Nigeria (colony)",
+      "nameEn": "Nigeria (colony)",
+      "nameFa": "نیجریه (مستعمره)",
+      "region": "Africa",
+      "lat": 9.08333,
+      "lng": 7.533333,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1914-01-01",
+          "validTo": "1960-10-01"
+        }
+      ]
+    },
+    "hist-598-mandate-900": {
+      "code": "hist-598-mandate-900",
+      "name": "Papua New Guinea (mandate)",
+      "nameEn": "Papua New Guinea (mandate)",
+      "nameFa": "پاپوآ گینهٔ نو (قیمومت)",
+      "region": "Oceania",
+      "lat": -9.46472,
+      "lng": 147.192505,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1949-07-01",
+          "validTo": "1975-09-16"
+        }
+      ]
+    },
+    "hist-608-colony-2": {
+      "code": "hist-608-colony-2",
+      "name": "Philippines (colony)",
+      "nameEn": "Philippines (colony)",
+      "nameFa": "فیلیپین (مستعمره)",
+      "region": "Asia",
+      "lat": 14.60417,
+      "lng": 120.982201,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1898-12-11",
+          "validTo": "1946-07-04"
+        }
+      ]
+    },
+    "hist-608-colony-230": {
+      "code": "hist-608-colony-230",
+      "name": "Philippines (colony)",
+      "nameEn": "Philippines (colony)",
+      "nameFa": "فیلیپین (مستعمره)",
+      "region": "Asia",
+      "lat": 14.60417,
+      "lng": 120.982201,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1898-12-11"
+        }
+      ]
+    },
+    "hist-624-colony-235": {
+      "code": "hist-624-colony-235",
+      "name": "Guinea-Bissau (colony)",
+      "nameEn": "Guinea-Bissau (colony)",
+      "nameFa": "گینهٔ بیسائو (مستعمره)",
+      "region": "Africa",
+      "lat": 11.85877,
+      "lng": -15.580029,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1974-09-10"
+        }
+      ]
+    },
+    "hist-626-colony-235": {
+      "code": "hist-626-colony-235",
+      "name": "East Timor (colony)",
+      "nameEn": "East Timor (colony)",
+      "nameFa": "تیمور شرقی (مستعمره)",
+      "region": "Asia",
+      "lat": -8.55861,
+      "lng": 125.573601,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1976-07-17"
+        }
+      ]
+    },
+    "hist-630-colony-2": {
+      "code": "hist-630-colony-2",
+      "name": "Puerto Rico (colony)",
+      "nameEn": "Puerto Rico (colony)",
+      "nameFa": "پورتوریکو (مستعمره)",
+      "region": "North America",
+      "lat": 18.4655,
+      "lng": -66.1057,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1898-12-10",
+          "validTo": "2020-01-01"
+        }
+      ]
+    },
+    "hist-630-colony-230": {
+      "code": "hist-630-colony-230",
+      "name": "Puerto Rico (colony)",
+      "nameEn": "Puerto Rico (colony)",
+      "nameFa": "پورتوریکو (مستعمره)",
+      "region": "North America",
+      "lat": 18.4655,
+      "lng": -66.1057,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1898-12-10"
+        }
+      ]
+    },
+    "hist-634-protectorate-200": {
+      "code": "hist-634-protectorate-200",
+      "name": "Qatar (protectorate)",
+      "nameEn": "Qatar (protectorate)",
+      "nameFa": "قطر (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 25.28667,
+      "lng": 51.533329,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1916-11-03",
+          "validTo": "1971-09-03"
+        }
+      ]
+    },
+    "hist-686-colony-220": {
+      "code": "hist-686-colony-220",
+      "name": "Senegal (colony)",
+      "nameEn": "Senegal (colony)",
+      "nameFa": "سنگال (مستعمره)",
+      "region": "Africa",
+      "lat": 14.70889,
+      "lng": -17.45528,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1959-04-04"
+        }
+      ]
+    },
+    "hist-688-occupied-300": {
+      "code": "hist-688-occupied-300",
+      "name": "Serbia (occupied)",
+      "nameEn": "Serbia (occupied)",
+      "nameFa": "صربستان (اشغال‌شده)",
+      "region": "Europe",
+      "lat": 44.81861,
+      "lng": 20.46806,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1915-10-02",
+          "validTo": "1918-12-01"
+        }
+      ]
+    },
+    "hist-694-colony-200": {
+      "code": "hist-694-colony-200",
+      "name": "Sierra Leone (colony)",
+      "nameEn": "Sierra Leone (colony)",
+      "nameFa": "سیرالئون (مستعمره)",
+      "region": "Africa",
+      "lat": 8.49,
+      "lng": -13.23417,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1961-04-27"
+        }
+      ]
+    },
+    "hist-702-colony-200": {
+      "code": "hist-702-colony-200",
+      "name": "Singapore (colony)",
+      "nameEn": "Singapore (colony)",
+      "nameFa": "سنگاپور (مستعمره)",
+      "region": "Asia",
+      "lat": 1.29306,
+      "lng": 103.855797,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-04-01",
+          "validTo": "1963-01-01"
+        }
+      ]
+    },
+    "hist-704-colony-220": {
+      "code": "hist-704-colony-220",
+      "name": "Vietnam (Annam/Cochin China/Tonkin) (colony)",
+      "nameEn": "Vietnam (Annam/Cochin China/Tonkin) (colony)",
+      "nameFa": "ویتنام (مستعمره)",
+      "region": "Asia",
+      "lat": 16.46999,
+      "lng": 107.580038,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1893-01-02",
+          "validTo": "1954-05-01"
+        }
+      ]
+    },
+    "hist-716-colony-200": {
+      "code": "hist-716-colony-200",
+      "name": "Zimbabwe (Rhodesia) (colony)",
+      "nameEn": "Zimbabwe (Rhodesia) (colony)",
+      "nameFa": "زیمبابوه (مستعمره)",
+      "region": "Africa",
+      "lat": -17.81778,
+      "lng": 31.04472,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1889-01-01",
+          "validTo": "1953-08-01"
+        },
+        {
+          "validFrom": "1964-01-22",
+          "validTo": "1965-11-11"
+        }
+      ]
+    },
+    "hist-729-colony-200": {
+      "code": "hist-729-colony-200",
+      "name": "Sudan (colony)",
+      "nameEn": "Sudan (colony)",
+      "nameFa": "سودان (مستعمره)",
+      "region": "Africa",
+      "lat": 15.58806,
+      "lng": 32.534168,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1899-01-19",
+          "validTo": "1956-01-01"
+        }
+      ]
+    },
+    "hist-740-colony-210": {
+      "code": "hist-740-colony-210",
+      "name": "Surinam (colony)",
+      "nameEn": "Surinam (colony)",
+      "nameFa": "سورینام (مستعمره)",
+      "region": "South America",
+      "lat": 5.83333,
+      "lng": -55.166672,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1975-11-25"
+        }
+      ]
+    },
+    "hist-748-colony-200": {
+      "code": "hist-748-colony-200",
+      "name": "Swaziland (Eswatini) (colony)",
+      "nameEn": "Swaziland (Eswatini) (colony)",
+      "nameFa": "اسواتینی (مستعمره)",
+      "region": "Africa",
+      "lat": -26.31667,
+      "lng": 31.133329,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1902-08-07",
+          "validTo": "1968-09-06"
+        }
+      ]
+    },
+    "hist-748-colony-563": {
+      "code": "hist-748-colony-563",
+      "name": "Swaziland (Eswatini) (colony)",
+      "nameEn": "Swaziland (Eswatini) (colony)",
+      "nameFa": "اسواتینی (مستعمره)",
+      "region": "Africa",
+      "lat": -26.31667,
+      "lng": 31.133329,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1895-02-21",
+          "validTo": "1902-08-07"
+        }
+      ]
+    },
+    "hist-760-mandate-220": {
+      "code": "hist-760-mandate-220",
+      "name": "Syria (mandate)",
+      "nameEn": "Syria (mandate)",
+      "nameFa": "سوریه (قیمومت)",
+      "region": "Asia",
+      "lat": 33.5,
+      "lng": 36.299999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-12-24",
+          "validTo": "1946-01-01"
+        }
+      ]
+    },
+    "hist-760-occupied-220": {
+      "code": "hist-760-occupied-220",
+      "name": "Syria (occupied)",
+      "nameEn": "Syria (occupied)",
+      "nameFa": "سوریه (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 33.5,
+      "lng": 36.299999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-04-26",
+          "validTo": "1920-12-24"
+        }
+      ]
+    },
+    "hist-768-mandate-220": {
+      "code": "hist-768-mandate-220",
+      "name": "Togo (mandate)",
+      "nameEn": "Togo (mandate)",
+      "nameFa": "توگو (قیمومت)",
+      "region": "Africa",
+      "lat": 6.1725,
+      "lng": 1.231362,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1922-07-20",
+          "validTo": "1960-04-27"
+        }
+      ]
+    },
+    "hist-780-colony-200": {
+      "code": "hist-780-colony-200",
+      "name": "Trinidad and Tobago (colony)",
+      "nameEn": "Trinidad and Tobago (colony)",
+      "nameFa": "ترینیداد و توباگو (مستعمره)",
+      "region": "North America",
+      "lat": 10.65,
+      "lng": -61.51667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1962-08-31"
+        }
+      ]
+    },
+    "hist-784-protectorate-200": {
+      "code": "hist-784-protectorate-200",
+      "name": "United Arab Emirates (protectorate)",
+      "nameEn": "United Arab Emirates (protectorate)",
+      "nameFa": "امارات متحدهٔ عربی (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 24.46667,
+      "lng": 54.366661,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1892-03-08",
+          "validTo": "1971-12-02"
+        }
+      ]
+    },
+    "hist-788-protectorate-220": {
+      "code": "hist-788-protectorate-220",
+      "name": "Tunisia (protectorate)",
+      "nameEn": "Tunisia (protectorate)",
+      "nameFa": "تونس (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 36.80278,
+      "lng": 10.17972,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1956-01-01"
+        }
+      ]
+    },
+    "hist-800-protectorate-200": {
+      "code": "hist-800-protectorate-200",
+      "name": "Uganda (protectorate)",
+      "nameEn": "Uganda (protectorate)",
+      "nameFa": "اوگاندا (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 0.31556,
+      "lng": 32.565559,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1894-06-08",
+          "validTo": "1962-10-09"
+        }
+      ]
+    },
+    "hist-818-colony-200": {
+      "code": "hist-818-colony-200",
+      "name": "Egypt (colony)",
+      "nameEn": "Egypt (colony)",
+      "nameFa": "مصر (مستعمره)",
+      "region": "Asia",
+      "lat": 30.05,
+      "lng": 31.25,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1914-12-18"
+        }
+      ]
+    },
+    "hist-818-protectorate-200": {
+      "code": "hist-818-protectorate-200",
+      "name": "Egypt (protectorate)",
+      "nameEn": "Egypt (protectorate)",
+      "nameFa": "مصر (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 30.05,
+      "lng": 31.25,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1914-12-18",
+          "validTo": "1922-02-28"
+        }
+      ]
+    },
+    "hist-834-colony-255": {
+      "code": "hist-834-colony-255",
+      "name": "Tanzania (Tanganyika) (colony)",
+      "nameEn": "Tanzania (Tanganyika) (colony)",
+      "nameFa": "تانزانیا (مستعمره)",
+      "region": "Africa",
+      "lat": -6.173,
+      "lng": 35.741901,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1891-01-01",
+          "validTo": "1916-10-09"
+        }
+      ]
+    },
+    "hist-834-mandate-200": {
+      "code": "hist-834-mandate-200",
+      "name": "Tanzania (Tanganyika) (mandate)",
+      "nameEn": "Tanzania (Tanganyika) (mandate)",
+      "nameFa": "تانزانیا (قیمومت)",
+      "region": "Africa",
+      "lat": -6.173,
+      "lng": 35.741901,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1922-07-20",
+          "validTo": "1961-12-09"
+        }
+      ]
+    },
+    "hist-834-occupied-200": {
+      "code": "hist-834-occupied-200",
+      "name": "Tanzania (Tanganyika) (occupied)",
+      "nameEn": "Tanzania (Tanganyika) (occupied)",
+      "nameFa": "تانزانیا (اشغال‌شده)",
+      "region": "Africa",
+      "lat": -6.173,
+      "lng": 35.741901,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1916-10-09",
+          "validTo": "1922-07-20"
+        }
+      ]
+    },
+    "hist-854-colony-220": {
+      "code": "hist-854-colony-220",
+      "name": "Burkina Faso (Upper Volta) (colony)",
+      "nameEn": "Burkina Faso (Upper Volta) (colony)",
+      "nameFa": "بورکینافاسو (مستعمره)",
+      "region": "Africa",
+      "lat": 12.37028,
+      "lng": -1.524722,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1919-03-01",
+          "validTo": "1932-09-05"
+        },
+        {
+          "validFrom": "1947-01-04",
+          "validTo": "1960-08-05"
+        }
+      ]
+    },
+    "hist-894-colony-200": {
+      "code": "hist-894-colony-200",
+      "name": "Zambia (colony)",
+      "nameEn": "Zambia (colony)",
+      "nameFa": "زامبیا (مستعمره)",
+      "region": "Africa",
+      "lat": -15.41667,
+      "lng": 28.283331,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1911-08-18",
+          "validTo": "1953-08-01"
+        }
+      ]
+    },
+    "hist-austria-hungary": {
+      "code": "hist-austria-hungary",
+      "name": "Austria-Hungary",
+      "nameEn": "Austria-Hungary",
+      "nameFa": "اتریش‌ـ‌مجارستان",
+      "region": "Europe",
+      "lat": 48.2,
+      "lng": 16.366671,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1918-11-03"
+        }
+      ]
+    },
+    "hist-czechoslovakia": {
+      "code": "hist-czechoslovakia",
+      "name": "Czechoslovakia",
+      "nameEn": "Czechoslovakia",
+      "nameFa": "چکسلواکی",
+      "region": "Europe",
+      "lat": 50.08333,
+      "lng": 14.46667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1918-10-28",
+      "dissolvedOn": "1993-01-01",
+      "periods": [
+        {
+          "validFrom": "1918-11-11",
+          "validTo": "1993-01-01"
+        }
+      ]
+    },
+    "hist-east-germany": {
+      "code": "hist-east-germany",
+      "name": "East Germany",
+      "nameEn": "East Germany",
+      "nameFa": "آلمان شرقی",
+      "region": "Europe",
+      "lat": 52.517831262,
+      "lng": 13.402665056,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1949-10-07",
+      "dissolvedOn": "1990-10-03",
+      "periods": [
+        {
+          "validFrom": "1949-10-07",
+          "validTo": "1990-10-03"
+        }
+      ]
+    },
+    "hist-federal-yugoslavia": {
+      "code": "hist-federal-yugoslavia",
+      "name": "Federal Republic of Yugoslavia",
+      "nameEn": "Federal Republic of Yugoslavia",
+      "nameFa": "جمهوری فدرال یوگسلاوی",
+      "region": "Europe",
+      "lat": 44.81861,
+      "lng": 20.46806,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1992-04-27",
+      "dissolvedOn": "2003-02-04",
+      "periods": [
+        {
+          "validFrom": "1992-04-27",
+          "validTo": "2003-02-04"
+        }
+      ]
+    },
+    "hist-germany-pre1945": {
+      "code": "hist-germany-pre1945",
+      "name": "Germany (pre-1945)",
+      "nameEn": "Germany (pre-1945)",
+      "nameFa": "آلمان پیش از ۱۹۴۵",
+      "region": "Europe",
+      "lat": 52.51667,
+      "lng": 13.4,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1945-05-08"
+        }
+      ]
+    },
+    "hist-gw-120-colony-220": {
+      "code": "hist-gw-120-colony-220",
+      "name": "French Guyana (colony)",
+      "nameEn": "French Guyana (colony)",
+      "nameFa": "گویان فرانسه (مستعمره)",
+      "region": "South America",
+      "lat": 4.93299,
+      "lng": -52.330021,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "2020-01-01"
+        }
+      ]
+    },
+    "hist-gw-1201-colony-220": {
+      "code": "hist-gw-1201-colony-220",
+      "name": "Inini (colony)",
+      "nameEn": "Inini (colony)",
+      "nameFa": "اینینی (مستعمره)",
+      "region": "South America",
+      "lat": 4.8227,
+      "lng": -53.2764,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1930-07-06",
+          "validTo": "1946-03-19"
+        }
+      ]
+    },
+    "hist-gw-21-colony-200": {
+      "code": "hist-gw-21-colony-200",
+      "name": "Newfoundland (colony)",
+      "nameEn": "Newfoundland (colony)",
+      "nameFa": "نیوفاندلند (مستعمره)",
+      "region": "North America",
+      "lat": 47.58499,
+      "lng": -52.681007,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1948-07-22"
+        }
+      ]
+    },
+    "hist-gw-260-occupied-2": {
+      "code": "hist-gw-260-occupied-2",
+      "name": "German Federal Republic (occupied)",
+      "nameEn": "German Federal Republic (occupied)",
+      "nameFa": "آلمان غربی (اشغال‌شده)",
+      "region": "Europe",
+      "lat": 50.73333,
+      "lng": 7.1,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1945-05-08",
+          "validTo": "1949-09-21"
+        }
+      ]
+    },
+    "hist-gw-265-occupied-365": {
+      "code": "hist-gw-265-occupied-365",
+      "name": "German Democratic Republic (occupied)",
+      "nameEn": "German Democratic Republic (occupied)",
+      "nameFa": "آلمان شرقی (اشغال‌شده)",
+      "region": "Europe",
+      "lat": 52.517831262,
+      "lng": 13.402665056,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1945-05-08",
+          "validTo": "1949-10-05"
+        }
+      ]
+    },
+    "hist-gw-291-mandate-0": {
+      "code": "hist-gw-291-mandate-0",
+      "name": "Danzig (mandate)",
+      "nameEn": "Danzig (mandate)",
+      "nameFa": "دانتسیگ (قیمومت)",
+      "region": "Europe",
+      "lat": 54.35998,
+      "lng": 18.64004,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1919-06-28",
+          "validTo": "1938-09-01"
+        }
+      ]
+    },
+    "hist-gw-3-colony-2": {
+      "code": "hist-gw-3-colony-2",
+      "name": "Alaska (colony)",
+      "nameEn": "Alaska (colony)",
+      "nameFa": "آلاسکا (مستعمره)",
+      "region": "North America",
+      "lat": 58.30434,
+      "lng": -134.412019,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1959-01-03"
+        }
+      ]
+    },
+    "hist-gw-3461-occupied-300": {
+      "code": "hist-gw-3461-occupied-300",
+      "name": "Bosnia (occupied)",
+      "nameEn": "Bosnia (occupied)",
+      "nameFa": "بوسنی (اشغال‌شده)",
+      "region": "Europe",
+      "lat": 43.85002,
+      "lng": 18.383002,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1908-10-07"
+        }
+      ]
+    },
+    "hist-gw-3462-occupied-300": {
+      "code": "hist-gw-3462-occupied-300",
+      "name": "Herzegovina (occupied)",
+      "nameEn": "Herzegovina (occupied)",
+      "nameFa": "هرزگوین (اشغال‌شده)",
+      "region": "Europe",
+      "lat": 43.33333,
+      "lng": 17.8,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1908-10-07"
+        }
+      ]
+    },
+    "hist-gw-4-colony-2": {
+      "code": "hist-gw-4-colony-2",
+      "name": "Hawaii (colony)",
+      "nameEn": "Hawaii (colony)",
+      "nameFa": "هاوایی (مستعمره)",
+      "region": "North America",
+      "lat": 21.30746,
+      "lng": -157.855954,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1898-07-06",
+          "validTo": "1959-08-21"
+        }
+      ]
+    },
+    "hist-gw-430-colony-220": {
+      "code": "hist-gw-430-colony-220",
+      "name": "French West Africa (colony)",
+      "nameEn": "French West Africa (colony)",
+      "nameFa": "آفریقای غربی فرانسه (مستعمره)",
+      "region": "Africa",
+      "lat": 16.01999,
+      "lng": -16.510011,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1895-06-16",
+          "validTo": "1904-04-08"
+        }
+      ]
+    },
+    "hist-gw-460-colony-255": {
+      "code": "hist-gw-460-colony-255",
+      "name": "German Togoland (colony)",
+      "nameEn": "German Togoland (colony)",
+      "nameFa": "توگولند آلمان (مستعمره)",
+      "region": "Africa",
+      "lat": 6.16667,
+      "lng": 1.316667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1914-08-31"
+        }
+      ]
+    },
+    "hist-gw-460-occupied-200": {
+      "code": "hist-gw-460-occupied-200",
+      "name": "German Togoland (occupied)",
+      "nameEn": "German Togoland (occupied)",
+      "nameFa": "توگولند آلمان (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 6.1725,
+      "lng": 1.231362,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1914-08-31",
+          "validTo": "1922-07-20"
+        }
+      ]
+    },
+    "hist-gw-462-mandate-200": {
+      "code": "hist-gw-462-mandate-200",
+      "name": "British Togoland (mandate)",
+      "nameEn": "British Togoland (mandate)",
+      "nameFa": "توگولند بریتانیا (قیمومت)",
+      "region": "Africa",
+      "lat": 6.60041,
+      "lng": 0.469987,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1922-07-20",
+          "validTo": "1956-01-01"
+        }
+      ]
+    },
+    "hist-gw-470-colony-255": {
+      "code": "hist-gw-470-colony-255",
+      "name": "Kamerun (colony)",
+      "nameEn": "Kamerun (colony)",
+      "nameFa": "کامرون آلمان (مستعمره)",
+      "region": "Africa",
+      "lat": 4.155,
+      "lng": 9.231004,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1916-03-04"
+        }
+      ]
+    },
+    "hist-gw-470-occupied-200": {
+      "code": "hist-gw-470-occupied-200",
+      "name": "Kamerun (occupied)",
+      "nameEn": "Kamerun (occupied)",
+      "nameFa": "کامرون آلمان (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 4.155,
+      "lng": 9.231004,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1916-03-04",
+          "validTo": "1919-06-28"
+        }
+      ]
+    },
+    "hist-gw-472-mandate-200": {
+      "code": "hist-gw-472-mandate-200",
+      "name": "British Cameroons (mandate)",
+      "nameEn": "British Cameroons (mandate)",
+      "nameFa": "کامرون بریتانیا (قیمومت)",
+      "region": "Africa",
+      "lat": 4.155,
+      "lng": 9.231004,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1922-07-20",
+          "validTo": "1961-10-01"
+        }
+      ]
+    },
+    "hist-gw-472-occupied-200": {
+      "code": "hist-gw-472-occupied-200",
+      "name": "British Cameroons (occupied)",
+      "nameEn": "British Cameroons (occupied)",
+      "nameFa": "کامرون بریتانیا (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 4.155,
+      "lng": 9.231004,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1919-06-28",
+          "validTo": "1922-07-20"
+        }
+      ]
+    },
+    "hist-gw-4781-colony-200": {
+      "code": "hist-gw-4781-colony-200",
+      "name": "Lagos (colony)",
+      "nameEn": "Lagos (colony)",
+      "nameFa": "لاگوس (مستعمره)",
+      "region": "Africa",
+      "lat": 6.50722,
+      "lng": 3.385872,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1906-02-16"
+        }
+      ]
+    },
+    "hist-gw-4782-protectorate-200": {
+      "code": "hist-gw-4782-protectorate-200",
+      "name": "Oil Rivers Protectorate (protectorate)",
+      "nameEn": "Oil Rivers Protectorate (protectorate)",
+      "nameFa": "تحت‌الحمایهٔ رودهای نفت (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 4.95,
+      "lng": 8.316667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1899-01-01"
+        }
+      ]
+    },
+    "hist-gw-4783-protectorate-200": {
+      "code": "hist-gw-4783-protectorate-200",
+      "name": "Southern Nigeria (protectorate)",
+      "nameEn": "Southern Nigeria (protectorate)",
+      "nameFa": "نیجریهٔ جنوبی (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 4.95,
+      "lng": 8.316667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1899-01-01",
+          "validTo": "1914-01-01"
+        }
+      ]
+    },
+    "hist-gw-4784-protectorate-200": {
+      "code": "hist-gw-4784-protectorate-200",
+      "name": "Northern Nigeria (protectorate)",
+      "nameEn": "Northern Nigeria (protectorate)",
+      "nameFa": "نیجریهٔ شمالی (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 7.80039,
+      "lng": 6.73994,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1899-01-01",
+          "validTo": "1914-01-01"
+        }
+      ]
+    },
+    "hist-gw-511": {
+      "code": "hist-gw-511",
+      "name": "Zanzibar",
+      "nameEn": "Zanzibar",
+      "nameFa": "زنگبار",
+      "region": "Africa",
+      "lat": -6.16698,
+      "lng": 39.195592,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1963-12-19",
+          "validTo": "1964-04-26"
+        }
+      ]
+    },
+    "hist-gw-511-occupied-200": {
+      "code": "hist-gw-511-occupied-200",
+      "name": "Zanzibar (occupied)",
+      "nameEn": "Zanzibar (occupied)",
+      "nameFa": "زنگبار (اشغال‌شده)",
+      "region": "Africa",
+      "lat": -6.16698,
+      "lng": 39.195592,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1890-07-01",
+          "validTo": "1895-07-01"
+        }
+      ]
+    },
+    "hist-gw-511-protectorate-200": {
+      "code": "hist-gw-511-protectorate-200",
+      "name": "Zanzibar (protectorate)",
+      "nameEn": "Zanzibar (protectorate)",
+      "nameFa": "زنگبار (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": -6.16698,
+      "lng": 39.195592,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1895-07-01",
+          "validTo": "1963-12-19"
+        }
+      ]
+    },
+    "hist-gw-515-mandate-211": {
+      "code": "hist-gw-515-mandate-211",
+      "name": "Rwanda-Urundi (mandate)",
+      "nameEn": "Rwanda-Urundi (mandate)",
+      "nameFa": "روآنداـ‌اوروندی (قیمومت)",
+      "region": "Africa",
+      "lat": -3.37609,
+      "lng": 29.360006,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-06-28",
+          "validTo": "1962-07-01"
+        }
+      ]
+    },
+    "hist-gw-5200-colony-325": {
+      "code": "hist-gw-5200-colony-325",
+      "name": "Italian Somaliland (colony)",
+      "nameEn": "Italian Somaliland (colony)",
+      "nameFa": "سومالی‌لند ایتالیا (مستعمره)",
+      "region": "Africa",
+      "lat": 2.046934,
+      "lng": 45.318161,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1889-11-19",
+          "validTo": "1941-03-20"
+        }
+      ]
+    },
+    "hist-gw-5200-mandate-325": {
+      "code": "hist-gw-5200-mandate-325",
+      "name": "Italian Somaliland (mandate)",
+      "nameEn": "Italian Somaliland (mandate)",
+      "nameFa": "سومالی‌لند ایتالیا (قیمومت)",
+      "region": "Africa",
+      "lat": 2.046934,
+      "lng": 45.366678,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1950-04-01",
+          "validTo": "1960-07-01"
+        }
+      ]
+    },
+    "hist-gw-5200-occupied-200": {
+      "code": "hist-gw-5200-occupied-200",
+      "name": "Italian Somaliland (occupied)",
+      "nameEn": "Italian Somaliland (occupied)",
+      "nameFa": "سومالی‌لند ایتالیا (اشغال‌شده)",
+      "region": "Africa",
+      "lat": 2.046934,
+      "lng": 45.366678,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1941-03-20",
+          "validTo": "1950-04-01"
+        }
+      ]
+    },
+    "hist-gw-521-colony-200": {
+      "code": "hist-gw-521-colony-200",
+      "name": "British Somaliland (Somaliland Republic) (colony)",
+      "nameEn": "British Somaliland (Somaliland Republic) (colony)",
+      "nameFa": "سومالی‌لند بریتانیا (مستعمره)",
+      "region": "Africa",
+      "lat": 10.43555,
+      "lng": 45.016415,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1960-07-01"
+        }
+      ]
+    },
+    "hist-gw-550-colony-200": {
+      "code": "hist-gw-550-colony-200",
+      "name": "Federation of Rhodesia and Nyasaland (colony)",
+      "nameEn": "Federation of Rhodesia and Nyasaland (colony)",
+      "nameFa": "فدراسیون رودزیا و نیاسالند (مستعمره)",
+      "region": "Africa",
+      "lat": -17.81778,
+      "lng": 31.04472,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1953-08-01",
+          "validTo": "1964-01-22"
+        }
+      ]
+    },
+    "hist-gw-5518-colony-200": {
+      "code": "hist-gw-5518-colony-200",
+      "name": "Northeastern Rhodesia (colony)",
+      "nameEn": "Northeastern Rhodesia (colony)",
+      "nameFa": "رودزیای شمال شرقی (مستعمره)",
+      "region": "Africa",
+      "lat": -13.65,
+      "lng": 32.633333,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1900-01-29",
+          "validTo": "1911-08-18"
+        }
+      ]
+    },
+    "hist-gw-5519-colony-200": {
+      "code": "hist-gw-5519-colony-200",
+      "name": "Northwestern Rhodesia (colony)",
+      "nameEn": "Northwestern Rhodesia (colony)",
+      "nameFa": "رودزیای شمال غربی (مستعمره)",
+      "region": "Africa",
+      "lat": -17.86001,
+      "lng": 25.860013,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1900-01-29",
+          "validTo": "1911-08-18"
+        }
+      ]
+    },
+    "hist-gw-561-colony-200": {
+      "code": "hist-gw-561-colony-200",
+      "name": "Cape Colony (colony)",
+      "nameEn": "Cape Colony (colony)",
+      "nameFa": "مستعمرهٔ کیپ (مستعمره)",
+      "region": "Africa",
+      "lat": -33.92001,
+      "lng": 18.434988,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1910-05-30"
+        }
+      ]
+    },
+    "hist-gw-5612-colony-200": {
+      "code": "hist-gw-5612-colony-200",
+      "name": "British Bechuanaland (colony)",
+      "nameEn": "British Bechuanaland (colony)",
+      "nameFa": "بچوانالند بریتانیا (مستعمره)",
+      "region": "Africa",
+      "lat": -26.96002,
+      "lng": 24.730004,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1895-11-16"
+        }
+      ]
+    },
+    "hist-gw-562-colony-200": {
+      "code": "hist-gw-562-colony-200",
+      "name": "Natal (colony)",
+      "nameEn": "Natal (colony)",
+      "nameFa": "ناتال (مستعمره)",
+      "region": "Africa",
+      "lat": -29.61004,
+      "lng": 30.390021,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1910-05-30"
+        }
+      ]
+    },
+    "hist-gw-563": {
+      "code": "hist-gw-563",
+      "name": "Transvaal",
+      "nameEn": "Transvaal",
+      "nameFa": "جمهوری آفریقای جنوبی (ترانسوال)",
+      "region": "Africa",
+      "lat": -25.70694,
+      "lng": 28.229441,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1910-05-30"
+        }
+      ]
+    },
+    "hist-gw-564": {
+      "code": "hist-gw-564",
+      "name": "Orange Free State",
+      "nameEn": "Orange Free State",
+      "nameFa": "دولت آزاد اورنج",
+      "region": "Africa",
+      "lat": -29.11999,
+      "lng": 26.229913,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1910-05-30"
+        }
+      ]
+    },
+    "hist-gw-585-colony-220": {
+      "code": "hist-gw-585-colony-220",
+      "name": "Reunion (colony)",
+      "nameEn": "Reunion (colony)",
+      "nameFa": "رئونیون (مستعمره)",
+      "region": "Africa",
+      "lat": -20.8907,
+      "lng": 55.4551,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "2020-01-01"
+        }
+      ]
+    },
+    "hist-gw-602-protectorate-230": {
+      "code": "hist-gw-602-protectorate-230",
+      "name": "Spanish Morocco (protectorate)",
+      "nameEn": "Spanish Morocco (protectorate)",
+      "nameFa": "مراکش اسپانیا (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 35.56667,
+      "lng": -5.366667,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1912-11-27",
+          "validTo": "1956-04-07"
+        }
+      ]
+    },
+    "hist-gw-6021-protectorate-230": {
+      "code": "hist-gw-6021-protectorate-230",
+      "name": "Southern zone of Spanish Morocco (protectorate)",
+      "nameEn": "Southern zone of Spanish Morocco (protectorate)",
+      "nameFa": "منطقهٔ جنوبی مراکش اسپانیا (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 27.93889,
+      "lng": -12.922222,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1956-04-07",
+          "validTo": "1958-04-10"
+        }
+      ]
+    },
+    "hist-gw-609-colony-230": {
+      "code": "hist-gw-609-colony-230",
+      "name": "Spanish Sahara (colony)",
+      "nameEn": "Spanish Sahara (colony)",
+      "nameFa": "صحرای اسپانیا (مستعمره)",
+      "region": "Africa",
+      "lat": 27.14998,
+      "lng": -13.200006,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1958-10-10",
+          "validTo": "1975-11-14"
+        }
+      ]
+    },
+    "hist-gw-610-protectorate-230": {
+      "code": "hist-gw-610-protectorate-230",
+      "name": "Spanish West Africa (protectorate)",
+      "nameEn": "Spanish West Africa (protectorate)",
+      "nameFa": "آفریقای غربی اسپانیا (تحت‌الحمایه)",
+      "region": "Africa",
+      "lat": 23.71406,
+      "lng": -15.936811,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1958-10-10"
+        }
+      ]
+    },
+    "hist-gw-65-colony-220": {
+      "code": "hist-gw-65-colony-220",
+      "name": "Guadeloupe (colony)",
+      "nameEn": "Guadeloupe (colony)",
+      "nameFa": "گوادلوپ (مستعمره)",
+      "region": "North America",
+      "lat": 15.9966,
+      "lng": -61.72,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "2020-01-01"
+        }
+      ]
+    },
+    "hist-gw-6511-occupied-651": {
+      "code": "hist-gw-6511-occupied-651",
+      "name": "Gaza (occupied)",
+      "nameEn": "Gaza (occupied)",
+      "nameFa": "غزه (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 31.5017,
+      "lng": 34.4668,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1948-05-14",
+          "validTo": "1967-06-10"
+        }
+      ]
+    },
+    "hist-gw-66-colony-220": {
+      "code": "hist-gw-66-colony-220",
+      "name": "Martinique (colony)",
+      "nameEn": "Martinique (colony)",
+      "nameFa": "مارتینیک (مستعمره)",
+      "region": "North America",
+      "lat": 14.6161,
+      "lng": -61.0588,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "2020-01-01"
+        }
+      ]
+    },
+    "hist-gw-6631-occupied-663": {
+      "code": "hist-gw-6631-occupied-663",
+      "name": "West Bank (occupied)",
+      "nameEn": "West Bank (occupied)",
+      "nameFa": "کرانهٔ باختری (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 31.78336,
+      "lng": 35.23388,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1948-05-14",
+          "validTo": "1967-06-10"
+        }
+      ]
+    },
+    "hist-gw-6801-colony-200": {
+      "code": "hist-gw-6801-colony-200",
+      "name": "Federation of South Arabia (colony)",
+      "nameEn": "Federation of South Arabia (colony)",
+      "nameFa": "فدراسیون عربستان جنوبی (مستعمره)",
+      "region": "Asia",
+      "lat": 12.8,
+      "lng": 45.033333,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-04-04",
+          "validTo": "1967-11-30"
+        }
+      ]
+    },
+    "hist-gw-681-colony-200": {
+      "code": "hist-gw-681-colony-200",
+      "name": "Aden (colony)",
+      "nameEn": "Aden (colony)",
+      "nameFa": "عدن (مستعمره)",
+      "region": "Asia",
+      "lat": 12.8,
+      "lng": 45.033333,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1937-04-01",
+          "validTo": "1962-04-04"
+        }
+      ]
+    },
+    "hist-gw-6812-protectorate-200": {
+      "code": "hist-gw-6812-protectorate-200",
+      "name": "East Aden Protectorate (protectorate)",
+      "nameEn": "East Aden Protectorate (protectorate)",
+      "nameFa": "تحت‌الحمایهٔ عدن شرقی (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 14.54117,
+      "lng": 49.125931,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1937-04-01",
+          "validTo": "1962-04-04"
+        }
+      ]
+    },
+    "hist-gw-7020-protectorate-365": {
+      "code": "hist-gw-7020-protectorate-365",
+      "name": "Bokhara (protectorate)",
+      "nameEn": "Bokhara (protectorate)",
+      "nameFa": "بخارا (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 39.78001,
+      "lng": 64.43001,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1920-09-02"
+        }
+      ]
+    },
+    "hist-gw-7030-protectorate-365": {
+      "code": "hist-gw-7030-protectorate-365",
+      "name": "Khiva (protectorate)",
+      "nameEn": "Khiva (protectorate)",
+      "nameFa": "خیوه (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 41.39113,
+      "lng": 60.355737,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1920-02-02"
+        }
+      ]
+    },
+    "hist-gw-711": {
+      "code": "hist-gw-711",
+      "name": "Tibet",
+      "nameEn": "Tibet",
+      "nameFa": "تبت",
+      "region": "Asia",
+      "lat": 29.64502,
+      "lng": 91.10001,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1913-01-01",
+          "validTo": "1950-10-02"
+        }
+      ]
+    },
+    "hist-gw-730": {
+      "code": "hist-gw-730",
+      "name": "Korea",
+      "nameEn": "Korea",
+      "nameFa": "کره",
+      "region": "Asia",
+      "lat": 37.56639,
+      "lng": 126.999703,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1910-08-23"
+        }
+      ]
+    },
+    "hist-gw-730-colony-740": {
+      "code": "hist-gw-730-colony-740",
+      "name": "Korea (colony)",
+      "nameEn": "Korea (colony)",
+      "nameFa": "کره (مستعمره)",
+      "region": "Asia",
+      "lat": 37.56639,
+      "lng": 126.999703,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1910-08-23",
+          "validTo": "1945-08-15"
+        }
+      ]
+    },
+    "hist-gw-7351-colony-740": {
+      "code": "hist-gw-7351-colony-740",
+      "name": "Southern Sakhalin Island (colony)",
+      "nameEn": "Southern Sakhalin Island (colony)",
+      "nameFa": "ساخالین جنوبی (مستعمره)",
+      "region": "Asia",
+      "lat": 46.96497,
+      "lng": 142.740011,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1905-09-05",
+          "validTo": "1945-08-15"
+        }
+      ]
+    },
+    "hist-gw-7506-occupied-750": {
+      "code": "hist-gw-7506-occupied-750",
+      "name": "Jammu and Kashmir (occupied)",
+      "nameEn": "Jammu and Kashmir (occupied)",
+      "nameFa": "جامو و کشمیر (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 34.0837,
+      "lng": 74.7973,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1947-08-15",
+          "validTo": "1949-01-05"
+        }
+      ]
+    },
+    "hist-gw-7708-occupied-770": {
+      "code": "hist-gw-7708-occupied-770",
+      "name": "Kashmir (North, Azad) (occupied)",
+      "nameEn": "Kashmir (North, Azad) (occupied)",
+      "nameFa": "کشمیر شمالی و آزاد (اشغال‌شده)",
+      "region": "Asia",
+      "lat": 35.8819,
+      "lng": 74.4643,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1947-08-15",
+          "validTo": "1949-01-05"
+        }
+      ]
+    },
+    "hist-gw-817": {
+      "code": "hist-gw-817",
+      "name": "Vietnam, Republic of",
+      "nameEn": "Vietnam, Republic of",
+      "nameFa": "ویتنام جنوبی",
+      "region": "Asia",
+      "lat": 10.75,
+      "lng": 106.666702,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1954-05-01",
+          "validTo": "1975-05-01"
+        }
+      ]
+    },
+    "hist-gw-8201-colony-200": {
+      "code": "hist-gw-8201-colony-200",
+      "name": "Perak (colony)",
+      "nameEn": "Perak (colony)",
+      "nameFa": "پراک (مستعمره)",
+      "region": "Asia",
+      "lat": 4.86496,
+      "lng": 100.719991,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1896-07-01"
+        }
+      ]
+    },
+    "hist-gw-8202-colony-200": {
+      "code": "hist-gw-8202-colony-200",
+      "name": "Selangore (colony)",
+      "nameEn": "Selangore (colony)",
+      "nameFa": "سلانگور (مستعمره)",
+      "region": "Asia",
+      "lat": 3.16667,
+      "lng": 101.699983,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1896-07-01"
+        }
+      ]
+    },
+    "hist-gw-8203-colony-200": {
+      "code": "hist-gw-8203-colony-200",
+      "name": "Pahang (colony)",
+      "nameEn": "Pahang (colony)",
+      "nameFa": "پاهانگ (مستعمره)",
+      "region": "Asia",
+      "lat": 3.4921,
+      "lng": 103.389545,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1888-01-01",
+          "validTo": "1896-07-01"
+        }
+      ]
+    },
+    "hist-gw-821-colony-200": {
+      "code": "hist-gw-821-colony-200",
+      "name": "Federated Malay States (colony)",
+      "nameEn": "Federated Malay States (colony)",
+      "nameFa": "ایالات فدرال مالایا (مستعمره)",
+      "region": "Asia",
+      "lat": 3.16667,
+      "lng": 101.699997,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1896-07-01",
+          "validTo": "1946-04-01"
+        }
+      ]
+    },
+    "hist-gw-822-protectorate-200": {
+      "code": "hist-gw-822-protectorate-200",
+      "name": "Unfederated Malay States (protectorate)",
+      "nameEn": "Unfederated Malay States (protectorate)",
+      "nameFa": "ایالات غیرفدرال مالایا (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 1.4927,
+      "lng": 103.7414,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1946-04-01"
+        }
+      ]
+    },
+    "hist-gw-823-colony-200": {
+      "code": "hist-gw-823-colony-200",
+      "name": "Sabah (North Borneo) (colony)",
+      "nameEn": "Sabah (North Borneo) (colony)",
+      "nameFa": "بورنئوی شمالی (مستعمره)",
+      "region": "Asia",
+      "lat": 5.84296,
+      "lng": 118.107974,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-07-15",
+          "validTo": "1963-09-16"
+        }
+      ]
+    },
+    "hist-gw-823-protectorate-200": {
+      "code": "hist-gw-823-protectorate-200",
+      "name": "Sabah (North Borneo) (protectorate)",
+      "nameEn": "Sabah (North Borneo) (protectorate)",
+      "nameFa": "بورنئوی شمالی (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 5.84296,
+      "lng": 118.107974,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1888-05-12",
+          "validTo": "1946-07-15"
+        }
+      ]
+    },
+    "hist-gw-824-colony-200": {
+      "code": "hist-gw-824-colony-200",
+      "name": "Sarawak (colony)",
+      "nameEn": "Sarawak (colony)",
+      "nameFa": "ساراواک (مستعمره)",
+      "region": "Asia",
+      "lat": 1.52997,
+      "lng": 110.329999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1946-07-01",
+          "validTo": "1963-09-16"
+        }
+      ]
+    },
+    "hist-gw-824-protectorate-200": {
+      "code": "hist-gw-824-protectorate-200",
+      "name": "Sarawak (protectorate)",
+      "nameEn": "Sarawak (protectorate)",
+      "nameFa": "ساراواک (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": 1.52997,
+      "lng": 110.329999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1888-06-14",
+          "validTo": "1946-07-01"
+        }
+      ]
+    },
+    "hist-gw-827-colony-200": {
+      "code": "hist-gw-827-colony-200",
+      "name": "Straits Settlements (colony)",
+      "nameEn": "Straits Settlements (colony)",
+      "nameFa": "مستعمرات تنگه (مستعمره)",
+      "region": "Asia",
+      "lat": 1.29027,
+      "lng": 103.851959,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1946-04-01"
+        }
+      ]
+    },
+    "hist-gw-851-colony-210": {
+      "code": "hist-gw-851-colony-210",
+      "name": "West Irian (Dutch New Guinea) (colony)",
+      "nameEn": "West Irian (Dutch New Guinea) (colony)",
+      "nameFa": "گینه نو هلند (مستعمره)",
+      "region": "Asia",
+      "lat": -2.53299,
+      "lng": 140.69998,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1949-12-29",
+          "validTo": "1962-08-15"
+        }
+      ]
+    },
+    "hist-gw-851-occupied-850": {
+      "code": "hist-gw-851-occupied-850",
+      "name": "West Irian (Dutch New Guinea) (occupied)",
+      "nameEn": "West Irian (Dutch New Guinea) (occupied)",
+      "nameFa": "گینه نو هلند (اشغال‌شده)",
+      "region": "Asia",
+      "lat": -2.53299,
+      "lng": 140.69998,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1963-05-01",
+          "validTo": "1969-09-17"
+        }
+      ]
+    },
+    "hist-gw-851-protectorate-1": {
+      "code": "hist-gw-851-protectorate-1",
+      "name": "West Irian (Dutch New Guinea) (protectorate)",
+      "nameEn": "West Irian (Dutch New Guinea) (protectorate)",
+      "nameFa": "گینه نو هلند (تحت‌الحمایه)",
+      "region": "Asia",
+      "lat": -2.53299,
+      "lng": 140.69998,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1962-08-15",
+          "validTo": "1963-05-01"
+        }
+      ]
+    },
+    "hist-gw-901-colony-200": {
+      "code": "hist-gw-901-colony-200",
+      "name": "New South Wales (colony)",
+      "nameEn": "New South Wales (colony)",
+      "nameFa": "نیو ساوت ولز (مستعمره)",
+      "region": "Oceania",
+      "lat": -33.92001,
+      "lng": 151.18518,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1901-01-01"
+        }
+      ]
+    },
+    "hist-gw-902-colony-200": {
+      "code": "hist-gw-902-colony-200",
+      "name": "Western Australia (colony)",
+      "nameEn": "Western Australia (colony)",
+      "nameFa": "استرالیای غربی (مستعمره)",
+      "region": "Oceania",
+      "lat": -31.95502,
+      "lng": 115.839999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1901-01-01"
+        }
+      ]
+    },
+    "hist-gw-903-colony-200": {
+      "code": "hist-gw-903-colony-200",
+      "name": "South Australia (colony)",
+      "nameEn": "South Australia (colony)",
+      "nameFa": "استرالیای جنوبی (مستعمره)",
+      "region": "Oceania",
+      "lat": -34.93499,
+      "lng": 138.600005,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1901-01-01"
+        }
+      ]
+    },
+    "hist-gw-904-colony-200": {
+      "code": "hist-gw-904-colony-200",
+      "name": "Victoria (colony)",
+      "nameEn": "Victoria (colony)",
+      "nameFa": "ویکتوریا (مستعمره)",
+      "region": "Oceania",
+      "lat": -37.82003,
+      "lng": 144.975016,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1901-01-01"
+        }
+      ]
+    },
+    "hist-gw-905-colony-200": {
+      "code": "hist-gw-905-colony-200",
+      "name": "Queensland (colony)",
+      "nameEn": "Queensland (colony)",
+      "nameFa": "کوئینزلند (مستعمره)",
+      "region": "Oceania",
+      "lat": -27.45503,
+      "lng": 153.035093,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1901-01-01"
+        }
+      ]
+    },
+    "hist-gw-906-colony-200": {
+      "code": "hist-gw-906-colony-200",
+      "name": "Tasmania (colony)",
+      "nameEn": "Tasmania (colony)",
+      "nameFa": "تاسمانی (مستعمره)",
+      "region": "Oceania",
+      "lat": -42.85001,
+      "lng": 147.29503,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1901-01-01"
+        }
+      ]
+    },
+    "hist-gw-911-colony-200": {
+      "code": "hist-gw-911-colony-200",
+      "name": "Papua (colony)",
+      "nameEn": "Papua (colony)",
+      "nameFa": "پاپوآ (مستعمره)",
+      "region": "Oceania",
+      "lat": -9.46471,
+      "lng": 147.192504,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1888-01-01",
+          "validTo": "1920-12-17"
+        }
+      ]
+    },
+    "hist-gw-911-colony-900": {
+      "code": "hist-gw-911-colony-900",
+      "name": "Papua (colony)",
+      "nameEn": "Papua (colony)",
+      "nameFa": "پاپوآ (مستعمره)",
+      "region": "Oceania",
+      "lat": -9.46471,
+      "lng": 147.192504,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-12-17",
+          "validTo": "1949-07-01"
+        }
+      ]
+    },
+    "hist-gw-911-protectorate-200": {
+      "code": "hist-gw-911-protectorate-200",
+      "name": "Papua (protectorate)",
+      "nameEn": "Papua (protectorate)",
+      "nameFa": "پاپوآ (تحت‌الحمایه)",
+      "region": "Oceania",
+      "lat": -9.46471,
+      "lng": 147.192504,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1888-01-01"
+        }
+      ]
+    },
+    "hist-gw-912-colony-255": {
+      "code": "hist-gw-912-colony-255",
+      "name": "New Guinea (German New Guinea) (Kaiser Wilhelmsland) (colony)",
+      "nameEn": "New Guinea (German New Guinea) (Kaiser Wilhelmsland) (colony)",
+      "nameFa": "گینه نو آلمان (مستعمره)",
+      "region": "Oceania",
+      "lat": -6.6,
+      "lng": 147.85,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1914-11-11"
+        }
+      ]
+    },
+    "hist-gw-912-mandate-900": {
+      "code": "hist-gw-912-mandate-900",
+      "name": "New Guinea (German New Guinea) (Kaiser Wilhelmsland) (mandate)",
+      "nameEn": "New Guinea (German New Guinea) (Kaiser Wilhelmsland) (mandate)",
+      "nameFa": "گینه نو آلمان (قیمومت)",
+      "region": "Oceania",
+      "lat": -4.20549,
+      "lng": 152.143431,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1920-06-28",
+          "validTo": "1949-07-01"
+        }
+      ]
+    },
+    "hist-gw-912-occupied-900": {
+      "code": "hist-gw-912-occupied-900",
+      "name": "New Guinea (German New Guinea) (Kaiser Wilhelmsland) (occupied)",
+      "nameEn": "New Guinea (German New Guinea) (Kaiser Wilhelmsland) (occupied)",
+      "nameFa": "گینه نو آلمان (اشغال‌شده)",
+      "region": "Oceania",
+      "lat": -4.20549,
+      "lng": 152.143431,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1914-11-11",
+          "validTo": "1920-06-28"
+        }
+      ]
+    },
+    "hist-gw-930-colony-220": {
+      "code": "hist-gw-930-colony-220",
+      "name": "New Caledonia and Dependencies (colony)",
+      "nameEn": "New Caledonia and Dependencies (colony)",
+      "nameFa": "کالدونیای جدید (مستعمره)",
+      "region": "Oceania",
+      "lat": -22.2758,
+      "lng": 166.458,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "2020-01-01"
+        }
+      ]
+    },
+    "hist-gw-9401-protectorate-255": {
+      "code": "hist-gw-9401-protectorate-255",
+      "name": "German Solomon Islands (protectorate)",
+      "nameEn": "German Solomon Islands (protectorate)",
+      "nameFa": "جزایر سلیمان آلمان (تحت‌الحمایه)",
+      "region": "Oceania",
+      "lat": -6.22972,
+      "lng": 155.6239,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1899-11-14"
+        }
+      ]
+    },
+    "hist-gw-960-colony-220": {
+      "code": "hist-gw-960-colony-220",
+      "name": "French Polynesia (colony)",
+      "nameEn": "French Polynesia (colony)",
+      "nameFa": "پلی‌نزی فرانسه (مستعمره)",
+      "region": "Oceania",
+      "lat": -17.53733,
+      "lng": -149.5665,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "1903-05-19",
+          "validTo": "2020-01-01"
+        }
+      ]
+    },
+    "hist-north-vietnam": {
+      "code": "hist-north-vietnam",
+      "name": "North Vietnam",
+      "nameEn": "North Vietnam",
+      "nameFa": "ویتنام شمالی",
+      "region": "Asia",
+      "lat": 21.03333,
+      "lng": 105.849999,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": "1976-07-02",
+      "periods": [
+        {
+          "validFrom": "1954-05-01",
+          "validTo": "1976-07-02"
+        }
+      ]
+    },
+    "hist-north-yemen": {
+      "code": "hist-north-yemen",
+      "name": "North Yemen",
+      "nameEn": "North Yemen",
+      "nameFa": "یمن شمالی",
+      "region": "Asia",
+      "lat": 15.28333,
+      "lng": 44.183331,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": "1990-05-22",
+      "periods": [
+        {
+          "validFrom": "1918-10-30",
+          "validTo": "1990-05-22"
+        }
+      ]
+    },
+    "hist-ottoman-empire": {
+      "code": "hist-ottoman-empire",
+      "name": "Ottoman Empire",
+      "nameEn": "Ottoman Empire",
+      "nameFa": "امپراتوری عثمانی",
+      "region": "Asia",
+      "lat": 41.015137,
+      "lng": 28.97953,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": "1922-11-01",
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1922-11-01"
+        }
+      ]
+    },
+    "hist-russian-empire": {
+      "code": "hist-russian-empire",
+      "name": "Russian Empire",
+      "nameEn": "Russian Empire",
+      "nameFa": "امپراتوری روسیه",
+      "region": "Europe",
+      "lat": 59.93902,
+      "lng": 30.31602,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1721-11-02",
+      "dissolvedOn": "1917-03-15",
+      "periods": [
+        {
+          "validFrom": "1886-01-01",
+          "validTo": "1917-03-15"
+        }
+      ]
+    },
+    "hist-russian-republic": {
+      "code": "hist-russian-republic",
+      "name": "Russian Provisional Government",
+      "nameEn": "Russian Provisional Government",
+      "nameFa": "دولت موقت روسیه",
+      "region": "Europe",
+      "lat": 59.93902,
+      "lng": 30.31602,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1917-03-15",
+      "dissolvedOn": "1917-11-07",
+      "periods": [
+        {
+          "validFrom": "1917-03-15",
+          "validTo": "1917-11-07"
+        }
+      ]
+    },
+    "hist-russian-sfsr": {
+      "code": "hist-russian-sfsr",
+      "name": "Russian Soviet Republic",
+      "nameEn": "Russian Soviet Republic",
+      "nameFa": "جمهوری شوروی روسیه",
+      "region": "Europe",
+      "lat": 55.75222,
+      "lng": 37.615551,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1917-11-07",
+      "dissolvedOn": "1922-12-30",
+      "periods": [
+        {
+          "validFrom": "1917-11-07",
+          "validTo": "1922-12-30"
+        }
+      ]
+    },
+    "hist-serbia-montenegro": {
+      "code": "hist-serbia-montenegro",
+      "name": "Serbia and Montenegro",
+      "nameEn": "Serbia and Montenegro",
+      "nameFa": "صربستان و مونته‌نگرو",
+      "region": "Europe",
+      "lat": 44.81861,
+      "lng": 20.46806,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "2003-02-04",
+      "dissolvedOn": "2006-06-03",
+      "periods": [
+        {
+          "validFrom": "2003-02-04",
+          "validTo": "2006-06-03"
+        }
+      ]
+    },
+    "hist-south-yemen": {
+      "code": "hist-south-yemen",
+      "name": "South Yemen",
+      "nameEn": "South Yemen",
+      "nameFa": "یمن جنوبی",
+      "region": "Asia",
+      "lat": 12.8,
+      "lng": 45.033333,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1967-11-30",
+      "dissolvedOn": "1990-05-22",
+      "periods": [
+        {
+          "validFrom": "1967-11-30",
+          "validTo": "1990-05-22"
+        }
+      ]
+    },
+    "hist-turkey-transition": {
+      "code": "hist-turkey-transition",
+      "name": "Turkey (1922–1923)",
+      "nameEn": "Turkey (1922–1923)",
+      "nameFa": "ترکیه (۱۹۲۲–۱۹۲۳)",
+      "region": "Asia",
+      "lat": 39.92722,
+      "lng": 32.864441,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": null,
+      "dissolvedOn": "1923-10-29",
+      "periods": [
+        {
+          "validFrom": "1922-11-01",
+          "validTo": "1923-10-29"
+        }
+      ]
+    },
+    "hist-ussr": {
+      "code": "hist-ussr",
+      "name": "Soviet Union",
+      "nameEn": "Soviet Union",
+      "nameFa": "اتحاد جماهیر شوروی",
+      "region": "Europe",
+      "lat": 55.75222,
+      "lng": 37.615551,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1922-12-30",
+      "dissolvedOn": "1991-12-26",
+      "periods": [
+        {
+          "validFrom": "1922-12-30",
+          "validTo": "1991-12-26"
+        }
+      ]
+    },
+    "hist-west-germany": {
+      "code": "hist-west-germany",
+      "name": "West Germany",
+      "nameEn": "West Germany",
+      "nameFa": "آلمان غربی",
+      "region": "Europe",
+      "lat": 50.73333,
+      "lng": 7.1,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1949-05-23",
+      "dissolvedOn": "1990-10-03",
+      "periods": [
+        {
+          "validFrom": "1949-09-21",
+          "validTo": "1990-10-03"
+        }
+      ]
+    },
+    "hist-yugoslavia": {
+      "code": "hist-yugoslavia",
+      "name": "Yugoslavia",
+      "nameEn": "Yugoslavia",
+      "nameFa": "یوگسلاوی",
+      "region": "Europe",
+      "lat": 44.81861,
+      "lng": 20.46806,
+      "source": "cshapes-2.0",
+      "modern": false,
+      "foundedOn": "1918-12-01",
+      "dissolvedOn": "1992-04-27",
+      "periods": [
+        {
+          "validFrom": "1918-12-01",
+          "validTo": "1992-04-27"
+        }
+      ]
+    },
+    "ne-kosovo": {
+      "code": "ne-kosovo",
+      "name": "Kosovo",
+      "nameEn": "Kosovo",
+      "nameFa": "کوزوو",
+      "region": "Europe",
+      "lat": 42.578959996822974,
+      "lng": 20.895990504281798,
+      "source": "cshapes-2.0",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": "2008-02-20",
+          "validTo": null
+        }
+      ]
+    },
+    "ne-n-cyprus": {
+      "code": "ne-n-cyprus",
+      "name": "N. Cyprus",
+      "region": "Asia",
+      "lat": 35.27477083558061,
+      "lng": 33.55703152835618,
+      "nameEn": "N. Cyprus",
+      "nameFa": "قبرس شمالی",
+      "source": "unavailable",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    },
+    "ne-somaliland": {
+      "code": "ne-somaliland",
+      "name": "Somaliland",
+      "region": "Africa",
+      "lat": 9.761170977688773,
+      "lng": 46.23168887384504,
+      "nameEn": "Somaliland",
+      "nameFa": "سومالی‌لند",
+      "source": "unavailable",
+      "modern": true,
+      "foundedOn": null,
+      "dissolvedOn": null,
+      "periods": [
+        {
+          "validFrom": null,
+          "validTo": null
+        }
+      ]
+    }
+  }
+}

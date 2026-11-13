@@ -4,6 +4,7 @@ import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 import type { BrowserPeople } from "./browser-people.ts";
 import { mapResultHref } from "./map-links.ts";
 import { countryProfiles } from "./country-profiles.ts";
+import { countryActiveInYear } from "./country-entities.ts";
 
 export type SearchState = { query: string; type: "all" | "person" | "place"; region: string; role: string; year: string; tag: string; group: string; sort: "relevance" | "name" | "newest" };
 export const defaultSearchState: SearchState = { query: "", type: "all", region: "", role: "", year: "", tag: "", group: "", sort: "relevance" };
@@ -48,6 +49,7 @@ const countryAliases: Record<string, string[]> = {
   "United States of America": ["USA", "US", "United States", "America", "ایالات متحده", "امریکا", "ایالاتمتحده"],
   "United Kingdom": ["UK", "Britain", "Great Britain", "British", "بریتانیا", "انگلیس", "انگلستان"],
   Iran: ["Persia", "Iranian", "پرشیا", "ایرانی"], Russia: ["Russian", "Russian Federation", "روسی", "فدراسیون روسیه"],
+  "Soviet Union": ["USSR", "Soviet", "اتحاد شوروی", "شوروی"], Yugoslavia: ["Yugoslav", "یوگسلاوی"], Czechoslovakia: ["چکسلواکی"],
   Germany: ["German", "Deutschland", "المان", "المانی"], France: ["French", "فرانسوی"], China: ["Chinese", "چینی"],
   "United Arab Emirates": ["UAE", "امارات", "امارات متحده"], "Saudi Arabia": ["Saudi", "عربستان", "سعودی"],
   Turkey: ["Türkiye", "Turkiye", "Turkish", "ترکیه", "ترکی"], "South Korea": ["Republic of Korea", "کره جنوبی"],
@@ -92,8 +94,8 @@ export function searchAtlas(index: SearchDocument[], state: SearchState, locale:
   const rawWords = words(query);
   const explicitType = rawWords.some(word => ["country", "place", "کشور", "مکان"].includes(word)) ? "place" : rawWords.some(word => ["people", "person", "اشخاص", "افراد"].includes(word)) ? "person" : "all";
   const type = state.type === "all" ? explicitType : state.type;
-  const year = state.type === "place" ? "" : state.year || queryYear;
-  const eligible = index.filter(doc => (type === "all" || doc.type === type) && (!state.region || doc.region === state.region) && (!state.tag || doc.tags?.includes(state.tag)) && (!state.group || doc.groupIds?.includes(state.group)) && (!state.role || doc.person?.role === state.role) && (!year || (doc.person && activeInYear(doc.person, Number(year)))));
+  const year = state.year || queryYear;
+  const eligible = index.filter(doc => (type === "all" || doc.type === type) && (!state.region || doc.region === state.region) && (!state.tag || doc.tags?.includes(state.tag)) && (!state.group || doc.groupIds?.includes(state.group)) && (!state.role || doc.person?.role === state.role) && (!year || (doc.person ? activeInYear(doc.person, Number(year)) : doc.country && countryActiveInYear(doc.country.code, Number(year)))));
   function rank(fuzzy: boolean) {
     return eligible.flatMap(document => {
       let score = 0, approximate = false;
@@ -131,7 +133,7 @@ export function alternativeQueries(index: SearchDocument[], query: string, local
 export function parseSearchState(params: URLSearchParams): SearchState {
   const type = params.get("type"), sort = params.get("sort"), year = params.get("year") ?? "";
   const region = params.get("region") ?? "", role = params.get("role") ?? "";
-  return { tag: (params.get("tag") ?? "").slice(0, 40), group: (params.get("group") ?? "").slice(0, 160), query: (params.get("q") ?? "").slice(0, 160), type: type === "person" || type === "place" ? type : "all", region: regions.some(value => value === region && value !== "All regions") ? region : "", role: Object.hasOwn(roleLabels, role) && type !== "place" ? role : "", year: /^\d{4}$/.test(year) && Number(year) >= TIMELINE_START_YEAR && Number(year) <= getTimelineRange().endYear && type !== "place" ? year : "", sort: sort === "name" || sort === "newest" ? sort : "relevance" };
+  return { tag: (params.get("tag") ?? "").slice(0, 40), group: (params.get("group") ?? "").slice(0, 160), query: (params.get("q") ?? "").slice(0, 160), type: type === "person" || type === "place" ? type : "all", region: regions.some(value => value === region && value !== "All regions") ? region : "", role: Object.hasOwn(roleLabels, role) && type !== "place" ? role : "", year: /^\d{4}$/.test(year) && Number(year) >= TIMELINE_START_YEAR && Number(year) <= getTimelineRange().endYear ? year : "", sort: sort === "name" || sort === "newest" ? sort : "relevance" };
 }
 export function searchUrl(state: SearchState) {
   const params = new URLSearchParams();
