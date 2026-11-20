@@ -47,9 +47,10 @@ export async function runAdminMonthsQA({ evaluate, cdp, click, input, waitFor, n
   await save(); await edit();
   assert.equal(await evaluate("document.querySelector('[name=admin-start-month]').value"),'8');
   assert.equal(await evaluate("document.querySelector('[name=admin-end-month]').value"),'10');
-  // Clearing a year disables its month and persists an open boundary.
+  // Clearing a year keeps its month selectable and persists an open boundary.
   await input('[name=admin-end]','');
-  assert.equal(await evaluate("document.querySelector('[name=admin-end-month]').disabled"),true);
+  assert.equal(await evaluate("document.querySelector('[name=admin-end-month]').disabled"),false);
+  await month('end', 9);
   await save();
   assert.equal((await read())[0].endYear,null);
   // Existing pre-timeline records remain editable; whole years reopen as January.
@@ -60,10 +61,11 @@ export async function runAdminMonthsQA({ evaluate, cdp, click, input, waitFor, n
   await click('.admin-editor .icon-button');
   await click('#admin-tab-content > .admin-toolbar .primary-button');
   await waitFor("document.querySelector('[name=admin-name]')?.value===''");
-  assert.equal(await evaluate("document.querySelector('[name=admin-start-month]').disabled && document.querySelector('[name=admin-end-month]').disabled"),true);
+  assert.equal(await evaluate("!document.querySelector('[name=admin-start-month]').disabled && !document.querySelector('[name=admin-end-month]').disabled"),true);
   await input('[name=admin-name]','New monthly character'); await input('[name=admin-title]','Monthly office');
-  await input('[name=admin-start]','2025'); await month('start',11);
-  await input('[name=admin-end]','2026'); await month('end',1);
+  await month('start',11); await month('end',1);
+  await input('[name=admin-start]','2025');
+  await input('[name=admin-end]','2026');
   await save();
   assert.equal((await read()).length,2);
   assert.equal((await read())[1].startYear,2025+11/12);

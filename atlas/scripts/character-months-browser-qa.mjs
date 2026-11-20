@@ -8,15 +8,16 @@ export async function runCharacterMonthsQA({ evaluate, cdp, click, input, waitFo
   await waitFor("document.querySelector('.character-form button[type=submit]:not(:disabled)')");
   const read = () => evaluate("JSON.parse(localStorage.getItem('atlas-people-v1:fixture-a'))");
   const month = (selector, value) => evaluate(`(() => {const el=document.querySelector(${JSON.stringify(selector)});el.value='${value}';el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
-  assert.equal(await evaluate("document.querySelector('[name=character-start-month]').disabled && document.querySelector('[name=character-end-month]').disabled"), true);
+  assert.equal(await evaluate("!document.querySelector('[name=character-start-month]').disabled && !document.querySelector('[name=character-end-month]').disabled"), true);
   await input('[name=character-name]', 'Monthly character');
   await input('[name=character-title]', 'A monthly office');
   await input('[name=character-name-fa]', 'شخصیت ماهانه');
   await input('[name=character-title-fa]', 'سمت ماهانه');
-  await input('[name=character-start]', '2025');
   await month('[name=character-start-month]', 2);
-  await input('[name=character-end]', '2025');
   await month('[name=character-end-month]', 2);
+  await input('[name=character-start]', '2025');
+  await input('[name=character-end]', '2025');
+  assert.equal(await evaluate("document.querySelector('[name=character-end-month]').value"), '2');
   await click('.character-form button[type=submit]');
   await waitFor("document.querySelector('.form-error')?.textContent.includes('end date')");
   assert.equal(await evaluate("document.querySelectorAll('.custom-character').length"), 0);
@@ -43,7 +44,7 @@ export async function runCharacterMonthsQA({ evaluate, cdp, click, input, waitFo
   const created=(await read()).people[0];
   assert.equal(created.startYear,2025+2/12); assert.equal(created.endYear,2025+5/12);
   assert.match(created.imageUrl,/^data:image\/webp;base64,/);
-  assert.equal(await evaluate("document.querySelector('[name=character-start-month]').disabled && document.querySelector('.portrait-file-name').textContent==='No portrait selected'"),true);
+  assert.equal(await evaluate("!document.querySelector('[name=character-start-month]').disabled && document.querySelector('.portrait-file-name').textContent==='No portrait selected'"),true);
 
   await click('.custom-character > button.icon-button');
   await waitFor("document.querySelector('[name=character-start]').value==='2025' && document.querySelector('[name=character-start-month]').value==='2'");
@@ -71,6 +72,20 @@ export async function runCharacterMonthsQA({ evaluate, cdp, click, input, waitFo
   assert.equal((await read()).people[0].startYear,2025+8/12);
   await click('.custom-character > button.icon-button');
   await waitFor("document.querySelector('[name=character-start-month]').value==='8'");
+  // A selected month without its year remains an open boundary.
+  await input('[name=character-end]', '');
+  assert.equal(await evaluate("document.querySelector('[name=character-end-month]').disabled"), false);
+  await month('[name=character-end-month]', 9);
+  await click('.character-form button[type=submit]');
+  await waitFor("document.querySelector('.form-success')");
+  assert.equal((await read()).people[0].endYear, null);
+  await click('.custom-character > button.icon-button');
+  await month('[name=character-end-month]', 10);
+  await input('[name=character-end]', '2026');
+  await click('.character-form button[type=submit]');
+  await waitFor("document.querySelector('.form-success')");
+  assert.equal((await read()).people[0].endYear, 2026+10/12);
+  await click('.custom-character > button.icon-button');
   for (const width of [320,390]) {
     await cdp('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
     await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3');document.querySelector('.character-term').scrollIntoView({block:'start',behavior:'instant'})");
