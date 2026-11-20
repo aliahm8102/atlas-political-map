@@ -15,7 +15,7 @@ export function LanguageProvider({ initialLocale, children }: { initialLocale: L
   useEffect(() => {
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === "fa" ? "rtl" : "ltr";
-    document.title = createTranslator(locale).t("Atlas — A world of perspectives");
+    document.title = createTranslator(locale).t("Atlas Peyma");
   }, [locale]);
   const value = useMemo(() => ({ locale, setLocale, ...createTranslator(locale) }), [locale, setLocale]);
   return <Context.Provider value={value}>{children}</Context.Provider>;

@@ -10,10 +10,10 @@ export const viewport: Viewport = { themeColor: "#e9eeeb" };
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = createTranslator(await getLocale());
   return {
-  title: t("Atlas — A world of perspectives"),
+  title: t("Atlas Peyma"),
   description: t("Explore an interactive political atlas, travel through its timeline, and make your own perspective."),
-  applicationName: "Atlas",
-  appleWebApp: { capable: true, title: "Atlas", statusBarStyle: "default" },
+  applicationName: t("Atlas Peyma"),
+  appleWebApp: { capable: true, title: t("Atlas Peyma"), statusBarStyle: "default" },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

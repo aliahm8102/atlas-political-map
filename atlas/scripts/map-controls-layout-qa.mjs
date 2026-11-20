@@ -53,6 +53,7 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, input, wait
   await click('.reset-positions');await waitFor("document.querySelector('.reset-positions').disabled");assert.equal(await positions(),0);
   for(const locale of ['en','fa']) {
     if(await evaluate('document.documentElement.lang')!==locale) await click('[data-testid=language-switcher]');
+    assert.equal(await evaluate('document.title'),locale==='fa'?'اطلس پیما':'Atlas Peyma','Page title follows the selected language');
     await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3')");
     for(const width of [1920,1440,1000,760,390,320]) {
       await cdp('Emulation.setDeviceMetricsOverride',{width,height:950,deviceScaleFactor:1,mobile:width<=760});
