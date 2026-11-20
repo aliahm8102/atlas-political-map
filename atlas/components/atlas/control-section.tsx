@@ -3,7 +3,7 @@
 import { useId, useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 
-export default function ControlSection({ title, trailing, children, className = "", defaultOpen = true }: { title: ReactNode; trailing?: ReactNode; children: ReactNode; className?: string; defaultOpen?: boolean }) {
+export default function ControlSection({ title, trailing, children, className = "", defaultOpen = false }: { title: ReactNode; trailing?: ReactNode; children: ReactNode; className?: string; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
   const id = useId();
   return <section className={`control-section ${className}`}>

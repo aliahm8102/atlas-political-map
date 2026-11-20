@@ -29,9 +29,9 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, input, wait
   assert.equal(await evaluate("document.querySelector('.reset-positions').disabled"),true);
   await evaluate("document.querySelector('.map-pin').focus({preventScroll:true})");await key('ArrowRight');await waitFor("!document.querySelector('.reset-positions').disabled");
   assert.ok(await positions()>0);
-  assert.equal(await evaluate("document.querySelectorAll('.layer-controls .control-section-title')[1].getAttribute('aria-expanded')"),'false');
-  assert.equal(await evaluate("document.querySelectorAll('.layer-controls .control-section-content')[1].hidden"),true);
-  await toggle(1,true);
+  assert.equal(await evaluate("[...document.querySelectorAll('.layer-controls .control-section-title')].every(button=>button.getAttribute('aria-expanded')==='false')"),true,'All map sections start collapsed');
+  assert.equal(await evaluate("[...document.querySelectorAll('.layer-controls .control-section-content')].every(panel=>panel.hidden)"),true);
+  for(const index of [0,1,2]) await toggle(index,true);
   assert.equal(await evaluate("document.querySelectorAll('.region-filter select,.region-filter option').length"),0);
   await selectRegion('Asia');
   await click('[data-region="Europe"]');
@@ -82,10 +82,12 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, input, wait
   await navigate(`${fixtureOrigin}?fixture=custom-accent`);await waitFor("document.querySelector('.atlas-app[data-ready=true]')");
   const sections=await evaluate("document.querySelectorAll('.appearance-controls .control-section-title').length");
   assert.equal(sections,4);
+  assert.equal(await evaluate("[...document.querySelectorAll('.appearance-controls .control-section-title')].every(button=>button.getAttribute('aria-expanded')==='false')"),true,'All appearance sections start collapsed');
   for(let index=0;index<sections;index++) {
-    await evaluate(`document.querySelectorAll('.appearance-controls .control-section-title')[${index}].focus()`);await key('Enter');
     assert.equal(await evaluate(`document.querySelectorAll('.appearance-controls .control-section-content')[${index}].hidden`),true);
-    await key('Enter');assert.equal(await evaluate(`document.querySelectorAll('.appearance-controls .control-section-content')[${index}].hidden`),false);
+    await evaluate(`document.querySelectorAll('.appearance-controls .control-section-title')[${index}].focus()`);await key('Enter');
+    assert.equal(await evaluate(`document.querySelectorAll('.appearance-controls .control-section-content')[${index}].hidden`),false);
+    await key('Enter');assert.equal(await evaluate(`document.querySelectorAll('.appearance-controls .control-section-content')[${index}].hidden`),true);
   }
   console.log('PASS: map title/subbar and centered metadata, region in map controls, separate 11px reset actions, saved portrait reset, keyboard collapsible sections preserving values, appearance sections, RTL/mobile and fullscreen.');
 }
