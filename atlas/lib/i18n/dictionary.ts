@@ -1,4 +1,13 @@
 export const fa = {
+  "Atlas Peyma": "اطلس پیما",
+  "Directories": "فهرست‌ها",
+  "Country directory": "فهرست کشورها",
+  "Directory sections": "بخش‌های فهرست‌ها",
+  "Browse people and countries across history.": "شخصیت‌ها و کشورها را در گذر تاریخ بشناسید.",
+  "Search countries or capitals": "جستجوی کشور یا پایتخت",
+  "{count} countries": "{count} کشور",
+  "No countries in this view.": "کشوری در این نما وجود ندارد.",
+  "WASD pans the map in desktop fullscreen.": "در حالت تمام‌صفحهٔ دسکتاپ با کلیدهای WASD روی نقشه حرکت کنید.",
   "Start date (optional)": "تاریخ شروع (اختیاری)",
   "End date (optional)": "تاریخ پایان (اختیاری)",
   "Year": "سال",

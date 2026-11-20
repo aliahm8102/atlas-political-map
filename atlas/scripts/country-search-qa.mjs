@@ -40,7 +40,7 @@ export async function runCountrySearchQA({ cdp, evaluate, waitFor, click, type, 
   await click('[data-preview-type=place] a');
   await waitFor("document.querySelector('[data-country-profile=\"336\"]')");
   assert.equal(await evaluate("document.querySelectorAll('.country-facts dd')[1].textContent"), '0.49');
-  await evaluate("[...document.querySelectorAll('nav button')].find(el => el.textContent.includes('People directory')).click()");
+  await evaluate("[...document.querySelectorAll('nav button')].find(el => el.textContent.includes('Directories')).click()");
   await waitFor("document.querySelector('.person-card')");
   const personId = await evaluate("document.querySelector('.person-card').dataset.personId");
   for (let i = 1; i <= 4; i++) {

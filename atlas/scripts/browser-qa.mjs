@@ -258,7 +258,7 @@ try {
     await click('.page-heading .add-character-button');
     await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form')", 'Add character opens its editor from My workspace');
     console.log('PASS: four themes, five accents, keyboard font scaling, saved appearance after reload, mobile/Persian layout, reset appearance, and Add character moved to My workspace.');
-    await nav('People directory');
+    await nav('Directories');
     await waitFor("document.querySelector('.person-card')");
     await click('.person-card-top button');
     await waitFor("document.querySelector('.person-card-top .is-bookmarked')", "Local bookmark saves");
@@ -280,7 +280,7 @@ try {
     await typeInto('[name="character-title-fa"]', 'توضیح شخصی');
     await click('.character-form button[type="submit"]');
     await waitFor("document.querySelector('.custom-character h3')?.textContent === 'شخصیت آزمایشی'", 'Character is saved from the complete workspace');
-    await nav('People directory');
+    await nav('Directories');
     await waitFor("document.querySelector('.person-card[data-person-id^=\"custom:\"]')");
     await input('#directory-group-name', 'PrivateQATeam');
     await click('.group-form button[type=submit]');

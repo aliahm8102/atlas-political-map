@@ -159,6 +159,26 @@ function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, se
     const rect = surface.current!.getBoundingClientRect();
     return { rect, ...mapGeometry(rect.width, rect.height, expanded && (rect.width <= 760 || rect.height <= 500)) };
   }
+  useEffect(() => {
+    if (!expanded) return;
+    const pan = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey || !window.matchMedia("(min-width: 761px) and (pointer: fine)").matches) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest("input, textarea, select, [contenteditable]:not([contenteditable=false]), [role=textbox]")) return;
+      const root = surface.current?.closest(".map-experience");
+      if (!root || document.querySelector("dialog[open], [role=dialog][aria-modal=true]")) return;
+      const moves: Record<string, [number, number]> = { KeyW: [0, 45], KeyA: [45, 0], KeyS: [0, -45], KeyD: [-45, 0] };
+      const move = moves[event.code];
+      if (!move) return;
+      event.preventDefault();
+      const rect = surface.current!.getBoundingClientRect();
+      const { bounds } = mapGeometry(rect.width, rect.height, rect.width <= 760 || rect.height <= 500);
+      const view = latest.current;
+      commitViewport(constrain({ ...view, x: view.x + move[0], y: view.y + move[1] }, bounds, viewLimits.current.maxZoom, viewLimits.current.mapExtent));
+    };
+    document.addEventListener("keydown", pan);
+    return () => document.removeEventListener("keydown", pan);
+  }, [expanded, commitViewport]);
   function touchDown(event: PointerEvent<HTMLDivElement>) {
     countryHint.dismiss();
     if (event.pointerType !== "touch" || (event.target as Element).closest(".map-controls, .map-drawing")) return;
@@ -216,7 +236,7 @@ function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, se
   }
   function zoom(factor: number) { commitViewport(zoomViewport(latest.current, factor, undefined, geometry().bounds, maxZoom, mapExtent)); }
   const markerSize = (settings.markerSize === "small" ? 29 : settings.markerSize === "large" ? 45 : 36) * (stageScale < .5 ? .8 : 1);
-  return <><div className={`map-stage${rasterMapType ? " map-stage-geographic" : ""}${expanded && laserEnabled ? " map-laser-active" : ""}`} data-tour="map" data-boundary-mode={temporal.historical ? "historical" : "current"} data-boundary-date={mapDate(settings.year, settings.month)} ref={surface} tabIndex={0} role="region" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
+  return <><div className={`map-stage${rasterMapType ? " map-stage-geographic" : ""}${expanded && laserEnabled ? " map-laser-active" : ""}`} data-tour="map" data-boundary-mode={temporal.historical ? "historical" : "current"} data-boundary-date={mapDate(settings.year, settings.month)} ref={surface} tabIndex={0} role="region" aria-describedby="map-keyboard-help" aria-label={t("Interactive political map. Drag to pan, scroll or use plus and minus to zoom up to 64 times. Arrow keys pan; Home resets; Escape exits fullscreen.")} onKeyDown={event => {
     if ((event.target as HTMLElement).closest("button, input, select, textarea")) return;
     countryHint.dismiss();
     const moves: Record<string, [number, number]> = { ArrowLeft: [45, 0], ArrowRight: [-45, 0], ArrowUp: [0, 45], ArrowDown: [0, -45] };
@@ -263,7 +283,7 @@ function MapSurface({ selectedPersonId, positions = {}, onMovePerson, people, se
     </button></foreignObject></g>)}</g></svg>
     {temporal.historical && <BoundaryStatus loading={temporal.loading} error={temporal.error} retry={temporal.retry} date={mapDate(settings.year, settings.month)} nato={settings.nato} />}
     <MapDrawing tool={expanded && drawingOpen ? drawingTool : null} color={pencilColor} width={pencilWidth} measurement={measurement} onMeasure={coordinate => setMeasurement(points => [...points, coordinate])} projection={activeProjection} maxZoom={maxZoom} mapExtent={mapExtent} viewport={viewport} onViewport={commitViewport} cover={cover} />
-    <p className="sr-only" id="marker-drag-help">{t("Drag portraits to move them. Use arrow keys on a focused portrait.")}</p>{countryHint.hint && <div id="map-country-tooltip" className="map-country-tooltip" role="tooltip">{countryName(countryHint.hint.name)}</div>}<div className="map-controls">{expanded && <MapTypePicker />}{expanded && <>
+    <p className="sr-only" id="map-keyboard-help">{t("WASD pans the map in desktop fullscreen.")}</p><p className="sr-only" id="marker-drag-help">{t("Drag portraits to move them. Use arrow keys on a focused portrait.")}</p>{countryHint.hint && <div id="map-country-tooltip" className="map-country-tooltip" role="tooltip">{countryName(countryHint.hint.name)}</div>}<div className="map-controls">{expanded && <MapTypePicker />}{expanded && <>
       <button className="map-control" aria-label={t("Red laser pointer")} title={t("Red laser pointer")} aria-pressed={laserEnabled} onClick={() => { setLaserEnabled(!laserEnabled); setDrawingOpen(false); setDrawingTool(null); setHighlightOpen(false); countryHint.dismiss(); }}><CircleDot size={17} /></button>
       <button className="map-control" aria-label={t("Highlight characters")} title={t("Highlight characters")} aria-expanded={highlightOpen} aria-controls="map-highlight-picker" aria-pressed={highlighted.length > 0} onClick={() => { setLaserEnabled(false); setHighlightOpen(!highlightOpen); setDrawingOpen(false); setDrawingTool(null); }}><Highlighter size={17} /></button>
       {highlightOpen && <section id="map-highlight-picker" className="map-highlight-picker" aria-label={t("Choose characters to highlight")}>

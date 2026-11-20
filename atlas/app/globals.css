@@ -43,13 +43,17 @@ svg { flex-shrink: 0; }
 .sidebar { overflow-y: auto; overscroll-behavior: contain; width: 222px; position: fixed; inset-block: 0; inset-inline-start: 0; inset-inline-end: auto; z-index: 30; display: flex; flex-direction: column; padding: 32px 18px 18px; border-inline-end: 1px solid var(--border); background: var(--bg); }
 .brand { display: flex; gap: 10px; align-items: center; padding-inline-start: 9px; width: fit-content; font-size: calc((39px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 610; letter-spacing: -2.6px; line-height: 1; }
 .brand-mark { display: inline-flex; width: 40px; height: 40px; align-items: center; justify-content: center; background: var(--surface); color: var(--accent); border-radius: 50%; box-shadow: var(--raised); }
+.sidebar .brand { max-width: 100%; padding-inline-start: 0; gap: 7px; font-size: calc(24px * var(--font-scale, 1)); letter-spacing: -.6px; line-height: 1.35; white-space: nowrap; }
+.sidebar .brand > span:last-child { min-width: 0; }
+.sidebar .brand-mark { width: 28px; height: 28px; flex-shrink: 0; }
+html[lang="en"] .sidebar .brand { font-size: calc(21px * var(--font-scale, 1)); }
+@media (min-width: 761px) and (max-width: 1000px) { .sidebar .brand { font-size: calc(18px * var(--font-scale, 1)); } html[lang="en"] .sidebar .brand { font-size: calc(17px * var(--font-scale, 1)); } }
 .brand-dot { color: var(--accent); }
 .brand-tagline { font-size: calc((8px + var(--desktop-font-increment)) * var(--font-scale, 1)); letter-spacing: 1.65px; margin: 16px 0 47px 12px; color: var(--muted); font-weight: 600; }
 .nav-heading { font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 650; letter-spacing: 1.8px; color: var(--muted); margin: 0 14px 14px; }
 .nav-item { width: 100%; display: flex; gap: 11px; align-items: center; padding: 14px 13px; margin-bottom: 7px; border-radius: 12px; text-align: start; color: var(--muted); font-size: calc((12px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 500; min-height: 45px; }
 .nav-item:hover { color: var(--accent); background: var(--soft); }
 .nav-item.active { color: var(--accent-dark); background: var(--soft); box-shadow: var(--inset); font-weight: 650; }
-.nav-active-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-inline-start: auto; }
 .nav-count { font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); background: var(--surface); border-radius: 5px; padding: 3px 5px; margin-inline-start: auto; }
 .your-space { margin-top: 31px; }
 .sidebar-bottom { margin-top: auto; padding-top: 28px; }
@@ -799,6 +803,17 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .map-pin[data-draggable="true"]:active { cursor: grabbing; }
 .characters-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; gap: 24px; }
 .character-form { display: flex; flex-direction: column; gap: 16px; }
+.directory-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.directory-tabs button { padding: 12px 18px; border-radius: 10px; }
+.directory-tabs button[aria-selected="true"] { background: var(--soft); color: var(--accent-dark); box-shadow: var(--inset); font-weight: 650; }
+.country-directory { display: grid; gap: 18px; }
+.country-directory-search { display: grid; gap: 8px; max-width: 480px; }
+.country-directory-search .soft-input { margin: 0; }
+.country-card-identity { display: flex; align-items: center; gap: 14px; }
+.country-card-identity img { width: 64px; height: 44px; object-fit: contain; }
+.country-card-identity > div { min-width: 0; overflow-wrap: anywhere; }
+.country-card .country-facts { margin-block: 20px; }
+.country-card > .text-link { display: inline-flex; align-items: center; gap: 8px; }
 .character-form label { display: flex; flex-direction: column; gap: 8px; font-size: calc(12px * var(--font-scale, 1)); min-width: 0; }
 .character-form .soft-input { width: 100%; min-width: 0; margin: 0; }
 .character-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
