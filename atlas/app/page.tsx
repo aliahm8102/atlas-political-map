@@ -1,4 +1,6 @@
-import { redirect } from "next/navigation";
+import PublicHome from "@/components/atlas/public-home";
+import { landingMetadata } from "@/lib/seo";
+export const metadata = landingMetadata("fa");
 export default function Home() {
-  redirect("/workspace");
+  return <PublicHome locale="fa" />;
 }

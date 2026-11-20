@@ -2,7 +2,17 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { supabaseConfig } from "@/lib/supabase/config";
 import { localConfigFromEnvironment, LOCAL_SESSION_COOKIE, verifyLocalSession } from "@/lib/auth/local-session";
+import { PUBLIC_LOCALE_HEADER } from "@/lib/seo";
 export async function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/en") {
+    const locale = request.nextUrl.pathname === "/en" ? "en" : "fa";
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set(PUBLIC_LOCALE_HEADER, locale);
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    if (request.cookies.get("atlas-locale")?.value !== locale) response.cookies.set("atlas-locale", locale, { path: "/", maxAge: 31536000, sameSite: "lax", secure: request.nextUrl.protocol === "https:" });
+    return response;
+  }
+  request.headers.delete(PUBLIC_LOCALE_HEADER);
   const local = localConfigFromEnvironment(process.env);
   if (local) {
     const valid = verifyLocalSession(request.cookies.get(LOCAL_SESSION_COOKIE)?.value, local);
@@ -40,4 +50,4 @@ export async function proxy(request: NextRequest) {
   }
   return response;
 }
-export const config = { matcher: ["/workspace/:path*", "/auth/:path*"] };
+export const config = { matcher: ["/", "/en", "/workspace/:path*", "/auth/:path*"] };

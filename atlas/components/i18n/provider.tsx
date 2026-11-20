@@ -5,7 +5,7 @@ import { createTranslator, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 type LanguageContext = ReturnType<typeof createTranslator> & { locale: Locale; setLocale: (locale: Locale) => void };
 const Context = createContext<LanguageContext | null>(null);
 
-export function LanguageProvider({ initialLocale, children }: { initialLocale: Locale; children: ReactNode }) {
+export function LanguageProvider({ initialLocale, children, preserveDocumentTitle = false }: { initialLocale: Locale; children: ReactNode; preserveDocumentTitle?: boolean }) {
   const [locale, updateLocale] = useState(initialLocale);
   const setLocale = useCallback((next: Locale) => {
     if (next !== "en" && next !== "fa") return;
@@ -15,8 +15,9 @@ export function LanguageProvider({ initialLocale, children }: { initialLocale: L
   useEffect(() => {
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === "fa" ? "rtl" : "ltr";
-    document.title = createTranslator(locale).t("Atlas Peyma");
-  }, [locale]);
+    // Public landing pages own their localized SEO titles and use real language URLs.
+    if (!preserveDocumentTitle) document.title = createTranslator(locale).t("Atlas Peyma");
+  }, [locale, preserveDocumentTitle]);
   const value = useMemo(() => ({ locale, setLocale, ...createTranslator(locale) }), [locale, setLocale]);
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }

@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   distDir: process.env.ATLAS_NEXT_DIST_DIR || ".next",
   async headers() {
-    return [{
+    return [...["/workspace/:path*", "/auth/:path*", "/login", "/demo"].map(source => ({ source, headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] })), {
       source: "/sw.js",
       headers: [
         { key: "Content-Type", value: "application/javascript; charset=utf-8" },

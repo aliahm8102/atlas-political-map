@@ -4,6 +4,24 @@ A Next.js 16 App Router application rebuilt from the supplied `wim-main` project
 
 The original `../wim-main` folder is preserved. Application development happens here, in `atlas/`.
 
+## Public introduction and SEO
+
+The home page is now a public introduction, available in Persian at `/` and English at `/en`. Both pages render the introduction and feature descriptions on the server, including when JavaScript is disabled. The map, account data, search results and administration remain behind sign-in at `/workspace`.
+
+- Each public language has its own title, description, self-canonical URL and reciprocal `hreflang` links (`fa`, `en`, `x-default`). URL-based language overrides a previous cookie on these two pages. Links into sign-in and back preserve the selected language.
+- `/robots.txt` allows public content and rendering assets, limits crawling of workspace/auth/API paths, and points to `/sitemap.xml`. The sitemap includes only the two public canonical pages, with language alternatives; it does not invent modification dates.
+- Account and authentication pages inherit `noindex, nofollow` metadata. `/login`, `/workspace/*`, `/auth/*` and `/demo` also receive `X-Robots-Tag: noindex, nofollow`, including authentication redirects. Sign-in remains crawlable so its `noindex` can be read. Robots rules are not an access-control mechanism: authentication still protects the map.
+- Public pages include matching Open Graph/Twitter metadata and JSON-LD for `WebSite`, `WebPage` and `WebApplication`, without invented prices, ratings or search actions. The local 1200×630 share image is `public/social/atlas-peyma.png`; rebuild it with `node scripts/generate-social-image.mjs`. The landing page uses responsive Next Image optimization and explicit dimensions to avoid image layout shifts.
+- The layout uses one H1, descriptive section headings, semantic landmarks, a keyboard skip link, useful image alternative text, direct HTML links and responsive RTL/LTR layouts.
+
+The production domain comes from `lib/auth/urls.ts` (`https://atlas-peyma.ir`), reused by `lib/seo.ts`. Public copy, metadata and structured data are kept together in `lib/seo.ts`. Preview builds intentionally reference the production canonical domain.
+
+Validation: `npm run build`, `NODE_OPTIONS=--experimental-strip-types npm test`, then `node scripts/seo-browser-qa.mjs`. The last command starts and stops an isolated local production server and Chrome, checks raw crawler-facing HTML, JavaScript-disabled rendering, robots/sitemap, canonical/language/social tags, JSON-LD, image loading/optimization, private route protection and noindex headers, language navigation and 320/390/1440px layouts. Screenshots are written to ignored `outputs/seo-*.png`.
+
+After deployment, submit `https://atlas-peyma.ir/sitemap.xml` in the verified Google Search Console property and inspect `/` and `/en`. Search Console verification, sitemap submission and actual indexing are external account actions and are not performed by this change. Site ownership verification can use Search Console's DNS method. Ranking, indexing and rich-result display depend on the search engine.
+
+References: [Google on multilingual versions](https://developers.google.com/search/docs/specialty/international/localized-versions), [Google on robots and noindex](https://developers.google.com/search/docs/crawling-indexing/robots/intro), [Next.js Metadata API](https://nextjs.org/docs/app/getting-started/metadata-and-og-images).
+
 ## Run the application
 
 Requires Node.js 22.13 or newer.
