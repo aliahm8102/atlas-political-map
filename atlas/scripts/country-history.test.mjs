@@ -30,7 +30,9 @@ test("every catalog country has its own validated file and a 2025 seed; the gene
     assert.deepEqual(countryHistorySchema.parse(file), countryHistories[code]);
     if (file.years["2025"]) assert.deepEqual(Object.keys(file.years["2025"]).sort(), Object.keys(facts).sort());
     assert.equal(Object.hasOwn(countryProfiles[code], "population"), false, "Metadata must not carry timeless annual facts");
-    const missing = countryProfile(countryProfiles[code], 2024);
+    const missingYear = [1886, 1900, 2024].find(year => !file.years[String(year)]);
+    assert.notEqual(missingYear, undefined);
+    const missing = countryProfile(countryProfiles[code], missingYear);
     assert.equal(missing.dataYear, null);
     for (const field of Object.keys(facts)) assert.equal(missing[field], null, `${code}: missing ${field}`);
   }

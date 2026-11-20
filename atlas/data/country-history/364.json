@@ -2,11 +2,508 @@
   "$schema": "./schema.json",
   "code": "364",
   "years": {
+    "1955": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 18700802,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1956": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 19254728,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1957": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 19808655,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1958": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 20362581,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1959": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 20916508,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1960": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 21470434,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1961": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 22183743,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1962": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 22897052,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1963": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 23610360,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1964": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 24323669,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1965": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 25036978,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1966": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 25858602,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1967": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 26680227,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1968": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 27501851,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1969": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 28323476,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1970": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 29145100,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1971": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 30076675,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1972": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 31008249,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1973": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 31939824,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1974": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 32871398,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1975": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 33802973,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1976": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 35010843,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1977": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 36218713,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1978": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 37426584,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1979": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 38634454,
+      "flagPath": "/flags/history/ir-1979.svg"
+    },
+    "1980": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 39842324,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1981": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 41790317,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1982": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 43738310,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1983": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 45686303,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1984": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 47634296,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1985": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 49582289,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1986": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 51341850,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1987": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 53101410,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1988": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 54860971,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1989": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 56620531,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1990": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 58380092,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1991": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 59145187,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1992": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 59910282,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1993": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 60675377,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1994": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 61440472,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1995": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 62205567,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1996": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 63048185,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1997": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 63890804,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1998": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 64733422,
+      "flagPath": "/flags/ir.svg"
+    },
+    "1999": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 65576041,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2000": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 66418659,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2001": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 67500618,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2002": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 68582577,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2003": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 69664537,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2004": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 70746496,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2005": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 71828455,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2006": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 72946932,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2007": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 74065410,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2008": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 75183887,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2009": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 76302365,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2010": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 77420842,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2011": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 78460546,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2012": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 79500250,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2013": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 80539954,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2014": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 81579658,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2015": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 82619362,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2016": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 83640178,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2017": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 84660994,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2018": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 85681811,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2019": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 86702627,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2020": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 87723443,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2021": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 88455488,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2022": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 89524246,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2023": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 90608707,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2024": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 91567738,
+      "flagPath": "/flags/ir.svg"
+    },
     "2025": {
       "capitalFa": "تهران",
       "capitalEn": "Tehran",
       "areaKm2": 1648195,
-      "population": 85961000,
+      "population": 92417681,
+      "flagPath": "/flags/ir.svg"
+    },
+    "2026": {
+      "capitalFa": "تهران",
+      "capitalEn": "Tehran",
+      "areaKm2": 1648195,
+      "population": 93168497,
       "flagPath": "/flags/ir.svg"
     }
   }

@@ -335,7 +335,7 @@ try {
     await evaluate("document.querySelector('[data-region=Europe]').click()");
     const mapTransform = await evaluate("document.querySelector('.world-map > g').getAttribute('transform')");
     await click('[data-testid="language-switcher"]');
-    await waitFor("document.documentElement.lang === 'fa' && document.documentElement.dir === 'rtl' && document.querySelector('.page-heading h1').textContent.includes('دیدگاه‌ها')", 'Persian translations and RTL activate');
+    await waitFor("document.documentElement.lang === 'fa' && document.documentElement.dir === 'rtl' && document.querySelector('.page-heading h1').textContent.includes('بازآفرینی')", 'Persian translations and RTL activate');
     assert.equal(await evaluate("document.querySelector('.world-map > g').getAttribute('transform')"), mapTransform, 'Switching languages reset the map');
     assert.equal(await evaluate("document.querySelector('[data-region=Europe]').getAttribute('aria-checked')"), 'false');
     assert.equal(await evaluate("document.querySelector('[data-region=Asia]').getAttribute('aria-checked')"), 'true');

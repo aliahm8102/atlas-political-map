@@ -51,8 +51,10 @@ export async function runMobileMapLockQA({evaluate,cdp,click,waitFor,navigate,sc
   await click('[data-testid=language-switcher]');
   assert.equal(await evaluate("document.querySelector('.map-mobile-lock').getAttribute('aria-label')"),'باز کردن قفل نقشه');
   for(const type of ['physical','topographic','satellite','political','default']) {
+    await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
     await click('.map-subbar .map-type-trigger');await click(`[data-map-type="${type}"]`);
     await waitFor(type==='default'?"!document.querySelector('.leaflet-basemap')":`document.querySelector('.leaflet-basemap[data-basemap=${type}]')`);
+    await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
     await locked();
   }
   await point();await screenshot('mobile-map-locked');

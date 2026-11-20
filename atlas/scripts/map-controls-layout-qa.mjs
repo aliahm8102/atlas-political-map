@@ -54,22 +54,28 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, input, wait
   for(const locale of ['en','fa']) {
     if(await evaluate('document.documentElement.lang')!==locale) await click('[data-testid=language-switcher]');
     assert.equal(await evaluate('document.title'),locale==='fa'?'اطلس پیما':'Atlas Peyma','Page title follows the selected language');
+    assert.equal(await evaluate("document.querySelector('.page-heading h1').textContent"),locale==='fa'?'جهان را بخوان، ببین و بازآفرینی کن':'Read, see and reimagine the world');
+    assert.equal(await evaluate("document.querySelectorAll('.page-heading h1 em').length"),3);
     await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3')");
     for(const width of [1920,1440,1000,760,390,320]) {
       await cdp('Emulation.setDeviceMetricsOverride',{width,height:950,deviceScaleFactor:1,mobile:width<=760});
-      await evaluate("document.querySelector('.map-subbar').scrollIntoView({block:'center',behavior:'instant'})");
-      assert.equal(await evaluate("(()=>{const b=document.querySelector('.map-subbar').getBoundingClientRect(),v=document.querySelector('.map-view-label').getBoundingClientRect();return Math.abs(b.x+b.width/2-v.x-v.width/2)<1.5})()"),true,`${locale}/${width} metadata is centered`);
+      if(width<=760) {
+        assert.equal(await evaluate("getComputedStyle(document.querySelector('.map-subbar')).display"),'none','Phone subbar is hidden');
+        assert.equal(await evaluate("getComputedStyle(document.querySelectorAll('.layer-controls .control-section')[1]).borderTopWidth"),'0px','No extra divider above people controls');
+      } else {
+        await evaluate("document.querySelector('.map-subbar').scrollIntoView({block:'center',behavior:'instant'})");
+        assert.equal(await evaluate("(()=>{const b=document.querySelector('.map-subbar').getBoundingClientRect(),v=document.querySelector('.map-view-label').getBoundingClientRect();return Math.abs(b.x+b.width/2-v.x-v.width/2)<1.5})()"),true);
+        await click('.map-subbar .map-type-trigger');
+        assert.equal(await evaluate("(()=>{const r=document.querySelector('.map-type-options').getBoundingClientRect();return r.left>=0 && r.right<=innerWidth+1})()"),true);
+        await key('Escape');
+      }
       assert.equal(await evaluate("document.documentElement.scrollWidth<=innerWidth+1"),true);
-      if(width<=760) assert.equal(await evaluate("(()=>{const rows=[...document.querySelector('.map-subbar').children].map(el=>{const r=el.getBoundingClientRect();return r.top+r.height/2});return Math.max(...rows)-Math.min(...rows)<2})()"),true,`${locale}/${width} mobile subbar stays on one horizontal row`);
-      await click('.map-subbar .map-type-trigger');
-      assert.equal(await evaluate("(()=>{const r=document.querySelector('.map-type-options').getBoundingClientRect();return r.left>=0 && r.right<=innerWidth+1})()"),true);
-      await key('Escape');
       await evaluate("document.querySelector('.timeline-date').scrollIntoView({block:'center',behavior:'instant'})");
       await click('.timeline-date .month-picker-trigger');
       assert.equal(await evaluate("(()=>{const p=document.querySelector('.timeline-date .month-picker-panel'),r=p.getBoundingClientRect();return r.left>=0 && r.right<=innerWidth+1 && r.top>=0 && r.bottom<=innerHeight+1 && p.scrollWidth<=p.clientWidth+1})()"),true,`${locale}/${width} timeline picker fits viewport`);
       await key('Escape');
       if([1920,390].includes(width)) {
-        await evaluate("document.querySelector('.map-subbar').scrollIntoView({block:'start',behavior:'instant'})");
+        await evaluate("document.querySelector('.map-card').scrollIntoView({block:'start',behavior:'instant'})");
         await screenshot(`map-controls-${locale}-${width}`);
       }
     }
