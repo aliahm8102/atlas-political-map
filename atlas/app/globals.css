@@ -850,7 +850,7 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .admin-search:focus-within { outline: 2px solid var(--accent); }
 .admin-editor { margin-top: 18px; }
 .admin-editor .character-form { margin-top: 20px; }
-.admin-editor fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 16px; min-width: 0; }
+.admin-editor .character-form > fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 16px; min-width: 0; }
 .admin-note { display: grid; gap: 8px; font-size: calc(12px * var(--font-scale, 1)); margin-top: 14px; }
 .admin-note textarea { min-height: 76px; width: 100%; resize: vertical; margin: 0; }
 .admin-alert { padding: 14px 16px; background: var(--accent-soft); color: var(--accent-dark); border-radius: 10px; font-size: calc(13px * var(--font-scale, 1)); line-height: 1.8; overflow-wrap: anywhere; }
