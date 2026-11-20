@@ -163,8 +163,6 @@ select option { background: var(--surface); color: var(--text); }
 .map-stage-geographic .country { fill: transparent; stroke: transparent; filter: none; }
 .map-stage-geographic .country.selected, .map-stage-geographic .country.country-preview { fill: #e9b64c20; stroke: #e7a321; stroke-width: 2; }
 .map-stage-geographic .country:hover { fill: #e9b64c12; }
-.map-attribution { position: absolute; z-index: 1; inset-inline-start: 8px; top: 8px; max-width: min(75%, 580px); padding: 4px 7px; background: #fffffff0; border-radius: 4px; color: #263b30; font: 10px/1.5 Arial, sans-serif; cursor: auto; }
-.map-attribution a { color: #154d83; text-decoration: underline; }
 .country-coastline { fill: var(--land); stroke: var(--border); stroke-width: .5; }
 .map-boundary-status { position: absolute; z-index: 2; bottom: 8px; inset-inline-start: 8px; max-width: min(75%, 580px); padding: 5px 8px; border-radius: 5px; background: var(--surface); color: var(--text); font-size: calc(10px * var(--font-scale, 1)); line-height: 1.7; cursor: auto; }
 .map-boundary-status a { text-decoration: underline; }
@@ -173,8 +171,6 @@ select option { background: var(--surface); color: var(--text); }
 .map-experience.map-expanded:has(.map-boundary-status:not([hidden])) { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-boundary-status-height, 60px)); }
 .map-expanded .map-boundary-status { z-index: 3; bottom: max(4px, env(safe-area-inset-bottom)); inset-inline-start: 12px; max-width: calc(100% - 24px); }
 .country-lifetime { margin-top: 12px; font-size: calc(11px * var(--font-scale, 1)); line-height: 1.9; color: var(--muted); }
-.map-experience.map-expanded.map-geographic { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-attribution-height, 60px)); }
-.map-expanded .map-attribution { z-index: 3; top: auto; bottom: max(4px, env(safe-area-inset-bottom)); inset-inline-start: 12px; max-width: calc(100% - 24px); }
 .map-load-status { position: absolute; z-index: 2; inset-inline-start: 10px; bottom: 10px; max-width: min(70%, 350px); padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: auto; }
 .map-load-status > div { display: flex; gap: 15px; margin-top: 5px; }
 .map-expanded .map-load-status { bottom: 125px; }
@@ -431,6 +427,12 @@ html[dir="rtl"] .tour-actions .primary-button > svg { transform: rotate(180deg);
 .help-item h3 { font-size: calc((12px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 600; }
 .help-item p { font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); line-height: 1.85; margin-top: 6px; }
 .help-item .text-link { margin-top: 8px; }
+.map-source-credits { min-width: 0; font-size: calc(11px * var(--font-scale, 1)); line-height: 1.8; color: var(--muted); }
+.map-source-credits a { text-decoration: underline; }
+.map-source-credits dl { margin: 8px 0 0; }
+.map-source-credits dl > div + div { margin-top: 10px; }
+.map-source-credits dt { font-weight: 600; color: var(--text); }
+.map-source-credits dd { margin: 2px 0 0; overflow-wrap: anywhere; text-align: start; }
 .sidebar-scrim { display: none; }
 .auth-page { display: grid; grid-template-columns: 1fr 1fr; }
 .auth-art { min-height: 100vh; position: relative; overflow: hidden; background: #dce5dc; padding: 50px; display: flex; flex-direction: column; }

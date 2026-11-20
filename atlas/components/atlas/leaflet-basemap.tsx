@@ -10,7 +10,6 @@ import { useMapFullscreen } from "./map-experience";
 
 export default function LeafletBasemap({ type, viewport, scale, width, height }: { type: RasterMapType; viewport: Viewport; scale: number; width: number; height: number }) {
   const host = useRef<HTMLDivElement>(null);
-  const attribution = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<LeafletMap | null>(null);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
@@ -19,15 +18,6 @@ export default function LeafletBasemap({ type, viewport, scale, width, height }:
   const { t } = useI18n();
   const { setMapType } = useMapFullscreen();
   const source = rasterLayers[type];
-
-  useEffect(() => {
-    const element = attribution.current;
-    const root = element?.closest<HTMLElement>(".map-experience");
-    if (!element || !root) return;
-    const observer = new ResizeObserver(() => root.style.setProperty("--map-attribution-height", `${element.getBoundingClientRect().height + 8}px`));
-    observer.observe(element);
-    return () => { observer.disconnect(); root.style.removeProperty("--map-attribution-height"); };
-  }, []);
 
   useEffect(() => {
     let active = true;
@@ -76,9 +66,6 @@ export default function LeafletBasemap({ type, viewport, scale, width, height }:
 
   return <>
     <div ref={host} className="leaflet-basemap" data-basemap={type} aria-hidden="true" />
-    <div ref={attribution} className="map-attribution" dir="ltr" onPointerDown={event => event.stopPropagation()}>
-      <a href="https://leafletjs.com/" target="_blank" rel="noreferrer">Leaflet</a> | <span dangerouslySetInnerHTML={{ __html: source.attribution }} />
-    </div>
     {(failed || loading) && <div className="map-load-status" role={failed ? "alert" : "status"} onPointerDown={event => event.stopPropagation()}>
       {t(failed ? "Some map tiles could not load. Check your connection or try another map." : "Loading map…")}
       {failed && <div><button type="button" className="text-link" onClick={() => { setFailed(false); setLoading(true); if (map) setRetry(value => value + 1); else setInitialization(value => value + 1); }}>{t("Retry")}</button><button type="button" className="text-link" onClick={() => setMapType("default")}>{t("Default")}</button></div>}

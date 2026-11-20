@@ -1,4 +1,5 @@
 export const fa = {
+  "Map sources": "منابع نقشه‌ها",
   "Your color": "رنگ شما",
   "Choose your color": "انتخاب رنگ شما",
   "Your color (RGB)": "رنگ شما (RGB)",

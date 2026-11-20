@@ -27,14 +27,14 @@ export async function runMapLayersQA({ evaluate, cdp, click, waitFor, navigate, 
     }
   };
   const transform = () => evaluate("document.querySelector('.world-map > g').getAttribute('transform')");
-  for (const [type, url, attribution] of [
-    ["physical", "World_Physical_Map/MapServer/tile/", "US National Park Service"],
-    ["topographic", "tile.opentopomap.org/", "OpenTopoMap"],
-    ["satellite", "World_Imagery/MapServer/tile/", "Vantor"],
-    ["political", "tile.openstreetmap.org/", "OpenStreetMap"],
+  for (const [type, url] of [
+    ["physical", "World_Physical_Map/MapServer/tile/"],
+    ["topographic", "tile.opentopomap.org/"],
+    ["satellite", "World_Imagery/MapServer/tile/"],
+    ["political", "tile.openstreetmap.org/"],
   ]) {
     await choose(type);
-    await waitFor(`document.querySelector('.map-attribution').textContent.includes('${attribution}')`);
+    assert.equal(await evaluate("document.querySelector('.map-attribution')"), null, `${type}: attribution overlay is absent`);
     assert.ok(tileRequests.some(request => request.includes(url)), `${type}: requested the selected source`);
     assert.equal(await evaluate("getComputedStyle(document.querySelector('.country:not(.selected)')).fill"), "rgba(0, 0, 0, 0)", "Country overlays do not obscure the geographic imagery");
     const before = await transform();
@@ -80,7 +80,8 @@ export async function runMapLayersQA({ evaluate, cdp, click, waitFor, navigate, 
   await waitFor("document.querySelector('.map-expanded')");
   await choose("satellite");
   assert.ok(await evaluate("Boolean(document.querySelector('.map-pin.selected-person'))"), "Selected portrait stays above the tiles after switching");
-  await waitFor("(() => {const a=document.querySelector('.map-attribution').getBoundingClientRect(),timeline=document.querySelector('.timeline').getBoundingClientRect();return a.bottom<=innerHeight && a.top>=timeline.bottom;})()");
+  assert.equal(await evaluate("document.querySelector('.map-attribution')"), null, "No attribution overlay in fullscreen");
+  assert.equal(await evaluate("document.querySelector('.map-experience').style.getPropertyValue('--map-attribution-height')"), "", "No reserved attribution height");
   await click('button[aria-label="Drawing tools"]');
   const point = await evaluate("(() => { const r=document.querySelector('.map-stage').getBoundingClientRect(); return {x:r.left+r.width*.4,y:r.top+r.height*.4}; })()");
   await cdp("Input.dispatchMouseEvent", { type: "mousePressed", ...point, button: "left", buttons: 1, clickCount: 1 });
@@ -126,5 +127,12 @@ export async function runMapLayersQA({ evaluate, cdp, click, waitFor, navigate, 
     await cdp("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape" });
   }
   await cdp("Fetch.disable");
-  console.log("PASS: default SVG, all four Leaflet sources, attribution, native zoom limits, selection, fullscreen, drawing, laser, error recovery and Persian mobile/landscape picker.");
+  await navigate(`${fixtureOrigin}?fixture=map-credits&locale=fa`);
+  await waitFor("document.querySelector('.map-source-credits')");
+  assert.equal(await evaluate("document.querySelector('.map-attribution')"), null);
+  assert.equal(await evaluate("document.querySelector('.map-source-credits h3').textContent"), "منابع نقشه‌ها");
+  assert.equal(await evaluate("document.querySelectorAll('.map-source-credits dl > div').length"), 4);
+  assert.equal(await evaluate("[...document.querySelectorAll('.map-source-credits a')].every(link=>link.target==='_blank' && link.rel.includes('noreferrer'))"), true);
+  assert.equal(await evaluate("['Esri','OpenStreetMap','OpenTopoMap','Vantor','Leaflet'].every(name=>document.querySelector('.map-source-credits').textContent.includes(name))"), true);
+  console.log("PASS: default SVG, all four Leaflet sources, no attribution overlay or reserved height, relocated source credits, native zoom limits, selection, fullscreen, drawing, laser, error recovery and Persian mobile/landscape picker.");
 }
