@@ -173,6 +173,14 @@ select option { background: var(--surface); color: var(--text); }
 .map-type-status { display: flex; align-items: center; gap: 4px; margin-inline-start: auto; font-size: calc(9px * var(--font-scale, 1)); white-space: nowrap; }
 .map-stage { height: clamp(320px, 41.5vh, 500px); background: var(--ocean); position: relative; overflow: hidden; touch-action: none; cursor: grab; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: inset 0 2px 8px #374d3c08; }
 .map-stage:active { cursor: grabbing; }
+.map-mobile-lock { display: none; }
+@media (max-width: 760px) {
+  .map-stage .map-mobile-lock { display: flex; position: absolute; right: 10px; top: 10px; z-index: 3; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--accent-dark); box-shadow: var(--raised); touch-action: manipulation; }
+  .map-stage .map-mobile-lock[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+  .map-stage[data-interaction-locked="true"], .map-stage[data-interaction-locked="true"] .map-pin { touch-action: pan-y; cursor: auto; }
+  .map-stage[data-interaction-locked="true"] .map-drawing { pointer-events: none; }
+  .map-experience:not(.map-expanded) .map-stage .map-controls { top: 50px; }
+}
 .world-map { height: 100%; width: 100%; user-select: none; }
 .leaflet-basemap { position: absolute; inset: 0; isolation: isolate; pointer-events: none; background: var(--ocean); }
 .map-stage-geographic > .world-map { position: relative; }

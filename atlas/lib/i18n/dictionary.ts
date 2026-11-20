@@ -33,6 +33,8 @@ export const fa = {
   "Preparing download…": "در حال آماده‌سازی دانلود…",
   "The export could not be created. Please try again.": "ساخت فایل خروجی انجام نشد. دوباره تلاش کنید.",
   "Atlas Peyma": "اطلس پیما",
+  "Lock map": "قفل کردن نقشه",
+  "Unlock map": "باز کردن قفل نقشه",
   "Directories": "فهرست‌ها",
   "Country directory": "فهرست کشورها",
   "Directory sections": "بخش‌های فهرست‌ها",

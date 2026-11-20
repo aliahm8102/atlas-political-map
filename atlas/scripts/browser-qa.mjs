@@ -12,6 +12,7 @@ import { runAdminMonthsQA } from "./admin-months-browser-qa.mjs";
 import { runMonthPickerQA } from "./month-picker-browser-qa.mjs";
 import { runCustomAccentQA } from "./custom-accent-browser-qa.mjs";
 import { runMapControlsLayoutQA } from "./map-controls-layout-qa.mjs";
+import { runMobileMapLockQA } from "./mobile-map-lock-qa.mjs";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -471,7 +472,10 @@ try {
   });
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
-  if (process.env.ATLAS_MAP_CONTROLS_ONLY === "1") {
+  if (process.env.ATLAS_MOBILE_LOCK_ONLY === "1") {
+    await runMobileMapLockQA({ evaluate, cdp, click, waitFor, navigate, screenshot, fixtureOrigin });
+    assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
+  } else if (process.env.ATLAS_MAP_CONTROLS_ONLY === "1") {
     await runMapControlsLayoutQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
     assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   } else if (process.env.ATLAS_CUSTOM_ACCENT_ONLY === "1") {
