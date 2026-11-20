@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, Globe2, MapPin, X } from "lucide-react";
+import { ChevronDown, Globe2, MapPin } from "lucide-react";
 import { countryProfile } from "@/lib/country-profiles";
 import type { Country } from "@/lib/atlas";
 import { useI18n } from "@/components/i18n/provider";
@@ -17,7 +17,6 @@ export default function CountryProfile({ country, count, year, month = 0 }: { co
       <span className={profile.flagPath ? "country-flag-portrait" : "country-flag-placeholder"}>{profile.flagPath ? <img key={profile.flagPath} src={profile.flagPath} alt={t("Flag of {name}", { name })} width={80} height={54} /> : <Globe2 size={30} aria-hidden="true" />}</span><span>{name}</span><ChevronDown size={17} />
     </summary>
     <section className="country-profile" aria-label={t("{name} country profile", { name })} data-country-profile={country.code} data-country-year={year} data-country-data-year={profile.dataYear ?? ""}>
-    <button type="button" className="text-link disclosure-close" onClick={event => { const details = event.currentTarget.closest("details")!; details.open = false; details.querySelector("summary")?.focus(); }}><X size={15} />{t("Close country profile")}</button>
     <div className="country-heading"><span className="eyebrow">{t("COUNTRY SPOTLIGHT")}</span>
       <div className="country-profile-identity"><div><h2 lang={locale}>{name}</h2></div></div>
       <span className="country-region"><MapPin size={12} />{text(country.region)}<span>·</span>{n(count)}{" " + t("records in") + " "}{n(year, { useGrouping: false })}</span>

@@ -19,7 +19,7 @@ export async function runMapPanelsQA({ cdp, evaluate, waitFor, click, navigate, 
   await evaluate("document.querySelector('.country-profile-trigger').focus()");await key('Enter');
   await waitFor("document.querySelector('.country-profile-disclosure').open");
   assert.ok(await evaluate("document.querySelector('.country-facts').getBoundingClientRect().height>0"));
-  await click('.country-profile .disclosure-close');
+  await click('.country-profile-trigger');
   assert.equal(await evaluate("document.querySelector('.country-profile-disclosure').open"),false);
   assert.equal(await evaluate("document.activeElement.classList.contains('country-profile-trigger')"),true);
   assert.equal(await evaluate("document.querySelector('.country-people-disclosure').open"),false);
@@ -33,7 +33,7 @@ export async function runMapPanelsQA({ cdp, evaluate, waitFor, click, navigate, 
   assert.ok(await evaluate("document.querySelector('.spotlight-portrait').getBoundingClientRect().width>=88"));
   assert.ok(await evaluate("document.querySelector('.map-pin').getBoundingClientRect().width>=42"));
   assert.ok(await evaluate("parseFloat(getComputedStyle(document.querySelector('.portrait-fallback')).fontSize)>11"));
-  await click('.country-people .disclosure-close');
+  await evaluate("document.querySelector('.country-people-trigger').focus()");await key('Enter');
   assert.equal(await evaluate("document.querySelector('.country-people-disclosure').open"),false);
   assert.equal(await evaluate("document.activeElement.classList.contains('country-people-trigger')"),true);
   await setDate(1980);
@@ -73,7 +73,7 @@ export async function runMapPanelsQA({ cdp, evaluate, waitFor, click, navigate, 
     await evaluate("document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3');document.querySelector('.inspector').scrollIntoView({block:'center',behavior:'instant'})");
     assert.equal(await evaluate("document.documentElement.scrollWidth<=innerWidth+1"),true);
     await screenshot(`map-panels-fa-${width}`);
-    await click('.country-profile .disclosure-close');await click('.country-people .disclosure-close');
+    await click('.country-profile-trigger');await click('.country-people-trigger');
   }
-  console.log('PASS: desktop F/native/fallback fullscreen, typing/modifier/repeat/dialog/mobile guards, flag/profile and people disclosures with close/focus, larger portraits, hidden boundary status and RTL/mobile layouts.');
+  console.log('PASS: desktop F/native/fallback fullscreen, typing/modifier/repeat/dialog/mobile guards, flag/profile and people disclosures toggled by their headers, larger portraits, hidden boundary status and RTL/mobile layouts.');
 }
