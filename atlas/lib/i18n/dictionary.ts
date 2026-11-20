@@ -601,7 +601,7 @@ export const fa = {
   "original records are preserved. Titles and open-ended terms are imported data and may be outdated. They are not a verified live directory.": "رکورد اصلی حفظ شده‌اند. عنوان‌ها و دوره‌های بدون پایان از داده‌های واردشده‌اند و ممکن است قدیمی باشند. این مجموعه یک فهرست زنده و تأییدشده نیست.",
   "people & perspectives": "چهره و دیدگاه",
   "people layers": "لایهٔ افراد",
-  "perspectives.": "دیدگاه‌ها.",
+  "perspectives": "دیدگاه‌ها",
   "places to discover": "مکان برای کشف",
   "private notes": "یادداشت خصوصی",
   "records in": "رکورد در سال",
