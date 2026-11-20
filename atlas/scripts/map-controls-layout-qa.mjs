@@ -1,8 +1,18 @@
 import assert from "node:assert/strict";
 
-export async function runMapControlsLayoutQA({ evaluate, cdp, click, waitFor, navigate, screenshot, fixtureOrigin }) {
+export async function runMapControlsLayoutQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin }) {
   await navigate(fixtureOrigin);
   await waitFor("document.querySelector('.map-pin[data-draggable=true]') && document.querySelector('.reset-positions')");
+  await click('.timeline-date .month-picker-trigger');
+  assert.equal(await evaluate("document.querySelector('.timeline-date .month-picker-footer').children.length"),1,'Timeline always has a selected date');
+  await input('.month-picker-year input','1886');
+  await click('[data-month-option="1886-03"]');
+  await waitFor("document.querySelector('.timeline-date .month-picker-trigger').dataset.monthValue==='1886-03'");
+  assert.equal(await evaluate("Number(document.querySelector('.timeline-slider input').value)"),1886*12+2);
+  await click('.timeline-play');
+  await click('.timeline-date .month-picker-trigger');
+  assert.equal(await evaluate("Boolean(document.querySelector('.timeline-speed'))"),false,'Opening date picker pauses playback');
+  await click('.timeline-date .month-picker-footer button');
   const key=async key=>{await cdp('Input.dispatchKeyEvent',{type:'keyDown',key,code:key,...(key==='Enter'?{text:'\r'}:{})});await cdp('Input.dispatchKeyEvent',{type:'keyUp',key,code:key});};
   const selectRegion=value=>evaluate(`(()=>{const el=document.querySelector('.region-filter select');el.value='${value}';el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
   const positions=()=>evaluate("Object.keys(JSON.parse(localStorage.getItem('atlas-people-v1:fixture-a')).positions).length");
@@ -45,6 +55,10 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, waitFor, na
       await click('.map-subbar .map-type-trigger');
       assert.equal(await evaluate("(()=>{const r=document.querySelector('.map-type-options').getBoundingClientRect();return r.left>=0 && r.right<=innerWidth+1})()"),true);
       await key('Escape');
+      await evaluate("document.querySelector('.timeline-date').scrollIntoView({block:'center',behavior:'instant'})");
+      await click('.timeline-date .month-picker-trigger');
+      assert.equal(await evaluate("(()=>{const p=document.querySelector('.timeline-date .month-picker-panel'),r=p.getBoundingClientRect();return r.left>=0 && r.right<=innerWidth+1 && r.top>=0 && r.bottom<=innerHeight+1 && p.scrollWidth<=p.clientWidth+1})()"),true,`${locale}/${width} timeline picker fits viewport`);
+      await key('Escape');
       if([1920,390].includes(width)) await screenshot(`map-controls-${locale}-${width}`);
     }
   }
@@ -53,6 +67,9 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, waitFor, na
   await click('[data-tour=fullscreen]');await waitFor("document.querySelector('.map-expanded')");
   assert.equal(await evaluate("getComputedStyle(document.querySelector('.map-subbar')).display"),'none');
   assert.equal(await evaluate("Boolean(document.querySelector('.map-expanded .inspector .region-filter')) && Boolean(document.querySelector('.map-expanded .inspector .reset-positions'))"),true);
+  await click('.timeline-date .month-picker-trigger');
+  assert.equal(await evaluate("(()=>{const p=document.querySelector('.timeline-date .month-picker-panel'),r=p.getBoundingClientRect();return r.top>=0 && r.bottom<=innerHeight+1 && p.checkVisibility()})()"),true,'Fullscreen timeline picker remains visible');
+  await key('Escape');
   await toggle(0,false);await toggle(0,true);await screenshot('map-controls-fullscreen');await click('[data-tour=fullscreen]');
 
   await navigate(`${fixtureOrigin}?fixture=custom-accent`);await waitFor("document.querySelector('.atlas-app[data-ready=true]')");

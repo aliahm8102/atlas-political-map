@@ -472,7 +472,7 @@ try {
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
   if (process.env.ATLAS_MAP_CONTROLS_ONLY === "1") {
-    await runMapControlsLayoutQA({ evaluate, cdp, click, waitFor, navigate, screenshot, fixtureOrigin });
+    await runMapControlsLayoutQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
     assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   } else if (process.env.ATLAS_CUSTOM_ACCENT_ONLY === "1") {
     await runCustomAccentQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });

@@ -6,14 +6,15 @@ import { useI18n } from "@/components/i18n/provider";
 import { getTimelineRange } from "@/lib/timeline";
 import { monthIndex } from "@/lib/directory-filters";
 
-export default function MonthPicker({ label, ariaLabel, value, onChange }: { label: string; ariaLabel: string; value: string; onChange: (value: string) => void }) {
+export default function MonthPicker({ label, ariaLabel, value, onChange, compact = false, allowClear = true, onOpen }: { label: string; ariaLabel: string; value: string; onChange: (value: string) => void; compact?: boolean; allowClear?: boolean; onOpen?: () => void }) {
   const { t, date, n, locale } = useI18n();
   const id = useId(), titleId = useId();
   const root = useRef<HTMLDivElement>(null), trigger = useRef<HTMLButtonElement>(null), panel = useRef<HTMLDivElement>(null);
   const focusMonth = useRef(false);
+  const horizontalShift = useRef(0);
   const [open, setOpen] = useState(false), [year, setYear] = useState("");
   const [cursor, setCursor] = useState(0);
-  const [placement, setPlacement] = useState({ above: false, height: 420 });
+  const [placement, setPlacement] = useState({ above: false, height: 420, shift: 0 });
   const { min, max, currentYear, currentMonth } = getTimelineRange();
   const firstYear = Math.floor(min / 12), lastYear = Math.floor(max / 12);
   const yearNumber = Number(year), validYear = /^\d{4}$/.test(year) && yearNumber >= firstYear && yearNumber <= lastYear;
@@ -25,6 +26,7 @@ export default function MonthPicker({ label, ariaLabel, value, onChange }: { lab
     close();
   }
   function show() {
+    onOpen?.();
     const index = clamp(selected ?? currentYear * 12 + currentMonth);
     setYear(String(Math.floor(index / 12))); setCursor(index); focusMonth.current = true; setOpen(true);
   }
@@ -50,7 +52,13 @@ export default function MonthPicker({ label, ariaLabel, value, onChange }: { lab
       const top = viewport?.offsetTop ?? 0, bottom = top + (viewport?.height ?? innerHeight);
       const below = bottom - rect.bottom - 12, above = (root.current?.getBoundingClientRect().top ?? rect.top) - top - 12;
       const upwards = below < (panel.current?.scrollHeight ?? 360) && above > below;
-      setPlacement({ above: upwards, height: Math.max(120, Math.min(420, upwards ? above : below)) });
+      const menu = panel.current?.getBoundingClientRect();
+      const left = (menu?.left ?? rect.left) - horizontalShift.current;
+      const right = (menu?.right ?? rect.right) - horizontalShift.current;
+      const edge = viewport?.offsetLeft ?? 0;
+      const shift = Math.max(edge + 8 - left, Math.min(0, edge + (viewport?.width ?? innerWidth) - 8 - right));
+      horizontalShift.current = shift;
+      setPlacement({ above: upwards, height: Math.max(120, Math.min(420, upwards ? above : below)), shift });
     };
     fit(); window.addEventListener("resize", fit); window.addEventListener("scroll", fit, true);
     window.visualViewport?.addEventListener("resize", fit);
@@ -63,11 +71,11 @@ export default function MonthPicker({ label, ariaLabel, value, onChange }: { lab
     return () => document.removeEventListener("pointerdown", outside);
   }, [open]);
   return <div ref={root} className="directory-month-field" onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpen(false); }} onKeyDown={event => { if (open && event.key === "Escape") { event.preventDefault(); event.stopPropagation(); close(); } }}>
-    <label htmlFor={id}>{label}</label>
+    <label htmlFor={id} className={compact ? "sr-only" : undefined}>{label}</label>
     <button ref={trigger} id={id} type="button" className="soft-input month-picker-trigger" aria-label={ariaLabel} aria-haspopup="dialog" aria-expanded={open} aria-controls={open ? `${id}-panel` : undefined} data-month-value={value} onClick={() => open ? close() : show()}>
-      <span>{selected === null ? t("Choose month and year") : date(new Date(Date.UTC(Math.floor(selected / 12), selected % 12, 1)), { month: "long", year: "numeric" })}</span><CalendarDays size={18} />
+      {compact ? <strong>{selected === null ? t("Choose month and year") : date(new Date(Date.UTC(Math.floor(selected / 12), selected % 12, 1)))}</strong> : <span>{selected === null ? t("Choose month and year") : date(new Date(Date.UTC(Math.floor(selected / 12), selected % 12, 1)), { month: "long", year: "numeric" })}</span>}<CalendarDays size={18} />
     </button>
-    {open && <div ref={panel} id={`${id}-panel`} className={`month-picker-panel${placement.above ? " is-above" : ""}`} style={{ maxHeight: placement.height }} role="dialog" aria-modal="false" aria-labelledby={titleId}>
+    {open && <div ref={panel} id={`${id}-panel`} className={`month-picker-panel${placement.above ? " is-above" : ""}`} style={{ maxHeight: placement.height, transform: `translateX(${placement.shift}px)` }} role="dialog" aria-modal="false" aria-labelledby={titleId}>
       <div className="month-picker-heading"><strong id={titleId}>{label}<small>{t("Gregorian calendar")}</small></strong><button className="icon-button" type="button" aria-label={t("Close")} onClick={close}><X size={17} /></button></div>
       <div className="month-picker-year" dir="ltr">
         <button type="button" className="icon-button" aria-label={t("Previous year")} disabled={!validYear || yearNumber <= firstYear} onClick={() => changeYear(String(yearNumber - 1))}><ChevronLeft size={18} /></button>
@@ -89,7 +97,7 @@ export default function MonthPicker({ label, ariaLabel, value, onChange }: { lab
           return <button key={month} type="button" data-month-index={index} data-month-option={validYear ? `${year}-${String(month + 1).padStart(2, "0")}` : ""} tabIndex={month === cursor % 12 ? 0 : -1} disabled={!validYear || index < min || index > max} aria-pressed={index === selected} aria-label={validYear ? date(new Date(Date.UTC(yearNumber, month, 1)), { month: "long", year: "numeric" }) : undefined} onFocus={() => setCursor(index)} onClick={() => choose(index)}>{date(new Date(Date.UTC(2000, month, 1)), { month: "short" })}</button>;
         })}
       </div>
-      <div className="month-picker-footer"><button type="button" onClick={() => choose(null)}>{t("Clear")}</button><button type="button" onClick={() => choose(currentYear * 12 + currentMonth)}>{t("This month")}</button></div>
+      <div className="month-picker-footer">{allowClear && <button type="button" onClick={() => choose(null)}>{t("Clear")}</button>}<button type="button" onClick={() => choose(currentYear * 12 + currentMonth)}>{t("This month")}</button></div>
     </div>}
   </div>;
 }

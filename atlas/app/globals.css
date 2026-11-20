@@ -883,6 +883,10 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .month-picker-grid button[aria-pressed="true"] { background: var(--accent); color: var(--bg); font-weight: 700; }
 .month-picker-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
 .month-picker-footer button { min-height: 36px; padding: 6px; border-radius: 8px; color: var(--accent-dark); font-size: calc(12px * var(--font-scale, 1)); }
+.timeline-date .directory-month-field { flex: 1; min-width: 0; }
+.timeline-date .month-picker-trigger { padding: 5px 0; border: 0; box-shadow: none; background: transparent; gap: 5px; color: var(--accent); }
+.timeline-date .month-picker-trigger > svg { width: 15px; flex-shrink: 0; }
+.timeline-date .month-picker-panel { width: 300px; inset-inline-start: auto; inset-inline-end: 0; white-space: normal; }
 .directory-date-range .form-error { color: #a34932; margin-top: 12px; }
 @media (max-width: 520px) { .directory-date-fields { grid-template-columns: minmax(0, 1fr); } }
 .country-directory-search { display: grid; gap: 8px; max-width: 480px; }
