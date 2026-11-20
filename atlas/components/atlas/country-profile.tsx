@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin } from "lucide-react";
+import { ChevronDown, Globe2, MapPin, X } from "lucide-react";
 import { countryProfile } from "@/lib/country-profiles";
 import type { Country } from "@/lib/atlas";
 import { useI18n } from "@/components/i18n/provider";
@@ -12,9 +12,14 @@ export default function CountryProfile({ country, count, year, month = 0 }: { co
   const entity = countryEntities[country.code];
   const exists = countryExistsAt(country.code, mapDate(year, month));
   const name = locale === "fa" ? profile.nameFa : profile.nameEn;
-  return <section className="country-profile" aria-label={t("{name} country profile", { name })} data-country-profile={country.code} data-country-year={year} data-country-data-year={profile.dataYear ?? ""}>
+  return <details className="country-profile-disclosure">
+    <summary className="country-profile-trigger" aria-label={t("Open {name} country profile", { name })}>
+      <span className={profile.flagPath ? "country-flag-portrait" : "country-flag-placeholder"}>{profile.flagPath ? <img key={profile.flagPath} src={profile.flagPath} alt={t("Flag of {name}", { name })} width={80} height={54} /> : <Globe2 size={30} aria-hidden="true" />}</span><span>{name}</span><ChevronDown size={17} />
+    </summary>
+    <section className="country-profile" aria-label={t("{name} country profile", { name })} data-country-profile={country.code} data-country-year={year} data-country-data-year={profile.dataYear ?? ""}>
+    <button type="button" className="text-link disclosure-close" onClick={event => { const details = event.currentTarget.closest("details")!; details.open = false; details.querySelector("summary")?.focus(); }}><X size={15} />{t("Close country profile")}</button>
     <div className="country-heading"><span className="eyebrow">{t("COUNTRY SPOTLIGHT")}</span>
-      <div className="country-profile-identity">{profile.flagPath && <span className="country-flag-portrait"><img key={profile.flagPath} src={profile.flagPath} alt={t("Flag of {name}", { name })} width={80} height={54} /></span>}<div><h2 lang={locale}>{name}</h2></div></div>
+      <div className="country-profile-identity"><div><h2 lang={locale}>{name}</h2></div></div>
       <span className="country-region"><MapPin size={12} />{text(country.region)}<span>·</span>{n(count)}{" " + t("records in") + " "}{n(year, { useGrouping: false })}</span>
     </div>
     {(entity?.foundedOn || entity?.dissolvedOn || !exists) && <div className="country-lifetime">
@@ -28,5 +33,5 @@ export default function CountryProfile({ country, count, year, month = 0 }: { co
       <div><dt>{t("Population")}</dt><dd>{profile.population === null ? t("Not available") : n(profile.population)}</dd></div>
     </dl>
     <p className="country-reference-note" role="status">{profile.dataYear === null ? t("No country information recorded for {year}.", { year: n(year, { useGrouping: false }) }) : t("Country information for {year}.", { year: n(year, { useGrouping: false }) })}</p>
-  </section>;
+  </section></details>;
 }

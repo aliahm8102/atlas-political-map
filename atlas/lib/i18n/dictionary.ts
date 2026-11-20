@@ -1,4 +1,9 @@
 export const fa = {
+  "Other people in this country": "دیگر افراد کشور",
+  "Close other people": "بستن دیگر افراد",
+  "Open {name} country profile": "نمایش اطلاعات کشور {name}",
+  "Close country profile": "بستن اطلاعات کشور",
+  "Historical map data": "داده‌های نقشهٔ تاریخی",
   "Date range": "بازهٔ زمانی",
   "Gregorian calendar": "تقویم میلادی",
   "Directory end date": "تاریخ پایان فهرست",

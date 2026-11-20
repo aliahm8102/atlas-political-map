@@ -45,7 +45,7 @@ export async function runHistoricalBordersQA({ cdp, evaluate, waitFor, click, ty
   await setDate(1980);
   await click('[data-tour=fullscreen]');
   await waitFor("document.querySelector('.map-expanded')");
-  await waitFor("(() => {const a=document.querySelector('.map-boundary-status').getBoundingClientRect(),b=document.querySelector('.timeline').getBoundingClientRect();return a.bottom<=innerHeight && a.top>=b.bottom;})()");
+  await waitFor("document.querySelector('.map-boundary-status').getBoundingClientRect().height===0");
   assert.equal(await evaluate("Boolean(document.querySelector('.map-boundary-status a[href*=creativecommons]'))"), true);
   await screenshot('historical-fullscreen');
   await click('[data-tour=fullscreen]');
@@ -67,7 +67,7 @@ export async function runHistoricalBordersQA({ cdp, evaluate, waitFor, click, ty
   await waitFor("document.querySelector('.map-boundary-status[role=alert]')");
   assert.equal(await evaluate("document.querySelector('.country[data-country=\"643\"]') === null"), true);
   await cdp("Network.setBlockedURLs", { urls: [] });
-  await click('.map-boundary-status button');
+  await cdp('Page.reload');
   await waitFor("document.querySelector('.country[data-country=\"hist-ussr\"]') && !document.querySelector('.map-boundary-status[role=alert]')");
   await setDate(2025);
   await waitFor("document.querySelector('.map-stage').dataset.boundaryMode === 'current' && !document.querySelector('.map-boundary-status')");

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 import type { MapType } from "@/lib/map-layers";
 
@@ -41,7 +41,7 @@ export default function MapExperience({ children, targetId = "atlas-map" }: { ch
     };
   }, [expanded]);
 
-  async function toggle() {
+  const toggle = useCallback(async () => {
     const element = root.current;
     if (!element || pending) return;
     if (fallback) { setFallback(false); return; }
@@ -54,7 +54,22 @@ export default function MapExperience({ children, targetId = "atlas-map" }: { ch
     } catch {
       if (document.fullscreenElement !== element) setFallback(true);
     } finally { setPending(false); }
-  }
+  }, [fallback, pending]);
+
+  useEffect(() => {
+    const fullscreenKey = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.repeat || event.isComposing || event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.code !== "KeyF" && event.key.toLowerCase() !== "f") return;
+      if (!window.matchMedia("(min-width: 761px) and (pointer: fine)").matches) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest("input, textarea, select, [contenteditable]:not([contenteditable=false]), [role=textbox]")) return;
+      if (document.querySelector("dialog[open], [role=dialog][aria-modal=true]")) return;
+      event.preventDefault();
+      void toggle();
+    };
+    document.addEventListener("keydown", fullscreenKey);
+    return () => document.removeEventListener("keydown", fullscreenKey);
+  }, [toggle]);
 
   return <FullscreenContext.Provider value={{ mapType, setMapType, expanded, pending, inspectorOpen, timelineOpen, toggle, toggleInspector: () => setInspectorOpen(open => !open), showInspector: () => setInspectorOpen(true), toggleTimeline: () => setTimelineOpen(open => !open), setInspectorOpen, setTimelineOpen }}>
     <div ref={root} id={targetId} tabIndex={-1} className={`map-experience${mapType !== "default" ? " map-geographic" : ""}${expanded ? " map-expanded" : ""}${expanded && !inspectorOpen ? " map-inspector-hidden" : ""}${expanded && !timelineOpen ? " map-timeline-hidden" : ""}`} data-fullscreen={native ? "native" : fallback ? "fallback" : "off"}>{children}</div>

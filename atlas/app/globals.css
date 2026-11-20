@@ -170,7 +170,7 @@ select option { background: var(--surface); color: var(--text); }
 .map-boundary-status a { text-decoration: underline; }
 .map-boundary-status .text-link { display: inline; }
 .boundary-nato-note { display: block; }
-.map-experience.map-expanded:has(.map-boundary-status) { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-boundary-status-height, 60px)); }
+.map-experience.map-expanded:has(.map-boundary-status:not([hidden])) { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-boundary-status-height, 60px)); }
 .map-expanded .map-boundary-status { z-index: 3; bottom: max(4px, env(safe-area-inset-bottom)); inset-inline-start: 12px; max-width: calc(100% - 24px); }
 .country-lifetime { margin-top: 12px; font-size: calc(11px * var(--font-scale, 1)); line-height: 1.9; color: var(--muted); }
 .map-experience.map-expanded.map-geographic { padding-bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--map-attribution-height, 60px)); }
@@ -274,7 +274,7 @@ select option { background: var(--surface); color: var(--text); }
 .country-heading h2 { font-size: calc((26px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 500; letter-spacing: -.7px; margin-top: 8px; line-height: 1.15; }
 .country-region { color: var(--muted); font-size: calc((8px + var(--desktop-font-increment)) * var(--font-scale, 1)); display: flex; align-items: center; gap: 5px; margin-top: 10px; }
 .person-spotlight { margin-top: 21px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px; }
-.spotlight-portrait { width: 69px; height: 69px; border-width: 4px; font-size: calc((20px + var(--desktop-font-increment)) * var(--font-scale, 1)); display: flex; margin: 0 auto 14px; }
+.spotlight-portrait { width: 88px; height: 88px; border-width: 4px; font-size: calc((26px + var(--desktop-font-increment)) * var(--font-scale, 1)); display: flex; margin: 0 auto 14px; }
 .role-pill { padding: 4px 7px; background: var(--accent-soft); color: var(--accent); border-radius: 5px; font-size: calc((7px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 550; display: inline-block; }
 .person-spotlight h3 { font-size: calc((16px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 600; margin-top: 10px; line-height: 1.3; }
 .person-spotlight > p { color: var(--muted); font-size: calc((10px + var(--desktop-font-increment)) * var(--font-scale, 1)); line-height: 1.6; margin-top: 5px; }
@@ -282,9 +282,20 @@ select option { background: var(--surface); color: var(--text); }
 .bookmark-person { padding: 9px 13px; min-height: 32px; font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); margin-top: 15px; }
 .is-bookmarked { color: var(--accent); }
 .country-people { margin-top: 25px; max-height: 185px; overflow: auto; padding: 2px; }
+.country-people-disclosure { margin-top: 20px; }
+.country-profile-disclosure:not([open]) > .country-profile, .country-people-disclosure:not([open]) > .country-people { display: none; }
+.country-people-disclosure .country-people { margin-top: 12px; max-height: 260px; }
+.country-people-trigger, .country-profile-trigger { display: flex; align-items: center; gap: 10px; width: 100%; cursor: pointer; list-style: none; }
+.country-people-trigger::-webkit-details-marker, .country-profile-trigger::-webkit-details-marker { display: none; }
+.country-people-trigger > svg:last-child, .country-profile-trigger > svg:last-child { margin-inline-start: auto; }
+.country-people-disclosure[open] > summary > svg:last-child, .country-profile-disclosure[open] > summary > svg:last-child { transform: rotate(180deg); }
+.country-profile-trigger { padding: 10px; border-radius: 12px; background: var(--soft); color: var(--accent-dark); font-weight: 600; overflow-wrap: anywhere; }
+.country-profile { padding-block: 14px; }
+.country-flag-placeholder { display: grid; place-items: center; width: 72px; height: 72px; flex-shrink: 0; border-radius: 50%; background: var(--surface); color: var(--accent); }
+.disclosure-close { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; }
 .country-people > span { margin-bottom: 8px; }
 .mini-person { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 0; text-align: start; }
-.mini-person .portrait { width: 29px; height: 29px; }
+.mini-person .portrait { width: 40px; height: 40px; }
 .mini-person strong { font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 550; display: block; }
 .mini-person small { font-size: calc((8px + var(--desktop-font-increment)) * var(--font-scale, 1)); display: block; margin-top: 4px; color: var(--muted); }
 .mini-person > svg { margin-inline-start: auto; color: var(--muted); }
@@ -329,7 +340,7 @@ select option { background: var(--surface); color: var(--text); }
 .people-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; padding-bottom: 20px; }
 .person-card { background: var(--surface); box-shadow: var(--raised); padding: 20px; border-radius: 16px; min-width: 0; }
 .person-card-top { display: flex; align-items: start; justify-content: space-between; margin-bottom: 16px; }
-.person-card-top > .portrait { width: 58px; height: 58px; border-width: 3px; font-size: calc((18px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
+.person-card-top > .portrait { width: 72px; height: 72px; border-width: 3px; font-size: calc((18px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
 .person-card-top .icon-button { width: 29px; height: 29px; }
 .person-card h3 { font-size: calc((15px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 550; margin-top: 10px; }
 .person-card p { color: var(--muted); font-size: calc((10px + var(--desktop-font-increment)) * var(--font-scale, 1)); line-height: 1.7; margin-top: 8px; min-height: 35px; }
@@ -467,7 +478,7 @@ html[dir="rtl"] .auth-switch-button > svg:last-child { transform: rotate(180deg)
 
 /* Keep text legible while retaining the quiet, compact workspace. */
 .portrait { position: relative; }
-.portrait-fallback { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.portrait-fallback { font-size: 1.2em; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
 .portrait img { position: absolute; inset: 0; }
 @media (min-width: 1001px) {
   :root { --desktop-font-increment: 1px; }
@@ -773,7 +784,7 @@ html[dir="rtl"] .map-scale { direction: ltr; }
   .map-expanded .country-heading h2 { font-size: calc(18px * var(--font-scale, 1)); margin-top: 3px; }
   .map-expanded .country-region { margin-top: 5px; flex-wrap: wrap; }
   .map-expanded .person-spotlight { margin-top: 10px; padding-top: 10px; }
-  .map-expanded .spotlight-portrait { width: 42px; height: 42px; }
+  .map-expanded .spotlight-portrait { width: 64px; height: 64px; }
   .map-expanded .timeline { padding: 12px; border-radius: 12px; }
   .map-expanded .timeline-body { flex-wrap: wrap; gap: 10px; margin-top: 10px; }
   .map-expanded .timeline-slider { flex-basis: calc(100% - 48px); }
