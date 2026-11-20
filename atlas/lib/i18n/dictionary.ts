@@ -1,4 +1,10 @@
 export const fa = {
+  "Your color": "رنگ شما",
+  "Choose your color": "انتخاب رنگ شما",
+  "Your color (RGB)": "رنگ شما (RGB)",
+  "Red (R)": "قرمز (R)",
+  "Green (G)": "سبز (G)",
+  "Blue (B)": "آبی (B)",
   "Choose month and year": "انتخاب ماه و سال",
   "Choose month": "انتخاب ماه",
   "Previous year": "سال قبل",

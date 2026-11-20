@@ -320,6 +320,17 @@ select option { background: var(--surface); color: var(--text); }
 .accent-choice.selected { outline: 1px solid var(--accent); outline-offset: 2px; }
 .accent-choice.sage { background: #6e8d73; }.accent-choice.blue { background: #7497ab; }.accent-choice.lavender { background: #a18cb4; }
 .accent-choice.amber { background: #ae7c32; }.accent-choice.rose { background: #b86781; }
+.accent-choice.custom, .pencil-custom-color { background: linear-gradient(135deg, #ff3b30 0%, #ff9500 17%, #ffcc00 33%, #34c759 50%, #00c7be 66%, #007aff 83%, #af52de 100%); }
+.accent-choice.custom > svg { filter: drop-shadow(0 1px 2px #000); }
+.custom-accent-rgb { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; }
+.custom-accent-preview { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 50%; flex-shrink: 0; }
+.custom-accent-channels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; flex: 1; min-width: 180px; }
+.custom-accent-channels label { display: grid; gap: 6px; text-align: center; font-size: calc(11px * var(--font-scale, 1)); }
+.custom-accent-channels .soft-input { width: 100%; min-width: 0; margin: 0; padding: 8px 4px; text-align: center; appearance: textfield; }
+.custom-accent-channels input::-webkit-inner-spin-button, .custom-accent-channels input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.custom-accent-channels input[aria-invalid="true"] { outline: 2px solid #b8513b; }
+.custom-accent-rgb output { flex-basis: 100%; text-align: center; font-size: calc(11px * var(--font-scale, 1)); color: var(--muted); }
+.atlas-app[data-accent="custom"] :is(.primary-button, .search-submit, .cluster-count, .soft-checkbox.checked, .skip-link, .month-picker-grid button[aria-pressed="true"]) { color: var(--on-accent); }
 .font-size-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .font-size-heading .control-section-title { margin: 0; }
 .font-size-heading output { font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--accent-dark); font-variant-numeric: tabular-nums; }
@@ -678,8 +689,9 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .map-pencil-colors { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; padding: 6px 0; border-top: 1px solid var(--border); }
 .pencil-color, .pencil-custom-color { width: 30px; height: 30px; border: 1px solid var(--muted); border-radius: 50%; cursor: pointer; }
 .pencil-color[aria-pressed="true"] { outline: 2px solid var(--text); outline-offset: 2px; box-shadow: inset 0 0 0 3px var(--surface); }
-.pencil-custom-color { display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.pencil-custom-color input { width: 30px; height: 30px; padding: 0; border: 0; cursor: pointer; }
+.pencil-custom-color { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.pencil-custom-color input { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; opacity: 0; cursor: pointer; }
+.pencil-custom-color:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
 .map-measurement { grid-column: 1 / -1; width: 100%; display: grid; gap: 7px; border-top: 1px solid var(--border); padding-top: 8px; font-size: calc(11px * var(--font-scale, 1)); color: var(--text); }
 .map-measurement p { margin: 0; line-height: 1.7; }
 .map-measurement output { display: block; font-size: calc(12px * var(--font-scale, 1)); }

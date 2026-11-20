@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
+import { DEFAULT_CUSTOM_ACCENT, HEX_COLOR } from "./accent-colors.ts";
 export const roleLabels = { leader: "Heads of state", member: "Government", army: "Military", religious: "Religious", business: "Business" } as const;
 export type Role = keyof typeof roleLabels;
 export type Person = {
@@ -11,7 +12,8 @@ export type Country = { code: string; name: string; region: string; lat: number;
 export const regions = ["All regions", "Europe", "Asia", "Africa", "North America", "South America", "Oceania"] as const;
 export const settingsSchema = z.object({
   theme: z.enum(["light", "dark", "sand", "midnight"]).default("light"),
-  accent: z.enum(["sage", "blue", "lavender", "amber", "rose"]).default("sage"),
+  accent: z.enum(["sage", "blue", "lavender", "amber", "rose", "custom"]).default("sage"),
+  customAccent: z.string().regex(HEX_COLOR).default(DEFAULT_CUSTOM_ACCENT),
   fontSize: z.number().int().min(90).max(130).default(100),
   portraits: z.boolean().default(true), labels: z.boolean().default(true),
   markerSize: z.enum(["small", "medium", "large"]).default("medium"),
