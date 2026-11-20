@@ -822,13 +822,27 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .directory-date-range legend { padding-inline: 8px; font-weight: 600; }
 .calendar-type { display: inline-flex; margin-inline-start: 10px; padding: 4px 10px; border-radius: 8px; background: var(--accent-soft); color: var(--accent-dark); font-size: calc(11px * var(--font-scale, 1)); }
 .directory-date-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.directory-month-field { min-width: 0; }
+.directory-month-field { min-width: 0; position: relative; }
 .directory-month-field > label { display: block; margin-bottom: 8px; color: var(--muted); }
-.directory-month-input { position: relative; }
-.directory-month-input input { margin: 0; width: 100%; min-width: 0; padding-inline-end: 44px; color: var(--text); background: var(--soft); }
-.directory-month-input input::-webkit-calendar-picker-indicator { opacity: 0; }
-.directory-month-input button { position: absolute; inset-inline-end: 8px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: var(--accent); color: var(--bg); }
-.atlas-app:is([data-theme="dark"], [data-theme="midnight"]) .directory-month-input input { color-scheme: dark; }
+.month-picker-trigger.soft-input { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; width: 100%; min-width: 0; text-align: start; color: var(--text); background: var(--soft); }
+.month-picker-trigger > svg { color: var(--accent); }
+.month-picker-panel { position: absolute; top: calc(100% + 8px); inset-inline-start: 0; z-index: 60; width: min(320px, 100%); max-width: calc(100vw - 32px); overflow-y: auto; padding: 12px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--text); box-shadow: var(--raised); }
+.month-picker-panel.is-above { top: auto; bottom: calc(100% + 8px); }
+.month-picker-heading { display: flex; align-items: start; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.month-picker-heading strong { font-size: calc(13px * var(--font-scale, 1)); }
+.month-picker-heading small { display: block; margin-top: 4px; font-size: calc(10px * var(--font-scale, 1)); font-weight: 400; color: var(--muted); }
+.month-picker-year { display: flex; align-items: center; gap: 8px; }
+.month-picker-year label { flex: 1; min-width: 0; }
+.month-picker-year .soft-input { width: 100%; margin: 0; padding: 10px 4px; text-align: center; appearance: textfield; }
+.month-picker-year input::-webkit-inner-spin-button, .month-picker-year input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.month-picker-year > button { flex-shrink: 0; background: var(--soft); }
+.month-picker-range { margin: 10px 0; font-size: calc(10px * var(--font-scale, 1)); color: var(--muted); }
+.month-picker-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.month-picker-grid button { padding: 10px 2px; min-height: 40px; min-width: 0; border-radius: 8px; background: var(--soft); color: var(--text); font-size: calc(11px * var(--font-scale, 1)); }
+.month-picker-grid button:hover:not(:disabled) { box-shadow: var(--inset); }
+.month-picker-grid button[aria-pressed="true"] { background: var(--accent); color: var(--bg); font-weight: 700; }
+.month-picker-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
+.month-picker-footer button { min-height: 36px; padding: 6px; border-radius: 8px; color: var(--accent-dark); font-size: calc(12px * var(--font-scale, 1)); }
 .directory-date-range .form-error { color: #a34932; margin-top: 12px; }
 @media (max-width: 520px) { .directory-date-fields { grid-template-columns: minmax(0, 1fr); } }
 .country-directory-search { display: grid; gap: 8px; max-width: 480px; }

@@ -1,4 +1,10 @@
 export const fa = {
+  "Choose month and year": "انتخاب ماه و سال",
+  "Choose month": "انتخاب ماه",
+  "Previous year": "سال قبل",
+  "Next year": "سال بعد",
+  "This month": "این ماه",
+  "Year range: {min}–{max}": "بازهٔ سال: {min} تا {max}",
   "Other people in this country": "دیگر افراد کشور",
   "Close other people": "بستن دیگر افراد",
   "Open {name} country profile": "نمایش اطلاعات کشور {name}",

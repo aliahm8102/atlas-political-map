@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
+import { selectMonthQA } from "./select-month-qa.mjs";
 
 export async function runDirectoriesNavigationQA({ cdp, evaluate, waitFor, click, type, screenshot }) {
-  const select = (selector,value) => evaluate(`(() => {const el=document.querySelector(${JSON.stringify(selector)});Object.getOwnPropertyDescriptor(el instanceof HTMLSelectElement?HTMLSelectElement.prototype:HTMLInputElement.prototype,'value').set.call(el,${JSON.stringify(value)});el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  const select = async (selector,value) => {
+    if (await evaluate(`document.querySelector(${JSON.stringify(selector)}).classList.contains("month-picker-trigger")`)) return selectMonthQA({ evaluate, click, waitFor }, selector, value);
+    return evaluate(`(() => {const el=document.querySelector(${JSON.stringify(selector)});Object.getOwnPropertyDescriptor(el instanceof HTMLSelectElement?HTMLSelectElement.prototype:HTMLInputElement.prototype,'value').set.call(el,${JSON.stringify(value)});el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  };
   const key = async (code,key=code.slice(3).toLowerCase(),modifiers=0) => {
     await cdp('Input.dispatchKeyEvent',{type:'keyDown',code,key,modifiers});
     await cdp('Input.dispatchKeyEvent',{type:'keyUp',code,key,modifiers});

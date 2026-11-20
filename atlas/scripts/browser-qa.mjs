@@ -9,6 +9,7 @@ import { runMapToolsFeedbackQA } from "./map-tools-feedback-qa.mjs";
 import { runCharacterOrganizationQA } from "./character-organization-qa.mjs";
 import { runCharacterMonthsQA } from "./character-months-browser-qa.mjs";
 import { runAdminMonthsQA } from "./admin-months-browser-qa.mjs";
+import { runMonthPickerQA } from "./month-picker-browser-qa.mjs";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -468,7 +469,10 @@ try {
   });
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
-  if (process.env.ATLAS_ADMIN_DATES_ONLY === "1") {
+  if (process.env.ATLAS_MONTH_PICKER_ONLY === "1") {
+    await runMonthPickerQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
+    assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
+  } else if (process.env.ATLAS_ADMIN_DATES_ONLY === "1") {
     await runAdminMonthsQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin });
     assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   } else if (process.env.ATLAS_CHARACTER_DATES_ONLY === "1") {

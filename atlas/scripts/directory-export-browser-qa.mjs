@@ -2,11 +2,15 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { selectMonthQA } from "./select-month-qa.mjs";
 
 export async function runDirectoryExportQA({ cdp, evaluate, waitFor, click, type, screenshot, navigate }) {
   const directory=await fs.mkdtemp(path.resolve('outputs/export-downloads-'));
   await cdp('Browser.setDownloadBehavior',{behavior:'allow',downloadPath:directory});
-  const set = (selector,value) => evaluate(`(() => {const el=document.querySelector(${JSON.stringify(selector)});Object.getOwnPropertyDescriptor(el instanceof HTMLSelectElement?HTMLSelectElement.prototype:HTMLInputElement.prototype,'value').set.call(el,${JSON.stringify(value)});el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  const set = async (selector,value) => {
+    if (await evaluate(`document.querySelector(${JSON.stringify(selector)}).classList.contains("month-picker-trigger")`)) return selectMonthQA({ evaluate, click, waitFor }, selector, value);
+    return evaluate(`(() => {const el=document.querySelector(${JSON.stringify(selector)});Object.getOwnPropertyDescriptor(el instanceof HTMLSelectElement?HTMLSelectElement.prototype:HTMLInputElement.prototype,'value').set.call(el,${JSON.stringify(value)});el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  };
   const range=async(from,to,fa=false)=>{await set(`[aria-label="${fa?'تاریخ فهرست':'Directory date'}"]`,from);await set(`[aria-label="${fa?'تاریخ پایان فهرست':'Directory end date'}"]`,to);};
   const open=()=>evaluate("document.querySelectorAll('.sidebar nav')[0].querySelectorAll('button')[1].click()");
   async function download(format,fa=false) {
@@ -78,9 +82,9 @@ export async function runDirectoryExportQA({ cdp, evaluate, waitFor, click, type
   await waitFor("(() => {const r=document.querySelector('.sidebar').getBoundingClientRect();return r.left>=innerWidth-1 || r.right<=1})()");
   for(const theme of ['light','dark','sand','midnight']) {
     await evaluate(`document.querySelector('.atlas-app').dataset.theme='${theme}';document.querySelector('.atlas-app').style.setProperty('--font-scale','1.3');document.querySelector('.directory-date-range').scrollIntoView({block:'start',behavior:'instant'});window.scrollBy({top:-document.querySelector('.topbar').getBoundingClientRect().height-20,behavior:'instant'})`);
-    await evaluate("(async()=>{const button=document.querySelector('.directory-month-input button');getComputedStyle(button).backgroundColor;await Promise.all(button.getAnimations().map(animation=>animation.finished.catch(()=>{})))})()");
+    await evaluate("(async()=>{const button=document.querySelector('.month-picker-trigger');getComputedStyle(button).backgroundColor;await Promise.all(button.getAnimations().map(animation=>animation.finished.catch(()=>{})))})()");
     assert.equal(await evaluate("document.documentElement.scrollWidth<=innerWidth+1"),true);
-    assert.equal(await evaluate(`(() => { const s=getComputedStyle(document.querySelector('.directory-month-input button')); const luminance=color=>{const [r,g,b]=color.match(/\\d+/g).slice(0,3).map(Number).map(value=>{const x=value/255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4});return .2126*r+.7152*g+.0722*b};const a=luminance(s.color),b=luminance(s.backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=3})()`),true,'Calendar icon keeps sufficient contrast in every theme');
+    assert.equal(await evaluate(`(() => { const s=getComputedStyle(document.querySelector('.month-picker-trigger'));const icon=getComputedStyle(document.querySelector('.month-picker-trigger > svg')); const luminance=color=>{const [r,g,b]=color.match(/\\d+/g).slice(0,3).map(Number).map(value=>{const x=value/255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4});return .2126*r+.7152*g+.0722*b};const a=luminance(icon.color),b=luminance(s.backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=3})()`),true,'Calendar icon keeps sufficient contrast in every theme');
     await screenshot(`export-date-${theme}-fa-mobile`);
   }
   console.log('PASS: actual XLSX/CSV/TXT downloads, independent readers, language/filter/tag/group matching, monthly ranges, missing data, multi-year omissions, historical identities, end-exclusive terms and themed mobile date controls.');
