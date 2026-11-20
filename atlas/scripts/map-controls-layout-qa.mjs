@@ -19,6 +19,9 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, waitFor, na
   assert.equal(await evaluate("document.querySelector('.reset-positions').disabled"),true);
   await evaluate("document.querySelector('.map-pin').focus({preventScroll:true})");await key('ArrowRight');await waitFor("!document.querySelector('.reset-positions').disabled");
   assert.ok(await positions()>0);
+  assert.equal(await evaluate("document.querySelectorAll('.layer-controls .control-section-title')[1].getAttribute('aria-expanded')"),'false');
+  assert.equal(await evaluate("document.querySelectorAll('.layer-controls .control-section-content')[1].hidden"),true);
+  await toggle(1,true);
   await selectRegion('Asia');await click('.layer-row');await click('.layer-controls .toggle-row');
   await toggle(0,false);await toggle(0,true);
   assert.equal(await evaluate("document.querySelector('.region-filter select').value"),'Asia');
