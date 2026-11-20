@@ -8,6 +8,17 @@ import { createTranslator } from "../lib/i18n/index.ts";
 
 const facts = { capitalFa: "برلین", capitalEn: "Berlin", areaKm2: 357022, population: 83491249, flagPath: "/flags/de.svg" };
 
+test("Iran historical flag uses its real WebP format and annual records retain the current flag from 1980", async () => {
+  const path = "/flags/history/ir-1979.webp";
+  const bytes = await fs.readFile(new URL(`../public${path}`, import.meta.url));
+  assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
+  assert.equal(bytes.toString("ascii", 8, 12), "WEBP");
+  for (const [year, record] of Object.entries(countryHistories["364"].years)) {
+    assert.equal(record.flagPath, Number(year) < 1980 ? path : "/flags/ir.svg");
+    assert.equal(countryProfile(countryProfiles["364"], Number(year)).flagPath, record.flagPath);
+  }
+});
+
 test("country facts, capitals and flags come only from the selected year, never from a future or earlier snapshot", () => {
   const earlier = { ...facts, capitalFa: "بن", capitalEn: "Bonn", areaKm2: 248577, population: 62000000, flagPath: "/flags/history/de-1989.svg" };
   // Synthetic annual records exercise the model; these are not published historical data.

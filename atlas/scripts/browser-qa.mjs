@@ -472,7 +472,18 @@ try {
   });
   await fixtureServer.listen();
   const fixtureOrigin = fixtureServer.resolvedUrls.local[0];
-  if (process.env.ATLAS_MOBILE_LOCK_ONLY === "1") {
+  if (process.env.ATLAS_IRAN_FLAG_ONLY === "1") {
+    for (const [year, source, mime] of [[1955, "/flags/history/ir-1979.webp", "image/webp"], [1978, "/flags/history/ir-1979.webp", "image/webp"], [1979, "/flags/history/ir-1979.webp", "image/webp"], [1980, "/flags/ir.svg", "image/svg+xml"], [2025, "/flags/ir.svg", "image/svg+xml"]]) {
+      await navigate(`${fixtureOrigin}?fixture=iran-flag&locale=fa&year=${year}`);
+      await waitFor("document.querySelector('.country-flag-portrait img')?.complete && document.querySelector('.country-flag-portrait img').naturalWidth>0");
+      assert.equal(await evaluate("document.querySelector('.country-flag-portrait img').getAttribute('src')"),source);
+      assert.equal(await evaluate(`(async()=>{const response=await fetch(${JSON.stringify(source)});return response.headers.get('content-type').split(';')[0]})()`),mime);
+      await evaluate("document.querySelector('.country-flag-portrait img').decode()");
+    }
+    await screenshot('iran-country-flag');
+    assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
+    console.log('PASS: Iran historical and current flags load, decode and use the correct MIME type in the actual country profile.');
+  } else if (process.env.ATLAS_MOBILE_LOCK_ONLY === "1") {
     await runMobileMapLockQA({ evaluate, cdp, click, waitFor, navigate, screenshot, fixtureOrigin });
     assert.deepEqual(exceptions, [], "Browser raised runtime exceptions");
   } else if (process.env.ATLAS_MAP_CONTROLS_ONLY === "1") {
