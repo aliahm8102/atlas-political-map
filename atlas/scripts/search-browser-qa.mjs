@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { runDirectoriesNavigationQA } from "./directories-navigation-qa.mjs";
+import { runDirectoryExportQA } from "./directory-export-browser-qa.mjs";
 import { runCountrySearchQA } from "./country-search-qa.mjs";
 import { runHistoricalBordersQA } from "./historical-boundaries-browser-qa.mjs";
 
@@ -79,7 +80,9 @@ try {
   await waitFor("document.querySelector('.tour-dialog[open]') || document.cookie.includes('atlas-tour-v1=done')");
   if (await evaluate("Boolean(document.querySelector('.tour-dialog[open]'))")) await click('.tour-actions .secondary-button');
   console.log('PASS: local sign-in and search route protection.');
-  if (process.env.ATLAS_DIRECTORIES_ONLY === "1") {
+  if (process.env.ATLAS_EXPORTS_ONLY === "1") {
+    await runDirectoryExportQA({ cdp, evaluate, waitFor, click, type, screenshot, navigate });
+  } else if (process.env.ATLAS_DIRECTORIES_ONLY === "1") {
     await runDirectoriesNavigationQA({ cdp, evaluate, waitFor, click, type, screenshot });
   } else {
   const input = '.global-search input';
@@ -180,7 +183,7 @@ try {
   await runHistoricalBordersQA({ cdp, evaluate, waitFor, click, type, navigate, screenshot });
   }
   assert.deepEqual(exceptions, []);
-  if (process.env.ATLAS_DIRECTORIES_ONLY !== "1") console.log("Search browser checks passed: protected routes, keyboard suggestions, people/places, typo and intent matching, historical map focus, filters/sorting, reload/back restoration, zero-result alternatives, Persian and mobile layouts.");
+  if (process.env.ATLAS_DIRECTORIES_ONLY !== "1" && process.env.ATLAS_EXPORTS_ONLY !== "1") console.log("Search browser checks passed: protected routes, keyboard suggestions, people/places, typo and intent matching, historical map focus, filters/sorting, reload/back restoration, zero-result alternatives, Persian and mobile layouts.");
   await cdp("Browser.close");
 } catch (error) {
   console.error("Search browser diagnostics:", await diagnostics?.().catch(() => null));

@@ -807,6 +807,24 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .directory-tabs button { padding: 12px 18px; border-radius: 10px; }
 .directory-tabs button[aria-selected="true"] { background: var(--soft); color: var(--accent-dark); box-shadow: var(--inset); font-weight: 650; }
 .country-directory { display: grid; gap: 18px; }
+.directory-export { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; padding: 14px; border: 1px solid var(--border); border-radius: 12px; }
+.directory-export-actions { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+.directory-export-actions label { display: grid; gap: 6px; font-size: calc(12px * var(--font-scale, 1)); }
+.directory-export-actions .soft-input { width: auto; min-width: 100px; margin: 0; }
+.directory-export-actions button { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; }
+.directory-date-range { border: 1px solid var(--border); border-radius: 14px; margin: 0 0 24px; padding: 16px; min-width: 0; background: var(--surface); }
+.directory-date-range legend { padding-inline: 8px; font-weight: 600; }
+.calendar-type { display: inline-flex; margin-inline-start: 10px; padding: 4px 10px; border-radius: 8px; background: var(--accent-soft); color: var(--accent-dark); font-size: calc(11px * var(--font-scale, 1)); }
+.directory-date-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.directory-month-field { min-width: 0; }
+.directory-month-field > label { display: block; margin-bottom: 8px; color: var(--muted); }
+.directory-month-input { position: relative; }
+.directory-month-input input { margin: 0; width: 100%; min-width: 0; padding-inline-end: 44px; color: var(--text); background: var(--soft); }
+.directory-month-input input::-webkit-calendar-picker-indicator { opacity: 0; }
+.directory-month-input button { position: absolute; inset-inline-end: 8px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: var(--accent); color: var(--bg); }
+.atlas-app:is([data-theme="dark"], [data-theme="midnight"]) .directory-month-input input { color-scheme: dark; }
+.directory-date-range .form-error { color: #a34932; margin-top: 12px; }
+@media (max-width: 520px) { .directory-date-fields { grid-template-columns: minmax(0, 1fr); } }
 .country-directory-search { display: grid; gap: 8px; max-width: 480px; }
 .country-directory-search .soft-input { margin: 0; }
 .country-card-identity { display: flex; align-items: center; gap: 14px; }

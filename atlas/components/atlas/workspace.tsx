@@ -26,6 +26,8 @@ import MapExperience from "./map-experience";
 import CharactersPage from "./characters-page";
 import PeopleDirectory from "./people-directory";
 import CountryDirectory from "./country-directory";
+import DirectoryDateFilters from "./directory-date-filters";
+import { personInRange, type DirectoryRange } from "@/lib/directory-filters";
 import { useBrowserPeople } from "./use-browser-people";
 import { AppearanceControls, LayerControls } from "./preferences";
 import SearchBox from "./search-box";
@@ -53,6 +55,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
   const [scrollRequest, setScrollRequest] = useState(0);
   const [editingCharacterId, setEditingCharacterId] = useState<string | null>(null);
   const [page, setPage] = useState<Page>(initialPage);
+  const [customDirectoryRange, setDirectoryRange] = useState<DirectoryRange | null>(null);
   const [directoryType, setDirectoryType] = useState<"people" | "countries">("people");
   const [sharedPeople, setSharedPeople] = useState(importedPeople);
   const [publicationUpdates, setPublicationUpdates] = useState<{ source: Publication[]; items: Publication[] } | null>(null);
@@ -74,7 +77,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
   const [toast, setToast] = useState(""); const notify = useCallback((text: string) => setToast(text), []);
   const personal = usePersonalState(mode, userId, initialState, notify); const { state, settings: changeSettings } = personal;
   const { settings } = state;
-  const { endYear, endMonth, max: maxMonth } = getTimelineRange();
+  const { endYear } = getTimelineRange();
   const browser = useBrowserPeople(userId, notify, publications);
   const people = useMemo(() => [...sharedPeople, ...browser.people], [sharedPeople, browser.people]);
   const temporal = useHistoricalBorders(settings.year, settings.month);
@@ -133,7 +136,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
     const url = searchUrl(next);
     if (window.location.pathname + window.location.search !== url) window.history.pushState(null, "", url);
   }
-  function openSearchResult(document: SearchDocument) {
+  function openSearchResult(document: SearchDocument, preferredDate?: { year: number; month: number }) {
     setPage("map"); setSideOpen(false);
     if (document.person) {
       const person = document.person;
@@ -145,7 +148,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
       selectPerson(person, true);
     } else if (document.country) {
       const queryYear = Number((page === "search" ? searchState.year : "") || timelineYearFromQuery(searchDraft));
-      const focus = countryFocusDate(document.country.code, queryYear >= TIMELINE_START_YEAR && queryYear <= endYear ? queryYear : settings.year, queryYear >= TIMELINE_START_YEAR && queryYear <= endYear ? 0 : settings.month);
+      const focus = preferredDate ?? countryFocusDate(document.country.code, queryYear >= TIMELINE_START_YEAR && queryYear <= endYear ? queryYear : settings.year, queryYear >= TIMELINE_START_YEAR && queryYear <= endYear ? 0 : settings.month);
       changeSettings({ region: "All regions", roles: defaultSettings.roles, ...clampTimelineDate(focus.year, focus.month) }); selectCountry(document.country.code, true); }
     const target: MapTarget | null = document.person ? { kind: "person", id: document.person.id } : document.country ? { kind: "country", id: document.country.code } : null;
     if (target) { setMapTarget(target); setScrollRequest(value => value + 1); const href = mapResultHref(document); if (location.pathname + location.search + location.hash !== href) window.history.pushState(null, "", href); }
@@ -183,7 +186,8 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
   }
   const dateLabel = date(new Date(Date.UTC(settings.year, settings.month, 1)));
   const dateValue = `${settings.year}-${String(settings.month + 1).padStart(2, "0")}`;
-  const cards = page === "bookmarks" ? people.filter(p => bookmarks.includes(p.id)) : filtered;
+  const directoryRange = customDirectoryRange ?? { from: dateValue, to: dateValue };
+  const cards = page === "bookmarks" ? people.filter(p => bookmarks.includes(p.id)) : people.filter(person => personInRange(person, directoryRange) && (settings.region === "All regions" || person.region === settings.region) && settings.roles.includes(person.role));
   const activePerson = countryPeople.find(p => p.id === selectedPerson?.id) ?? countryPeople.find(p => p.role === "leader") ?? countryPeople[0];
 
   return <div className="atlas-app" data-theme={settings.theme} data-accent={settings.accent} style={{ "--font-scale": settings.fontSize / 100 } as React.CSSProperties}>
@@ -202,10 +206,11 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
 
       {page === "people" && <>
         <div className="directory-tabs" role="tablist" aria-label={t("Directory sections")}>{(["people", "countries"] as const).map(type => <button key={type} id={`directory-tab-${type}`} type="button" role="tab" tabIndex={directoryType === type ? 0 : -1} aria-selected={directoryType === type} aria-controls="directory-panel" onKeyDown={event => { if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return; event.preventDefault(); const next = event.key === "Home" ? "people" : event.key === "End" ? "countries" : type === "people" ? "countries" : "people"; setDirectoryType(next); document.getElementById(`directory-tab-${next}`)?.focus(); }} onClick={() => setDirectoryType(type)}>{t(type === "people" ? "People" : "Countries")}</button>)}</div>
-        <div className="directory-toolbar"><div><h2>{t(directoryType === "people" ? "People directory" : "Country directory")}</h2><span>{dateLabel}</span></div><div className="directory-filters"><select aria-label={t("Directory region")} value={settings.region} onChange={event => changeSettings({ region: event.target.value as typeof settings.region })}>{regions.map(region => <option key={region} value={region}>{text(region)}</option>)}</select><input type="month" aria-label={t("Directory date")} min={`${TIMELINE_START_YEAR}-01`} max={`${endYear}-${String(endMonth + 1).padStart(2, "0")}`} value={dateValue} onChange={event => { if (event.target.value) { const [year, month] = event.target.value.split("-").map(Number); if (year >= TIMELINE_START_YEAR && month >= 1 && month <= 12 && year * 12 + month - 1 <= maxMonth) changeSettings({ year, month: month - 1 }); } }} /></div></div>
+        <div className="directory-toolbar"><div><h2>{t(directoryType === "people" ? "People directory" : "Country directory")}</h2></div><div className="directory-filters"><label>{t("Region")}<select className="soft-input" aria-label={t("Directory region")} value={settings.region} onChange={event => changeSettings({ region: event.target.value as typeof settings.region })}>{regions.map(region => <option key={region} value={region}>{text(region)}</option>)}</select></label></div></div>
+        <DirectoryDateFilters range={directoryRange} onChange={setDirectoryRange} />
       </>}
-      {page === "people" && directoryType === "countries" && <div id="directory-panel" role="tabpanel" aria-labelledby="directory-tab-countries"><CountryDirectory countries={countries} year={settings.year} month={settings.month} region={settings.region} onLocate={country => openSearchResult({ country } as SearchDocument)} /></div>}
-      {(page === "people" && directoryType === "people" || page === "bookmarks") && <div id={page === "people" ? "directory-panel" : undefined} role={page === "people" ? "tabpanel" : undefined} aria-labelledby={page === "people" ? "directory-tab-people" : undefined}><PeopleDirectory people={cards} browser={browser} bookmarks={bookmarks} onBookmark={bookmark} onLocate={person => openSearchResult({ person } as SearchDocument)} onEdit={id => { setEditingCharacterId(id); setPage("characters"); }}>{page === "bookmarks" && <div className="directory-toolbar"><div><h2>{t("Your bookmarked people")}</h2><span>{t(cards.length === 1 ? "{count} person" : "{count} people", { count: cards.length })}{t(" \u00b7 across all dates")}</span></div></div>}</PeopleDirectory></div>}
+      {page === "people" && directoryType === "countries" && <div id="directory-panel" role="tabpanel" aria-labelledby="directory-tab-countries"><CountryDirectory countries={countries} year={settings.year} month={settings.month} range={directoryRange} region={settings.region} onLocate={country => { const [year, month] = directoryRange.from.split("-").map(Number); openSearchResult({ country } as SearchDocument, countryFocusDate(country.code, year, month - 1)); }} /></div>}
+      {(page === "people" && directoryType === "people" || page === "bookmarks") && <div id={page === "people" ? "directory-panel" : undefined} role={page === "people" ? "tabpanel" : undefined} aria-labelledby={page === "people" ? "directory-tab-people" : undefined}><PeopleDirectory exportName={page === "bookmarks" ? "bookmarks" : "people"} people={cards} browser={browser} bookmarks={bookmarks} onBookmark={bookmark} onLocate={person => openSearchResult({ person } as SearchDocument)} onEdit={id => { setEditingCharacterId(id); setPage("characters"); }}>{page === "bookmarks" && <div className="directory-toolbar"><div><h2>{t("Your bookmarked people")}</h2><span>{t(cards.length === 1 ? "{count} person" : "{count} people", { count: cards.length })}{t(" \u00b7 across all dates")}</span></div></div>}</PeopleDirectory></div>}
 
       {page === "characters" && <CharactersPage key={editingCharacterId ?? "new"} initialPerson={browser.people.find(person => person.id === editingCharacterId)} countries={importedCountries} publications={publications} publicationAvailable={mode === "account" && publicationAvailable} onPublish={mode === "account" ? async person => { const result = await submitCharacter({ localId: person.id.slice(7), character: person }); if (result.ok) { setPublicationUpdates(previous => ({ source: initialPublications, items: [...(previous?.source === initialPublications ? previous.items : []).filter(item => item.localId !== result.data.localId), result.data] })); notify("Character sent for review."); } return result; } : undefined} people={browser.people} ready={browser.ready} onAdd={browser.add} onUpdate={browser.update} onRemove={browser.remove} onLocate={person => openSearchResult({ person } as SearchDocument)} />}
 

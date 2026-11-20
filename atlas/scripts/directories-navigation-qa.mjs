@@ -25,6 +25,7 @@ export async function runDirectoriesNavigationQA({ cdp, evaluate, waitFor, click
   assert.equal(await evaluate("document.activeElement.id"),'directory-tab-countries');
   await click('#directory-tab-countries');
   await select('[aria-label="Directory date"]','2025-01');
+  await select('[aria-label="Directory end date"]','2025-01');
   await waitFor("document.querySelector('.country-card[data-country-code=\"276\"]')");
   await type('.country-directory-search input','Berlin');
   await waitFor("document.querySelectorAll('.country-card').length===1 && document.querySelector('.country-card h3').textContent==='Germany'");
@@ -36,8 +37,10 @@ export async function runDirectoriesNavigationQA({ cdp, evaluate, waitFor, click
   await select('[aria-label="Directory region"]','All regions');
   await type('.country-directory-search input','');
   await select('[aria-label="Directory date"]','1980-01');
+  await select('[aria-label="Directory end date"]','1980-01');
   await waitFor("document.querySelector('.country-card[data-country-code=\"hist-ussr\"]')");
   await select('[aria-label="Directory date"]','2025-01');
+  await select('[aria-label="Directory end date"]','2025-01');
   await waitFor("!document.querySelector('.country-card[data-country-code=\"hist-ussr\"]')");
   await click('#directory-tab-people');
   await waitFor("document.querySelector('.person-card[data-person-id]') && document.querySelector('#directory-group-name')");

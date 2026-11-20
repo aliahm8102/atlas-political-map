@@ -8,10 +8,13 @@ import type { useBrowserPeople } from "./use-browser-people";
 import Modal from "./modal";
 import Portrait from "./portrait";
 import { normalizeSearch } from "@/lib/i18n";
+import DirectoryExport from "./directory-export";
+import { peopleExport } from "@/lib/directory-export";
 
-type Props = { people: Person[]; browser: ReturnType<typeof useBrowserPeople>; bookmarks: string[]; onBookmark: (id: string) => void; onLocate: (person: Person) => void; onEdit?: (id: string) => void; children?: ReactNode };
-export default function PeopleDirectory({ people, browser, bookmarks, onBookmark, onLocate, onEdit, children }: Props) {
-  const { t, personName, personTitle, countryName, n } = useI18n();
+type Props = { people: Person[]; browser: ReturnType<typeof useBrowserPeople>; bookmarks: string[]; onBookmark: (id: string) => void; onLocate: (person: Person) => void; onEdit?: (id: string) => void; children?: ReactNode; exportName?: "people" | "bookmarks" };
+export default function PeopleDirectory({ people, browser, bookmarks, onBookmark, onLocate, onEdit, children, exportName = "people" }: Props) {
+  const i18n = useI18n();
+  const { t, personName, personTitle, countryName, n, locale } = i18n;
   const [groupFilter, setGroupFilter] = useState("");
   const [query, setQuery] = useState("");
   const [tagFilter, setTagFilter] = useState("");
@@ -44,6 +47,7 @@ export default function PeopleDirectory({ people, browser, bookmarks, onBookmark
       {error && <p className="form-error" role="alert">{error}</p>}
     </div>
     <p className="field-hint" role="status">{t(filtered.length === 1 ? "{count} person" : "{count} people", { count: filtered.length })}</p>
+    <DirectoryExport count={filtered.length} filename={`atlas-${exportName}-${locale}`} table={() => peopleExport(filtered, browser, i18n, locale)} />
     {filtered.length ? <div className="people-grid">{filtered.map(person => <article className="person-card" key={person.id} data-person-id={person.id}>
       <div className="person-card-top"><Portrait person={person} /><button className={`icon-button ${bookmarks.includes(person.id) ? "is-bookmarked" : ""}`} aria-label={t(bookmarks.includes(person.id) ? "Remove bookmark for {name}" : "Bookmark {name}", { name: personName(person) })} onClick={() => onBookmark(person.id)}><Bookmark size={16} fill={bookmarks.includes(person.id) ? "currentColor" : "none"} /></button></div>
       <span className={`role-pill ${person.role}`}>{t(roleLabels[person.role])}</span><h3>{personName(person)}</h3><p>{personTitle(person)}</p>
