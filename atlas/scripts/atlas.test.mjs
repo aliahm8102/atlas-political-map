@@ -29,7 +29,7 @@ test("historical selection, role, region, and search all narrow the collection",
   const history = visiblePeople(people, { ...defaultSettings, year: 1942, month: 0 });
   assert.ok(history.some(p => p.name === "Sir Winston Churchill"));
   assert.ok(!history.some(p => p.name === "Keir Starmer"));
-  const filtered = visiblePeople(people, { ...defaultSettings, region: "Asia", roles: ["leader"] }, "India");
+  const filtered = visiblePeople(people, { ...defaultSettings, mapRegions: ["Asia"], roles: ["leader"] }, "India");
   assert.ok(filtered.length > 0);
   assert.ok(filtered.every(p => p.region === "Asia" && p.role === "leader" && p.country === "India"));
   assert.equal(visiblePeople(people, { ...defaultSettings, roles: [] }).length, 0);
@@ -39,6 +39,22 @@ test("saved preferences accept December and reject corrupt or out-of-range state
   assert.equal(settingsSchema.safeParse({ month: 12 }).success, false);
   assert.equal(settingsSchema.safeParse({ year: getTimelineRange().endYear + 1 }).success, false);
   assert.equal(localStateSchema.safeParse({ settings: { theme: "untrusted" } }).success, false);
+});
+
+test("continent selections migrate, persist and filter independently with an empty selection hiding everyone", () => {
+  assert.equal(settingsSchema.parse({}).mapRegions.length,6);
+  assert.deepEqual(settingsSchema.parse({region: "Asia"}).mapRegions,["Asia"]);
+  const settings = settingsSchema.parse({mapRegions: ["Europe", "Asia"], year: 2025, month: 0});
+  const filtered = visiblePeople(people,settings);
+  assert.ok(filtered.some(person=>person.region==="Europe"));
+  assert.ok(filtered.some(person=>person.region==="Asia"));
+  assert.ok(filtered.every(person=>["Europe","Asia"].includes(person.region)));
+  for(const mapRegions of [["Europe","Asia"],[]]) {
+    const restored=localStateSchema.parse(JSON.parse(JSON.stringify({settings:{...settings,mapRegions}})));
+    assert.deepEqual(restored.settings.mapRegions,mapRegions);
+  }
+  assert.deepEqual(visiblePeople(people,{...settings,mapRegions:[]}),[]);
+  assert.equal(settingsSchema.safeParse({mapRegions:["All regions"]}).success,false);
 });
 
 test("appearance preferences preserve new options and restore legacy settings with default text size", () => {

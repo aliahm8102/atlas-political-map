@@ -1,7 +1,7 @@
 "use client";
 import { useId, useRef, useState } from "react";
 import { Moon, Sun, Check, Image, Type, Layers2, UsersRound, Shield, Landmark, Church, BriefcaseBusiness, RotateCcw, Globe2 } from "lucide-react";
-import { type Settings, type Role, roleLabels, defaultSettings, regions } from "@/lib/atlas";
+import { type Settings, type Role, roleLabels, defaultSettings, continents } from "@/lib/atlas";
 import { useI18n } from "@/components/i18n/provider";
 import { hexToRgb, rgbToHex, type RGB } from "@/lib/accent-colors";
 import ControlSection from "./control-section";
@@ -18,9 +18,9 @@ export function Toggle({ checked, onChange, label, description, icon: Icon }: { 
 export function LayerControls({ settings, onChange, onReset, onResetPositions, canResetPositions = false }: { settings: Settings; onChange: (patch: Partial<Settings>) => void; onReset: () => void; onResetPositions?: () => void; canResetPositions?: boolean }) {
   const { t, text, n } = useI18n();
   return <div className="layer-controls" data-tour="layers">
-    <ControlSection title={t("Region")}><label className="region-filter"><Globe2 size={14} /><span className="sr-only">{t("Filter by region")}</span><select aria-label={t("Filter by region")} value={settings.region} onChange={event => onChange({ region: event.target.value as Settings["region"] })}>{regions.map(region => <option key={region} value={region}>{text(region)}</option>)}</select></label></ControlSection>
+    <ControlSection title={t("Region")} trailing={<span className="mini-count">{n(settings.mapRegions.length)} / {n(continents.length)}</span>}><div className="region-filter" role="group" aria-label={t("Filter by region")}>{continents.map(region => { const active = settings.mapRegions.includes(region); return <button type="button" className="layer-row region-row" key={region} role="checkbox" aria-checked={active} data-region={region} onClick={() => onChange({ mapRegions: active ? settings.mapRegions.filter(item => item !== region) : [...settings.mapRegions, region] })}><span className="layer-icon"><Globe2 size={15} /></span><span>{text(region)}</span><span className={`soft-checkbox ${active ? "checked" : ""}`}>{active && <Check size={12} strokeWidth={3} />}</span></button>; })}</div></ControlSection>
     <ControlSection title={t("PEOPLE & INFLUENCE")} defaultOpen={false} trailing={<span className="mini-count">{n(settings.roles.length)} / {n(5)}</span>}>
-      {(Object.keys(roleLabels) as Role[]).map(role => { const Icon = roleIcons[role]; const active = settings.roles.includes(role); return <button type="button" className="layer-row" key={role} role="checkbox" aria-checked={active} onClick={() => onChange({ roles: active ? settings.roles.filter(r => r !== role) : [...settings.roles, role] })}><span className={`layer-icon ${role}`}><Icon size={15} /></span><span>{t(roleLabels[role])}</span><span className={`soft-checkbox ${active ? "checked" : ""}`}>{active && <Check size={12} strokeWidth={3} />}</span></button>; })}
+      {(Object.keys(roleLabels) as Role[]).map(role => { const Icon = roleIcons[role]; const active = settings.roles.includes(role); return <button type="button" className="layer-row role-row" key={role} role="checkbox" aria-checked={active} onClick={() => onChange({ roles: active ? settings.roles.filter(r => r !== role) : [...settings.roles, role] })}><span className={`layer-icon ${role}`}><Icon size={15} /></span><span>{t(roleLabels[role])}</span><span className={`soft-checkbox ${active ? "checked" : ""}`}>{active && <Check size={12} strokeWidth={3} />}</span></button>; })}
     </ControlSection>
     <ControlSection title={t("GEOPOLITICAL LAYERS")}><Toggle label={t("NATO countries")} description={t("Imported geographic snapshot")} icon={Layers2} checked={settings.nato} onChange={() => onChange({ nato: !settings.nato })} />{settings.nato && <p className="layer-note">{t("This layer uses the original boundaries at every timeline date.")}</p>}</ControlSection>
     <div className="map-reset-actions"><button type="button" className="text-link reset-filters" onClick={onReset}><RotateCcw size={13} />{" " + t("Reset filters")}</button>

@@ -111,7 +111,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
   }, []);
   const filtered = useMemo(() => visiblePeople(mapPeople, settings), [mapPeople, settings]);
   const searchIndex = useMemo(() => buildSearchIndex(people, countries, { tags: browser.tags, groups: browser.groups }), [people, countries, browser.tags, browser.groups]);
-  const currentPeople = useMemo(() => visiblePeople(mapPeople, { ...settings, region: "All regions", roles: Object.keys(roleLabels) as Role[] }), [mapPeople, settings]);
+  const currentPeople = useMemo(() => visiblePeople(mapPeople, { ...settings, region: "All regions", mapRegions: defaultSettings.mapRegions, roles: Object.keys(roleLabels) as Role[] }), [mapPeople, settings]);
   const selectedCountry = currentPeople.find(person => person.id === selectedPerson?.id)?.countryCode ?? requestedCountry;
   const country = countries.find(c => c.code === selectedCountry);
   const countryPeople = currentPeople.filter(p => p.countryCode === selectedCountry);
@@ -131,7 +131,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
     const c = countries.find(c => c.code === code);
     if (focus && c) { setPage("map"); setViewport(countryViewport(c.lng, c.lat)); }
   };
-  const resetFilters = () => { changeSettings({ roles: defaultSettings.roles, region: "All regions", nato: false }); };
+  const resetFilters = () => { changeSettings({ roles: defaultSettings.roles, region: "All regions", mapRegions: defaultSettings.mapRegions, nato: false }); };
   function runSearch(next: SearchState) {
     const newQuery = page !== "search" || next.query !== searchState.query;
     setSearchState(next); setSearchDraft(next.query); setPage("search"); setSideOpen(false);
@@ -147,12 +147,12 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
       const monthIndex = Math.ceil((person.startYear ?? (person.endYear ? person.endYear - 1 / 12 : settings.year)) * 12 - .0001);
       const termDate = clampTimelineDate(Math.floor(monthIndex / 12), monthIndex % 12);
       const outsideTerm = (person.startYear !== null && currentDate < person.startYear) || (person.endYear !== null && currentDate >= person.endYear);
-      changeSettings({ region: "All regions", roles: defaultSettings.roles, ...(outsideTerm ? termDate : {}) });
+      changeSettings({ region: "All regions", mapRegions: defaultSettings.mapRegions, roles: defaultSettings.roles, ...(outsideTerm ? termDate : {}) });
       selectPerson(person, true);
     } else if (document.country) {
       const queryYear = Number((page === "search" ? searchState.year : "") || timelineYearFromQuery(searchDraft));
       const focus = preferredDate ?? countryFocusDate(document.country.code, queryYear >= TIMELINE_START_YEAR && queryYear <= endYear ? queryYear : settings.year, queryYear >= TIMELINE_START_YEAR && queryYear <= endYear ? 0 : settings.month);
-      changeSettings({ region: "All regions", roles: defaultSettings.roles, ...clampTimelineDate(focus.year, focus.month) }); selectCountry(document.country.code, true); }
+      changeSettings({ region: "All regions", mapRegions: defaultSettings.mapRegions, roles: defaultSettings.roles, ...clampTimelineDate(focus.year, focus.month) }); selectCountry(document.country.code, true); }
     const target: MapTarget | null = document.person ? { kind: "person", id: document.person.id } : document.country ? { kind: "country", id: document.country.code } : null;
     if (target) { setMapTarget(target); setScrollRequest(value => value + 1); const href = mapResultHref(document); if (location.pathname + location.search + location.hash !== href) window.history.pushState(null, "", href); }
   }

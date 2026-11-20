@@ -14,7 +14,7 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, input, wait
   assert.equal(await evaluate("Boolean(document.querySelector('.timeline-speed'))"),false,'Opening date picker pauses playback');
   await click('.timeline-date .month-picker-footer button');
   const key=async key=>{await cdp('Input.dispatchKeyEvent',{type:'keyDown',key,code:key,...(key==='Enter'?{text:'\r'}:{})});await cdp('Input.dispatchKeyEvent',{type:'keyUp',key,code:key});};
-  const selectRegion=value=>evaluate(`(()=>{const el=document.querySelector('.region-filter select');el.value='${value}';el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  const selectRegion=async region=>{for(const value of ['Europe','Asia','Africa','North America','South America','Oceania']) {if(await evaluate(`document.querySelector('[data-region="${value}"]').getAttribute('aria-checked')`) !== String(value===region)) await click(`[data-region="${value}"]`);}};
   const positions=()=>evaluate("Object.keys(JSON.parse(localStorage.getItem('atlas-people-v1:fixture-a')).positions).length");
   const toggle=async(index,open)=>{
     await evaluate(`document.querySelectorAll('.layer-controls .control-section-title')[${index}].focus()`);await key('Enter');
@@ -32,14 +32,21 @@ export async function runMapControlsLayoutQA({ evaluate, cdp, click, input, wait
   assert.equal(await evaluate("document.querySelectorAll('.layer-controls .control-section-title')[1].getAttribute('aria-expanded')"),'false');
   assert.equal(await evaluate("document.querySelectorAll('.layer-controls .control-section-content')[1].hidden"),true);
   await toggle(1,true);
-  await selectRegion('Asia');await click('.layer-row');await click('.layer-controls .toggle-row');
+  assert.equal(await evaluate("document.querySelectorAll('.region-filter select,.region-filter option').length"),0);
+  await selectRegion('Asia');
+  await click('[data-region="Europe"]');
+  assert.equal(await evaluate("document.querySelectorAll('.region-row[aria-checked=true]').length"),2);
+  await click('[data-region="Asia"]');await click('[data-region="Europe"]');
+  assert.equal(await evaluate("document.querySelectorAll('.region-row[aria-checked=true]').length"),0);
+  assert.equal(await evaluate("document.querySelectorAll('.map-pin').length"),0,'No selected continents means no people');
+  await selectRegion('Asia');await click('.role-row');await click('.layer-controls .toggle-row');
   await toggle(0,false);await toggle(0,true);
-  assert.equal(await evaluate("document.querySelector('.region-filter select').value"),'Asia');
+  assert.equal(await evaluate("[...document.querySelectorAll('.region-row[aria-checked=true]')].map(button=>button.dataset.region).join()"),'Asia');
   for(const index of [1,2]) {await toggle(index,false);await toggle(index,true);}
-  assert.equal(await evaluate("document.querySelector('.layer-row').getAttribute('aria-checked')"),'false');
+  assert.equal(await evaluate("document.querySelector('.role-row').getAttribute('aria-checked')"),'false');
   assert.equal(await evaluate("document.querySelector('.layer-controls .toggle-row').getAttribute('aria-checked')"),'true');
   await click('.reset-filters');
-  assert.equal(await evaluate("document.querySelector('.region-filter select').value"),'All regions');
+  assert.equal(await evaluate("document.querySelectorAll('.region-row[aria-checked=true]').length"),6);
   assert.equal(await evaluate("[...document.querySelectorAll('.layer-row')].every(button=>button.getAttribute('aria-checked')==='true')"),true);
   assert.equal(await evaluate("document.querySelector('.layer-controls .toggle-row').getAttribute('aria-checked')"),'false');
   assert.ok(await positions()>0,'Reset filters leaves portrait positions intact');

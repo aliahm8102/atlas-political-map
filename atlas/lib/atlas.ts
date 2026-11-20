@@ -10,6 +10,7 @@ export type Person = {
 };
 export type Country = { code: string; name: string; region: string; lat: number; lng: number };
 export const regions = ["All regions", "Europe", "Asia", "Africa", "North America", "South America", "Oceania"] as const;
+export const continents = ["Europe", "Asia", "Africa", "North America", "South America", "Oceania"] as const;
 export const settingsSchema = z.object({
   theme: z.enum(["light", "dark", "sand", "midnight"]).default("light"),
   accent: z.enum(["sage", "blue", "lavender", "amber", "rose", "custom"]).default("sage"),
@@ -20,9 +21,10 @@ export const settingsSchema = z.object({
   year: z.number().int().min(TIMELINE_START_YEAR).refine(year => year <= getTimelineRange().endYear).default(() => getTimelineRange().currentYear),
   month: z.number().int().min(0).max(11).default(() => getTimelineRange().currentMonth),
   region: z.enum(regions).default("All regions"),
+  mapRegions: z.array(z.enum(continents)).optional(),
   roles: z.array(z.enum(["leader", "member", "army", "religious", "business"])).default(["leader", "member", "army", "religious", "business"]),
   nato: z.boolean().default(false),
-}).refine(settings => settings.year * 12 + settings.month <= getTimelineRange().max, { path: ["month"], message: "Date must be within the timeline." });
+}).refine(settings => settings.year * 12 + settings.month <= getTimelineRange().max, { path: ["month"], message: "Date must be within the timeline." }).transform(settings => ({ ...settings, mapRegions: settings.mapRegions ?? (settings.region === "All regions" ? [...continents] : [settings.region]) }));
 export type Settings = z.infer<typeof settingsSchema>;
 export const defaultSettings = settingsSchema.parse({});
 export const MIN_MAP_ZOOM = 1;
@@ -47,7 +49,7 @@ export const initialPersonalState: PersonalState = { settings: defaultSettings, 
 export function visiblePeople(people: Person[], settings: Settings, search = "") {
   const date = settings.year + settings.month / 12;
   const query = search.toLocaleLowerCase().trim();
-  return people.filter(p => (p.startYear === null || p.startYear <= date) && (p.endYear === null || date < p.endYear) && settings.roles.includes(p.role) && (settings.region === "All regions" || p.region === settings.region) && (!query || `${p.name} ${p.title} ${p.nameFa ?? ""} ${p.titleFa ?? ""} ${p.country}`.toLocaleLowerCase().includes(query)));
+  return people.filter(p => (p.startYear === null || p.startYear <= date) && (p.endYear === null || date < p.endYear) && settings.roles.includes(p.role) && settings.mapRegions.some(region => region === p.region) && (!query || `${p.name} ${p.title} ${p.nameFa ?? ""} ${p.titleFa ?? ""} ${p.country}`.toLocaleLowerCase().includes(query)));
 }
 export function initials(name: string) { return name.split(" ").filter(Boolean).slice(0, 2).map(n => n[0]).join("").toUpperCase(); }
 export function period(person: Person) { return `${person.startYear ? Math.floor(person.startYear) : "Unknown"} – ${person.endYear ? Math.floor(person.endYear) : "Open-ended"}`; }

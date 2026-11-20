@@ -331,13 +331,13 @@ try {
     // Changing language must preserve the current view, session, and account data.
     await click('button[aria-label="Zoom in"]');
     await waitFor("document.querySelector('.world-map > g').getAttribute('transform').includes('scale(1.4)')");
-    await evaluate("(() => { const select = document.querySelector('.region-filter select'); select.value = 'Asia'; select.dispatchEvent(new Event('change', {bubbles:true})); })()");
+    await evaluate("document.querySelector('[data-region=Europe]').click()");
     const mapTransform = await evaluate("document.querySelector('.world-map > g').getAttribute('transform')");
     await click('[data-testid="language-switcher"]');
     await waitFor("document.documentElement.lang === 'fa' && document.documentElement.dir === 'rtl' && document.querySelector('.page-heading h1').textContent.includes('دیدگاه‌ها')", 'Persian translations and RTL activate');
     assert.equal(await evaluate("document.querySelector('.world-map > g').getAttribute('transform')"), mapTransform, 'Switching languages reset the map');
-    assert.equal(await evaluate("document.querySelector('.region-filter select').value"), 'Asia');
-    assert.equal(await evaluate("document.querySelector('.region-filter option:checked').textContent"), 'آسیا');
+    assert.equal(await evaluate("document.querySelector('[data-region=Europe]').getAttribute('aria-checked')"), 'false');
+    assert.equal(await evaluate("document.querySelector('[data-region=Asia]').getAttribute('aria-checked')"), 'true');
     const sidebarPlacement = await evaluate("(() => { const el = document.querySelector('.sidebar'); const r = el.getBoundingClientRect(); return {right:r.right, left:r.left, viewport:innerWidth, client:document.documentElement.clientWidth, inlineStart:getComputedStyle(el).insetInlineStart, inlineEnd:getComputedStyle(el).insetInlineEnd, direction:getComputedStyle(el).direction}; })()");
     assert.ok(Math.min(Math.abs(sidebarPlacement.right - sidebarPlacement.viewport), Math.abs(sidebarPlacement.right - sidebarPlacement.client)) < 2, `Persian sidebar is not on the right: ${JSON.stringify(sidebarPlacement)}`);
     assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, 'Persian desktop has horizontal overflow');

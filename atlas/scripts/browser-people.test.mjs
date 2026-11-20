@@ -66,7 +66,7 @@ test("custom people follow the same date, role, region and search filters", () =
   assert.equal(visiblePeople([person], defaultSettings).length, 1);
   assert.equal(visiblePeople([{ ...person, startYear: 2000, endYear: 2020 }], defaultSettings).length, 0);
   assert.equal(visiblePeople([person], { ...defaultSettings, roles: ["army"] }).length, 0);
-  assert.equal(visiblePeople([person], { ...defaultSettings, region: "Europe" }).length, 0);
+  assert.equal(visiblePeople([person], { ...defaultSettings, mapRegions: ["Europe"] }).length, 0);
   assert.equal(visiblePeople([person], defaultSettings, "private").length, 1);
 });
 test("legacy personal storage drops retired views while keeping notes, profile and bookmarks", () => {
