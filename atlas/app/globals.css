@@ -955,4 +955,19 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .admin-account { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
 .admin-account > div { min-width: 0; overflow-wrap: anywhere; }
 .admin-account .publication-status { margin-top: 8px; }
+@media (max-width: 760px) {
+  .atlas-app .map-subbar { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr); gap: 6px; padding: 10px; }
+  .atlas-app .map-subbar-title { grid-column: 1; grid-row: 1; justify-self: stretch; gap: 3px; }
+  .atlas-app .map-subbar-title .map-heading-icon { display: none; }
+  .atlas-app .map-subbar-title h2 { font-size: calc(9px * var(--font-scale, 1)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .atlas-app .map-subbar .map-view-label { grid-column: 2; grid-row: 1; width: 100%; flex-wrap: nowrap; gap: 3px; font-size: calc(9px * var(--font-scale, 1)); white-space: nowrap; }
+  .atlas-app .map-subbar .map-view-description { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .atlas-app .map-subbar .map-view-label > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .atlas-app .map-subbar > .map-type-picker { grid-column: 3; grid-row: 1; justify-self: stretch; min-width: 0; }
+  .atlas-app .map-subbar .map-type-trigger.text-link { width: 100%; min-height: 32px; padding: 4px; gap: 3px; font-size: calc(9px * var(--font-scale, 1)); }
+  .atlas-app .map-subbar .map-type-trigger > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .atlas-app .map-subbar .map-type-trigger > svg { width: 11px; flex-shrink: 0; }
+  .atlas-app .map-subbar .map-type-trigger > svg:first-child { display: none; }
+  .atlas-app .map-subbar .map-type-options { width: min(250px, calc(100vw - 48px)); max-width: none; }
+}
 @media (max-width: 760px) { .admin-grid { grid-template-columns: minmax(0, 1fr); }.admin-account { align-items: start; flex-direction: column; }.admin-tabs > button { padding: 10px; font-size: calc(12px * var(--font-scale, 1)); }.admin-toolbar > .admin-search { flex-basis: 100%; } }
