@@ -60,7 +60,6 @@ html[lang="en"] .sidebar .brand { font-size: calc(21px * var(--font-scale, 1)); 
 .sidebar-bottom .nav-item { font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
 .sidebar-bottom .nav-item svg:last-child { margin-inline-start: auto; }
 .workspace-status { border-top: 1px solid var(--border); padding: 20px 10px 2px; display: flex; align-items: center; gap: 9px; }
-.status-dot, .live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 .workspace-status strong { display: block; font-weight: 550; font-size: calc((10px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
 .workspace-status small { color: var(--muted); font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); display: block; margin-top: 4px; }
 .workspace-status > svg { margin-inline-start: auto; color: var(--muted); }
@@ -289,7 +288,6 @@ select option { background: var(--surface); color: var(--text); }
 .mini-person strong { font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 550; display: block; }
 .mini-person small { font-size: calc((8px + var(--desktop-font-increment)) * var(--font-scale, 1)); display: block; margin-top: 4px; color: var(--muted); }
 .mini-person > svg { margin-inline-start: auto; color: var(--muted); }
-.snapshot-disclaimer { font-size: calc((7px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); margin-top: 17px; line-height: 1.6; }
 .no-country-people { text-align: center; padding: 30px 5px 10px; color: var(--muted); }
 .no-country-people > svg { margin: auto auto 12px; }
 .no-country-people p { font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); line-height: 1.7; }
@@ -403,7 +401,6 @@ html[dir="rtl"] .tour-actions .primary-button > svg { transform: rotate(180deg);
 .modal-inner > header { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
 .modal-inner h2 { font-family: Georgia, serif; font-weight: 400; font-size: calc((22px + var(--desktop-font-increment)) * var(--font-scale, 1)); letter-spacing: -.4px; }
 .modal-inner > header .icon-button { width: 29px; height: 29px; }
-.modal-description { font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); line-height: 1.9; margin: 20px 0 24px; }
 .full-width { width: 100%; }
 .modal-privacy { font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 15px; }
 .help-modal { width: min(530px, calc(100vw - 32px)); }
@@ -413,7 +410,6 @@ html[dir="rtl"] .tour-actions .primary-button > svg { transform: rotate(180deg);
 .help-item h3 { font-size: calc((12px + var(--desktop-font-increment)) * var(--font-scale, 1)); font-weight: 600; }
 .help-item p { font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); line-height: 1.85; margin-top: 6px; }
 .help-item .text-link { margin-top: 8px; }
-.keyboard-hint { font-size: calc((9px + var(--desktop-font-increment)) * var(--font-scale, 1)); color: var(--muted); padding-top: 12px; line-height: 2; }
 .sidebar-scrim { display: none; }
 .auth-page { display: grid; grid-template-columns: 1fr 1fr; }
 .auth-art { min-height: 100vh; position: relative; overflow: hidden; background: #dce5dc; padding: 50px; display: flex; flex-direction: column; }
