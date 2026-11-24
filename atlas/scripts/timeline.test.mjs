@@ -1,9 +1,44 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { clampTimelineDate, getTimelineRange, TIMELINE_START_YEAR } from "../lib/timeline.ts";
+import { clampTimelineDate, getTimelineRange, selectedTimelineRange, timelineMonth, timelineMonthValue, timelineTicks, utcMonth, TIMELINE_START_YEAR } from "../lib/timeline.ts";
+import { formatCalendarDate } from "../lib/calendar.ts";
+import { monthIndex, validDirectoryRange } from "../lib/directory-filters.ts";
 import { settingsSchema } from "../lib/atlas.ts";
 import { customPersonSchema } from "../lib/browser-people.ts";
 import { parseSearchState, timelineYearFromQuery } from "../lib/search.ts";
+
+test("custom timeline ticks stay in bounds, are ordered and land on both exact endpoints", () => {
+  for (const [startYear, endYear] of [[2020, 2020], [1989, 1993], [1848, 2027], [-9998, 9999], [-5, 2], [-100, -98]]) {
+    const range = selectedTimelineRange({ startYear, endYear });
+    const ticks = timelineTicks(range.min, range.max);
+    assert.equal(ticks[0], startYear * 12);
+    assert.equal(ticks.at(-1), endYear * 12 + 11);
+    assert.ok(ticks.length <= 7 && ticks.every((tick, i) => i === 0 || tick > ticks[i - 1]));
+    assert.deepEqual(timelineMonth(ticks.at(-1)), { year: endYear, month: 11 });
+    assert.ok(ticks.every(tick => monthIndex(timelineMonthValue(tick)) === tick));
+    assert.ok(validDirectoryRange({ from: timelineMonthValue(range.min), to: timelineMonthValue(range.max) }, range));
+  }
+  const saved = settingsSchema.parse({ year: 2026, month: 11, calendar: "persian", timelineYears: { startYear: -10, endYear: -4 } });
+  assert.deepEqual([saved.year, saved.month, saved.calendar], [-4, 11, "persian"]);
+  assert.equal(settingsSchema.safeParse({ timelineYears: { startYear: 2001, endYear: 2000 } }).success, false);
+});
+
+test("the same Gregorian date converts to each calendar and pre-epoch dates use positive era labels", () => {
+  const gregorian = new Date("2024-03-20T00:00:00Z");
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  assert.equal(formatCalendarDate(gregorian, "en", "gregory", options), "March 20, 2024");
+  assert.match(formatCalendarDate(gregorian, "en", "persian", options), /Farvardin 1, 1403/);
+  assert.match(formatCalendarDate(gregorian, "en", "islamic-civil", options), /Ramadan 10, 1445/);
+  for (const [calendar, date, era] of [
+    ["gregory", utcMonth(0), "پیش از میلاد"],
+    ["persian", utcMonth(622), "پیش از هجرت"],
+    ["islamic-civil", utcMonth(622), "پیش از هجرت"],
+  ]) {
+    const label = formatCalendarDate(date, "fa", calendar, { year: "numeric" });
+    assert.equal(label, `۱ ${era}`);
+  }
+  assert.match(formatCalendarDate(utcMonth(-40), "fa", "gregory", options), /۴۱.*پیش از میلاد/);
+});
 
 test("1848 is available in saved settings, search and character dates while earlier dates remain outside the timeline", () => {
   assert.equal(TIMELINE_START_YEAR, 1848);

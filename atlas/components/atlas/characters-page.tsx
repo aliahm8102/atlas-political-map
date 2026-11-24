@@ -4,6 +4,7 @@ import { useId, useRef, useState, type FormEvent } from "react";
 import { Check, HardDrive, ImagePlus, MapPin, Pencil, Send, Trash2, UserPlus, X } from "lucide-react";
 import { type Country, type Person, type Role, roleLabels } from "@/lib/atlas";
 import { customPersonSchema, type CustomPerson } from "@/lib/browser-people";
+import { formatCalendarDate } from "@/lib/calendar";
 import { useI18n } from "@/components/i18n/provider";
 import Portrait from "./portrait";
 import { localPortrait } from "@/lib/local-portrait";
@@ -13,7 +14,7 @@ import { characterDateFields, characterDateValue } from "@/lib/character-dates";
 
 type Props = { initialPerson?: CustomPerson; countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onUpdate: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void; canLocate?: (person: Person) => boolean; publications?: Publication[]; publicationAvailable?: boolean; onPublish?: (person: CustomPerson) => Promise<ActionResult<Publication>> };
 export default function CharactersPage({ initialPerson, countries, people, ready, onAdd, onUpdate, onRemove, onLocate, canLocate, publications = [], publicationAvailable = false, onPublish }: Props) {
-  const { t, n, date, countryName, text, personName, personTitle } = useI18n();
+  const { t, locale, n, countryName, text, personName, personTitle } = useI18n();
   const portraitInput = useRef<HTMLInputElement>(null);
   const portraitHintId = useId();
   const [editingId, setEditingId] = useState<string | null>(initialPerson?.id ?? null);
@@ -97,7 +98,7 @@ export default function CharactersPage({ initialPerson, countries, people, ready
         <p className="field-hint">{t("Country coordinates are filled automatically. You can also drag the portrait on the map.")}</p>
         <div className="character-fields">{dateTerms.map(term => <fieldset key={term.key} className="character-term"><legend>{t(term.label)}</legend><div className="character-term-fields">
           <label>{t("Year")}<input className="soft-input" dir="ltr" aria-label={t(term.key === "start" ? "Start year (optional)" : "End year (optional)")} name={`character-${term.key}`} type="number" step={1} min={TIMELINE_START_YEAR} max={getTimelineRange().endYear} value={term.year} onChange={event => term.setYear(event.target.value)} /></label>
-          <label>{t("Month")}<select className="soft-input" name={`character-${term.key}-month`} aria-label={t(term.monthLabel)} value={term.month} onChange={event => term.setMonth(Number(event.target.value))}>{Array.from({ length: 12 }, (_, month) => <option key={month} value={month}>{date(new Date(Date.UTC(2000, month, 1)), { month: "long" })}</option>)}</select></label>
+          <label>{t("Month")}<select className="soft-input" name={`character-${term.key}-month`} aria-label={t(term.monthLabel)} value={term.month} onChange={event => term.setMonth(Number(event.target.value))}>{Array.from({ length: 12 }, (_, month) => <option key={month} value={month}>{formatCalendarDate(new Date(Date.UTC(2000, month, 1)), locale, "gregory", { month: "long" })}</option>)}</select></label>
         </div></fieldset>)}</div>
         <p className="field-hint">{t("Leave dates empty to show this person throughout the timeline. The end month is excluded.")}</p>
         <fieldset className="portrait-picker"><legend>{t("Portrait (optional)")}</legend><div className="portrait-picker-row">

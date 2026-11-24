@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
+import { clampTimelineDate, getTimelineRange, MAX_TIMELINE_YEAR, MIN_TIMELINE_YEAR, selectedTimelineRange } from "./timeline.ts";
 import { DEFAULT_CUSTOM_ACCENT, HEX_COLOR } from "./accent-colors.ts";
 export const roleLabels = { leader: "Heads of state", member: "Government", army: "Military", religious: "Religious", business: "Business" } as const;
 export type Role = keyof typeof roleLabels;
@@ -18,13 +18,27 @@ export const settingsSchema = z.object({
   fontSize: z.number().int().min(90).max(130).default(100),
   portraits: z.boolean().default(true), labels: z.boolean().default(true),
   markerSize: z.enum(["small", "medium", "large"]).default("medium"),
-  year: z.number().int().min(TIMELINE_START_YEAR).refine(year => year <= getTimelineRange().endYear).default(() => getTimelineRange().currentYear),
+  calendar: z.enum(["gregory", "persian", "islamic-civil"]).default("gregory"),
+  timelineYears: z.object({
+    startYear: z.number().int().min(MIN_TIMELINE_YEAR).max(MAX_TIMELINE_YEAR),
+    endYear: z.number().int().min(MIN_TIMELINE_YEAR).max(MAX_TIMELINE_YEAR),
+  }).refine(years => years.startYear <= years.endYear).nullable().default(null),
+  year: z.number().int().min(MIN_TIMELINE_YEAR).max(MAX_TIMELINE_YEAR).default(() => getTimelineRange().currentYear),
   month: z.number().int().min(0).max(11).default(() => getTimelineRange().currentMonth),
   region: z.enum(regions).default("All regions"),
   mapRegions: z.array(z.enum(continents)).optional(),
   roles: z.array(z.enum(["leader", "member", "army", "religious", "business"])).default(["leader", "member", "army", "religious", "business"]),
   nato: z.boolean().default(false),
-}).refine(settings => settings.year * 12 + settings.month <= getTimelineRange().max, { path: ["month"], message: "Date must be within the timeline." }).transform(settings => ({ ...settings, mapRegions: settings.mapRegions ?? (settings.region === "All regions" ? [...continents] : [settings.region]) }));
+}).refine(settings => {
+  if (settings.timelineYears) return true;
+  const { min, max } = getTimelineRange();
+  const month = settings.year * 12 + settings.month;
+  return month >= min && month <= max;
+}, { path: ["month"], message: "Date must be within the timeline." }).transform(settings => ({
+  ...settings,
+  ...clampTimelineDate(settings.year, settings.month, selectedTimelineRange(settings.timelineYears)),
+  mapRegions: settings.mapRegions ?? (settings.region === "All regions" ? [...continents] : [settings.region]),
+}));
 export type Settings = z.infer<typeof settingsSchema>;
 export const defaultSettings = settingsSchema.parse({});
 export const MIN_MAP_ZOOM = 1;

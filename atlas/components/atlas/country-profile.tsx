@@ -5,6 +5,7 @@ import { countryProfile } from "@/lib/country-profiles";
 import type { Country } from "@/lib/atlas";
 import { useI18n } from "@/components/i18n/provider";
 import { countryEntities, countryExistsAt, mapDate } from "@/lib/country-entities";
+import { utcMonth } from "@/lib/timeline";
 
 export default function CountryProfile({ country, count, year, month = 0 }: { country: Country; count: number; year: number; month?: number }) {
   const { t, locale, n, text, date } = useI18n();
@@ -12,6 +13,7 @@ export default function CountryProfile({ country, count, year, month = 0 }: { co
   const entity = countryEntities[country.code];
   const exists = countryExistsAt(country.code, mapDate(year, month));
   const name = locale === "fa" ? profile.nameFa : profile.nameEn;
+  const displayedYear = date(utcMonth(year, month), { year: "numeric" });
   return <details className="country-profile-disclosure">
     <summary className="country-profile-trigger" aria-label={t("Open {name} country profile", { name })}>
       <span className={profile.flagPath ? "country-flag-portrait" : "country-flag-placeholder"}>{profile.flagPath ? <img key={profile.flagPath} src={profile.flagPath} alt={t("Flag of {name}", { name })} width={80} height={54} /> : <Globe2 size={30} aria-hidden="true" />}</span><span>{name}</span><ChevronDown size={17} />
@@ -19,7 +21,7 @@ export default function CountryProfile({ country, count, year, month = 0 }: { co
     <section className="country-profile" aria-label={t("{name} country profile", { name })} data-country-profile={country.code} data-country-year={year} data-country-data-year={profile.dataYear ?? ""}>
     <div className="country-heading"><span className="eyebrow">{t("COUNTRY SPOTLIGHT")}</span>
       <div className="country-profile-identity"><div><h2 lang={locale}>{name}</h2></div></div>
-      <span className="country-region"><MapPin size={12} />{text(country.region)}<span>·</span>{n(count)}{" " + t("records in") + " "}{n(year, { useGrouping: false })}</span>
+      <span className="country-region"><MapPin size={12} />{text(country.region)}<span>·</span>{n(count)}{" " + t("records in") + " "}{displayedYear}</span>
     </div>
     {(entity?.foundedOn || entity?.dissolvedOn || !exists) && <div className="country-lifetime">
       {entity?.foundedOn && <p>{t("Identity begins")}: {date(entity.foundedOn, { year: "numeric", month: "short", day: "numeric" })}</p>}
@@ -31,6 +33,6 @@ export default function CountryProfile({ country, count, year, month = 0 }: { co
       <div><dt>{t("Area (km²)")}</dt><dd>{profile.areaKm2 === null ? t("Not available") : n(profile.areaKm2, { maximumFractionDigits: 2 })}</dd></div>
       <div><dt>{t("Population")}</dt><dd>{profile.population === null ? t("Not available") : n(profile.population)}</dd></div>
     </dl>
-    <p className="country-reference-note" role="status">{profile.dataYear === null ? t("No country information recorded for {year}.", { year: n(year, { useGrouping: false }) }) : t("Country information for {year}.", { year: n(year, { useGrouping: false }) })}</p>
+    <p className="country-reference-note" role="status">{t(profile.dataYear === null ? "No country information recorded for {year}." : "Country information for {year}.", { year: displayedYear })}</p>
   </section></details>;
 }

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import catalog from "../data/historical-boundaries/catalog.json" with { type: "json" };
+import { utcMonth } from "./timeline.ts";
 
 export const isoDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(value => {
   const date = new Date(`${value}T00:00:00Z`);
@@ -18,7 +19,7 @@ export const countryEntities: Record<string, CountryEntity> = Object.fromEntries
   return [code, parsed];
 }));
 export const historicalCoverage = catalog.coverage;
-export const mapDate = (year: number, month = 0) => `${String(year).padStart(4, "0")}-${String(month + 1).padStart(2, "0")}-01`;
+export const mapDate = (year: number, month = 0) => utcMonth(year, month).toISOString().split("T")[0];
 export function periodContains(period: { validFrom: string | null; validTo: string | null }, date: string) {
   return (period.validFrom === null || date >= period.validFrom) && (period.validTo === null || date < period.validTo);
 }

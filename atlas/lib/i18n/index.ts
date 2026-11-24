@@ -5,6 +5,8 @@ import historical from "../../data/historical-boundaries/catalog.json" with { ty
 const countryProfiles = { ...historical.entities, ...profiles };
 import type { Person } from "../atlas";
 import { characterDateFields } from "../character-dates.ts";
+import { formatCalendarDate, type AtlasCalendar } from "../calendar.ts";
+import { utcMonth } from "../timeline.ts";
 
 export type Locale = "en" | "fa";
 export const LOCALE_COOKIE = "atlas-locale";
@@ -33,7 +35,7 @@ export function normalizeSearch(value: string) {
   return value.normalize("NFKC").toLocaleLowerCase().replace(/[يى]/g, "ی").replace(/ك/g, "ک").replace(/[\u064b-\u065f\u0670]/g, "").replace(/\u200c/g, " ").replace(/\s+/g, " ").trim();
 }
 
-export function createTranslator(locale: Locale) {
+export function createTranslator(locale: Locale, calendar: AtlasCalendar = "gregory") {
   const intlLocale = locale === "fa" ? "fa-IR-u-ca-gregory" : "en-US";
   const n = (value: number, options?: Intl.NumberFormatOptions) => new Intl.NumberFormat(intlLocale, options).format(value);
   const t = (key: TranslationKey, values: Record<string, string | number> = {}) => {
@@ -59,18 +61,18 @@ export function createTranslator(locale: Locale) {
     }
     return title;
   };
-  const date = (value: Date | string, options: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" }) => new Intl.DateTimeFormat(intlLocale, { ...options, calendar: "gregory", timeZone: "UTC" }).format(typeof value === "string" ? new Date(value) : value);
+  const date = (value: Date | string, options: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" }) =>
+    formatCalendarDate(typeof value === "string" ? new Date(value) : value, locale, calendar, options);
   const periodLabel = (person: Person) => {
     const term = (value: number) => {
-      if (person.dataset !== "custom" && person.dataset !== "community" && person.dataset !== "historical-leaders") return n(Math.floor(value), { useGrouping: false });
-      const fields = characterDateFields(value), calendarDate = new Date(0);
-      calendarDate.setUTCFullYear(Number(fields.year), fields.month, 1);
-      return date(calendarDate, { month: "short", year: "numeric" });
+      const fields = characterDateFields(value);
+      const exactMonth = ["custom", "community", "historical-leaders"].includes(person.dataset);
+      return date(utcMonth(Number(fields.year), fields.month), exactMonth ? { month: "short", year: "numeric" } : { year: "numeric" });
     };
     return `${person.startYear == null ? t("Unknown") : term(person.startYear)} – ${person.endYear == null ? t("Open-ended") : term(person.endYear)}`;
   };
   const matchesPerson = (person: Person, query: string) => normalizeSearch([person.name, person.title, person.nameFa, person.titleFa, person.country, personName(person), personTitle(person), countryName(person.country)].join(" ")).includes(normalizeSearch(query));
-  return { t, text, n, date, countryName, personName, personTitle, periodLabel, matchesPerson };
+  return { t, text, n, date, calendar, countryName, personName, personTitle, periodLabel, matchesPerson };
 }
 
 export function authErrorKey(error: unknown): TranslationKey {

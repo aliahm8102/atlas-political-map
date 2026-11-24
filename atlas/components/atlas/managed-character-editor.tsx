@@ -5,10 +5,11 @@ import { roleLabels, type Country, type Person, type Role } from "@/lib/atlas";
 import { managedCharacterSchema, type ManagedCharacter } from "@/lib/administration";
 import { getTimelineRange } from "@/lib/timeline";
 import { characterDateFields, characterDateValue } from "@/lib/character-dates";
+import { formatCalendarDate } from "@/lib/calendar";
 import { useI18n } from "@/components/i18n/provider";
 
 export default function ManagedCharacterEditor({ person, countries, busy, onSave, onCancel }: { person: Person | null; countries: Country[]; busy: boolean; onSave: (character: ManagedCharacter) => Promise<void>; onCancel: () => void }) {
-  const { t, countryName, date } = useI18n();
+  const { t, locale, countryName } = useI18n();
   const country = countries.find(country => country.code === (person?.countryCode ?? "364")) ?? countries[0];
   const [name, setName] = useState(person?.name ?? "");
   const [nameFa, setNameFa] = useState(person?.nameFa ?? "");
@@ -60,7 +61,7 @@ export default function ManagedCharacterEditor({ person, countries, busy, onSave
       <div className="character-fields"><label>{t("Latitude")}<input className="soft-input" name="admin-lat" dir="ltr" type="number" step="any" min={-90} max={90} required value={lat} onChange={event => setLat(event.target.value)} /></label><label>{t("Longitude")}<input className="soft-input" name="admin-lng" dir="ltr" type="number" step="any" min={-180} max={180} required value={lng} onChange={event => setLng(event.target.value)} /></label></div>
       <div className="character-fields">{dateTerms.map(term => <fieldset key={term.key} className="character-term"><legend>{t(term.label)}</legend><div className="character-term-fields">
         <label>{t("Year")}<input className="soft-input" name={`admin-${term.key}`} dir="ltr" aria-label={t(term.key === "start" ? "Start year (optional)" : "End year (optional)")} type="number" step={1} min={0} max={getTimelineRange().endYear} value={term.year} onChange={event => term.setYear(event.target.value)} /></label>
-        <label>{t("Month")}<select className="soft-input" name={`admin-${term.key}-month`} aria-label={t(term.monthLabel)} value={term.month} onChange={event => term.setMonth(Number(event.target.value))}>{Array.from({ length: 12 }, (_, month) => <option key={month} value={month}>{date(new Date(Date.UTC(2000, month, 1)), { month: "long" })}</option>)}</select></label>
+        <label>{t("Month")}<select className="soft-input" name={`admin-${term.key}-month`} aria-label={t(term.monthLabel)} value={term.month} onChange={event => term.setMonth(Number(event.target.value))}>{Array.from({ length: 12 }, (_, month) => <option key={month} value={month}>{formatCalendarDate(new Date(Date.UTC(2000, month, 1)), locale, "gregory", { month: "long" })}</option>)}</select></label>
       </div></fieldset>)}</div>
       <p className="field-hint">{t("Leave dates empty to show this person throughout the timeline. The end month is excluded.")}</p>
       <label>{t("Portrait URL (optional)")}<input className="soft-input" name="admin-image" dir="ltr" value={imageUrl} maxLength={300000} onChange={event => setImageUrl(event.target.value)} /></label>

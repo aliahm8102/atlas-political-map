@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { initialPersonalState, localStateSchema, type PersonalState, type Settings } from "@/lib/atlas";
 import { personProfileId } from "@/lib/person-profiles";
+import { clampTimelineDate, selectedTimelineRange } from "@/lib/timeline";
 export function usePersonalState(mode: "local" | "account", userId: string | undefined, initial: PersonalState | undefined, notify: (message: string) => void) {
   const storageKey = `atlas-local-v1:${userId}`;
   const [state, setState] = useState<PersonalState>(initial ?? initialPersonalState);
@@ -42,7 +43,10 @@ export function usePersonalState(mode: "local" | "account", userId: string | und
     }); }, 650);
     return () => clearTimeout(timeout);
   }, [state.settings, ready, mode, userId, retryCount, notify]);
-  const settings = useCallback((patch: Partial<Settings>) => setState(s => ({ ...s, settings: { ...s.settings, ...patch } })), []);
+  const settings = useCallback((patch: Partial<Settings>) => setState(s => {
+    const next = { ...s.settings, ...patch };
+    return { ...s, settings: { ...next, ...clampTimelineDate(next.year, next.month, selectedTimelineRange(next.timelineYears)) } };
+  }), []);
   const operation = useCallback(async (key: string, remote: () => PromiseLike<{ error: unknown }>, local: () => void, message?: string) => {
     if (pending.current.has(key)) return false;
     pending.current.add(key);

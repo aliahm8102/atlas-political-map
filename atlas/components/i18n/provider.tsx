@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useMemo, useState, useCallback, type ReactNode } from "react";
 import { createTranslator, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
+import type { AtlasCalendar } from "@/lib/calendar";
 
 type LanguageContext = ReturnType<typeof createTranslator> & { locale: Locale; setLocale: (locale: Locale) => void };
 const Context = createContext<LanguageContext | null>(null);
@@ -26,4 +27,10 @@ export function useI18n() {
   const context = useContext(Context);
   if (!context) throw new Error("LanguageProvider is required.");
   return context;
+}
+
+export function CalendarProvider({ calendar, children }: { calendar: AtlasCalendar; children: ReactNode }) {
+  const { locale, setLocale } = useI18n();
+  const value = useMemo(() => ({ locale, setLocale, ...createTranslator(locale, calendar) }), [locale, setLocale, calendar]);
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }

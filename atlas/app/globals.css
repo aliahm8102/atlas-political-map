@@ -280,7 +280,20 @@ button.control-section-title { width: 100%; padding: 6px 0; min-height: 32px; ga
 .timeline-slider input::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--surface); box-shadow: 1px 2px 4px #2f523b44; }
 .timeline-slider input::-moz-range-thumb { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); border: 3px solid var(--surface); box-shadow: 1px 2px 4px #2f523b44; }
 .timeline-ticks { display: flex; justify-content: space-between; margin-top: 10px; color: var(--muted); font-size: calc((8px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
-.timeline-ticks button { padding: 3px 0; }
+.timeline-ticks button { padding: 3px 2px; min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .timeline-ticks button:nth-child(even):not(:last-child) { display: none; }
+}
+.timeline-settings-form { display: grid; gap: 14px; }
+.timeline-year-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.timeline-settings-form label { display: grid; gap: 5px; font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
+.timeline-settings-form .soft-input { width: 100%; min-width: 0; margin: 0; }
+.settings-card .timeline-settings-form .primary-button { margin-top: 0; }
+.calendar-preview { display: grid; gap: 10px; font-size: calc((11px + var(--desktop-font-increment)) * var(--font-scale, 1)); }
+.calendar-preview div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px 12px; }
+.calendar-preview dt { color: var(--muted); }
+.calendar-preview dd { margin: 0; }
+.month-picker-era { width: 100%; }
 .timeline-date { width: 100%; min-width: 0; display: flex; align-items: center; gap: 7px; border-radius: 9px; box-shadow: var(--inset); padding: 8px 4px; color: var(--accent); font-size: calc((10px + var(--desktop-font-increment)) * var(--font-scale, 1)); margin-inline-start: 0; margin-bottom: 10px; white-space: nowrap; }
 .timeline-date strong { font-weight: 600; font-size: calc((10px + var(--desktop-font-increment)) * var(--font-scale, 1)); flex: 1; min-width: 0; text-align: center; font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; }
 .timeline-date .icon-plain { flex-shrink: 0; }
