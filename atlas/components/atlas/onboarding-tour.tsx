@@ -13,7 +13,7 @@ const siteSteps = [
   { target: '[data-tour="map-type"]', title: "A choice of perspectives", description: "Open this menu to preview the map types. Terrain and Natural views are coming soon." },
   { target: '[data-tour="layers"]', title: "Focus your map", description: "Choose the roles and layers you want to see. You can reset these filters whenever you like." },
   { target: '[data-tour="timeline"]', title: "Travel through time", description: "Choose a date or play the timeline to explore recorded terms across the years. The collection is an imported historical snapshot." },
-  { target: '[data-tour="profile"]', title: "Make yourself at home", description: "Open My workspace to change your profile, theme, accent and text size. Your preferences stay saved." },
+  { target: '[data-tour="profile"]', title: "Make yourself at home", description: "Open My settings to edit your profile. Appearance and character visibility are in My workspace." },
   { target: '[data-tour="fullscreen"]', title: "Your next journey", description: "Open the map and let us begin a new journey" },
 ] as const;
 const mapSteps = [

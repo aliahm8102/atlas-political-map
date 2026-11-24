@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { browserPeopleKey, browserPeopleSchema, customPersonSchema, emptyBrowserPeople, readBrowserPeople, writeBrowserPeople, updateBrowserPerson, removeBrowserPerson, reconcilePublications } from "../lib/browser-people.ts";
+import { browserPeopleKey, browserPeopleSchema, customPersonSchema, emptyBrowserPeople, readBrowserPeople, writeBrowserPeople, updateBrowserPerson, removeBrowserPerson, reconcilePublications, shownPeople } from "../lib/browser-people.ts";
 import { defaultSettings, localStateSchema, visiblePeople } from "../lib/atlas.ts";
 
 const person = { id: "custom:aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa", name: "My character", title: "A private description", role: "leader", lat: 35, lng: 51, countryCode: "364", country: "Iran", region: "Asia", imageUrl: "", startYear: null, endYear: null, dataset: "custom" };
@@ -20,7 +20,31 @@ test("characters, portrait positions and custom bookmarks persist only under the
 test("legacy storage restores tags/groups without dropping existing drafts", () => {
   const parsed = browserPeopleSchema.parse({ people: [person], positions: {}, bookmarks: [] });
   assert.deepEqual(parsed.tags, {}); assert.deepEqual(parsed.groups, []);
+  assert.deepEqual(parsed.hidden, emptyBrowserPeople.hidden);
+  assert.equal(parsed.profilePhoto, "");
   assert.equal(parsed.people[0].id, person.id);
+});
+
+test("visibility rules and the avatar are account-local, and filters combine without changing the collection", () => {
+  const [firstTerm, secondTerm] = ["9f8810ed-60e9-4e5c-a458-34c6d2a479d5", "2e59b17f-c94a-421e-a285-1dceb0a834c5"].map(id => ({ ...person, id }));
+  const byTag = { ...person, id: "tagged", role: "business" };
+  const byGroup = { ...person, id: "grouped", role: "business" };
+  const byRole = { ...person, id: "military", role: "army" };
+  const group = { id: "bbbbbbbb-bbbb-4bbb-abbb-bbbbbbbbbbbb", name: "Private group", personIds: [byGroup.id] };
+  const storage = memory();
+  const photo = "data:image/png;base64,AAAA";
+  writeBrowserPeople(storage, "a", { ...emptyBrowserPeople, people: [person], profilePhoto: photo, tags: { [byTag.id]: ["Hide"] }, groups: [group], hidden: {
+    people: [secondTerm.id], groups: [group.id], tags: ["Hide"], roles: ["army"],
+  } });
+  const saved = readBrowserPeople(storage, "a");
+  const collection = [person, firstTerm, secondTerm, byTag, byGroup, byRole];
+  assert.deepEqual(saved.hidden.people, [firstTerm.id]);
+  assert.deepEqual(shownPeople(collection, saved), [person]);
+  assert.equal(saved.profilePhoto, photo);
+  assert.equal(saved.people.length, 1);
+  const other = readBrowserPeople(storage, "b");
+  assert.deepEqual(shownPeople(collection, other), collection);
+  assert.equal(other.profilePhoto, "");
 });
 
 test("ordinary draft edits preserve identity, bookmarks, positions and organization", () => {
@@ -38,7 +62,7 @@ test("ordinary draft edits preserve identity, bookmarks, positions and organizat
 });
 
 test("only approval removes a draft and remaps its personal references exactly once", () => {
-  const data = { ...emptyBrowserPeople, people: [person], bookmarks: [person.id], positions: { [person.id]: { x: 600, y: 250 } }, tags: { [person.id]: ["Tag"], shared: ["Existing"] }, groups: [{ id: "bbbbbbbb-bbbb-4bbb-abbb-bbbbbbbbbbbb", name: "Group", personIds: [person.id, "shared"] }] };
+  const data = { ...emptyBrowserPeople, hidden: { ...emptyBrowserPeople.hidden, people: [person.id] }, people: [person], bookmarks: [person.id], positions: { [person.id]: { x: 600, y: 250 } }, tags: { [person.id]: ["Tag"], shared: ["Existing"] }, groups: [{ id: "bbbbbbbb-bbbb-4bbb-abbb-bbbbbbbbbbbb", name: "Group", personIds: [person.id, "shared"] }] };
   const publication = { id: "request", localId: person.id.slice(7), status: "approved", reviewNote: "", personId: "shared" };
   for (const status of ["pending", "rejected"]) assert.equal(reconcilePublications(data, [{ ...publication, status }]), data);
   const result = reconcilePublications(data, [publication]);
@@ -46,9 +70,11 @@ test("only approval removes a draft and remaps its personal references exactly o
   assert.deepEqual(result.positions, { shared: { x: 600, y: 250 } });
   assert.deepEqual(result.tags, { shared: ["Existing", "Tag"] });
   assert.deepEqual(result.groups[0].personIds, ["shared"]);
+  assert.deepEqual(result.hidden.people, ["shared"]);
   assert.equal(reconcilePublications(result, [publication]), result);
   const removed = reconcilePublications(data, [{ ...publication, personId: null }]);
   assert.deepEqual(removed.people, []); assert.deepEqual(removed.bookmarks, []); assert.deepEqual(removed.groups[0].personIds, ["shared"]);
+  assert.deepEqual(removed.hidden.people, []);
 });
 test("failed browser writes report failure without replacing persisted data", () => {
   const storage = memory();

@@ -81,7 +81,7 @@ try {
   await cdp("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
   if (process.env.ATLAS_MAP_ONLY !== "1") {
   const origin = process.env.ATLAS_TEST_ORIGIN || "http://127.0.0.1:3000";
-  for (const route of ["/", "/demo", "/workspace", "/workspace/characters"]) {
+  for (const route of ["/demo", "/workspace", "/workspace/characters"]) {
     await navigate(`${origin}${route}`);
     await waitFor("location.pathname === '/login' && document.querySelector('.auth-card')", `Sign-in required for ${route}`);
     assert.equal(await evaluate("document.querySelector('.world-map') === null"), true);
@@ -143,7 +143,7 @@ try {
       await waitFor("document.querySelector('.world-map')");
       await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()");
     }
-    assert.equal(await evaluate("document.querySelector('.settings-summary') === null && document.querySelectorAll('.settings-grid > .settings-card').length === 2"), true, 'My workspace keeps profile and appearance without the summary card');
+    assert.equal(await evaluate("document.querySelector('.settings-summary') === null && document.querySelectorAll('.settings-grid > .settings-card').length === 2"), true, 'My settings contains the profile and account cards');
     await nav('Explore map');
     await waitFor("document.querySelector('.map-type-trigger')");
     await click('.map-type-trigger');
@@ -169,7 +169,7 @@ try {
     for (const attempt of ['first visit', 'return visit']) {
       await nav('Explore map');
       await waitFor("document.querySelector('.world-map') && location.pathname === '/workspace'");
-      assert.equal(await evaluate("document.querySelector('.inspector [role=tablist],.inspector [role=tab],.inspector .appearance-controls') === null && document.querySelectorAll('.inspector .layer-row').length === 5"), true, 'Map controls show layers directly without appearance or tabs');
+      assert.equal(await evaluate("document.querySelector('.inspector [role=tablist],.inspector [role=tab],.inspector .appearance-controls') === null && document.querySelectorAll('.inspector .role-row').length === 5"), true, 'Map controls show layers directly without appearance or tabs');
       await click('nav a[href="/workspace/characters"]');
       await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form button[type=submit]:not(:disabled)')", `My characters opens on one click: ${attempt}`);
     }
@@ -180,8 +180,7 @@ try {
     await click('nav a[href="/workspace/characters"]');
     await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form')", 'My characters reopens on one click after a direct load');
     await nav('My workspace');
-    await click('.page-heading .add-character-button');
-    await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form')", 'Add character reopens the cached character route on one click');
+    assert.equal(await evaluate("!document.querySelector('.page-heading .add-character-button') && !document.querySelector('#display-name')"), true);
     await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
     await nav('Explore map');
     await click('button[aria-label="Open navigation"]');
@@ -190,8 +189,8 @@ try {
     await click('nav a[href="/workspace/characters"]');
     await waitFor("document.querySelector('.character-form') && !document.querySelector('.sidebar.open')", 'Mobile My characters opens on one click and closes the drawer');
     await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
-    await nav('My workspace');
-    console.log('PASS: one-click My characters navigation on first/return visits, direct loads, cached Add character links, and mobile drawer closure.');
+    await nav('My settings');
+    console.log('PASS: one-click My characters navigation on first/return visits, direct loads, and mobile drawer closure.');
     const { cookies } = await cdp("Network.getCookies", { urls: [origin] });
     const sessionCookie = cookies.find(cookie => cookie.name === 'atlas-local-session');
     assert.ok(sessionCookie?.httpOnly && sessionCookie.sameSite === 'Strict');
@@ -199,8 +198,21 @@ try {
     await typeInto('#display-name', 'Local Test Explorer');
     await click('form:has(#display-name) button');
     await waitFor("document.querySelector('.profile-button strong')?.textContent === 'Local Test Explorer'", "Local profile saves");
+    await evaluate(`(async () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 16;
+      canvas.getContext("2d").fillRect(0, 0, 16, 16);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+      const transfer = new DataTransfer();
+      transfer.items.add(new File([blob], "avatar.png", { type: "image/png" }));
+      const field = document.querySelector('[name="profile-photo"]');
+      field.files = transfer.files;
+      field.dispatchEvent(new Event("change", { bubbles: true }));
+    })()`);
+    await waitFor("document.querySelector('.profile-preview img')?.naturalWidth === 16 && document.querySelector('.profile-button img')?.naturalWidth === 16");
+    await nav('My workspace');
     assert.equal(await evaluate("document.querySelectorAll('.theme-choice').length"), 4, 'Four color themes are available');
-    assert.equal(await evaluate("document.querySelectorAll('.accent-choice').length"), 5, 'Five accent colors are available');
+    assert.equal(await evaluate("document.querySelectorAll('.accent-choice:not(.custom)').length"), 5, 'Five preset accent colors are available');
     const defaultFont = await evaluate("parseFloat(getComputedStyle(document.querySelector('.settings-card h2')).fontSize)");
     for (const theme of ['light', 'dark', 'sand', 'midnight']) {
       await click(`.theme-choice.${theme}`);
@@ -230,7 +242,7 @@ try {
     assert.equal(await evaluate("document.querySelector('.page-heading .add-character-button') === null"), true, 'Add character is removed from the main page');
     await nav('My workspace');
     await waitFor("document.querySelector('.font-size-control input')?.value === '130'", 'Workspace restores the saved font size');
-    assert.equal(await evaluate("document.querySelector('.page-heading .add-character-button').getAttribute('href')"), '/workspace/characters');
+    assert.equal(await evaluate("!document.querySelector('.page-heading .add-character-button') && !document.querySelector('.account-info')"), true);
     for (const width of [320, 390]) {
       await cdp('Emulation.setDeviceMetricsOverride', { width, height: 844, deviceScaleFactor: 1, mobile: true });
       assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, `Workspace fits ${width}px at 130% font size`);
@@ -259,9 +271,7 @@ try {
     await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
     await click('.appearance-controls > .secondary-button');
     await waitFor("document.querySelector('.font-size-control input').value === '100' && document.querySelector('.atlas-app').dataset.theme === 'light' && document.querySelector('.atlas-app').dataset.accent === 'sage'", 'Reset appearance restores all appearance defaults');
-    await click('.page-heading .add-character-button');
-    await waitFor("location.pathname === '/workspace/characters' && document.querySelector('.character-form')", 'Add character opens its editor from My workspace');
-    console.log('PASS: four themes, five accents, keyboard font scaling, saved appearance after reload, mobile/Persian layout, reset appearance, and Add character moved to My workspace.');
+    console.log('PASS: four themes, five accents, keyboard font scaling, saved appearance after reload, mobile/Persian layout, and reset appearance.');
     await nav('Directories');
     await waitFor("document.querySelector('.person-card')");
     await click('.person-card-top button');
@@ -271,8 +281,11 @@ try {
     assert.equal(await evaluate("document.querySelector('#country-note,.country-note') === null"), true, "Private note is removed from the inspector");
     await navigate(`${origin}/workspace`);
     await waitFor("document.querySelector('.profile-button strong')?.textContent === 'Local Test Explorer'", "Local profile survives reload");
-    await nav('Bookmarks');
+    await nav('Directories');
+    await click('.directory-bookmarks-button');
     await waitFor("document.querySelector('.person-card')", "Local bookmark survives reload");
+    await waitFor("document.querySelector('.profile-button img')?.naturalWidth === 16", "The profile photo survives reload");
+    assert.equal(await evaluate("[...document.querySelectorAll('.sidebar button')].some(button => button.textContent.trim() === 'Bookmarks')"), false);
     await click('.person-card-bottom button');
     await waitFor("document.querySelector('.person-spotlight')", "Bookmarked person details reopen after reload");
     await click('a[href="/workspace/characters"]');
@@ -298,6 +311,41 @@ try {
       await click('.topbar-search button[type=submit]');
       await waitFor("document.querySelector('.search-result-card h3')?.textContent === 'شخصیت آزمایشی'", 'Global search finds personal tags and groups');
     }
+    const ruleSelector = index => `.visibility-rule:nth-child(${index})`;
+    async function hideRule(index, label) {
+      await nav('My workspace');
+      const rule = ruleSelector(index);
+      await waitFor(`document.querySelector('${rule} select:not(:disabled)')`);
+      await evaluate(`(() => {
+        const select = document.querySelector('${rule} select');
+        const option = [...select.options].find(item => item.textContent === ${JSON.stringify(label)});
+        if (!option) throw new Error('Visibility option is missing');
+        select.value = option.value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      })()`);
+      await waitFor(`document.querySelector('${rule} .visibility-rules button')`);
+    }
+    const customName = await evaluate("(() => { const raw = Object.entries(localStorage).find(([key]) => key.startsWith('atlas-people-v1:'))?.[1]; return JSON.parse(raw).people[0].name; })()");
+    for (const [index, label] of [[1, 'PrivateQATag'], [2, 'PrivateQATeam'], [3, 'Heads of state'], [4, customName]]) {
+      await hideRule(index, label);
+      await nav('Directories');
+      await waitFor("document.querySelector('#directory-panel') && !document.querySelector('.person-card[data-person-id^=custom]')");
+      await nav('Explore map');
+      await waitFor("document.querySelector('.world-map') && !document.querySelector('.map-pin[data-person-id^=custom]')");
+      if (index === 4) {
+        await navigate(`${origin}/workspace`);
+        await waitFor("document.querySelector('.world-map')");
+        await waitFor("(() => { if (document.querySelector('#directory-panel')) return true; [...document.querySelectorAll('.sidebar button')].find(button => button.textContent.trim() === 'Directories')?.click(); return false; })()");
+        assert.equal(await evaluate("document.querySelector('.person-card[data-person-id^=custom]')"), null);
+        await typeInto('.topbar-search input', 'PrivateQATag');
+        await click('.topbar-search button[type=submit]');
+        await waitFor("document.querySelector('#atlas-search-heading') && !document.querySelector('.search-result-card')");
+      }
+      await nav('My workspace');
+      await click(`${ruleSelector(index)} .visibility-rules button`);
+      await nav('Directories');
+      await waitFor("document.querySelector('.person-card[data-person-id^=custom]')");
+    }
     await evaluate("[...document.querySelectorAll('.sidebar button')].find(el => el.textContent.includes('Contact administrators')).click()");
     await waitFor("document.querySelector('.feedback-page button[type=submit]:disabled')", 'Local demo explains online contact requirement');
     await click('a[href="/workspace/characters"]');
@@ -306,14 +354,15 @@ try {
     await waitFor("location.pathname === '/workspace' && document.querySelector('.person-spotlight h3')?.textContent === 'شخصیت آزمایشی'", 'Custom character opens on the map');
     await click('.bookmark-person');
     await waitFor("document.querySelector('.bookmark-person.is-bookmarked')", 'Custom character bookmark saves locally');
-    await nav('Bookmarks');
+    await nav('Directories');
+    await click('.directory-bookmarks-button');
     await waitFor("[...document.querySelectorAll('.person-card h3')].some(item => item.textContent === 'شخصیت آزمایشی')", 'Custom character participates in bookmarks');
     await navigate(`${origin}/workspace/characters`);
     await waitFor("document.querySelector('.custom-character h3')?.textContent === 'شخصیت آزمایشی'", 'Direct character route restores local data after navigation');
     await screenshot('atlas-characters-workspace');
     await click('.custom-character button[aria-label^="Delete "]');
     await waitFor("!document.querySelector('.custom-character')", 'Character deletion removes its local record and bookmark');
-    await nav('My workspace');
+    await nav('My settings');
     await click('.account-info button');
     await waitFor("location.pathname === '/login' && document.querySelector('.auth-card')", "Local sign-out returns to login");
     await navigate(`${origin}/workspace`);
@@ -357,7 +406,7 @@ try {
     await click('.search-results [data-preview-type="place"] a');
     await waitFor("document.querySelector('.country-heading h2')?.textContent === 'ایران'", 'Persian country details render');
     assert.match(await evaluate("document.querySelector('.person-spotlight h3').textContent"), /[\u0600-\u06ff]/);
-    await nav('فهرست افراد');
+    await nav('فهرست‌ها');
     await typeInto('.topbar-search input', 'پزشكيان');
     await click('.search-submit');
     await waitFor("document.querySelector('.search-result-card h3')?.textContent === 'مسعود پزشکیان'", 'Persian search normalizes Arabic letters');
@@ -366,7 +415,7 @@ try {
     await click('.search-submit');
     await waitFor("document.querySelector('.search-result-card h3')?.textContent === 'مسعود پزشکیان'", 'English aliases still work in Persian');
     await click('button[aria-label="پاک‌کردن جست‌وجو"]');
-    await nav('فضای من');
+    await nav('تنظیمات من');
     await waitFor("document.querySelector('.settings-card h2')?.textContent === 'پروفایل شما'");
     await click('.help-button');
     await waitFor("document.querySelector('dialog[open] h2')?.textContent.includes('آگاهی')", 'Persian help dialog is translated');
@@ -397,7 +446,7 @@ try {
     await delay(250);
     await screenshot('atlas-fa-mobile');
     await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
-    await nav('فضای من');
+    await nav('تنظیمات من');
     await click('.account-info button');
     await waitFor("location.pathname === '/login' && document.querySelector('.auth-card h2')?.textContent === 'اطلس محلی شما.'", 'Persian language persists after sign-out');
     await navigate(`${origin}/login`);

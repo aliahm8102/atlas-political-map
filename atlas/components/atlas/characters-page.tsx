@@ -6,12 +6,13 @@ import { type Country, type Person, type Role, roleLabels } from "@/lib/atlas";
 import { customPersonSchema, type CustomPerson } from "@/lib/browser-people";
 import { useI18n } from "@/components/i18n/provider";
 import Portrait from "./portrait";
+import { localPortrait } from "@/lib/local-portrait";
 import { getTimelineRange, TIMELINE_START_YEAR } from "@/lib/timeline";
 import type { ActionResult, Publication } from "@/lib/administration";
 import { characterDateFields, characterDateValue } from "@/lib/character-dates";
 
-type Props = { initialPerson?: CustomPerson; countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onUpdate: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void; publications?: Publication[]; publicationAvailable?: boolean; onPublish?: (person: CustomPerson) => Promise<ActionResult<Publication>> };
-export default function CharactersPage({ initialPerson, countries, people, ready, onAdd, onUpdate, onRemove, onLocate, publications = [], publicationAvailable = false, onPublish }: Props) {
+type Props = { initialPerson?: CustomPerson; countries: Country[]; people: CustomPerson[]; ready: boolean; onAdd: (person: CustomPerson) => boolean; onUpdate: (person: CustomPerson) => boolean; onRemove: (id: string) => boolean; onLocate: (person: Person) => void; canLocate?: (person: Person) => boolean; publications?: Publication[]; publicationAvailable?: boolean; onPublish?: (person: CustomPerson) => Promise<ActionResult<Publication>> };
+export default function CharactersPage({ initialPerson, countries, people, ready, onAdd, onUpdate, onRemove, onLocate, canLocate, publications = [], publicationAvailable = false, onPublish }: Props) {
   const { t, n, date, countryName, text, personName, personTitle } = useI18n();
   const portraitInput = useRef<HTMLInputElement>(null);
   const portraitHintId = useId();
@@ -59,17 +60,8 @@ export default function CharactersPage({ initialPerson, countries, people, ready
     if (!file) return;
     setError(""); setProcessing(true);
     try {
-      if (!/^image\/(png|jpeg|webp)$/.test(file.type) || file.size > 5 * 1024 * 1024) throw new Error();
-      const bitmap = await createImageBitmap(file);
-      try {
-        const canvas = document.createElement("canvas");
-        const ratio = Math.min(1, 256 / Math.max(bitmap.width, bitmap.height));
-        canvas.width = Math.max(1, Math.round(bitmap.width * ratio)); canvas.height = Math.max(1, Math.round(bitmap.height * ratio));
-        const context = canvas.getContext("2d"); if (!context) throw new Error();
-        context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-        setImageUrl(canvas.toDataURL("image/webp", .8));
-        setPortraitName(file.name);
-      } finally { bitmap.close(); }
+      setImageUrl(await localPortrait(file));
+      setPortraitName(file.name);
     } catch { setError(t("Choose a PNG, JPEG or WebP image smaller than 5 MB.")); }
     finally { setProcessing(false); }
   }
@@ -125,7 +117,7 @@ export default function CharactersPage({ initialPerson, countries, people, ready
       {!publicationAvailable && <p className="field-hint">{t(onPublish ? "Administration is not enabled yet." : "Sign in with an online account to publish characters.")}</p>}
       {publicationError && <p className="admin-alert error" role="alert">{publicationError}</p>}
       {!people.length && <p className="field-hint">{t("Your characters will appear here, in the directory and on the map.")}</p>}
-      {people.map(person => { const publication = publications.find(item => item.localId === person.id.slice(7)); return <article className="custom-character" key={person.id}><Portrait person={person} /><div><h3 dir="auto">{personName(person)}</h3><p dir="auto">{personTitle(person)}</p><small>{countryName(person.country)} · {text(roleLabels[person.role])}</small><button className="text-link" onClick={() => onLocate(person)}><MapPin size={13} />{t("View on map")}</button><button className="secondary-button publish-character" disabled={!ready || !publicationAvailable || !!publishing || publication?.status === "pending" || publication?.status === "approved"} onClick={() => void publish(person)}><Send size={14} />{publishing === person.id ? t("Sending…") : publication?.status === "pending" ? t("Pending review") : publication?.status === "approved" ? t(publication.personId ? "Published" : "Removed from shared map") : publication?.status === "rejected" ? t("Resubmit for publication") : t("Publish character")}</button>{publication?.status === "rejected" && <p className="publication-review-note">{t("Publication request rejected.")}{publication.reviewNote && <span dir="auto"> {publication.reviewNote}</span>}</p>}</div><button className="icon-button" aria-label={t("Edit {name}", { name: personName(person) })} disabled={!ready || processing || publishing === person.id || publication?.status === "approved"} onClick={() => edit(person)}><Pencil size={16} /></button><button className="icon-button" aria-label={t("Delete {name}", { name: person.name })} disabled={publishing === person.id} onClick={() => { if (onRemove(person.id) && editingId === person.id) resetEditor(); }}><Trash2 size={16} /></button></article>; })}
+      {people.map(person => { const publication = publications.find(item => item.localId === person.id.slice(7)); return <article className="custom-character" key={person.id}><Portrait person={person} /><div><h3 dir="auto">{personName(person)}</h3><p dir="auto">{personTitle(person)}</p><small>{countryName(person.country)} · {text(roleLabels[person.role])}</small>{(canLocate?.(person) ?? true) ? <button className="text-link" onClick={() => onLocate(person)}><MapPin size={13} />{t("View on map")}</button> : <small>{t("Hidden from your atlas")}</small>}<button className="secondary-button publish-character" disabled={!ready || !publicationAvailable || !!publishing || publication?.status === "pending" || publication?.status === "approved"} onClick={() => void publish(person)}><Send size={14} />{publishing === person.id ? t("Sending…") : publication?.status === "pending" ? t("Pending review") : publication?.status === "approved" ? t(publication.personId ? "Published" : "Removed from shared map") : publication?.status === "rejected" ? t("Resubmit for publication") : t("Publish character")}</button>{publication?.status === "rejected" && <p className="publication-review-note">{t("Publication request rejected.")}{publication.reviewNote && <span dir="auto"> {publication.reviewNote}</span>}</p>}</div><button className="icon-button" aria-label={t("Edit {name}", { name: personName(person) })} disabled={!ready || processing || publishing === person.id || publication?.status === "approved"} onClick={() => edit(person)}><Pencil size={16} /></button><button className="icon-button" aria-label={t("Delete {name}", { name: person.name })} disabled={publishing === person.id} onClick={() => { if (onRemove(person.id) && editingId === person.id) resetEditor(); }}><Trash2 size={16} /></button></article>; })}
     </section>
   </div>;
 }

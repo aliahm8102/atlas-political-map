@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { browserPeopleKey, emptyBrowserPeople, readBrowserPeople, writeBrowserPeople, updateBrowserPerson, removeBrowserPerson, reconcilePublications, type BrowserPeople, type CustomPerson, type MarkerPosition } from "@/lib/browser-people";
+import { browserPeopleKey, emptyBrowserPeople, readBrowserPeople, writeBrowserPeople, updateBrowserPerson, removeBrowserPerson, reconcilePublications, type BrowserPeople, type CustomPerson, type HiddenRules, type MarkerPosition } from "@/lib/browser-people";
 import type { Publication } from "@/lib/administration";
 
 const noPublications: Publication[] = [];
@@ -45,10 +45,16 @@ export function useBrowserPeople(userId: string, notify: (message: string) => vo
     remove: (id: string) => mutate(previous => removeBrowserPerson(previous, id)),
     setTags: (id: string, tags: string[]) => mutate(previous => ({ ...previous, tags: { ...previous.tags, [id]: [...new Set(tags.map(tag => tag.trim()).filter(Boolean))] } })),
     saveGroup: (group: BrowserPeople["groups"][number]) => mutate(previous => ({ ...previous, groups: [...previous.groups.filter(item => item.id !== group.id), group] })),
-    removeGroup: (id: string) => mutate(previous => ({ ...previous, groups: previous.groups.filter(group => group.id !== id) })),
+    removeGroup: (id: string) => mutate(previous => ({ ...previous, groups: previous.groups.filter(group => group.id !== id), hidden: { ...previous.hidden, groups: previous.hidden.groups.filter(group => group !== id) } })),
     setMembership: (personId: string, groupId: string, included: boolean) => mutate(previous => ({ ...previous, groups: previous.groups.map(group => group.id !== groupId ? group : { ...group, personIds: included ? [...new Set([...group.personIds, personId])] : group.personIds.filter(id => id !== personId) }) })),
     move: (id: string, position: MarkerPosition) => mutate(previous => ({ ...previous, positions: { ...previous.positions, [id]: position } })),
     resetPositions: () => mutate(previous => ({ ...previous, positions: {} })),
     bookmark: (id: string) => mutate(previous => ({ ...previous, bookmarks: previous.bookmarks.includes(id) ? previous.bookmarks.filter(bookmark => bookmark !== id) : [...previous.bookmarks, id] })),
+    setProfilePhoto: (profilePhoto: string) => mutate(previous => ({ ...previous, profilePhoto })),
+    setHidden: <K extends keyof HiddenRules>(kind: K, value: HiddenRules[K][number], hidden: boolean) => mutate(previous => {
+      const rules: string[] = previous.hidden[kind];
+      const updated = hidden ? [...new Set([...rules, value])] : rules.filter(rule => rule !== value);
+      return { ...previous, hidden: { ...previous.hidden, [kind]: updated } };
+    }),
   };
 }
