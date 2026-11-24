@@ -135,6 +135,9 @@ try {
       await waitFor("(() => { document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return Boolean(document.querySelector('#display-name')); })()", "Workspace is interactive");
     };
     await signIn();
+    await navigate(`${origin}/login`);
+    await waitFor("location.pathname === '/workspace' && document.querySelector('.world-map') && !document.querySelector('.auth-page')", "A signed-in visit to the login page goes straight to the workspace");
+    await waitFor("(() => { if (document.querySelector('#display-name')) return true; document.querySelector('button[aria-label=\"Open profile and preferences\"]')?.click(); return false; })()");
     if (process.env.ATLAS_WORKSPACE_LAYERS === "1") {
       await runMapLayersQA({ evaluate, cdp, click, input, waitFor, navigate, screenshot, fixtureOrigin: `${origin}/workspace`, tileRequests, setTileFailure: value => { failTiles = value; } });
       await cdp("Network.setCookie", { name: "atlas-locale", value: "en", url: origin });
