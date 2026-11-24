@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 import type { Publication } from "./administration.ts";
+import { personProfileId } from "./person-profiles.ts";
 
 export const markerPositionSchema = z.object({ x: z.number().finite().min(0).max(1000), y: z.number().finite().min(0).max(540) });
 export type MarkerPosition = z.infer<typeof markerPositionSchema>;
@@ -29,7 +30,14 @@ export const browserPeopleKey = (userId: string) => `atlas-people-v1:${encodeURI
 
 export function readBrowserPeople(storage: Pick<Storage, "getItem">, userId: string): BrowserPeople {
   const raw = storage.getItem(browserPeopleKey(userId));
-  return raw ? browserPeopleSchema.parse(JSON.parse(raw)) : emptyBrowserPeople;
+  if (!raw) return emptyBrowserPeople;
+  const data = browserPeopleSchema.parse(JSON.parse(raw));
+  const tags = new Map<string, string[]>();
+  for (const [id, values] of Object.entries(data.tags)) {
+    const profileId = personProfileId(id);
+    tags.set(profileId, [...new Set([...(tags.get(profileId) ?? []), ...values])].slice(0, 20));
+  }
+  return { ...data, tags: Object.fromEntries(tags), bookmarks: [...new Set(data.bookmarks.map(personProfileId))], groups: data.groups.map(group => ({ ...group, personIds: [...new Set(group.personIds.map(personProfileId))] })) };
 }
 export function writeBrowserPeople(storage: Pick<Storage, "setItem">, userId: string, data: BrowserPeople) {
   const parsed = browserPeopleSchema.parse(data);
@@ -55,7 +63,7 @@ export function reconcilePublications(data: BrowserPeople, publications: Publica
   let next = data;
   for (const publication of publications) {
     if (publication.status !== "approved") continue;
-    const id = `custom:${publication.localId}`, target = publication.personId;
+    const id = `custom:${publication.localId}`, target = publication.personId && personProfileId(publication.personId);
     if (!next.people.some(person => person.id === id) && !next.bookmarks.includes(id) && !next.positions[id] && !next.tags[id] && !next.groups.some(group => group.personIds.includes(id))) continue;
     const previous = next;
     next = removeBrowserPerson(previous, id);

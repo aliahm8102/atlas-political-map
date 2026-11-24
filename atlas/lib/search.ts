@@ -3,6 +3,7 @@ import { createTranslator, type Locale } from "./i18n/index.ts";
 import { getTimelineRange, TIMELINE_START_YEAR } from "./timeline.ts";
 import type { BrowserPeople } from "./browser-people.ts";
 import { mapResultHref } from "./map-links.ts";
+import { personProfileId } from "./person-profiles.ts";
 import { countryProfiles } from "./country-profiles.ts";
 import { countryActiveInYear } from "./country-entities.ts";
 
@@ -71,8 +72,11 @@ export function buildSearchIndex(people: Person[], countries: Country[], organiz
     ...people.map(person => {
       const title = tokens(`${person.title} ${fa.personTitle(person)}`);
       const tags = [roleTags[person.role], ...(title.some(token => ["intentpresident", "intentpremier", "intentmonarch"].includes(token)) ? ["intentleader"] : [])];
-      const personal = [...(organization.tags[person.id] ?? []), ...organization.groups.filter(group => group.personIds.includes(person.id)).map(group => group.name)];
-      return { id: `person:${person.id}`, type: "person" as const, name: person.name, faName: fa.personName(person), region: person.region, person, tags: organization.tags[person.id] ?? [], groupIds: organization.groups.filter(group => group.personIds.includes(person.id)).map(group => group.id), fields: [field(`${person.name} ${fa.personName(person)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3), field(personal.join(" "), 9)] };
+      const profileId = personProfileId(person.id);
+      const groups = organization.groups.filter(group => group.personIds.includes(profileId));
+      const personTags = organization.tags[profileId] ?? [];
+      const personal = [...personTags, ...groups.map(group => group.name)];
+      return { id: `person:${profileId}`, type: "person" as const, name: person.name, faName: fa.personName(person), region: person.region, person, tags: personTags, groupIds: groups.map(group => group.id), fields: [field(`${person.name} ${fa.personName(person)}`, 10), { tokens: [...title, ...tags], weight: 5 }, field(location(person.country, person.region), 3), field(personal.join(" "), 9)] };
     }),
   ];
 }
@@ -123,14 +127,21 @@ export function searchAtlas(index: SearchDocument[], state: SearchState, locale:
   hits.sort((a, b) => {
     if (state.sort === "newest") { const aYear = a.document.person?.startYear ?? -Infinity, bYear = b.document.person?.startYear ?? -Infinity; if (aYear !== bYear) return aYear > bYear ? -1 : 1; if (a.document.type !== b.document.type) return a.document.type === "person" ? -1 : 1; }
     if (state.sort === "relevance" && a.score !== b.score) return b.score - a.score;
-    return (locale === "fa" ? a.document.faName : a.document.name).localeCompare(locale === "fa" ? b.document.faName : b.document.name, locale) || a.document.id.localeCompare(b.document.id);
+    return (locale === "fa" ? a.document.faName : a.document.name).localeCompare(locale === "fa" ? b.document.faName : b.document.name, locale) || a.document.id.localeCompare(b.document.id) ||
+      ((b.document.person?.startYear ?? -Infinity) - (a.document.person?.startYear ?? -Infinity)) || (a.document.person?.id ?? "").localeCompare(b.document.person?.id ?? "");
   });
-  return hits;
+  const seen = new Set<string>();
+  return hits.filter(({ document }) => {
+    if (seen.has(document.id)) return false;
+    seen.add(document.id);
+    return true;
+  });
 }
 
 export function alternativeQueries(index: SearchDocument[], query: string, locale: Locale) {
   const terms = tokens(query).filter(term => term.length >= 3 && !term.startsWith("intent"));
-  return index.map(document => ({ document, distance: Math.min(10, ...terms.flatMap(term => document.fields[0].tokens.map(token => editDistance(term, token)))) }))
+  const profiles = [...new Map(index.map(document => [document.id, document])).values()];
+  return profiles.map(document => ({ document, distance: Math.min(10, ...terms.flatMap(term => document.fields[0].tokens.map(token => editDistance(term, token)))) }))
     .filter(item => item.distance <= (terms.some(term => term.length >= 6) ? 3 : 1)).sort((a, b) => a.distance - b.distance).slice(0, 4).map(({ document }) => locale === "fa" ? document.faName : document.name);
 }
 

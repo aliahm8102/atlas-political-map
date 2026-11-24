@@ -1,5 +1,6 @@
 import type { Person } from "./atlas.ts";
 import { roleLabels } from "./atlas.ts";
+import { personProfileId } from "./person-profiles.ts";
 import type { BrowserPeople } from "./browser-people.ts";
 import { characterDateFields } from "./character-dates.ts";
 import type { CountryProfileData } from "./country-profiles.ts";
@@ -19,7 +20,10 @@ export function peopleExport(people: Person[], organization: Pick<BrowserPeople,
   const { t, personName, personTitle, countryName, text } = i18n;
   return { title: t("People directory"), rtl: locale === "fa",
     headers: [t("Character name"), t("Office or description"), t("Role"), t("Country"), t("Region"), t("Start date"), t("End date"), t("Tags"), t("Groups"), t("Latitude"), t("Longitude")],
-    rows: people.map(person => [locale === "fa" ? person.nameFa || (personName(person) !== person.name ? personName(person) : null) : person.name || null, locale === "fa" ? person.titleFa || (personTitle(person) !== person.title ? personTitle(person) : null) : person.title || null, t(roleLabels[person.role]), countryName(person.country), text(person.region), term(person.startYear), term(person.endYear), (organization.tags[person.id] ?? []).join(", "), organization.groups.filter(group => group.personIds.includes(person.id)).map(group => group.name).join(", "), person.lat, person.lng]),
+    rows: people.map(person => {
+      const profileId = personProfileId(person.id);
+      return [locale === "fa" ? person.nameFa || (personName(person) !== person.name ? personName(person) : null) : person.name || null, locale === "fa" ? person.titleFa || (personTitle(person) !== person.title ? personTitle(person) : null) : person.title || null, t(roleLabels[person.role]), countryName(person.country), text(person.region), term(person.startYear), term(person.endYear), (organization.tags[profileId] ?? []).join(", "), organization.groups.filter(group => group.personIds.includes(profileId)).map(group => group.name).join(", "), person.lat, person.lng];
+    }),
   };
 }
 

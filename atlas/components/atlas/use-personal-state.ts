@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { initialPersonalState, localStateSchema, type PersonalState, type Settings } from "@/lib/atlas";
+import { personProfileId } from "@/lib/person-profiles";
 export function usePersonalState(mode: "local" | "account", userId: string | undefined, initial: PersonalState | undefined, notify: (message: string) => void) {
   const storageKey = `atlas-local-v1:${userId}`;
   const [state, setState] = useState<PersonalState>(initial ?? initialPersonalState);
@@ -52,8 +53,10 @@ export function usePersonalState(mode: "local" | "account", userId: string | und
     finally { pending.current.delete(key); }
   }, [mode, notify]);
   const bookmark = useCallback((id: string) => {
-    const exists = state.bookmarks.includes(id);
-    return operation(`bookmark:${id}`, () => exists ? createClient().from("bookmarks").delete().eq("user_id", userId).eq("person_id", id) : createClient().from("bookmarks").insert({ user_id: userId, person_id: id }), () => setState(s => ({ ...s, bookmarks: exists ? s.bookmarks.filter(b => b !== id) : [...s.bookmarks, id] })), exists ? "Bookmark removed" : "Added to your bookmarks");
+    const profileId = personProfileId(id);
+    const savedIds = state.bookmarks.filter(saved => personProfileId(saved) === profileId);
+    const exists = savedIds.length > 0;
+    return operation(`bookmark:${profileId}`, () => exists ? createClient().from("bookmarks").delete().eq("user_id", userId).in("person_id", savedIds) : createClient().from("bookmarks").insert({ user_id: userId, person_id: id }), () => setState(s => ({ ...s, bookmarks: exists ? s.bookmarks.filter(saved => personProfileId(saved) !== profileId) : [...s.bookmarks, id] })), exists ? "Bookmark removed" : "Added to your bookmarks");
   }, [state.bookmarks, operation, userId]);
   const saveNote = useCallback((countryCode: string, body: string) => operation(`note:${countryCode}`, () => createClient().from("country_notes").upsert({ user_id: userId, country_code: countryCode, body }), () => setState(s => ({ ...s, notes: { ...s.notes, [countryCode]: body } })), "Private note saved"), [operation, userId]);
   const saveName = useCallback((name: string) => operation("profile", () => createClient().from("profiles").update({ display_name: name }).eq("id", userId), () => setState(s => ({ ...s, displayName: name })), "Profile updated"), [operation, userId]);

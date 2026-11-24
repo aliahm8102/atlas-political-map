@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { visiblePeople, defaultSettings, settingsSchema, localStateSchema, viewportSchema, zoomViewport, defaultViewport, MAX_MAP_ZOOM } from "../lib/atlas.ts";
 import { getTimelineRange } from "../lib/timeline.ts";
+import { buildPersonProfiles, personProfileId, profilePeople, uniquePeople } from "../lib/person-profiles.ts";
+import { buildSearchIndex, defaultSearchState, searchAtlas } from "../lib/search.ts";
 const people = JSON.parse(fs.readFileSync(new URL("../data/people.json", import.meta.url)));
 const countries = JSON.parse(fs.readFileSync(new URL("../data/countries.json", import.meta.url)));
 
@@ -24,6 +26,26 @@ test("a transition year displays the new term and excludes the previous term", (
   const earlier = visiblePeople(people, { ...defaultSettings, year: 2024, month: 0 });
   assert.ok(earlier.some(p => p.name === "Joe Biden"));
   assert.ok(!earlier.some(p => p.name === "Donald Trump"));
+});
+test("Trump has one profile with two independently searchable terms", () => {
+  const sourceTerms = people.filter(person => person.name === "Donald Trump");
+  const profiles = buildPersonProfiles(people);
+  assert.equal(profiles.size, people.length - 1);
+  const id = personProfileId(sourceTerms[0].id);
+  assert.equal(personProfileId(sourceTerms[1].id), id);
+  const profile = profiles.get(id);
+  assert.equal(profile.name, "Donald Trump");
+  assert.equal(profile.imageUrl, sourceTerms[0].imageUrl);
+  assert.deepEqual(profile.terms.map(term => [term.startYear, term.endYear]), [[2025, null], [2017, 2021]]);
+  assert.equal(uniquePeople(profilePeople(profile)).length, 1);
+  const index = buildSearchIndex(profilePeople(profile), []);
+  const search = year => searchAtlas(index, { ...defaultSearchState, query: "Donald Trump", year });
+  assert.equal(search("").length, 1);
+  assert.equal(search("2018")[0].document.person.startYear, 2017);
+  assert.equal(search("2025")[0].document.person.startYear, 2025);
+  assert.equal(search("2023").length, 0);
+  assert.equal(visiblePeople(profilePeople(profile), { ...defaultSettings, year: 2023, month: 0 }).length, 0);
+  assert.equal(buildPersonProfiles([...sourceTerms, { ...sourceTerms[0], id: "another-person" }]).size, 2);
 });
 test("historical selection, role, region, and search all narrow the collection", () => {
   const history = visiblePeople(people, { ...defaultSettings, year: 1942, month: 0 });

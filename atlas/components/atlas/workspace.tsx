@@ -13,7 +13,8 @@ import LanguageSwitcher from "@/components/i18n/language-switcher";
 import { type TranslationKey } from "@/lib/i18n";
 import { usePersonalState } from "./use-personal-state";
 import MapCanvas, { countryViewport } from "./map-canvas";
-import Portrait from "./portrait";
+import PersonSpotlight from "./person-spotlight";
+import { buildPersonProfiles, personProfileId, profilePeople, uniquePeople } from "@/lib/person-profiles";
 import { useHistoricalBorders } from "./use-historical-borders";
 import { peopleAtHistoricalBorders } from "@/lib/historical-boundaries";
 import { timelineYearFromQuery } from "@/lib/search";
@@ -52,7 +53,7 @@ const pageLabels: Record<Page, TranslationKey> = { map: "Explore map", people: "
 const nav = [{ id: "map", icon: Map, label: "Explore map" }, { id: "people", icon: UsersRound, label: "Directories" }, { id: "bookmarks", icon: Bookmark, label: "Bookmarks" }] as const;
 
 export default function Workspace({ mode, people: importedPeople, countries: importedCountries, userId, email, initialState, initialPage = "map", initialSearch, accessRole = "user", publicationAvailable = false, initialPublications = [] }: { mode: "local" | "account"; people: Person[]; countries: Country[]; userId: string; initialPage?: "map" | "characters" | "search" | "admin"; initialSearch?: SearchState; accessRole?: AccessRole; publicationAvailable?: boolean; initialPublications?: Publication[]; email?: string; initialState?: PersonalState }) {
-  const { t, text, n, countryName, personName, personTitle, periodLabel, locale } = useI18n();
+  const { t, text, n, countryName, locale } = useI18n();
   const router = useRouter();
   const countries = useMemo(() => withCountryProfiles(importedCountries), [importedCountries]);
   const [mapTarget, setMapTarget] = useState<MapTarget | null>(null);
@@ -83,11 +84,20 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
   const { settings } = state;
   const { endYear } = getTimelineRange();
   const browser = useBrowserPeople(userId, notify, publications);
-  const people = useMemo(() => [...sharedPeople, ...browser.people], [sharedPeople, browser.people]);
+  const profiles = useMemo(() => buildPersonProfiles([...sharedPeople, ...browser.people]), [sharedPeople, browser.people]);
+  const people = useMemo(() => [...profiles.values()].flatMap(profilePeople), [profiles]);
   const temporal = useHistoricalBorders(settings.year, settings.month);
   const mapPeople = useMemo(() => temporal.features ? peopleAtHistoricalBorders(people, temporal.features) : people, [people, temporal.features]);
-  const bookmarks = [...new Set([...state.bookmarks, ...browser.bookmarks])];
-  const bookmark = (id: string) => id.startsWith("custom:") || browser.bookmarks.includes(id) ? browser.bookmark(id) : personal.bookmark(id);
+  const bookmarks = [...new Set([...state.bookmarks, ...browser.bookmarks].map(personProfileId))];
+  const bookmark = async (id: string) => {
+    const profileId = personProfileId(id);
+    const savedInBrowser = browser.bookmarks.includes(profileId);
+    if (id.startsWith("custom:")) { browser.bookmark(profileId); return; }
+    if (savedInBrowser && !browser.bookmark(profileId)) return;
+    if (!savedInBrowser || state.bookmarks.some(saved => personProfileId(saved) === profileId)) {
+      await personal.bookmark(profiles.get(profileId)?.terms.find(term => term.id === profileId)?.id ?? id);
+    }
+  };
   const [viewport, setViewport] = useState<Viewport>(defaultViewport);
   const [requestedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
@@ -110,12 +120,16 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
     window.addEventListener("popstate", restore);
     return () => window.removeEventListener("popstate", restore);
   }, []);
-  const filtered = useMemo(() => visiblePeople(mapPeople, settings), [mapPeople, settings]);
+  const filtered = useMemo(() => uniquePeople(visiblePeople(mapPeople, settings), true), [mapPeople, settings]);
   const searchIndex = useMemo(() => buildSearchIndex(people, countries, { tags: browser.tags, groups: browser.groups }), [people, countries, browser.tags, browser.groups]);
   const currentPeople = useMemo(() => visiblePeople(mapPeople, { ...settings, region: "All regions", mapRegions: defaultSettings.mapRegions, roles: Object.keys(roleLabels) as Role[] }), [mapPeople, settings]);
-  const selectedCountry = currentPeople.find(person => person.id === selectedPerson?.id)?.countryCode ?? requestedCountry;
+  const selectedProfile = selectedPerson && profiles.get(personProfileId(selectedPerson.id));
+  const selectedTerm = currentPeople.find(person => person.id === selectedPerson?.id) ??
+    currentPeople.find(person => selectedProfile?.id === personProfileId(person.id) && person.countryCode === requestedCountry) ??
+    currentPeople.find(person => selectedProfile?.id === personProfileId(person.id));
+  const selectedCountry = selectedTerm?.countryCode ?? requestedCountry;
   const country = countries.find(c => c.code === selectedCountry);
-  const countryPeople = currentPeople.filter(p => p.countryCode === selectedCountry);
+  const countryPeople = uniquePeople(currentPeople.filter(p => p.countryCode === selectedCountry));
   const countryCount = new Set(people.map(p => p.countryCode)).size;
 
   const go = (next: Page) => { if (window.location.pathname !== "/workspace") window.history.pushState(null, "", "/workspace"); setPage(next); setSideOpen(false); };
@@ -161,7 +175,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
   useLayoutEffect(() => { restoreMap.current = () => {
     if (location.pathname !== "/workspace") return;
     const target = parseMapTarget(location.hash);
-    if (target?.kind === "person") { const person = people.find(person => person.id === target.id); if (person) openSearchResult({ person } as SearchDocument); }
+    if (target?.kind === "person") { const person = people.find(person => person.id === target.id) ?? people.find(person => personProfileId(person.id) === personProfileId(target.id)); if (person) openSearchResult({ person } as SearchDocument); }
     else if (target?.kind === "country") { const country = countries.find(country => country.code === target.id); if (country) openSearchResult({ country } as SearchDocument); }
   }; });
   useEffect(() => {
@@ -190,8 +204,11 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
   }
   const dateValue = `${settings.year}-${String(settings.month + 1).padStart(2, "0")}`;
   const directoryRange = customDirectoryRange ?? { from: dateValue, to: dateValue };
-  const cards = page === "bookmarks" ? people.filter(p => bookmarks.includes(p.id)) : people.filter(person => personInRange(person, directoryRange) && (settings.region === "All regions" || person.region === settings.region) && settings.roles.includes(person.role));
-  const activePerson = countryPeople.find(p => p.id === selectedPerson?.id) ?? countryPeople.find(p => p.role === "leader") ?? countryPeople[0];
+  const cards = page === "bookmarks" ? people.filter(p => bookmarks.includes(personProfileId(p.id))) : people.filter(person => personInRange(person, directoryRange) && (settings.region === "All regions" || person.region === settings.region) && settings.roles.includes(person.role));
+  const bookmarkCount = page === "bookmarks" ? uniquePeople(cards).length : 0;
+  const inactiveProfile = !selectedTerm && selectedProfile && selectedProfile.terms.length > 1 ? selectedProfile : undefined;
+  const activePerson = selectedTerm ?? (inactiveProfile ? undefined : countryPeople.find(p => p.role === "leader") ?? countryPeople[0]);
+  const spotlightProfile = activePerson ? profiles.get(personProfileId(activePerson.id)) : inactiveProfile;
 
   return <div className="atlas-app" data-theme={settings.theme} data-accent={settings.accent} style={{ "--font-scale": settings.fontSize / 100, ...customAccentStyle(settings) } as React.CSSProperties & { "--font-scale": number }}>
     <a href="#main-content" className="skip-link">{t("Skip to content")}</a>
@@ -205,7 +222,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
       {page === "search" && <SearchResults groups={browser.groups} index={searchIndex} state={searchState} onChange={runSearch} onSelect={openSearchResult} />}
       {page === "map" && <>
       <MapExperience targetId={mapTarget ? mapTargetId(mapTarget) : undefined}><div className="map-workspace"><section className="map-card"><MapSubbar count={filtered.length} year={settings.year} month={settings.month} /><MapCanvas selectedPersonId={activePerson?.id ?? null} people={filtered} positions={browser.positions} onMovePerson={browser.move} settings={settings} viewport={viewport} onViewport={setViewport} selectedCountry={selectedCountry} onCountry={code => selectCountry(code)} onPerson={person => selectPerson(person)} /></section>
-      <aside className="inspector" aria-label={country ? t("{name} details", { name: countryName(country.name) }) : t("Map controls")}>{country ? <><button className="text-link back-to-layers" onClick={() => selectCountry(null)}><ArrowLeft size={14} />{" " + t("Back to map controls")}</button><CountryProfile key={`profile:${country.code}`} country={country} count={countryPeople.length} year={settings.year} month={settings.month} />{activePerson && <div className="person-spotlight"><Portrait key={activePerson.id} person={activePerson} className="spotlight-portrait" /><span className={`role-pill ${activePerson.role}`}>{t(roleLabels[activePerson.role])}</span><h3>{personName(activePerson)}</h3><p>{personTitle(activePerson)}</p><span className="person-period"><CalendarDays size={12} />{periodLabel(activePerson)}</span><button className={`secondary-button bookmark-person ${bookmarks.includes(activePerson.id) ? "is-bookmarked" : ""}`} onClick={() => bookmark(activePerson.id)}><Bookmark size={14} fill={bookmarks.includes(activePerson.id) ? "currentColor" : "none"} />{bookmarks.includes(activePerson.id) ? t("Bookmarked") : t("Add bookmark")}</button></div>}{!activePerson && <div className="no-country-people"><UsersRound size={25} /><p>{t("No figures recorded for this date.")}</p><small>{t("Try a different year on the timeline.")}</small></div>}<CountryPeople key={`people:${country.code}`} people={countryPeople.filter(person => person.id !== activePerson?.id)} onSelect={setSelectedPerson} /></> : <><div className="inspector-heading"><span className="inspector-heading-icon"><SlidersHorizontal size={19} /></span><div><h2>{t("Map controls")}</h2></div></div><LayerControls settings={settings} onChange={changeSettings} onReset={resetFilters} onResetPositions={browser.resetPositions} canResetPositions={Object.keys(browser.positions).length > 0} /></>}</aside></div><Timeline settings={settings} onChange={changeSettings} /></MapExperience><div className="stats-row"><div className="stat"><span className="stat-icon"><Globe2 size={20} strokeWidth={1.5} /></span><div><strong>{n(countryCount)}<small>{t("places to discover")}</small></strong><span>{t("Across the imported collection")}</span></div></div><div className="stat"><span className="stat-icon"><UsersRound size={20} strokeWidth={1.5} /></span><div><strong>{n(people.length)}<small>{t("people & perspectives")}</small></strong><span>{t("Political, military & beyond")}</span></div></div><div className="stat"><span className="stat-icon"><CalendarDays size={20} strokeWidth={1.5} /></span><div><strong>{n(endYear - TIMELINE_START_YEAR, { useGrouping: false })}<small>{t("years to explore")}</small></strong><span>{t("Follow the timeline, {start}–{end}", { start: n(TIMELINE_START_YEAR, { useGrouping: false }), end: n(endYear, { useGrouping: false }) })}</span></div></div></div></>}
+      <aside className="inspector" aria-label={country ? t("{name} details", { name: countryName(country.name) }) : t("Map controls")}>{country ? <><button className="text-link back-to-layers" onClick={() => selectCountry(null)}><ArrowLeft size={14} />{" " + t("Back to map controls")}</button><CountryProfile key={`profile:${country.code}`} country={country} count={countryPeople.length} year={settings.year} month={settings.month} />{spotlightProfile && <PersonSpotlight key={spotlightProfile.id} profile={spotlightProfile} activeTerm={activePerson} bookmarked={bookmarks.includes(spotlightProfile.id)} onBookmark={() => bookmark(activePerson?.id ?? spotlightProfile.terms[0].id)} />}{!spotlightProfile && <div className="no-country-people"><UsersRound size={25} /><p>{t("No figures recorded for this date.")}</p><small>{t("Try a different year on the timeline.")}</small></div>}<CountryPeople key={`people:${country.code}`} people={countryPeople.filter(person => personProfileId(person.id) !== spotlightProfile?.id)} onSelect={setSelectedPerson} /></> : <><div className="inspector-heading"><span className="inspector-heading-icon"><SlidersHorizontal size={19} /></span><div><h2>{t("Map controls")}</h2></div></div><LayerControls settings={settings} onChange={changeSettings} onReset={resetFilters} onResetPositions={browser.resetPositions} canResetPositions={Object.keys(browser.positions).length > 0} /></>}</aside></div><Timeline settings={settings} onChange={changeSettings} /></MapExperience><div className="stats-row"><div className="stat"><span className="stat-icon"><Globe2 size={20} strokeWidth={1.5} /></span><div><strong>{n(countryCount)}<small>{t("places to discover")}</small></strong><span>{t("Across the imported collection")}</span></div></div><div className="stat"><span className="stat-icon"><UsersRound size={20} strokeWidth={1.5} /></span><div><strong>{n(profiles.size)}<small>{t("people & perspectives")}</small></strong><span>{t("Political, military & beyond")}</span></div></div><div className="stat"><span className="stat-icon"><CalendarDays size={20} strokeWidth={1.5} /></span><div><strong>{n(endYear - TIMELINE_START_YEAR, { useGrouping: false })}<small>{t("years to explore")}</small></strong><span>{t("Follow the timeline, {start}–{end}", { start: n(TIMELINE_START_YEAR, { useGrouping: false }), end: n(endYear, { useGrouping: false }) })}</span></div></div></div></>}
 
       {page === "people" && <>
         <div className="directory-tabs" role="tablist" aria-label={t("Directory sections")}>{(["people", "countries"] as const).map(type => <button key={type} id={`directory-tab-${type}`} type="button" role="tab" tabIndex={directoryType === type ? 0 : -1} aria-selected={directoryType === type} aria-controls="directory-panel" onKeyDown={event => { if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return; event.preventDefault(); const next = event.key === "Home" ? "people" : event.key === "End" ? "countries" : type === "people" ? "countries" : "people"; setDirectoryType(next); document.getElementById(`directory-tab-${next}`)?.focus(); }} onClick={() => setDirectoryType(type)}>{t(type === "people" ? "People" : "Countries")}</button>)}</div>
@@ -213,7 +230,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
         <DirectoryDateFilters range={directoryRange} onChange={setDirectoryRange} />
       </>}
       {page === "people" && directoryType === "countries" && <div id="directory-panel" role="tabpanel" aria-labelledby="directory-tab-countries"><CountryDirectory countries={countries} year={settings.year} month={settings.month} range={directoryRange} region={settings.region} onLocate={country => { const [year, month] = directoryRange.from.split("-").map(Number); openSearchResult({ country } as SearchDocument, countryFocusDate(country.code, year, month - 1)); }} /></div>}
-      {(page === "people" && directoryType === "people" || page === "bookmarks") && <div id={page === "people" ? "directory-panel" : undefined} role={page === "people" ? "tabpanel" : undefined} aria-labelledby={page === "people" ? "directory-tab-people" : undefined}><PeopleDirectory exportName={page === "bookmarks" ? "bookmarks" : "people"} people={cards} browser={browser} bookmarks={bookmarks} onBookmark={bookmark} onLocate={person => openSearchResult({ person } as SearchDocument)} onEdit={id => { setEditingCharacterId(id); setPage("characters"); }}>{page === "bookmarks" && <div className="directory-toolbar"><div><h2>{t("Your bookmarked people")}</h2><span>{t(cards.length === 1 ? "{count} person" : "{count} people", { count: cards.length })}{t(" \u00b7 across all dates")}</span></div></div>}</PeopleDirectory></div>}
+      {(page === "people" && directoryType === "people" || page === "bookmarks") && <div id={page === "people" ? "directory-panel" : undefined} role={page === "people" ? "tabpanel" : undefined} aria-labelledby={page === "people" ? "directory-tab-people" : undefined}><PeopleDirectory exportName={page === "bookmarks" ? "bookmarks" : "people"} people={cards} browser={browser} bookmarks={bookmarks} onBookmark={bookmark} onLocate={person => openSearchResult({ person } as SearchDocument)} onEdit={id => { setEditingCharacterId(id); setPage("characters"); }}>{page === "bookmarks" && <div className="directory-toolbar"><div><h2>{t("Your bookmarked people")}</h2><span>{t(bookmarkCount === 1 ? "{count} person" : "{count} people", { count: bookmarkCount })}{t(" \u00b7 across all dates")}</span></div></div>}</PeopleDirectory></div>}
 
       {page === "characters" && <CharactersPage key={editingCharacterId ?? "new"} initialPerson={browser.people.find(person => person.id === editingCharacterId)} countries={importedCountries} publications={publications} publicationAvailable={mode === "account" && publicationAvailable} onPublish={mode === "account" ? async person => { const result = await submitCharacter({ localId: person.id.slice(7), character: person }); if (result.ok) { setPublicationUpdates(previous => ({ source: initialPublications, items: [...(previous?.source === initialPublications ? previous.items : []).filter(item => item.localId !== result.data.localId), result.data] })); notify("Character sent for review."); } return result; } : undefined} people={browser.people} ready={browser.ready} onAdd={browser.add} onUpdate={browser.update} onRemove={browser.remove} onLocate={person => openSearchResult({ person } as SearchDocument)} />}
 

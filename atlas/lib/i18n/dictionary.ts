@@ -615,6 +615,8 @@ export const fa = {
   "small": "کوچک", "medium": "متوسط", "large": "بزرگ",
   "sage": "سبز مریم‌گلی", "blue": "آبی", "lavender": "یاسی",
   "Unknown": "نامشخص", "Open-ended": "بدون تاریخ پایان",
+  "Role history": "تاریخچهٔ سمت‌ها",
+  "No recorded role at this date.": "در این تاریخ سمتی ثبت نشده است.",
   "{count} person": "{count} نفر", "{count} people": "{count} نفر",
   "{name}, {country}{nearby}": "{name}، {country}{nearby}",
   ", {count} figures nearby": "، {count} چهره در نزدیکی",
