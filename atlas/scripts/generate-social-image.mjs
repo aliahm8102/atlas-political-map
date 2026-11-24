@@ -20,7 +20,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
 <text x="80" y="106" fill="#2d3d33" font-family="Georgia,serif" font-size="58">Atlas Peyma</text>
 <text x="82" y="148" fill="#547b63" font-family="Arial,sans-serif" font-size="23">Explore geography, history &amp; politics</text>
 <path d="${map}" fill="#cddace" stroke="#edf1ee" stroke-width=".8"/>${dots}
-<path d="M80 580h1040" stroke="#d7dfd8"/><text x="82" y="600" fill="#3c614a" font-family="Arial,sans-serif" font-size="16">1886 — today</text><text x="1120" y="600" text-anchor="end" fill="#3c614a" font-family="Arial,sans-serif" font-size="16">atlas-peyma.ir</text></svg>`;
+<path d="M80 580h1040" stroke="#d7dfd8"/><text x="82" y="600" fill="#3c614a" font-family="Arial,sans-serif" font-size="16">1848 — today</text><text x="1120" y="600" text-anchor="end" fill="#3c614a" font-family="Arial,sans-serif" font-size="16">atlas-peyma.ir</text></svg>`;
 const output = new URL("../public/social/atlas-peyma.png", import.meta.url);
 await fs.mkdir(new URL("../public/social/", import.meta.url), { recursive: true });
 await sharp(Buffer.from(svg)).png().toFile(fileURLToPath(output));

@@ -12,7 +12,7 @@ export const managedCharacterSchema = z.object({
   name: z.string().trim().min(1).max(120), title: z.string().trim().min(1).max(240),
   nameFa: z.string().trim().max(120).optional(), titleFa: z.string().trim().max(240).optional(),
   role: z.enum(["leader", "member", "army", "religious", "business"]),
-  countryCode: z.string().min(1).max(8), lat: z.number().finite().min(-90).max(90), lng: z.number().finite().min(-180).max(180),
+  countryCode: z.string().min(1).max(32), lat: z.number().finite().min(-90).max(90), lng: z.number().finite().min(-180).max(180),
   imageUrl: characterImageSchema, startYear: yearSchema, endYear: yearSchema,
 }).refine(person => person.startYear === null || person.endYear === null || person.endYear >= person.startYear);
 export type ManagedCharacter = z.infer<typeof managedCharacterSchema>;

@@ -11,7 +11,7 @@ export const customPersonSchema = z.object({
   nameFa: z.string().trim().max(120).optional(), titleFa: z.string().trim().max(240).optional(),
   role: z.enum(["leader", "member", "army", "religious", "business"]),
   lat: z.number().finite().min(-90).max(90), lng: z.number().finite().min(-180).max(180),
-  countryCode: z.string().min(1).max(8), country: z.string().min(1).max(120), region: z.string().min(1).max(40),
+  countryCode: z.string().min(1).max(32), country: z.string().min(1).max(120), region: z.string().min(1).max(40),
   imageUrl: z.string().max(300000).refine(value => !value || /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(value)),
   startYear: z.number().min(TIMELINE_START_YEAR).refine(year => year < getTimelineRange().endYear + 1).nullable(), endYear: z.number().min(TIMELINE_START_YEAR).refine(year => year < getTimelineRange().endYear + 1).nullable(),
   dataset: z.literal("custom"),

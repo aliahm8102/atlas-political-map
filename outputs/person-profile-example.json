@@ -1,0 +1,36 @@
+{
+  "id": "56bb3108-efda-497b-a16b-38d5e4514d30",
+  "name": "Winston Churchill",
+  "nameFa": "وینستون چرچیل",
+  "imageUrl": "",
+  "terms": [
+    {
+      "id": "be989683-0c11-5a95-89dd-fbbe6b8ea6d9",
+      "title": "Prime Minister of the United Kingdom",
+      "titleFa": "نخست‌وزیر بریتانیا",
+      "role": "leader",
+      "lat": 51.5,
+      "lng": 0.1,
+      "startYear": 1951.75,
+      "endYear": 1955.25,
+      "countryCode": "826",
+      "country": "United Kingdom",
+      "region": "Europe",
+      "dataset": "historical-leaders"
+    },
+    {
+      "id": "56bb3108-efda-497b-a16b-38d5e4514d30",
+      "title": "Prime Minister of the United Kingdom",
+      "titleFa": "نخست‌وزیر بریتانیا",
+      "role": "leader",
+      "lat": 51.5,
+      "lng": 0.1,
+      "startYear": 1940.3333333333333,
+      "endYear": 1945.5,
+      "countryCode": "826",
+      "country": "United Kingdom",
+      "region": "Europe",
+      "dataset": "historical-leaders"
+    }
+  ]
+}

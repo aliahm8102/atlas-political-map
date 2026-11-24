@@ -9,8 +9,8 @@ const people = JSON.parse(fs.readFileSync(new URL("../data/people.json", import.
 const countries = JSON.parse(fs.readFileSync(new URL("../data/countries.json", import.meta.url)));
 
 test("the complete source collection imports with stable, distinct IDs and valid country references", () => {
-  assert.equal(people.length, 156);
-  assert.equal(new Set(people.map(p => p.id)).size, 156);
+  assert.equal(people.length, 205);
+  assert.equal(new Set(people.map(p => p.id)).size, 205);
   for (const p of people) {
     assert.match(p.id, /^[a-f0-9-]{36}$/);
     assert.ok(countries.some(c => c.code === p.countryCode));
@@ -30,7 +30,7 @@ test("a transition year displays the new term and excludes the previous term", (
 test("Trump has one profile with two independently searchable terms", () => {
   const sourceTerms = people.filter(person => person.name === "Donald Trump");
   const profiles = buildPersonProfiles(people);
-  assert.equal(profiles.size, people.length - 1);
+  assert.equal(profiles.size, 196);
   const id = personProfileId(sourceTerms[0].id);
   assert.equal(personProfileId(sourceTerms[1].id), id);
   const profile = profiles.get(id);
@@ -49,12 +49,28 @@ test("Trump has one profile with two independently searchable terms", () => {
 });
 test("historical selection, role, region, and search all narrow the collection", () => {
   const history = visiblePeople(people, { ...defaultSettings, year: 1942, month: 0 });
-  assert.ok(history.some(p => p.name === "Sir Winston Churchill"));
+  assert.ok(history.some(p => p.name === "Winston Churchill"));
   assert.ok(!history.some(p => p.name === "Keir Starmer"));
   const filtered = visiblePeople(people, { ...defaultSettings, mapRegions: ["Asia"], roles: ["leader"] }, "India");
   assert.ok(filtered.length > 0);
   assert.ok(filtered.every(p => p.region === "Asia" && p.role === "leader" && p.country === "India"));
   assert.equal(visiblePeople(people, { ...defaultSettings, roles: [] }).length, 0);
+});
+test("the supplied officeholder terms preserve monthly boundaries, blank portraits, and stable profiles", () => {
+  const imported = people.filter(person => person.dataset === "historical-leaders");
+  assert.equal(imported.length, 52);
+  assert.ok(imported.every(person => person.imageUrl === "" && person.nameFa && person.titleFa));
+  const profiles = buildPersonProfiles(imported);
+  assert.equal(profiles.size, 44);
+  const churchill = profiles.get("56bb3108-efda-497b-a16b-38d5e4514d30");
+  assert.equal(churchill.terms.length, 2);
+  const at = (year, month) => visiblePeople(imported, { ...defaultSettings, year, month });
+  assert.ok(at(1848, 8).some(person => person.name === "Naser al-Din Shah Qajar"));
+  assert.ok(at(1885, 5).some(person => person.name === "Robert Gascoyne-Cecil"));
+  assert.ok(at(1945, 6).some(person => person.name === "Clement Attlee"));
+  assert.ok(!at(1945, 6).some(person => person.name === "Winston Churchill"));
+  assert.ok(at(1924, 0).some(person => person.id === "c58769b0-99b4-4068-a1a9-ea2b3b9c5e63" && person.countryCode === "hist-ussr"));
+  assert.ok(at(2024, 6).some(person => person.id === "f3cc5d58-7725-4426-a864-5904ebec1f93" && person.endYear === null));
 });
 test("saved preferences accept December and reject corrupt or out-of-range state", () => {
   assert.equal(settingsSchema.parse({ month: 11 }).month, 11);

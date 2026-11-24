@@ -21,10 +21,10 @@ test("Persian content covers every bundled country, person, and office title whi
   const en = createTranslator("en");
   for (const country of countries) assert.match(fa.countryName(country.name), /[\u0600-\u06ff]/, country.name);
   for (const person of people) {
-    assert.match(fa.personName(person.name), /[\u0600-\u06ff]/, person.name);
-    assert.match(fa.personTitle(person.title), /[\u0600-\u06ff]/, person.title);
-    assert.equal(en.personName(person.name), person.name);
-    assert.equal(en.personTitle(person.title), person.title);
+    assert.match(fa.personName(person), /[\u0600-\u06ff]/, person.name);
+    assert.match(fa.personTitle(person), /[\u0600-\u06ff]/, person.title);
+    assert.equal(en.personName(person), person.name);
+    assert.equal(en.personTitle(person), person.title);
   }
 });
 

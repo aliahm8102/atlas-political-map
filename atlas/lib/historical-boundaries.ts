@@ -29,6 +29,7 @@ export function peopleAtHistoricalBorders(people: Person[], features: Historical
     return areas.get(a)! - areas.get(b)!;
   });
   return people.map(person => {
+    if (countryEntities[person.countryCode]?.modern === false) return person;
     const country = ordered.find(item => {
       if (!bounds.has(item)) bounds.set(item, geoBounds(item));
       const [[west, south], [east, north]] = bounds.get(item)!;

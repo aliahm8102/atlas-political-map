@@ -4,7 +4,7 @@ import { validDirectoryRange, personInRange, countryInRange } from "../lib/direc
 
 test("directory ranges validate month bounds, ordering and the supported timeline",()=>{
   for(const range of [{from:"1886-01",to:"2025-12"},{from:"2025-01",to:"2025-01"}]) assert.equal(validDirectoryRange(range),true);
-  for(const range of [{from:"2025-12",to:"2025-01"},{from:"1885-12",to:"2025-01"},{from:"2025-00",to:"2025-12"},{from:"2025-01",to:"2025-13"},{from:"",to:"2025-12"},{from:"2025-1",to:"2025-12"},{from:"2025-01",to:"9999-12"}]) assert.equal(validDirectoryRange(range),false);
+  for(const range of [{from:"2025-12",to:"2025-01"},{from:"1847-12",to:"2025-01"},{from:"2025-00",to:"2025-12"},{from:"2025-01",to:"2025-13"},{from:"",to:"2025-12"},{from:"2025-1",to:"2025-12"},{from:"2025-01",to:"9999-12"}]) assert.equal(validDirectoryRange(range),false);
 });
 test("people range filtering includes any active month and keeps term ends exclusive",()=>{
   const term={startYear:2025+2/12,endYear:2025+5/12};

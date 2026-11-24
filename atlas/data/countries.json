@@ -1244,5 +1244,12 @@
     "region": "Europe",
     "lat": 41.9022,
     "lng": 12.4533
+  },
+  {
+    "code": "hist-ussr",
+    "name": "Soviet Union",
+    "region": "Europe",
+    "lat": 55.75222,
+    "lng": 37.615551
   }
 ]

@@ -32,7 +32,7 @@ export async function runMapGroundQA({ cdp, evaluate, waitFor, click, type, scre
     await waitFor("!document.querySelector('.country-profile') && !document.querySelector('.person-spotlight') && document.querySelector('.inspector-heading h2')?.textContent === 'Map controls'");
     assert.equal(await evaluate("document.querySelector('.map-pin.selected-person') === null && location.hash === ''"), true);
   };
-  assert.equal(await evaluate("Number(document.querySelector('.timeline-slider input').min)"), 1886*12);
+  assert.equal(await evaluate("Number(document.querySelector('.timeline-slider input').min)"), 1848*12);
   await type('.global-search input', 'Iran 1886');
   await waitFor("document.querySelector('.search-autocomplete a[href=\"/workspace#country-364\"]')");
   await click('.search-autocomplete a[href="/workspace#country-364"]');

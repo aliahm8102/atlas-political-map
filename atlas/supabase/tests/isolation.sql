@@ -8,7 +8,7 @@ insert into public.country_notes(user_id, country_code, body) values (auth.uid()
 update public.profiles set display_name = 'Updated explorer' where id = auth.uid();
 update public.user_preferences set settings = '{"theme":"dark"}' where user_id = auth.uid();
 do $$ begin
-  if (select count(*) from public.people) <> 156 then raise exception 'Dataset import is incomplete'; end if;
+  if (select count(*) from public.people) <> 205 then raise exception 'Dataset import is incomplete'; end if;
   if (select count(*) from public.profiles) <> 1 then raise exception 'Profiles are not isolated'; end if;
   if (select count(*) from public.user_preferences) <> 1 then raise exception 'Preferences are not isolated'; end if;
   begin

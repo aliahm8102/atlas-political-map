@@ -19,10 +19,10 @@ export async function runMonthPickerQA({ evaluate, cdp, click, input, waitFor, n
   await key('Home');await key('Enter');
   assert.equal((await value()).from,'2025-01');
   assert.equal(await evaluate("document.activeElement.classList.contains('month-picker-trigger')"),true);
-  await open();await input('.month-picker-year input','1885');
+  await open();await input('.month-picker-year input','1847');
   assert.equal(await evaluate("[...document.querySelectorAll('.month-picker-grid button')].every(button=>button.disabled)"),true);
-  await input('.month-picker-year input','1886');await click('[data-month-option="1886-01"]');
-  assert.equal((await value()).from,'1886-01');
+  await input('.month-picker-year input','1848');await click('[data-month-option="1848-01"]');
+  assert.equal((await value()).from,'1848-01');
   await open();
   assert.equal(await evaluate("document.querySelector('[aria-label=\"Previous year\"]').disabled"),true);
   const maximum=await evaluate("document.querySelector('.month-picker-year input').max");

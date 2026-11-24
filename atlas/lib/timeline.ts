@@ -1,6 +1,6 @@
 import { addYears, getMonth, getYear } from "date-fns";
 
-export const TIMELINE_START_YEAR = 1886;
+export const TIMELINE_START_YEAR = 1848;
 
 export function getTimelineRange(now = new Date()) {
   const end = addYears(now, 1);

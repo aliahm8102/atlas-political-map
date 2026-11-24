@@ -62,7 +62,7 @@ export function createTranslator(locale: Locale) {
   const date = (value: Date | string, options: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" }) => new Intl.DateTimeFormat(intlLocale, { ...options, calendar: "gregory", timeZone: "UTC" }).format(typeof value === "string" ? new Date(value) : value);
   const periodLabel = (person: Person) => {
     const term = (value: number) => {
-      if (person.dataset !== "custom" && person.dataset !== "community") return n(Math.floor(value), { useGrouping: false });
+      if (person.dataset !== "custom" && person.dataset !== "community" && person.dataset !== "historical-leaders") return n(Math.floor(value), { useGrouping: false });
       const fields = characterDateFields(value), calendarDate = new Date(0);
       calendarDate.setUTCFullYear(Number(fields.year), fields.month, 1);
       return date(calendarDate, { month: "short", year: "numeric" });
