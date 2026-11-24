@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { administrationSession, AdministrationFailure, databaseFailure, publicationFromRow } from "@/lib/administration-server";
 import { adminChangeSchema, characterPayload, managedCharacterSchema, personFromRow, publicationRequestSchema, reviewSchema, type ActionResult, type AdminData, type AtlasAccount, type ManagedCharacter, type Publication } from "@/lib/administration";
 import type { Country } from "@/lib/atlas";
+import { importLimit } from "@/lib/character-import";
 
 async function result<T>(work: () => Promise<T>): Promise<ActionResult<T>> {
   try { return { ok: true, data: await work() }; }
@@ -54,6 +55,16 @@ export async function saveManagedCharacter(id: string | null, character: Managed
     const parsed = managedCharacterSchema.parse(character);
     const saved = await client.rpc("save_atlas_person", { person_id: personId, payload: characterPayload(parsed) });
     databaseFailure(saved.error); invalidate(); return String(saved.data);
+  });
+}
+export async function importManagedCharacters(entries: unknown): Promise<ActionResult<number>> {
+  return result(async () => {
+    const { client } = await administrationSession(true);
+    const batch = z.array(z.object({ id: z.string().uuid().nullable(), character: managedCharacterSchema })).min(1).max(importLimit).parse(entries);
+    const saved = await client.rpc("import_atlas_people", { entries: batch.map(({ id, character }) => ({ id, character: characterPayload(character) })) });
+    databaseFailure(saved.error);
+    invalidate();
+    return batch.length;
   });
 }
 export async function deleteManagedCharacter(id: string): Promise<ActionResult<null>> {

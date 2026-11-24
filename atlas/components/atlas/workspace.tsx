@@ -28,6 +28,7 @@ import Modal from "./modal";
 import Timeline from "./timeline";
 import MapExperience from "./map-experience";
 import CharactersPage from "./characters-page";
+import CharacterImport from "./character-import";
 import PeopleDirectory from "./people-directory";
 import CountryDirectory from "./country-directory";
 import DirectoryDateFilters from "./directory-date-filters";
@@ -48,7 +49,7 @@ import AdminPanel from "./admin-panel";
 import FeedbackPage from "./feedback-page";
 import { sendFeedback, loadFeedback, setFeedbackStatus } from "@/app/actions/feedback";
 import { canManageAtlas, type AccessRole, type Publication, type AdministrationActions } from "@/lib/administration";
-import { submitCharacter, loadAdminPanel, saveManagedCharacter, deleteManagedCharacter, reviewCharacter, searchAtlasAccounts, setAtlasAdmin } from "@/app/actions/administration";
+import { submitCharacter, importManagedCharacters, loadAdminPanel, saveManagedCharacter, deleteManagedCharacter, reviewCharacter, searchAtlasAccounts, setAtlasAdmin } from "@/app/actions/administration";
 import { buildSearchIndex, defaultSearchState, parseSearchState, searchUrl, type SearchState, type SearchDocument } from "@/lib/search";
 
 const feedbackActions = { load: loadFeedback, setStatus: setFeedbackStatus };
@@ -245,7 +246,10 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
         {page === "characters" && <p>{t("Create a person for your own map.")}</p>}
         {page === "feedback" && <p>{t("Send a suggestion or report a bug.")}</p>}
         {page === "admin" && <p>{t("Review publication requests and manage the shared map.")}</p>}
-      </div>{(page === "people" || page === "bookmarks") && <button type="button" className="secondary-button directory-bookmarks-button"
+      </div>{page === "characters" && <CharacterImport personal={browser.people} shared={sharedPeople} countries={importedCountries} ready={browser.ready}
+        onPersonal={rows => browser.importPeople(rows, importedCountries)}
+        onShared={mode === "account" && canManageAtlas(accessRole) ? importManagedCharacters : undefined} />}
+      {(page === "people" || page === "bookmarks") && <button type="button" className="secondary-button directory-bookmarks-button"
         aria-pressed={page === "bookmarks"} onClick={() => go(page === "bookmarks" ? "people" : "bookmarks")}>
         <Bookmark size={16} fill={page === "bookmarks" ? "currentColor" : "none"} />{t("Bookmarks")}{bookmarkCount > 0 && <span className="nav-count">{n(bookmarkCount)}</span>}
       </button>}</div>}

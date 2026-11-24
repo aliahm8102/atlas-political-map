@@ -13,6 +13,7 @@ do $$ begin
   begin perform public.set_atlas_admin(auth.uid(), true); raise exception 'A user can appoint admins'; exception when insufficient_privilege then null; end;
   begin perform public.list_atlas_accounts(''); raise exception 'User can read account emails'; exception when insufficient_privilege then null; end;
   begin perform public.save_atlas_person(null, '{}'); raise exception 'User can create shared people'; exception when insufficient_privilege then null; end;
+  begin perform public.import_atlas_people('[]'); raise exception 'User can import shared people'; exception when insufficient_privilege then null; end;
   begin perform public.delete_atlas_person((select id from public.people limit 1)); raise exception 'User can delete shared people'; exception when insufficient_privilege then null; end;
   begin perform public.review_atlas_character(gen_random_uuid(), 'approved', ''); raise exception 'User can approve requests'; exception when insufficient_privilege then null; end;
   begin insert into public.character_submissions(user_id, local_id, submitter_name, character, status) values (auth.uid(), gen_random_uuid(), 'Forged', '{}', 'approved'); raise exception 'Forged submission succeeded'; exception when insufficient_privilege then null; end;
@@ -53,6 +54,23 @@ do $$ declare request_id uuid; published uuid; new_person uuid; begin
   new_person := public.save_atlas_person(null, '{"name":"Direct admin addition","title":"Test","role":"member","country_code":"364","latitude":35,"longitude":51,"image_url":""}');
   perform public.delete_atlas_person(new_person);
   if exists(select 1 from public.people where id = new_person) then raise exception 'Admin deletion failed'; end if;
+end $$;
+
+do $$
+declare
+  existing uuid := (select id from public.people where name = 'Edited publication');
+  payload jsonb := '{"name":"Bulk import test","title":"Updated title","role":"member","country_code":"364","latitude":35,"longitude":51,"image_url":""}';
+  saved uuid[];
+begin
+  begin
+    perform public.import_atlas_people(jsonb_build_array(jsonb_build_object('character', payload), jsonb_build_object('id', gen_random_uuid(), 'character', payload)));
+    raise exception 'Missing ID was accepted';
+  exception when invalid_parameter_value then null;
+  end;
+  if exists(select 1 from public.people where name = 'Bulk import test') then raise exception 'Failed batch was partially saved'; end if;
+  saved := public.import_atlas_people(jsonb_build_array(jsonb_build_object('id', existing, 'character', payload), jsonb_build_object('character', payload)));
+  if cardinality(saved) <> 2 or saved[1] <> existing or
+    (select count(*) from public.people where name = 'Bulk import test') <> 2 then raise exception 'Admin batch did not create and update as expected'; end if;
 end $$;
 
 select set_config('request.jwt.claim.sub', '44444444-4444-4444-a444-444444444444', false);

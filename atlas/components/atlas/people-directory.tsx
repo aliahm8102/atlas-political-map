@@ -48,7 +48,7 @@ export default function PeopleDirectory({ people, browser, bookmarks, onBookmark
       {error && <p className="form-error" role="alert">{error}</p>}
     </div>
     <p className="field-hint" role="status">{t(filtered.length === 1 ? "{count} person" : "{count} people", { count: filtered.length })}</p>
-    <DirectoryExport count={filtered.length} filename={`atlas-${exportName}-${locale}`} table={() => peopleExport(filtered, browser, i18n, locale)} />
+    <DirectoryExport count={filtered.length} filename={`atlas-${exportName}-${locale}`} allowReimport table={importable => peopleExport(filtered, browser, i18n, locale, importable)} />
     {filtered.length ? <div className="people-grid">{filtered.map(person => <article className="person-card" key={personProfileId(person.id)} data-person-id={person.id}>
       <div className="person-card-top"><Portrait person={person} /><button className={`icon-button ${bookmarks.includes(personProfileId(person.id)) ? "is-bookmarked" : ""}`} aria-label={t(bookmarks.includes(personProfileId(person.id)) ? "Remove bookmark for {name}" : "Bookmark {name}", { name: personName(person) })} onClick={() => onBookmark(person.id)}><Bookmark size={16} fill={bookmarks.includes(personProfileId(person.id)) ? "currentColor" : "none"} /></button></div>
       <span className={`role-pill ${person.role}`}>{t(roleLabels[person.role])}</span><h3>{personName(person)}</h3><p>{personTitle(person)}</p>

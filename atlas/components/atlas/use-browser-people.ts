@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { browserPeopleKey, emptyBrowserPeople, readBrowserPeople, writeBrowserPeople, updateBrowserPerson, removeBrowserPerson, reconcilePublications, type BrowserPeople, type CustomPerson, type HiddenRules, type MarkerPosition } from "@/lib/browser-people";
 import type { Publication } from "@/lib/administration";
+import type { Country } from "@/lib/atlas";
+import { applyPersonalImport, type ImportRow } from "@/lib/character-import";
 
 const noPublications: Publication[] = [];
 export function useBrowserPeople(userId: string, notify: (message: string) => void, publications: Publication[] = noPublications) {
@@ -41,6 +43,7 @@ export function useBrowserPeople(userId: string, notify: (message: string) => vo
   return {
     ...visible, ready,
     add: (person: CustomPerson) => mutate(previous => ({ ...previous, people: [...previous.people, person] })),
+    importPeople: (rows: ImportRow[], countries: Country[]) => mutate(previous => ({ ...previous, people: applyPersonalImport(previous.people, rows, countries) })),
     update: (person: CustomPerson) => !publications.some(item => item.localId === person.id.slice(7) && item.status === "approved") && mutate(previous => updateBrowserPerson(previous, person)),
     remove: (id: string) => mutate(previous => removeBrowserPerson(previous, id)),
     setTags: (id: string, tags: string[]) => mutate(previous => ({ ...previous, tags: { ...previous.tags, [id]: [...new Set(tags.map(tag => tag.trim()).filter(Boolean))] } })),

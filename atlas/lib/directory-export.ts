@@ -5,6 +5,7 @@ import type { BrowserPeople } from "./browser-people.ts";
 import { characterDateFields } from "./character-dates.ts";
 import type { CountryProfileData } from "./country-profiles.ts";
 import type { createTranslator, Locale } from "./i18n/index.ts";
+import { importablePersonRow, importColumns } from "./character-import.ts";
 
 export type ExportCell = string | number | null;
 export type ExportTable = { title: string; headers: string[]; rows: ExportCell[][]; rtl: boolean };
@@ -16,8 +17,9 @@ const term = (value: number | null) => {
   return `${year.padStart(4, "0")}-${String(month + 1).padStart(2, "0")}`;
 };
 
-export function peopleExport(people: Person[], organization: Pick<BrowserPeople, "tags" | "groups">, i18n: Translator, locale: Locale): ExportTable {
+export function peopleExport(people: Person[], organization: Pick<BrowserPeople, "tags" | "groups">, i18n: Translator, locale: Locale, importable = false): ExportTable {
   const { t, personName, personTitle, countryName, text } = i18n;
+  if (importable) return { title: t("People directory"), rtl: false, headers: [...importColumns], rows: people.map(importablePersonRow) };
   return { title: t("People directory"), rtl: locale === "fa",
     headers: [t("Character name"), t("Office or description"), t("Role"), t("Country"), t("Region"), t("Start date"), t("End date"), t("Tags"), t("Groups"), t("Latitude"), t("Longitude")],
     rows: people.map(person => {
@@ -25,6 +27,15 @@ export function peopleExport(people: Person[], organization: Pick<BrowserPeople,
       return [locale === "fa" ? person.nameFa || (personName(person) !== person.name ? personName(person) : null) : person.name || null, locale === "fa" ? person.titleFa || (personTitle(person) !== person.title ? personTitle(person) : null) : person.title || null, t(roleLabels[person.role]), countryName(person.country), text(person.region), term(person.startYear), term(person.endYear), (organization.tags[profileId] ?? []).join(", "), organization.groups.filter(group => group.personIds.includes(profileId)).map(group => group.name).join(", "), person.lat, person.lng];
     }),
   };
+}
+
+export function downloadExport(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  try {
+    const link = document.createElement("a");
+    link.href = url; link.download = filename;
+    document.body.appendChild(link); link.click(); link.remove();
+  } finally { window.setTimeout(() => URL.revokeObjectURL(url), 60_000); }
 }
 
 export function countriesExport(profiles: CountryProfileData[], year: number, month: number, i18n: Translator, locale: Locale, endYear = year, endMonth = month): ExportTable {

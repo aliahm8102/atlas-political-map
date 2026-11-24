@@ -897,6 +897,12 @@ html[dir="rtl"] .map-scale { direction: ltr; }
 .directory-export { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; padding: 14px; border: 1px solid var(--border); border-radius: 12px; }
 .directory-export-actions { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
 .directory-export-actions label { display: grid; gap: 6px; font-size: calc(12px * var(--font-scale, 1)); }
+.directory-export-actions .directory-reimport { display: flex; align-items: center; min-height: 42px; }
+.character-import-modal .character-form { margin: 0; }
+.character-import-help summary { cursor: pointer; font-weight: 600; }
+.character-import-help > * + * { margin-block-start: 8px; }
+.character-import-issues { padding-inline-start: 1.5em; max-height: 9rem; overflow: auto; }
+@media (max-width: 520px) { .character-import-button { margin-block-start: 12px; } }
 .directory-export-actions .soft-input { width: auto; min-width: 100px; margin: 0; }
 .directory-export-actions button { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; }
 .directory-date-range { border: 1px solid var(--border); border-radius: 14px; margin: 0 0 24px; padding: 16px; min-width: 0; background: var(--surface); }
