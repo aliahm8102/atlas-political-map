@@ -2,7 +2,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Play, Pause, History, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
 import type { Settings } from "@/lib/atlas";
-import { selectedTimelineRange, timelineMonth, timelineMonthValue, timelineTicks, utcMonth } from "@/lib/timeline";
+import { selectedTimelineRange, timelineMonth, timelineMonthDate, timelineMonthValue, timelineTicks } from "@/lib/timeline";
 import { calendarLabels } from "@/lib/calendar";
 import { monthIndex } from "@/lib/directory-filters";
 import { useI18n } from "@/components/i18n/provider";
@@ -35,11 +35,8 @@ export default function Timeline({ settings, onChange }: { settings: Settings; o
     }, 500);
     return () => clearInterval(timer);
   }, [playing, max, playbackSpeed]);
-  const tickDate = (index: number) => {
-    const { year, month } = timelineMonth(index);
-    return utcMonth(year, month);
-  };
-  const yearLabel = (index: number) => date(tickDate(index), { year: "numeric" });
+  const progress = (index: number) => `${(max === min ? 0 : (index - min) / (max - min) * 100)}%`;
+  const yearLabel = (index: number) => date(timelineMonthDate(index), { year: "numeric" });
   const startLabel = yearLabel(min), endLabel = yearLabel(max);
   const ticks = timelineTicks(min, max).filter(index => index === min || index === max || ![startLabel, endLabel].includes(yearLabel(index)));
   return <section id="map-timeline" data-tour="timeline" hidden={expanded && !timelineOpen} className="timeline" title={t(calendarLabels[calendar])} aria-label={t("Historical timeline")}>
@@ -59,14 +56,17 @@ export default function Timeline({ settings, onChange }: { settings: Settings; o
         </label>}
       </div>
       <div className="timeline-slider">
-        <input aria-label={t("Timeline month")} aria-valuetext={date(tickDate(value), { month: "long", year: "numeric", ...(calendar === "gregory" ? {} : { day: "numeric" }) })}
+        <input aria-label={t("Timeline month")} aria-valuetext={date(timelineMonthDate(value), { month: "long", year: "numeric", ...(calendar === "gregory" ? {} : { day: "numeric" }) })}
           type="range" min={min} max={max} value={value} onChange={event => { setPlaying(false); setDate(Number(event.target.value)); }}
-          style={{ "--range-progress": `${(value - min) / (max - min) * 100}%` } as React.CSSProperties} />
-        <div className="timeline-ticks">{ticks.map(index =>
-          <button type="button" key={index} data-timeline-month={timelineMonthValue(index)} onClick={() => { setPlaying(false); setDate(index); }}>
-            {startLabel === endLabel ? date(tickDate(index)) : yearLabel(index)}
-          </button>
-        )}</div>
+          style={{ "--range-progress": progress(value) } as React.CSSProperties} />
+        <div className="timeline-ticks">
+          {ticks.map(index => <button type="button" key={index} data-timeline-month={timelineMonthValue(index)}
+            style={{ insetInlineStart: progress(index) }} onClick={() => { setPlaying(false); setDate(index); }}>
+            {startLabel === endLabel ? date(timelineMonthDate(index)) : yearLabel(index)}
+          </button>)}
+          <span className="timeline-active-tick" style={{ insetInlineStart: `clamp(min(17%, 5rem), ${progress(value)}, max(83%, calc(100% - 5rem)))` }}
+            data-timeline-month={timelineMonthValue(value)}>{date(timelineMonthDate(value))}</span>
+        </div>
       </div>
       <div className="timeline-date">
         <button type="button" className="icon-plain" aria-label={t("Previous month")} disabled={value <= min} onClick={() => { setPlaying(false); setDate(value - 1); }}><ChevronLeft size={15} /></button>

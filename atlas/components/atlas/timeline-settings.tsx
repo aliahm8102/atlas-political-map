@@ -2,50 +2,57 @@
 
 import { useState } from "react";
 import { CalendarDays, History } from "lucide-react";
-import { useI18n } from "@/components/i18n/provider";
+import { CalendarProvider, useI18n } from "@/components/i18n/provider";
 import type { Settings } from "@/lib/atlas";
-import { calendarLabels, formatCalendarDate, type AtlasCalendar } from "@/lib/calendar";
-import { getTimelineRange, TIMELINE_START_YEAR, utcMonth } from "@/lib/timeline";
+import { calendarLabels, calendarYear, formatCalendarDate, timelineYearsFromCalendar, type AtlasCalendar } from "@/lib/calendar";
+import { MAX_TIMELINE_YEAR, MIN_TIMELINE_YEAR, selectedTimelineRange, timelineMonthDate, utcMonth } from "@/lib/timeline";
+import MonthPicker from "./month-picker";
+
+const dateBounds = { min: MIN_TIMELINE_YEAR * 12, max: MAX_TIMELINE_YEAR * 12 + 11 };
 
 function yearField(year: number) {
   return { number: String(year <= 0 ? 1 - year : year), before: year <= 0 };
 }
 
 export function TimelineRangeSettings({ settings, onChange }: { settings: Settings; onChange: (patch: Partial<Settings>) => void }) {
-  const { t } = useI18n();
+  const { t, calendar } = useI18n();
   const [draft, setDraft] = useState<{ start: ReturnType<typeof yearField>; end: ReturnType<typeof yearField> } | null>(null);
+  const range = selectedTimelineRange(settings.timelineYears);
   const values = draft ?? {
-    start: yearField(settings.timelineYears?.startYear ?? TIMELINE_START_YEAR),
-    end: yearField(settings.timelineYears?.endYear ?? getTimelineRange().endYear),
+    start: yearField(calendarYear(timelineMonthDate(range.min), calendar)),
+    end: yearField(calendarYear(timelineMonthDate(range.max), calendar)),
   };
   const yearValue = ({ number, before }: ReturnType<typeof yearField>) => {
-    if (!/^\d{1,4}$/.test(number) || Number(number) < 1) return NaN;
+    if (!/^\d{1,5}$/.test(number) || Number(number) < 1) return NaN;
     return before ? 1 - Number(number) : Number(number);
   };
-  const startYear = yearValue(values.start), endYear = yearValue(values.end);
-  const valid = Number.isFinite(startYear) && Number.isFinite(endYear) && startYear <= endYear;
+  const years = timelineYearsFromCalendar(yearValue(values.start), yearValue(values.end), calendar);
+  const converted = years && selectedTimelineRange(years);
+  const changed = converted && (converted.min !== range.min || converted.max !== range.max);
+  const beforeLabel = calendar === "gregory" ? t("Before Christ") : t("Before Hijra");
+  const afterLabel = calendar === "gregory" ? t("Common Era") : t("After Hijra");
   return <section className="settings-card">
     <div className="settings-card-heading"><span className="large-icon"><History size={23} /></span><div>
-      <h2>{t("Timeline range")}</h2><p>{t("Enter the start and end years in the Gregorian calendar.")}</p>
+      <h2>{t("Timeline range")}</h2><p>{t(calendarLabels[calendar])}</p>
     </div></div>
     <form className="timeline-settings-form" onSubmit={event => {
       event.preventDefault();
-      if (valid) { onChange({ timelineYears: { startYear, endYear } }); setDraft(null); }
+      if (years) { onChange({ timelineYears: years }); setDraft(null); }
     }}>
       {(["start", "end"] as const).map(key => {
         const label = key === "start" ? t("Timeline start year") : t("Timeline end year");
         return <div key={key} className="timeline-year-fields">
-          <label>{label}<input className="soft-input" type="number" min={1} max={9999} required dir="ltr"
+          <label>{label}<input className="soft-input" type="number" min={1} max={calendar === "gregory" ? 9999 : 12000} required dir="ltr"
             value={values[key].number} onChange={event => setDraft({ ...values, [key]: { ...values[key], number: event.target.value } })} /></label>
           <label>{t("Era")}<select className="soft-input" aria-label={t(key === "start" ? "Start year era" : "End year era")} value={values[key].before ? "before" : "after"}
             onChange={event => setDraft({ ...values, [key]: { ...values[key], before: event.target.value === "before" } })}>
-            <option value="after">{t("Common Era")}</option><option value="before">{t("Before Christ")}</option>
+            <option value="after">{afterLabel}</option><option value="before">{beforeLabel}</option>
           </select></label>
         </div>;
       })}
-      {draft && !valid && <p className="form-error" role="alert">{t("Choose valid years. The end must not precede the start.")}</p>}
+      {draft && !years && <p className="form-error" role="alert">{t("Choose valid years. The end must not precede the start.")}</p>}
       <div className="profile-photo-actions">
-        <button type="submit" className="primary-button" disabled={!draft || !valid}>{t("Apply timeline range")}</button>
+        <button type="submit" className="primary-button" disabled={!changed}>{t("Apply timeline range")}</button>
         <button type="button" className="secondary-button" disabled={!settings.timelineYears && !draft} onClick={() => { onChange({ timelineYears: null }); setDraft(null); }}>{t("Restore default range")}</button>
       </div>
     </form>
@@ -63,8 +70,10 @@ export function CalendarSettings({ settings, onChange }: { settings: Settings; o
       <label>{t("Display calendar")}<select className="soft-input" value={settings.calendar} onChange={event => onChange({ calendar: event.target.value as AtlasCalendar })}>
         {Object.entries(calendarLabels).map(([value, label]) => <option key={value} value={value}>{t(label)}</option>)}
       </select></label>
-      <label>{t("Gregorian date to convert")}<input type="date" className="soft-input" value={preview}
-        min="0001-01-01" max="9999-12-31" onChange={event => setPreview(event.target.value)} /></label>
+      <CalendarProvider calendar="gregory">
+        <MonthPicker label={t("Gregorian date to convert")} ariaLabel={t("Gregorian date to convert")}
+          value={preview || selected.toISOString().split("T")[0]} onChange={setPreview} bounds={dateBounds} precision="day" allowClear={false} />
+      </CalendarProvider>
       <dl className="calendar-preview">
         {(Object.entries(calendarLabels) as [AtlasCalendar, typeof calendarLabels[AtlasCalendar]][]).map(([calendar, label]) => <div key={calendar}>
           <dt>{t(label)}</dt><dd>{formatCalendarDate(converted, locale, calendar, { year: "numeric", month: "long", day: "numeric" })}</dd>

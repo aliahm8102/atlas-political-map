@@ -269,7 +269,7 @@ export default function Workspace({ mode, people: importedPeople, countries: imp
 
       {page === "settings" && <div className="settings-grid">
         <VisibilitySettings profiles={[...allProfiles.values()]} browser={browser} />
-        <TimelineRangeSettings settings={settings} onChange={patch => { setDirectoryRange(null); changeSettings(patch); }} />
+        <TimelineRangeSettings key={settings.calendar} settings={settings} onChange={patch => { setDirectoryRange(null); changeSettings(patch); }} />
         <CalendarSettings settings={settings} onChange={changeSettings} />
         <section className="settings-card"><div className="settings-card-heading"><span className="large-icon"><Palette size={23} /></span><div><h2>{t("Look & feel")}</h2><p>{t("A softer space for a bigger picture.")}</p></div></div><AppearanceControls settings={settings} onChange={changeSettings} /></section></div>}
       {page === "account-settings" && <AccountSettings mode={mode} email={email} displayName={state.displayName} photo={browser.profilePhoto}

@@ -3,7 +3,7 @@ import { addYears, getMonth, getYear } from "date-fns";
 export const TIMELINE_START_YEAR = 1848;
 export const MIN_TIMELINE_YEAR = -9998;
 export const MAX_TIMELINE_YEAR = 9999;
-export type TimelineYears = { startYear: number; endYear: number };
+export type TimelineYears = { startYear: number; endYear: number; startMonth?: number; endMonth?: number };
 export type TimelineBounds = { min: number; max: number };
 
 export function getTimelineRange(now = new Date()) {
@@ -15,7 +15,7 @@ export function getTimelineRange(now = new Date()) {
 
 export function selectedTimelineRange(years?: TimelineYears | null, now = new Date()) {
   const defaults = getTimelineRange(now);
-  return years ? { ...defaults, min: years.startYear * 12, max: years.endYear * 12 + 11 } : defaults;
+  return years ? { ...defaults, min: years.startYear * 12 + (years.startMonth ?? 0), max: years.endYear * 12 + (years.endMonth ?? 11) } : defaults;
 }
 
 export function timelineMonth(index: number) {
@@ -34,9 +34,13 @@ export function utcMonth(year: number, month = 0) {
   return date;
 }
 
-export function timelineMonthValue(index: number) {
+export function timelineMonthDate(index: number) {
   const { year, month } = timelineMonth(index);
-  return utcMonth(year, month).toISOString().slice(0, -17);
+  return utcMonth(year, month);
+}
+
+export function timelineMonthValue(index: number) {
+  return timelineMonthDate(index).toISOString().slice(0, -17);
 }
 
 export function timelineTicks(min: number, max: number) {

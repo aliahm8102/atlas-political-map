@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { clampTimelineDate, getTimelineRange, selectedTimelineRange, timelineMonth, timelineMonthValue, timelineTicks, utcMonth, TIMELINE_START_YEAR } from "../lib/timeline.ts";
-import { formatCalendarDate } from "../lib/calendar.ts";
+import { calendarYear, formatCalendarDate, timelineYearsFromCalendar } from "../lib/calendar.ts";
 import { monthIndex, validDirectoryRange } from "../lib/directory-filters.ts";
 import { settingsSchema } from "../lib/atlas.ts";
 import { customPersonSchema } from "../lib/browser-people.ts";
@@ -38,6 +38,28 @@ test("the same Gregorian date converts to each calendar and pre-epoch dates use 
     assert.equal(label, `۱ ${era}`);
   }
   assert.match(formatCalendarDate(utcMonth(-40), "fa", "gregory", options), /۴۱.*پیش از میلاد/);
+});
+
+test("Hijri year ranges persist Gregorian month boundaries and keep both endpoints in the requested year", () => {
+  for (const [calendar, year, first, last] of [
+    ["gregory", 2024, "2024-01", "2024-12"],
+    ["persian", 1403, "2024-04", "2025-03"],
+    ["islamic-civil", 1446, "2024-08", "2025-06"],
+  ]) {
+    const timelineYears = timelineYearsFromCalendar(year, year, calendar);
+    const saved = settingsSchema.parse({ calendar, timelineYears });
+    const { min, max } = selectedTimelineRange(saved.timelineYears);
+    assert.equal(timelineMonthValue(min), first);
+    assert.equal(timelineMonthValue(max), last);
+    for (const index of [min, max]) {
+      const { year: gregorianYear, month } = timelineMonth(index);
+      assert.equal(calendarYear(utcMonth(gregorianYear, month), calendar), year);
+    }
+  }
+  const beforeHijra = timelineYearsFromCalendar(0, 1, "islamic-civil");
+  assert.deepEqual(beforeHijra, { startYear: 621, startMonth: 7, endYear: 623, endMonth: 6 });
+  assert.equal(timelineYearsFromCalendar(1404, 1403, "persian"), null);
+  assert.equal(settingsSchema.safeParse({ timelineYears: { startYear: 2024, startMonth: 8, endYear: 2024, endMonth: 3 } }).success, false);
 });
 
 test("1848 is available in saved settings, search and character dates while earlier dates remain outside the timeline", () => {

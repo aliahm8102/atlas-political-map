@@ -22,7 +22,9 @@ export const settingsSchema = z.object({
   timelineYears: z.object({
     startYear: z.number().int().min(MIN_TIMELINE_YEAR).max(MAX_TIMELINE_YEAR),
     endYear: z.number().int().min(MIN_TIMELINE_YEAR).max(MAX_TIMELINE_YEAR),
-  }).refine(years => years.startYear <= years.endYear).nullable().default(null),
+    startMonth: z.number().int().min(0).max(11).optional(),
+    endMonth: z.number().int().min(0).max(11).optional(),
+  }).refine(years => years.startYear * 12 + (years.startMonth ?? 0) <= years.endYear * 12 + (years.endMonth ?? 11)).nullable().default(null),
   year: z.number().int().min(MIN_TIMELINE_YEAR).max(MAX_TIMELINE_YEAR).default(() => getTimelineRange().currentYear),
   month: z.number().int().min(0).max(11).default(() => getTimelineRange().currentMonth),
   region: z.enum(regions).default("All regions"),
